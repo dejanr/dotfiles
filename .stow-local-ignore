@@ -1,0 +1,4 @@
+result/
+.gitignore
+*.nix
+^/readme.*
