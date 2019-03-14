@@ -6,7 +6,7 @@
   };
   size = {
     small = "12";
-    default = "14";
+    default = "13";
     large = "20";
   };
 }

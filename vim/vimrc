@@ -61,14 +61,6 @@ call plug#begin('~/.vim/plugged')
   " Syntax Attribute Checker
   Plug 'vim-scripts/SyntaxAttr.vim'
 
-  " airline
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-  let g:airline_theme='minimalist'
-
   " Markdown
   Plug 'itspriddle/vim-marked', { 'for': 'markdown' }
 
@@ -159,9 +151,15 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'junegunn/limelight.vim'
 
-  " Better Status Line
+  " Status lightline
+
   Plug 'itchyny/lightline.vim'
 
+  let g:lightline = {
+  \ 'colorscheme': 'gotham',
+  \ }
+
+  " Themes
   Plug 'whatyouhide/vim-gotham'
 
   function! s:goyo_enter()
