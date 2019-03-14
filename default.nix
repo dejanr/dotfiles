@@ -8,13 +8,14 @@ let
   install = pkgs.writeScript "install" ''
     set -e
 
+    sudo nix-channel --add https://nixos.org/channels/${channel} nixpkgs
     nix-channel --add https://nixos.org/channels/${channel} nixpkgs
     nix-channel --update nixpkgs
 
     if [ ! -d ${targetDir} ]; then
-        echo "setting up dotfiles repository" >&2
-        mkdir -p ${targetDir}
-        git clone --depth=1 ${repoUrl} ${targetDir}
+      echo "setting up dotfiles repository" >&2
+      mkdir -p ${targetDir}
+      git clone --depth=1 ${repoUrl} ${targetDir}
     fi
 
     ${link}
@@ -26,7 +27,7 @@ let
     link() {
       from="$1"
       to="$2"
-      echo "link '$from' to '$to'"
+      echo "link $from -> $to"
       rm -f $to
       ln -s "$from" "$to"
     }
@@ -57,13 +58,18 @@ let
   unlink = pkgs.writeScript "unlink" ''
     set -e
 
+    remove() {
+      from="$1"
+      echo "unlink $from"
+      unlink $from
+    }
+
     for main in $(find ${targetDir} -maxdepth 2 -mindepth 1 ! -path '*.git*' | sort -r)
     do
       name=$(basename $main)
 
       if [ -L $HOME/.$name ]; then
-        echo "unlink $HOME/.$name"
-        unlink $HOME/.$name
+        remove $HOME/.$name
       fi
 
       if [ -d $HOME/.$name ]; then
@@ -72,8 +78,7 @@ let
           dot=$(basename $location)
 
           if [ -L $HOME/.$name/$dot ]; then
-            echo "unlink $HOME/.$name/$dot"
-            unlink $HOME/.$name/$dot
+            remove $HOME/.$name/$dot
           fi
         done
 
