@@ -24,6 +24,7 @@ in
     unzip # An extraction utility for archives compressed in .zip format
     zip # Compressor/archiver for creating and modifying zipfiles
     gitAndTools.gitFull # Distributed version control system
+    gitAndTools.diff-so-fancy # Good looking diffs
     htop # An interactive process viewer for Linux
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)

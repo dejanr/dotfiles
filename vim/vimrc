@@ -342,7 +342,6 @@ set shortmess+=I
 set background=dark
 
 " Set color scheme to dejanr
-let g:base16colorspace=256
 colorscheme dejanr
 
 " disable swapping

@@ -59,14 +59,6 @@ alias gitv="vim -c 'Gitv' ."
 # wget as regular browser
 alias wgets='wget --referer="http://www.google.com" --user-agent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6" --header="Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5" --header="Accept-Language: en-us,en;q=0.5" --header="Accept-Encoding: gzip,deflate" --header="Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7" --header="Keep-Alive: 300"'
 
-# nixos
-# alias nix-shell="nix-shell -I nixpkgs=/etc/nixos/nixpkgs "
-# alias nix-build="nix-build -I nixpkgs=/etc/nixos/nixpkgs "
-# alias nix-repl="nix-repl -I nixpkgs=/etc/nixos/nixpkgs "
-# alias nix-search="nix-env -I nixpkgs=/etc/nixos/nixpkgs -f '<nixpkgs>' -qaP "
-# alias nix-install="nix-env -I nixpkgs=/etc/nixos/nixpkgs -f '<nixpkgs>' -iA "
-# alias nixos-rebuild="nixos-rebuild -I nixpkgs=/etc/nixos/nixpkgs "
-
 alias timestamp="date +%s"
 # generate random password and save it in clipboard
 alias passgen="date +%s | shasum | base64 | head -c 8 | pbcopy | echo \"Password saved in clipboard\""

@@ -8,10 +8,6 @@ let
   install = pkgs.writeScript "install" ''
     set -e
 
-    echo >&2
-    echo >&2 "Installing..."
-    echo >&2
-
     nix-channel --add https://nixos.org/channels/${channel} nixpkgs
     nix-channel --update nixpkgs
 
@@ -26,10 +22,6 @@ let
 
   link = pkgs.writeScript "link" ''
     set -e
-
-    echo >&2
-    echo >&2 "Linking..."
-    echo >&2
 
     link() {
       from="$1"
@@ -65,22 +57,34 @@ let
   unlink = pkgs.writeScript "unlink" ''
     set -e
 
-    echo >&2
-    echo >&2 "Unlinking..."
-    echo >&2
+    for main in $(find ${targetDir} -maxdepth 2 -mindepth 1 ! -path '*.git*' | sort -r)
+    do
+      name=$(basename $main)
 
-    for f in ${targetDir}/*; do
-      echo "Unlinking $f"
-      cd ${targetDir}
+      if [ -L $HOME/.$name ]; then
+        echo "unlink $HOME/.$name"
+        unlink $HOME/.$name
+      fi
+
+      if [ -d $HOME/.$name ]; then
+        for location in $(find $main -maxdepth 1 -mindepth 1)
+        do
+          dot=$(basename $location)
+
+          if [ -L $HOME/.$name/$dot ]; then
+            echo "unlink $HOME/.$name/$dot"
+            unlink $HOME/.$name/$dot
+          fi
+        done
+
+        echo "rmdir $HOME/.$name"
+        find $HOME/.$name -type d -empty -delete
+      fi
     done
   '';
 
   uninstall = pkgs.writeScript "uninstall" ''
     ${unlink}
-
-    echo >&2
-    echo >&2 "Cleaning up..."
-    echo >&2
 
     if [ -d ${targetDir} ]; then
         echo "removing dotfiles repository" >&2
@@ -100,7 +104,7 @@ let
     echo >&2 "Switching environment..."
     echo >&2
 
-    nixos-rebuild switch
+    sudo nixos-rebuild switch
 
     ${link}
 
