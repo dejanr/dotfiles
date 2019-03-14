@@ -1,0 +1,89 @@
+[user]
+  name = Dejan Ranisavljevic
+  email = dejan.ranisavljevic@gmail.com
+
+[gpg]
+  program = gpg2
+
+[github]
+  user = dejanr
+
+[core]
+  whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  excludesfile = ~/.gitignore
+	quotepath    = off
+	pager        = diff-so-fancy | less
+  editor       = vim
+  excludesfile = ~/.config/git/ignore
+  autocrlf     = false
+  filemode     = false
+
+[fetch]
+  prune = true
+
+[push]
+  default = current
+
+[rebase]
+  autosquash = true
+  autostash  = true
+
+[diff]
+  tool                = vimdiff
+  mnemonicPrefix      = true
+  compactionHeuristic = true
+
+#[merge]
+#  tool = vim3way
+#
+#[mergetool "vim3way"]
+#  cmd = "vim -c 'call mergeutil#threeway()' \"$BASE\" \"$REMOTE\" \"$LOCAL\" \"$MERGED\""
+#  trustExitCode = true
+
+[rerere]
+  enabled = true
+
+[alias]
+  s = status
+  # log all changes from latest pull
+  c = log --no-merges --stat @{1}..
+  # log with diff
+  ld = log -p
+  br = branch
+  co = checkout
+  pom = push origin master
+  rank = shortlog -sn --no-merges
+  who = shortlog -s --
+  # treeish like history
+  hist = log --no-merges --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
+  merge-their = git merge --strategy-option their
+
+[pager]
+  diff = diff-so-fancy | less -RFXx1,5
+  log  = diff-so-fancy | less -RFXx1,5
+  show = diff-so-fancy | less -RFXx1,5
+
+
+[advice]
+  statusHints = no
+
+[color]
+  diff = auto
+  branch = auto
+  ui = auto
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+
+[color "status"]
+  header = normal
+  added = magenta yellow
+  updated = green bold
+  changed = red bold
+  untracked = normal
+  nobranch = red bold
+[url "ssh://git@heroku.com/"]
+	insteadOf = https://git.heroku.com/

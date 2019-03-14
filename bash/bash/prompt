@@ -1,0 +1,4 @@
+# Promt config
+
+export PS1="\w\[\033[0;32m\] \$(gitHUD)\[\033[0m\] 
+λ "

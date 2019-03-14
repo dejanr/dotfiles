@@ -1,0 +1,21 @@
+export GOPATH=~/projects
+
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  if /usr/libexec/java_home 2> /dev/null > /dev/null; then
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    export ANDROID_HOME=~/Library/Android/sdk
+    export PATH="~/Library/Android/sdk/platform-tools:~/Library/Android/sdk/tools:~/Library/Android/sdk/tools/bin:$PATH"
+  else
+    /usr/libexec/java_home --request
+  fi
+fi
+
+export PATH="$HOME/.npm/bin:node_modules/.bin:$HOME/.bin:/run/wrappers/bin:/run//current-system/sw/bin:/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$PATH"
+export PATH="$HOME/.emacs.d/bin:$PATH"
+export PATH="$HOME/.bin/wm:$PATH"
+
+export NIX_PATH=nixos-config=/etc/nixos/configuration.nix:$NIX_PATH
+export NIX_PATH=darwin-config=/etc/nixos/machines/darwin.nix:$NIX_PATH

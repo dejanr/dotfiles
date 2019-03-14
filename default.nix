@@ -31,13 +31,33 @@ let
     echo >&2 "Linking..."
     echo >&2
 
+    link() {
+      from="$1"
+      to="$2"
+      echo "link '$from' to '$to'"
+      rm -f $to
+      ln -s "$from" "$to"
+    }
+
     mkdir -p ~/.config
 
-    for f in ${targetDir}/*; do
-      if [ -d $f  ]; then
-        echo "Relinking $f"
-        cd ${targetDir}
-        stow -t ~ -R $(basename $f)
+    for main in $(find ${targetDir} -maxdepth 2 -mindepth 2 ! -path '*.git*' | sort)
+    do
+      name=$(basename $main)
+
+      if [ -d $main ]; then
+        echo "mkdir $HOME/.$name"
+        mkdir -p $HOME/.$name
+
+        for location in $(find $main -maxdepth 1 -mindepth 1 | sort)
+        do
+          dot=$(basename $location)
+          link $location $HOME/.$name/$dot
+        done
+      fi
+
+      if [ -f $main ]; then
+        link $main $HOME/.$name
       fi
     done
   '';
@@ -52,7 +72,6 @@ let
     for f in ${targetDir}/*; do
       echo "Unlinking $f"
       cd ${targetDir}
-      stow -t ~ -D $(basename $f)
     done
   '';
 
@@ -74,7 +93,6 @@ let
 
     echo >&2
     echo >&2 "Tagging working config..."
-    echo >&2
 
     git branch -f update HEAD
 
@@ -109,18 +127,18 @@ let
 in pkgs.stdenvNoCC.mkDerivation {
   name = "dotfiles";
   preferLocalBuild = true;
-  propagatedBuildInputs = [ pkgs.git pkgs.stow ];
-  propagatedUserEnvPkgs = [ pkgs.git pkgs.stow ];
+  propagatedBuildInputs = [ pkgs.git ];
+  propagatedUserEnvPkgs = [ pkgs.git ];
 
   unpackPhase = ":";
 
   installPhase = ''
     mkdir -p $out/bin
-    echo "$shellHook" > $out/bin/dotfiles
+    echo "$script" > $out/bin/dotfiles
     chmod +x $out/bin/dotfiles
   '';
 
-  shellHook = ''
+  script = ''
     set -e
 
     while [ "$#" -gt 0 ]; do

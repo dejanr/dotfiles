@@ -1,0 +1,81 @@
+export TERM=xterm-256color
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export EDITOR="vim"
+export GIT_EDITOR="vim"
+export VISUAL="vim"
+export ACK_PAGER_COLOR="less -R"
+export ALTERNATE_EDITOR="vim"
+export NVM_DIR=~/.nvm
+export XDG_CONFIG_HOME=~/.config
+export TZ="Europe/Berlin"
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# bash completion
+if [ which brew 2> /dev/null > /dev/null ]; then 
+  [[ -r $(brew --prefix)/etc/bash_completion ]] && . $(brew --prefix)/etc/bash_completion
+fi
+
+# local env variables
+[ -f ~/.local.env ] && . ~/.local.env
+
+# opam toolchain
+. ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+source ~/.dotfiles-retired/bash/paths
+source ~/.dotfiles-retired/bash/functions
+source ~/.dotfiles-retired/bash/prompt
+source ~/.dotfiles-retired/bash/aliases
+
+# Completion
+source ~/.dotfiles-retired/bash/completion/alias-completion.bash
+source ~/.dotfiles-retired/bash/completion/git-completion.bash
+
+complete -o default -o nospace -F _git gco
+complete -o default -o nospace -F _git gb
+
+# Git Aliases AutoComplete
+type __git_complete >/dev/null 2>&1 && {
+    __git_complete   gc       _git_commit
+    __git_complete   gc!      _git_commit
+    __git_complete   gca      _git_commit
+    __git_complete   gca!     _git_commit
+    __git_complete   gco      _git_checkout
+    __git_complete   gb       _git_branch
+    __git_complete   gs       _git_status
+}
+
+# Enable tab completion with sudo
+complete -cf sudo
+
+# NPM log level
+export npm_config_loglevel=warn
+
+# Disable XOFF
+stty ixany
+stty ixoff -ixon
+
+# Base16 Shell
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+base16_default-dark
+
+# FZF default command
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
