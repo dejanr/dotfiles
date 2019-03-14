@@ -146,32 +146,34 @@ in pkgs.stdenvNoCC.mkDerivation {
     set -e
 
     while [ "$#" -gt 0 ]; do
-        i="$1"; shift 1
-        case "$i" in
-           help)
-                echo "dotfiles: [help] [install] [uninstall] [link] [unlink] [switch] [update]"
-                exit
-                ;;
-            link)
-                ${link}
-                ;;
-            switch)
-                ${switch}
-                ;;
-            unlink)
-                ${unlink}
-                ;;
-            uninstall)
-                ${uninstall}
-                ;;
-            update)
-                ${update}
-                ;;
-            *)
-                ${install}
-                ;;
-        esac
+      i="$1"; shift 1
+
+      case "$i" in
+        help)
+          echo "dotfiles: [help] [install] [uninstall] [link] [unlink] [switch] [update]"
+          exit
+          ;;
+        link)
+          ${link}
+          ;;
+        switch)
+          ${switch}
+          ;;
+        unlink)
+          ${unlink}
+          ;;
+        uninstall)
+          ${uninstall}
+          ;;
+        update)
+          ${update}
+          ;;
+        *)
+          ${install}
+          ;;
+      esac
     done
+
     exit
   '';
 
