@@ -1,5 +1,5 @@
 { pkgs ? import <nixpkgs> {}
-, repoUrl ? "https://github.com/dejanr/dotfiles.git"
+, repoUrl ? "git@github.com:dejanr/dotfiles.git"
 , channel ? "nixpkgs-unstable"
 , targetDir ? "$HOME/.dotfiles"
 }:
