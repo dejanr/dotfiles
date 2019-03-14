@@ -7,7 +7,7 @@ gaps outer 1
 set $mod Mod4
 
 set $base00 #181818
-set $base01 #282828
+set $base01 #0a0f14
 set $base02 #383838
 set $base03 #585858
 set $base04 #b8b8b8
