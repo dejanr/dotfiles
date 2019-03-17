@@ -24,7 +24,7 @@ in {
 
   nix.nixPath = [
     "nixpkgs=channel:nixpkgs-unstable"
-    "nixos-config=/etc/nixos/configuration.nix"
+    "nixos-config=/home/${username}/.config/nixpkgs/machines/${hostName}/configuration.nix"
     "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
   ];
 

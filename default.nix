@@ -8,7 +8,6 @@ let
   install = pkgs.writeScript "install" ''
     set -e
 
-    sudo nix-channel --add https://nixos.org/channels/${channel} nixpkgs
     nix-channel --add https://nixos.org/channels/${channel} nixpkgs
     nix-channel --update nixpkgs
 

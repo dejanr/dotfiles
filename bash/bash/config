@@ -39,14 +39,14 @@ fi
 # opam toolchain
 . ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
-source ~/.dotfiles-retired/bash/paths
-source ~/.dotfiles-retired/bash/functions
-source ~/.dotfiles-retired/bash/prompt
-source ~/.dotfiles-retired/bash/aliases
+source ~/.bash/paths
+source ~/.bash/functions
+source ~/.bash/prompt
+source ~/.bash/aliases
 
 # Completion
-source ~/.dotfiles-retired/bash/completion/alias-completion.bash
-source ~/.dotfiles-retired/bash/completion/git-completion.bash
+source ~/.bash/completion/alias-completion.bash
+source ~/.bash/completion/git-completion.bash
 
 complete -o default -o nospace -F _git gco
 complete -o default -o nospace -F _git gb

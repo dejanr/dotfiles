@@ -15,6 +15,9 @@ in
 
   environment.systemPackages = with pkgs; [
     apg # Tools for random password generation
+    bash
+    bash-completion
+    nix-bash-completions
     haskellPackages.gitHUD # command-line HUD for git repos
     linuxPackages.cpupower # Tool to examine and tune power saving features
     wget # Tool for retrieving files
