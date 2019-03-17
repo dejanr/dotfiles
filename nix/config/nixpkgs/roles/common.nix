@@ -92,8 +92,14 @@ in
         4000
         5000
       ];
-      allowedTCPPortRanges = [];
-      allowedUDPPorts = [];
+      allowedTCPPortRanges = [
+        # castnow
+        { from = 4100; to = 4105; }
+      ];
+      allowedUDPPorts = [
+        5353
+        4445 # minecraft discovery
+      ];
       allowedUDPPortRanges = [];
       connectionTrackingModules = [];
     };
