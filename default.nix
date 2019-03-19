@@ -109,27 +109,24 @@ in pkgs.stdenv.mkDerivation {
 
   unpackPhase = ":";
 
+  script = ''
+    set -e
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        install   ) ${install} ;;
+        uninstall ) ${uninstall} ;;
+        link      ) ${link} ;;
+        unlink    ) ${unlink} ;;
+        *         ) ${help} ;;
+      esac
+      shift 1
+    done
+    exit
+  '';
+
   installPhase = ''
     mkdir -p $out/bin
     echo "$script" > $out/bin/dotfiles
     chmod +x $out/bin/dotfiles
-  '';
-
-  script = ''
-    set -e
-
-    while [ "$#" -gt 0 ]; do
-      case "$1" in
-        install) ${install} ;;
-        uninstall) ${uninstall} ;;
-        link) ${link} ;;
-        unlink) ${unlink} ;;
-        *) ${help} ;;
-      esac
-
-      shift 1
-    done
-
-    exit
   '';
 }

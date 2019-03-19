@@ -14,6 +14,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    t # tmux session script
     apg # Tools for random password generation
     bash
     bash-completion
