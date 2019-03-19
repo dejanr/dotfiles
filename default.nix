@@ -96,43 +96,12 @@ let
     fi
   '';
 
-  switch = pkgs.writeScript "switch" ''
-    set -e
-
-    echo >&2
-    echo >&2 "Tagging working config..."
-
-    git branch -f update HEAD
-
-    echo >&2
-    echo >&2 "Switching environment..."
-    echo >&2
-
-    sudo nixos-rebuild switch
-
-    ${link}
-
-    echo >&2
-    echo >&2 "Tagging updated..."
-    echo >&2
-
-    git branch -f working update
-    git branch -D update
-    git push
+  help = pkgs.writeScript "help" ''
+    echo "dotfiles: [install] [uninstall] [link] [unlink] [help]"
+    exit
   '';
 
-  update = pkgs.writeScript "update" ''
-    set -e
-
-    echo >&2
-    echo >&2 "Updating channels..."
-    echo >&2
-
-    nix-channel --update
-
-    ${switch}
-  '';
-in pkgs.stdenvNoCC.mkDerivation {
+in pkgs.stdenv.mkDerivation {
   name = "dotfiles";
   preferLocalBuild = true;
   propagatedBuildInputs = [ pkgs.git ];
@@ -150,46 +119,17 @@ in pkgs.stdenvNoCC.mkDerivation {
     set -e
 
     while [ "$#" -gt 0 ]; do
-      i="$1"; shift 1
-
-      case "$i" in
-        help)
-          echo "dotfiles: [help] [install] [uninstall] [link] [unlink] [switch] [update]"
-          exit
-          ;;
-        link)
-          ${link}
-          ;;
-        switch)
-          ${switch}
-          ;;
-        unlink)
-          ${unlink}
-          ;;
-        uninstall)
-          ${uninstall}
-          ;;
-        update)
-          ${update}
-          ;;
-        *)
-          ${install}
-          ;;
+      case "$1" in
+        install) ${install} ;;
+        uninstall) ${uninstall} ;;
+        link) ${link} ;;
+        unlink) ${unlink} ;;
+        *) ${help} ;;
       esac
+
+      shift 1
     done
 
     exit
   '';
-
-  passthru.check = pkgs.stdenvNoCC.mkDerivation {
-     name = "run-dotfiles-test";
-     shellHook = ''
-        set -e
-        echo >&2 "running dotfiles tests..."
-        echo >&2
-        echo >&2 "checking repository"
-        test -d ${targetDir}
-        exit
-    '';
-  };
 }

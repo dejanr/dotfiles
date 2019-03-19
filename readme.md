@@ -5,7 +5,7 @@ Reproducible set of dotfiles and packages
 ### Installation
 
 ```
-nix-env -f https://github.com/dejanr/dotfiles/archive/master.tar.gz -i --remove-all && dotfiles
+nix-env -f https://github.com/dejanr/dotfiles/archive/master.tar.gz -i --remove-all && dotfiles install
 ```
 
 ### Usage
