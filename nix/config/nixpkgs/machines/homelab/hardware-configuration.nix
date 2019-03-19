@@ -26,6 +26,7 @@
 
       # Use IOMMU
       "intel_iommu=on"
+      "intel_iommu=igfx_off"
       "i915.preliminary_hw_support=1"
       "i915.enable_hd_vgaarb=1"
       "vfio_iommu_type1.allow_unsafe_interrupts=1"
@@ -52,6 +53,7 @@
 
       # Assign devices to vfio
       #options vfio-pci ids=10de:1c03,10de:10f1
+      options snd-hda-intel vid=8086 pid=8ca0 snoop=0
     '';
 
     supportedFilesystems = [ "zfs" ];
