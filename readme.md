@@ -25,8 +25,6 @@ dotfiles [command]
 
 NixOS configuration could be found under _nix/config/nixpkgs_
 
-Note: Only during the first build of NixOS machine its necessery to tell nixos-rebuild what configuration to use.
-
 ### Structure
 
 ```
