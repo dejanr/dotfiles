@@ -14,6 +14,8 @@ with colors;
       y: 2
     decorations: none
 
+  scale_with_dpi: true
+
   tabspaces: 2
 
   draw_bold_text_with_bright_colors: true
