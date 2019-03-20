@@ -14,7 +14,10 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    # scripts
     t # tmux session script
+
+    # nixpkgs
     apg # Tools for random password generation
     bash
     bash-completion
@@ -76,6 +79,7 @@ in
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;
   programs.ssh.startAgent = true;
+  programs.bash.enableCompletion = true;
 
   networking = {
     networkmanager.enable = true;

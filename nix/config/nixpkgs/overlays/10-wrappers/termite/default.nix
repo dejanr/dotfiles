@@ -1,0 +1,22 @@
+{ stdenv, makeWrapper, writeTextFile, termite, fonts, colors }:
+
+let
+  config = import ./config.nix {
+    inherit colors fonts stdenv;
+  };
+  execPath = "bin";
+  configFile = writeTextFile {
+    name = "config";
+    text = config;
+  };
+in
+stdenv.mkDerivation {
+  name = "termite-wrapper";
+  buildInputs = [ makeWrapper ];
+  propagatedBuildInputs = [ termite ];
+  phases = [ "buildPhase" ];
+  buildCommand = ''
+    mkdir -p $out/bin
+    makeWrapper ${termite}/${execPath}/termite $out/bin/termite --add-flags "--config ${configFile}"
+  '';
+}
