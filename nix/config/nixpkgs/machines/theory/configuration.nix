@@ -16,6 +16,7 @@ in {
       ../../roles/fonts.nix
    ];
 
+  nix.useSandbox = false;
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
 

@@ -1,9 +1,9 @@
 self: super:
 
-let 
+let
   theme = "dark";
-in 
+in
 {
   colors = {} // (import ./colors.nix { inherit theme; });
   fonts = {} // import ./fonts.nix;
-} 
+}
