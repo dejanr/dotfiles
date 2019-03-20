@@ -14,11 +14,9 @@ nix-env -f https://github.com/dejanr/dotfiles/archive/master.tar.gz -i --remove-
 dotfiles [command]
 ```
 
-- link - (re-)link dotfiles
-- switch (default) - tag, apply configuration.nix, tag working
-- update - update channels and switch
 - install - install prerequisites and link
 - uninstall - unlink and remove configurations
+- link - (re-)link dotfiles
 - unlink - unlink dotfiles
 
 ## NixOS
@@ -33,6 +31,7 @@ NixOS configuration could be found under _nix/config/nixpkgs_
 ├── overlays
 │   ├── 00-themes
 │   ├── 10-wrappers
+│   ├── 10-scripts
 │   ├── 50-envs
 │   └── 90-apps
 └── roles
@@ -40,6 +39,7 @@ NixOS configuration could be found under _nix/config/nixpkgs_
 
 - A **machine** has one or more role
 - A **overlay** is reusable nix expression
+- A **script** is just a bash script packed with nix
 - A **role** is a collection of **packages** and **services**
 
 ### Secrets
