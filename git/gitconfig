@@ -33,13 +33,6 @@
   mnemonicPrefix      = true
   compactionHeuristic = true
 
-#[merge]
-#  tool = vim3way
-#
-#[mergetool "vim3way"]
-#  cmd = "vim -c 'call mergeutil#threeway()' \"$BASE\" \"$REMOTE\" \"$LOCAL\" \"$MERGED\""
-#  trustExitCode = true
-
 [rerere]
   enabled = true
 
@@ -63,27 +56,5 @@
   log  = diff-so-fancy | less -RFXx1,5
   show = diff-so-fancy | less -RFXx1,5
 
-
 [advice]
   statusHints = no
-
-[color]
-  diff = auto
-  branch = auto
-  ui = auto
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-
-[color "status"]
-  header = normal
-  added = magenta yellow
-  updated = green bold
-  changed = red bold
-  untracked = normal
-  nobranch = red bold
-[url "ssh://git@heroku.com/"]
-	insteadOf = https://git.heroku.com/
