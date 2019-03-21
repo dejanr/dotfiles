@@ -155,9 +155,18 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'itchyny/lightline.vim'
 
+  " Replace filename component of Lightline statusline
   let g:lightline = {
-  \ 'colorscheme': 'gotham',
-  \ }
+    \ 'colorscheme': 'gotham',
+    \ 'component_function': {
+    \   'filename': 'FilenameForLightline'
+    \ }
+    \ }
+
+  " Show full path of filename
+  function! FilenameForLightline()
+    return expand('%')
+  endfunction
 
   " Themes
   Plug 'whatyouhide/vim-gotham'
