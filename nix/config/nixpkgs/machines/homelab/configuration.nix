@@ -19,44 +19,26 @@ in {
     ../../roles/games.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowBroken = true;
-
-  nix.nixPath = [
-    "nixpkgs=channel:nixpkgs-unstable"
-    "nixos-config=/home/${username}/.config/nixpkgs/machines/${hostName}/configuration.nix"
-    "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
-  ];
-
-  nixpkgs.overlays =
-    let
-      paths = [
-        ../../overlays
-      ];
-    in with builtins;
-      concatMap (path:
-        (map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                    pathExists (path + ("/" + n + "/default.nix")))
-                    (attrNames (readDir path))))) paths;
-
   nix.useSandbox = true;
-  nix.binaryCaches = [ https://cache.nixos.org ];
-  nix.trustedUsers = [ "${username}" "root" ];
 
   networking = {
     hostId = "8425e349";
-    hostName = "homelab";
+    hostName = "${hostName}";
   };
 
   hardware = {
+    cpu.intel.updateMicrocode = true;
+
     opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
-      extraPackages = [ pkgs.vaapiIntel pkgs.libvdpau-va-gl pkgs.vaapiVdpau ];
+      extraPackages = with pkgs; [
+        vaapiIntel
+        libvdpau-va-gl
+        vaapiVdpau
+      ];
     };
-    pulseaudio.support32Bit = true;
   };
 
   services = {

@@ -6,6 +6,7 @@ let
 in {
   imports =
     [
+      ./hardware-configuration.nix
       ../../roles/common.nix
       ../../roles/desktop.nix
       ../../roles/i3.nix
@@ -17,109 +18,10 @@ in {
    ];
 
   nix.useSandbox = false;
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowBroken = true;
-
-  nix.nixPath = [
-    "nixpkgs=channel:nixpkgs-unstable"
-    "nixos-config=/home/${username}/.config/nixpkgs/machines/${hostName}/configuration.nix"
-    "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
-  ];
-
-  nixpkgs.overlays =
-    let
-      paths = [
-        ../../overlays
-      ];
-    in with builtins;
-      concatMap (path:
-        (map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                    pathExists (path + ("/" + n + "/default.nix")))
-                    (attrNames (readDir path))))) paths;
-
-  boot = {
-    extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
-
-    initrd = {
-      availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
-      luks.devices.decrypted-hdd = {
-        device = "/dev/disk/by-id/nvme-WDC_PC_SN720_SDAQNTW-512G-1001_184791804261-part2";
-        keyFile = "/keyfile.bin";
-      };
-    };
-
-    kernelModules = [
-      "acpi_call"
-      "kvm-intel"
-      "i915"
-    ];
-
-    blacklistedKernelModules = [
-      "fbcon"
-      "bbswitch"
-      "nvidia"
-      "nvidia-drm"
-      "nvidia-uvm"
-      "nvidia-modesetting"
-      "nouveau"
-    ];
-
-    kernelParams = [
-      "i915.enable_fbc=1"
-      "i915.enable_psr=2"
-    ];
-
-    kernel.sysctl = {
-      "fs.inotify.max_user_watches" = "1048576";
-    };
-
-    supportedFilesystems = [ "zfs" ];
-    cleanTmpDir = true;
-
-    loader = {
-      efi.efiSysMountPoint = "/efi";
-
-      grub = {
-      device = "nodev";
-      efiSupport = true;
-      extraInitrd = "/boot/initrd.keys.gz";
-      enableCryptodisk = true;
-      zfsSupport = true;
-        efiInstallAsRemovable = true;
-      };
-    };
-  };
-
-  fileSystems."/" =
-    { device = "zroot/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/efi" =
-    { device = "/dev/disk/by-id/nvme-WDC_PC_SN720_SDAQNTW-512G-1001_184791804261-part1";
-      fsType = "vfat";
-    };
-
-  swapDevices = [ ];
 
   networking = {
     hostName = "theory";
     hostId = "7392bf5d";
-  };
-
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-    vaapiVdpau
-    libvdpau-va-gl
-  ];
-
-  hardware.bumblebee = {
-    enable = true;
-    pmMethod = "bbswitch";
   };
 
   services = {
@@ -190,8 +92,5 @@ in {
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "zfs";
 
-  nix.maxJobs = lib.mkDefault 8;
-
-  system.stateVersion = "18.09";
+  system.stateVersion = "19.03";
 }
-

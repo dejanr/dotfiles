@@ -55,5 +55,7 @@
       avoid-resampling = "yes";
       default-sample-rate = 48000;
     };
+
+    support32Bit = true;
   };
 }

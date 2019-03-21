@@ -1,9 +1,49 @@
 { config, pkgs, ... }:
 
 let
+  username = "dejanr";
   unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
 in
 {
+  nix.nixPath = [
+    "nixpkgs=channel:nixpkgs-unstable"
+    "nixos-config=/etc/nixos/configuration.nix"
+    "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
+  ];
+
+  nix.extraOptions = ''
+    gc-keep-outputs = false
+    gc-keep-derivations = false
+    auto-optimise-store = true
+  '';
+
+  nix.binaryCaches = [ https://cache.nixos.org ];
+  nix.trustedUsers = [ "${username}" "root" ];
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowBroken = true;
+    android_sdk.accept_license = true;
+
+    packageOverrides = pkgs: {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
+
+  nixpkgs.overlays =
+    let
+      paths = [
+        ../overlays
+      ];
+    in with builtins;
+      concatMap (path:
+        (map (n: import (path + ("/" + n)))
+          (filter (n: match ".*\\.nix" n != null ||
+                    pathExists (path + ("/" + n + "/default.nix")))
+                    (attrNames (readDir path))))) paths;
+
   time.timeZone = "Europe/Berlin";
 
   fonts = {
@@ -15,7 +55,8 @@ in
 
   environment.systemPackages = with pkgs; [
     # scripts
-    t # tmux session script
+    t
+    wm-lock
 
     # nixpkgs
     apg # Tools for random password generation
@@ -118,17 +159,6 @@ in
     supportedLocales = [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" "sr_RS@latin/UTF-8" ];
   };
 
-  hardware = {
-    cpu.intel.updateMicrocode = true;
-
-    opengl.driSupport = true;
-    opengl.driSupport32Bit = true;
-
-    firmware = [
-      pkgs.firmwareLinuxNonfree
-    ];
-  };
-
   security.sudo.wheelNeedsPassword = false;
   security.polkit.enable = true;
   security.rtkit.enable = true;
@@ -139,23 +169,4 @@ in
     item = "nofile";
     value = "4096";
   }];
-
-  nixpkgs.config = {
-    android_sdk.accept_license = true;
-    config.allowBroken = true;
-
-    packageOverrides = pkgs: {
-      unstable = import unstableTarball {
-        config = config.nixpkgs.config;
-      };
-    };
-  };
-
-  nix = {
-    extraOptions = ''
-      gc-keep-outputs = false
-      gc-keep-derivations = false
-      auto-optimise-store = true
-    '';
-  };
 }
