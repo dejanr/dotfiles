@@ -20,6 +20,7 @@ in
     # nixpkgs
     apg # Tools for random password generation
     bash
+    grobi # Automatically configure monitors/outputs for Xorg via RANDR
     bash-completion
     nix-bash-completions
     haskellPackages.gitHUD # command-line HUD for git repos
