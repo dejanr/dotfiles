@@ -529,3 +529,8 @@ set dictionary=/usr/share/dict/words
 " Using gf to jump to node js file
 set suffixesadd+=.js
 set path+=$PWD/node_modules
+
+" Enable project specific vimrc file
+set exrc
+" Make local vimrc more secure
+set secure
