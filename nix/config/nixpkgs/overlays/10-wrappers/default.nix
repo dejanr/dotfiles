@@ -9,4 +9,7 @@ self: super:
     inherit (self) colors fonts;
     inherit (super) stdenv makeWrapper writeTextFile termite;
   };
+  grobi = import ./grobi {
+    inherit (super) stdenv makeWrapper writeTextFile grobi;
+  };
 }
