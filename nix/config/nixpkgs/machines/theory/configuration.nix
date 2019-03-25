@@ -70,10 +70,11 @@ in {
         WIFI_PWR_ON_BAT=5
         RUNTIME_PM_ON_AC=on
         RUNTIME_PM_ON_BAT=auto
-        USB_AUTOSUSPEND=0
         USB_BLACKLIST_WWAN=1
-        DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"
-        SOUND_POWER_SAVE_ON_BAT=0
+        USB_AUTOSUSPEND=0
+        CONTROL_USB_AUTOSUSPEND="off"
+        DEVICES_TO_DISABLE_ON_STARTUP=""
+        RUNTIME_PM_DRIVER_BLACKLIST="nouveau nvidia"
       '';
     };
   };
