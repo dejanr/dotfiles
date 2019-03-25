@@ -13,6 +13,11 @@ call plug#begin('~/.vim/plugged')
 
   " Git
   Plug 'tpope/vim-fugitive'
+  " Fugitive Conflict Resolution
+  nnoremap <leader>gd :Gvdiff<CR>
+  nnoremap gdh :diffget //2<CR>
+  nnoremap gdl :diffget //3<CR>
+
   Plug 'gregsexton/gitv'
 
   Plug 'tpope/vim-unimpaired'
@@ -340,6 +345,8 @@ set fillchars=""
 
 " Add ignorance of whitespace to diff
 set diffopt+=iwhite
+" Make diff vertical
+set diffopt+=vertical
 
 " Enable search highlighting
 set hlsearch
