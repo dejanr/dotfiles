@@ -57,6 +57,7 @@ in
     # scripts
     t
     wm-lock
+    music
 
     # nixpkgs
     apg # Tools for random password generation

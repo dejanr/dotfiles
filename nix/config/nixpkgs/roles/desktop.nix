@@ -12,10 +12,10 @@ in
     corebird # twitter client
     electrum # bitcoin thin-client
     evince # gnome document viewer
-    firefox # A web browser built from Firefox source tree
+    unstable.firefox # A web browser built from Firefox source tree
     gimp # Image Manipulation Program
     gnupg # encryption
-    google-chrome # google chrome browser
+    unstable.google-chrome # google chrome browser
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
@@ -37,10 +37,9 @@ in
     powertop # Analyze power consumption on Intel-based laptops
     printrun # 3d printing host software
     purple-plugin-pack # Plugin pack for Pidgin 2.x
-    pythonPackages.youtube-dl # Command-line tool to download videos from YouTube.com and other sites
     qalculate-gtk # The ultimate desktop calculator
     scrot # screen capturing
-    slack # slack desktop client
+    unstable.slack # slack desktop client
     slic3r-prusa3d # G-code generator for 3D printer
     surf # suckless browser
     sxiv # image viewer

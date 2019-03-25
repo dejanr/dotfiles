@@ -3,13 +3,15 @@
 with pkgs;
 
 let
-  name = "t";
-  source = import ./script.nix {};
+  name = "music";
+  source = import ./script.nix {
+    mpsyt = "${python37Packages.mps-youtube}/bin/mpsyt";
+    tmux = "${tmux}/bin/tmux";
+  };
 in stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];
-  propagatedBuildInputs = [ tmux ];
   installPhase = ''
     mkdir -p $out/bin
     echo "$script" > $out/bin/$name

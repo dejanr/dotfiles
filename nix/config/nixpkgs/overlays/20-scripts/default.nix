@@ -2,10 +2,17 @@ self: super:
 
 {
   t = import ./t {
-    inherit (super) stdenv writeScript tmux;
+    inherit (super);
+    pkgs = super;
   };
 
   wm-lock = import ./wm-lock {
-    inherit (super) stdenv writeScript i3lock-fancy;
+    inherit (super);
+    pkgs = super;
+  };
+
+  music = import ./music {
+    inherit (super);
+    pkgs = super;
   };
 }

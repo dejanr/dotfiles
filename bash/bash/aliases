@@ -31,9 +31,6 @@ alias more='more -R'
 # irc
 alias irc="export TERM=screen && if tmux has-session -t irc; then tmux attach -t irc; else create-irc-session; fi"
 
-# youtube music player
-alias music="export TERM=screen && if tmux has-session -t music; then tmux attach -t music; else create-music-session; fi"
-
 # ls
 alias l="ls $LS_OPTIONS -CF"
 alias ll="ls $LS_OPTIONS -alF"

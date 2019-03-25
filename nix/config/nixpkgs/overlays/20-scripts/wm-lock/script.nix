@@ -1,5 +1,4 @@
-{}:
-''
+{} : ''
 # Command to start the locker (should not fork)
 locker="i3lock-fancy -p -g"
 

@@ -1,4 +1,6 @@
-{ stdenv, writeScript, i3lock-fancy }:
+{ pkgs }:
+
+with pkgs;
 
 let
   name = "wm-lock";
