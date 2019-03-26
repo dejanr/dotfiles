@@ -6,6 +6,8 @@ let
 in
 {
   nix.nixPath = [
+    "nixos=channel:nixos"
+    "nixos-hardware=https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
     "nixpkgs=channel:nixpkgs-unstable"
     "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
