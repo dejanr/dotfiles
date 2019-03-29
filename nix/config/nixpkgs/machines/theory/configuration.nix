@@ -86,9 +86,10 @@ in {
     etc."X11/Xresources".text = ''
       Xft.dpi: 144
     '';
-    variables.QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     variables.GDK_SCALE = "2";
     variables.GDK_DPI_SCALE = "0.5";
+    variables.QT_SCALE_FACTOR = "1";
+    variables.QT_AUTO_SCREEN_SCALE_FACTOR = "1";
   };
 
   programs.light.enable = true;
