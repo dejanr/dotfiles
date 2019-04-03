@@ -1,8 +1,5 @@
 { pkgs, ... }:
 
-let
-  secrets = import ../secrets.nix;
-in
 {
   environment.systemPackages = with pkgs; [
     acpi # Show battery status and other ACPI information
@@ -15,7 +12,7 @@ in
     unstable.firefox # A web browser built from Firefox source tree
     gimp # Image Manipulation Program
     gnupg # encryption
-    unstable.google-chrome # google chrome browser
+    google-chrome # google chrome browser
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
@@ -39,7 +36,7 @@ in
     purple-plugin-pack # Plugin pack for Pidgin 2.x
     qalculate-gtk # The ultimate desktop calculator
     scrot # screen capturing
-    unstable.slack # slack desktop client
+    slack # slack desktop client
     slic3r-prusa3d # G-code generator for 3D printer
     surf # suckless browser
     sxiv # image viewer
@@ -64,11 +61,4 @@ in
     transporter # Simple magic-wormhole client
     kazam	# A screencasting program created with design in mind
   ];
-
-  nixpkgs.config = {
-    allowUnfree = true;
-    nixpkgs.config.packageOverrides = pkgs: {
-      inherit (import ../packages { inherit pkgs; }) custom;
-    };
-  };
 }
