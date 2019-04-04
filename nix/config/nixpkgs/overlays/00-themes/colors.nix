@@ -23,7 +23,7 @@ let themes = rec {
     #green
     green   = color2;
     color2  = "#26a98b";
-    color10 = "#98cda9";
+    color10 = "#081f2d";
     #yellow
     yellow  = color3;
     color3  = "#edb54b";
