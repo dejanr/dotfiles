@@ -8,7 +8,7 @@ rules:
 
     configure_single: HDMI2
 
-  - name: work
+  - name: office
 
     outputs_connected:
       - eDP1-AUO-9014-0
@@ -23,7 +23,7 @@ rules:
     execute_after:
       - xrandr --output HDMI2 --pos 0x0 --output DP1 --pos 1920x0 --output eDP1 --pos 960x1200
 
-  - name: work-glass-1
+  - name: office-team-glass-room
 
     outputs_connected:
       - eDP1-AUO-9014-0
