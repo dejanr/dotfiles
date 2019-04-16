@@ -88,6 +88,15 @@
     ];
   };
 
+  services.xserver = {
+    screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+    '';
+
+  };
+
   swapDevices = [ ];
   nix.maxJobs = lib.mkDefault 8;
 }
