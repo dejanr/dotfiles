@@ -14,7 +14,7 @@
 	quotepath    = off
 	pager        = diff-so-fancy | less
   editor       = vim
-  excludesfile = ~/.config/git/ignore
+  excludesfile = ~/.gitignore
   autocrlf     = false
   filemode     = false
 

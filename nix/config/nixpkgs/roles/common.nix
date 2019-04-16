@@ -6,6 +6,8 @@ let
 in
 {
   nix.nixPath = [
+    "nixos=channel:nixos"
+    "nixos-hardware=https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
     "nixpkgs=channel:nixpkgs-unstable"
     "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
@@ -68,8 +70,8 @@ in
     haskellPackages.gitHUD # command-line HUD for git repos
     linuxPackages.cpupower # Tool to examine and tune power saving features
     wget # Tool for retrieving files
-    neovim
-    vimHugeX
+    unstable.neovim
+    unstable.vimHugeX
     rsync #	A fast incremental file transfer utility
     unzip # An extraction utility for archives compressed in .zip format
     zip # Compressor/archiver for creating and modifying zipfiles

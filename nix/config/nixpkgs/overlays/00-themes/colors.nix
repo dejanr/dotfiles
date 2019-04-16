@@ -2,8 +2,8 @@
 
 let themes = rec {
 
-  "dark" = themes."gotham-light";
-  "light" = themes."nord-light";
+  "dark" = themes."gotham";
+  "light" = themes."nord";
 
   # https://github.com/wasamasa/gotham-theme
   "gotham" = rec {
@@ -45,16 +45,13 @@ let themes = rec {
     color7  = "#98d1ce";
     color15 = "#d3ebe9";
   };
-  "gotham-light" = themes."gotham" // {
-    dark = false;
-  };
 
   # https://arcticicestudio.github.io/nord/
   "nord" = rec {
-    dark = true;
-    foreground =   "#3B4252";
-    background =   "#E5E9F0";
-    cursorColor =  "#2E3440";
+    dark = false;
+    foreground =   "#D8DEE9";
+    background =   "#2E3440";
+    cursorColor =  "#D8DEE9";
 
     #black
     black   = color0;
@@ -88,12 +85,6 @@ let themes = rec {
     white   = color7;
     color7  = "#E5E9F0";
     color15 = "#ECEFF4";
-  };
-  "nord-light" = themes."nord" // {
-    dark = false;
-    foreground =   "#D8DEE9";
-    background =   "#2E3440";
-    cursorColor =  "#D8DEE9";
   };
 
 }; in themes.${theme} or themes."gotham"

@@ -43,7 +43,7 @@ with colors;
       foreground: '${foreground}'
     cursor:
       text: '${foreground}'
-      cursor: '${cursorColor}'
+      cursor: '${foreground}'
     normal:
       black:   '${color0}'
       red:     '${color1}'

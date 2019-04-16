@@ -30,11 +30,17 @@
 
     kernelParams = [
       "i915.enable_fbc=1"
-      "i915.enable_psr=2"
+      "i915.enable_psr=0"
+      "snd_hda_intel.power_save=1"
+      "bbswitch.load_state=0"
+      "bbswitch.unload_state=1"
     ];
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = "1048576";
+      "kernel.nmi_watchdog" = 0;
+      "vm.dirty_writeback_centisecs" = 1500;
+      "vm.laptop_mode" = 5;
     };
 
     supportedFilesystems = [ "zfs" ];
@@ -72,6 +78,8 @@
       enable = true;
       pmMethod = "bbswitch";
     };
+
+    nvidiaOptimus.disable = true;
 
     opengl = {
       driSupport = true;

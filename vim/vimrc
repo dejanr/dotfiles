@@ -168,6 +168,9 @@ call plug#begin('~/.vim/plugged')
     \ }
     \ }
 
+  " Dont use showmode, as we already show mode inside lightline
+  set noshowmode
+
   " Show full path of filename
   function! FilenameForLightline()
     return expand('%')
