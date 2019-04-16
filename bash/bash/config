@@ -11,8 +11,7 @@ export NVM_DIR=~/.nvm
 export XDG_CONFIG_HOME=~/.config
 export TZ="Europe/Berlin"
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
+# dont keep duplicates in history
 HISTCONTROL=ignoredups:ignorespace
 
 # append to the history file, don't overwrite it
@@ -26,44 +25,10 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-# bash completion
-if [ which brew 2> /dev/null > /dev/null ]; then 
-  [[ -r $(brew --prefix)/etc/bash_completion ]] && . $(brew --prefix)/etc/bash_completion
-fi
-
-# local env variables
-[ -f ~/.local.env ] && . ~/.local.env
-
-# opam toolchain
-. ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
-
 source ~/.bash/paths
 source ~/.bash/functions
 source ~/.bash/prompt
 source ~/.bash/aliases
-
-# Completion
-source ~/.bash/completion/alias-completion.bash
-source ~/.bash/completion/git-completion.bash
-
-complete -o default -o nospace -F _git gco
-complete -o default -o nospace -F _git gb
-
-# Git Aliases AutoComplete
-type __git_complete >/dev/null 2>&1 && {
-    __git_complete   gc       _git_commit
-    __git_complete   gc!      _git_commit
-    __git_complete   gca      _git_commit
-    __git_complete   gca!     _git_commit
-    __git_complete   gco      _git_checkout
-    __git_complete   gb       _git_branch
-    __git_complete   gs       _git_status
-}
-
-# Enable tab completion with sudo
-complete -cf sudo
 
 # NPM log level
 export npm_config_loglevel=warn
