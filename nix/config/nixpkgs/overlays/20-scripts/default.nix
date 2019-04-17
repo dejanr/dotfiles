@@ -11,6 +11,11 @@ self: super:
     pkgs = super;
   };
 
+  wm-wallpaper = import ./wm-wallpaper {
+    inherit (super);
+    pkgs = super;
+  };
+
   music = import ./music {
     inherit (super);
     pkgs = super;

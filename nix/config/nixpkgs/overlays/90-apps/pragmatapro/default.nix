@@ -1,7 +1,7 @@
 { stdenv, requireFile, unzip }:
 
 # To use this drv do add PragmataPro.zip to the store:
-#   nix-store --add-fixed sha256 PragmataPro0.826.zip
+#   nix-store --add-fixed sha256 PragmataPro0.827.zip
 #   nix-prefetch-url --type sha256 file:///home/dejanr/downloads/PragmataPro0.827.zip
 
 let

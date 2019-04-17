@@ -1,4 +1,4 @@
-{ colors, fonts, stdenv }:
+{ colors, fonts }:
 with colors;
 with fonts;
 

@@ -2,15 +2,14 @@
 
 let
   config = import ./config.nix {
-    inherit colors fonts stdenv;
+    inherit colors fonts;
   };
   execPath = "bin";
   configFile = writeTextFile {
     name = "config";
     text = config;
   };
-in
-stdenv.mkDerivation {
+in stdenv.mkDerivation {
   name = "termite-wrapper";
   buildInputs = [ makeWrapper ];
   propagatedBuildInputs = [ termite ];

@@ -84,13 +84,13 @@
     displayManager = {
       lightdm = {
       enable = true;
-        background = "#1e1e1e";
+        background = "#195466";
         greeters.mini.enable = true;
         greeters.mini.user = "dejanr";
         greeters.mini.extraConfig = ''
-          window-color = "#268bd2"
-          xft-dpi=190
-          dpi=190
+          window-color = "#245361"
+          xft-dpi=144
+          dpi=144
         '';
       };
 

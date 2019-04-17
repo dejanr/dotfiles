@@ -59,6 +59,7 @@ in
     # scripts
     t
     wm-lock
+    wm-wallpaper
     music
 
     # nixpkgs

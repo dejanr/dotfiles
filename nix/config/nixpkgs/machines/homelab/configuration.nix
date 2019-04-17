@@ -19,7 +19,7 @@ in {
     ../../roles/games.nix
   ];
 
-  nix.useSandbox = true;
+  nix.useSandbox = false;
 
   networking = {
     hostId = "8425e349";
