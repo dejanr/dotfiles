@@ -27,11 +27,11 @@ rules:
 
     outputs_connected:
       - eDP1-AUO-9014-0
-      - HDMI2-ACR-1040-1361092661
+      - DP1-ACR-1040-1361092661
 
     configure_row:
       - eDP1
-      - HDMI2
+      - DP1
 
   - name: mobile
     outputs_disconnected:
