@@ -26,21 +26,6 @@ in {
     hostName = "${hostName}";
   };
 
-  hardware = {
-    cpu.intel.updateMicrocode = true;
-
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        vaapiIntel
-        libvdpau-va-gl
-        vaapiVdpau
-      ];
-    };
-  };
-
   services = {
     unifi.enable = true;
 
