@@ -2,10 +2,8 @@
 
 {
   environment.systemPackages = with pkgs; [
-    unstable.steam
-    unstable.steam-run
-    unstable.steamcontroller
-    unstable.sc-controller
+    #steam
+    #steam-run
     unstable.minecraft
     unstable.wineStaging
     unstable.winetricks

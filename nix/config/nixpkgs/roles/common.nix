@@ -167,6 +167,8 @@ in
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
+  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
+
   security.pam.loginLimits = [{
     domain = "*";
     type = "soft";
