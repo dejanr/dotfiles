@@ -91,5 +91,5 @@ function load-time() {
 }
 
 function lb() {
-    vim -c 'cd %:p:h' ~/Documents/logbook/$(date '+%Y-%m-%d').org
+    vim -c 'cd %:p:h' ~/documents/logbook/$(date '+%Y-%m-%d').org
 }
