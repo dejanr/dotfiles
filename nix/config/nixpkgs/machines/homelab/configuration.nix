@@ -13,6 +13,7 @@ in {
     ../../roles/multimedia.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
+    ../../roles/keybase.nix
     ../../roles/development.nix
     ../../roles/services.nix
     ../../roles/electronics.nix
