@@ -29,6 +29,7 @@ in {
 
   services = {
     unifi.enable = true;
+    unifi.openPorts = true;
 
     octoprint = {
       enable = true;

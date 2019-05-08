@@ -3,7 +3,15 @@
 {
   services = {
 		printing.enable = true;
+    printing.drivers = [ pkgs.mfc9332cdwlpr ];
+    printing.browsing = true;
+    printing.defaultShared = true;
+    printing.extraConf = ''
+      DefaultEncryption Never
+    '';
 		avahi.enable = true;
+    avahi.publish.enable = true;
+    avahi.publish.userServices = true;
     avahi.nssmdns = true;
     urxvtd.enable = true;
 

@@ -25,6 +25,7 @@ in
   nixpkgs.config = {
     allowUnfree = true;
     allowBroken = true;
+    allowUnsupportedSystem = true;
     android_sdk.accept_license = true;
 
     packageOverrides = pkgs: {
@@ -139,6 +140,7 @@ in
         25565 # minecraft server
         80
         443
+        631 # CUPS ports
         3000
         4000
         5000
@@ -148,6 +150,7 @@ in
         { from = 4100; to = 4105; }
       ];
       allowedUDPPorts = [
+        631 # CUPS ports
         5353
         4445 # minecraft discovery
       ];
