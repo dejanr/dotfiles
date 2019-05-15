@@ -17,5 +17,5 @@ if [[ "${BLOCK_BUTTON}" -eq 1 ]]; then
   toggle
 fi
 
-echo "$KB_LAYOUT" | awk '{print toupper($0)}'
+echo " $KB_LAYOUT" | awk '{print toupper($0)}'
 echo ""
