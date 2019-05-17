@@ -83,7 +83,7 @@
 
     displayManager = {
       lightdm = {
-      enable = true;
+        enable = true;
         background = "#195466";
         greeters.mini.enable = true;
         greeters.mini.user = "dejanr";
@@ -107,4 +107,14 @@
 
   # Enable secrets store.
   security.pam.services.lightdm.enableGnomeKeyring = true;
+
+  # Services for i3
+  systemd.user.services."dunst" = {
+    enable = true;
+    description = "Notifications service";
+    wantedBy = [ "default.target" ];
+    serviceConfig.Restart = "always";
+    serviceConfig.RestartSec = 2;
+    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
+  };
 }
