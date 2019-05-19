@@ -6,9 +6,6 @@ let
 in {
   imports =
     [
-      <nixos-hardware/common/cpu/intel>
-      <nixos-hardware/common/pc/laptop/acpi_call.nix>
-      <nixos-hardware/lenovo/thinkpad>
       ./hardware-configuration.nix
       ../../roles/common.nix
       ../../roles/desktop.nix

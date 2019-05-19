@@ -2,7 +2,10 @@
 
 {
   boot = {
+    kernelPackages = pkgs.linuxPackages_5_0;
     extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
+
+    zfs.enableUnstable = true;
 
     initrd = {
       availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
