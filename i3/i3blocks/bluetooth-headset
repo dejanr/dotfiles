@@ -1,18 +1,4 @@
 #!/usr/bin/env bash
-# Copyright (C) 2015 Valentin Rusu <vrusu@fsfe.org>
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the Affero GNU General Public License as published
-# by the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HEADSET_ID=$1
 
@@ -23,20 +9,8 @@ STATUS_CONNECTED="connected"
 STATUS_DISCONNECTED="disconnected"
 ERROR_CONDITION=0
 
-SUDO_PATH=$(which kdesu 2>/dev/null || echo "")
-if [[ -z "$SUDO_PATH" ]]
-then
-  SUDO_PATH=$(which gksu 2>/dev/null || echo "")
-  if [[ -z "$SUDO_PATH" ]]
-  then
-    # fallback to sudo
-    SUDO_PATH=sudo
-  fi
-fi
-
-function show_status()
-{
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+function show_status() {
+INFO_STRING=$( bluetoothctl <<EOF
 info $HEADSET_ID
 EOF
 )
@@ -46,8 +20,7 @@ EOF
   echo "Unknown status $STATUS" && exit 1
 }
 
-function set_profile()
-{
+function set_profile() {
   IDXS=($(pacmd list-cards | grep 'index' | cut -d ':' -f 2))
   DEVS=($(pacmd list-cards | grep 'device.string' | cut -d '=' -f 2))
   for i in "${!DEVS[@]}"
@@ -61,8 +34,7 @@ function set_profile()
   done
 }
 
-function wait_status()
-{
+function wait_status() {
   STATUS=$(show_status)
   count=0
   while [[ ! "$STATUS" == "$1" ]]; do
@@ -73,9 +45,8 @@ function wait_status()
   done
 }
 
-function connect()
-{
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+function connect() {
+INFO_STRING=$( bluetoothctl <<EOF
 connect $HEADSET_ID
 EOF
 )
@@ -84,9 +55,8 @@ EOF
   set_profile
 }
 
-function disconnect()
-{
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+function disconnect() {
+INFO_STRING=$( bluetoothctl <<EOF
 disconnect $HEADSET_ID
 EOF
 )
@@ -112,15 +82,12 @@ esac
 if [[ $ERROR_CONDITION -eq 1 ]]
 then
   echo " err"
-  echo " err"
   echo ""
 elif [[ "$STATUS_CONNECTED" == "$STATUS" ]]
 then
   echo " on"
-  echo " on"
   echo ""
 else 
-  echo " off"
   echo " off"
   echo ""
 fi
