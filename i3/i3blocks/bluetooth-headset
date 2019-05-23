@@ -23,20 +23,9 @@ STATUS_CONNECTED="connected"
 STATUS_DISCONNECTED="disconnected"
 ERROR_CONDITION=0
 
-SUDO_PATH=$(which kdesu 2>/dev/null || echo "")
-if [[ -z "$SUDO_PATH" ]]
-then
-  SUDO_PATH=$(which gksu 2>/dev/null || echo "")
-  if [[ -z "$SUDO_PATH" ]]
-  then
-    # fallback to sudo
-    SUDO_PATH=sudo
-  fi
-fi
-
 function show_status()
 {
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+INFO_STRING=$( bluetoothctl <<EOF
 info $HEADSET_ID
 EOF
 )
@@ -75,7 +64,7 @@ function wait_status()
 
 function connect()
 {
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+INFO_STRING=$( bluetoothctl <<EOF
 connect $HEADSET_ID
 EOF
 )
@@ -86,7 +75,7 @@ EOF
 
 function disconnect()
 {
-INFO_STRING=$( $SUDO_PATH bluetoothctl <<EOF
+INFO_STRING=$( bluetoothctl <<EOF
 disconnect $HEADSET_ID
 EOF
 )
@@ -112,15 +101,12 @@ esac
 if [[ $ERROR_CONDITION -eq 1 ]]
 then
   echo " err"
-  echo " err"
   echo ""
 elif [[ "$STATUS_CONNECTED" == "$STATUS" ]]
 then
   echo " on"
-  echo " on"
   echo ""
 else 
-  echo " off"
   echo " off"
   echo ""
 fi
