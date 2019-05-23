@@ -6,6 +6,7 @@
 
 let
   install = pkgs.writeScript "install" ''
+    #!/usr/bin/env bash
     set -e
 
     nix-channel --add https://nixos.org/channels/${channel} nixpkgs
@@ -21,6 +22,7 @@ let
   '';
 
   link = pkgs.writeScript "link" ''
+    #!/usr/bin/env bash
     set -e
 
     link() {
@@ -55,6 +57,7 @@ let
   '';
 
   unlink = pkgs.writeScript "unlink" ''
+    #!/usr/bin/env bash
     set -e
 
     remove() {
@@ -88,6 +91,7 @@ let
   '';
 
   uninstall = pkgs.writeScript "uninstall" ''
+    #!/usr/bin/env bash
     ${unlink}
 
     if [ -d ${targetDir} ]; then
@@ -97,6 +101,7 @@ let
   '';
 
   help = pkgs.writeScript "help" ''
+    #!/usr/bin/env bash
     echo "dotfiles: [install] [uninstall] [link] [unlink] [help]"
     exit
   '';
