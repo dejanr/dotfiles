@@ -11,6 +11,11 @@ self: super:
     inherit (super) stdenv makeWrapper writeTextFile termite;
   };
 
+  neomutt = import ./neomutt {
+    inherit (self) colors fonts;
+    inherit (super) stdenv makeWrapper writeTextFile neomutt;
+  };
+
   grobi = import ./grobi {
     inherit (super) stdenv makeWrapper writeTextFile grobi;
   };
