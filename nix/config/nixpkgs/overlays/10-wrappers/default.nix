@@ -12,8 +12,20 @@ self: super:
   };
 
   neomutt = import ./neomutt {
-    inherit (self) colors fonts;
+    inherit (self) colors fonts msmtp isync notmuch;
     inherit (super) stdenv makeWrapper writeTextFile neomutt;
+  };
+
+  msmtp = import ./msmtp {
+    inherit (super) stdenv makeWrapper writeTextFile msmtp;
+  };
+
+  isync = import ./isync {
+    inherit (super) stdenv makeWrapper writeTextFile isync;
+  };
+
+  notmuch = import ./notmuch {
+    inherit (super) stdenv makeWrapper writeTextFile notmuch;
   };
 
   grobi = import ./grobi {

@@ -20,4 +20,19 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  mutt-openfile = import ./mutt-openfile {
+    inherit (super);
+    pkgs = super;
+  };
+
+  mutt-openimage = import ./mutt-openimage {
+    inherit (super);
+    pkgs = super;
+  };
+
+  mutt-sync = import ./mutt-sync {
+    inherit (super);
+    pkgs = super;
+  };
 }
