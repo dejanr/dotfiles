@@ -20,6 +20,7 @@
     dunst                        # notifications
     compton                      # window transitions
     i3minator                    # i3 project manager
+    i3-config                    # custom i3 config from overlay
     i3blocks
     i3lock-fancy
     xscreensaver                 # screensaver
@@ -33,7 +34,6 @@
     xfce.xfce4icontheme          # Icons for Xfce
     xfce.xfconf                  # Simple client-server configuration storage and query system for Xfce
     gnome3.vte
-    gnome3.gnome_keyring
     gnome3.gnome_themes_standard # arc theme
     gnome3.gnome_settings_daemon # makes DPI scaling, fonts and GTK settings come active.
     gnome3.dconf
@@ -71,6 +71,7 @@
       i3 = {
         enable = true;
         package = pkgs.i3-gaps;
+        configFile = "${pkgs.i3-config}/config";
       };
 
       default = "i3";

@@ -1,7 +1,6 @@
-smart_gaps on
+{ colors, fonts }:
+''
 smart_borders on
-gaps inner 2
-gaps outer 1
 
 # Constants
 set $mod Mod4
@@ -92,8 +91,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+x restart
 
 # Program-Related Bindings
-bindsym $mod+Return exec termite
-bindsym $mod+Shift+Return exec i3-msg split toggle && termite && i3-msg split toggle
+bindsym $mod+Return exec st
+bindsym $mod+Shift+Return exec i3-msg split toggle && st && i3-msg split toggle
 bindsym $mod+d exec rofi -show run
 # bindsym --release Print exec take-screenshot
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
@@ -128,7 +127,7 @@ bindsym $mod+Shift+6 move container to workspace $workspace6; workspace $workspa
 bindsym $mod+Shift+7 move container to workspace $workspace7; workspace $workspace7
 bindsym $mod+Shift+8 move container to workspace $workspace8; workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9; workspace $workspace9
-bindsym $mod+Shift+0 move container to workspace $workspace10; workspace $workspace10 
+bindsym $mod+Shift+0 move container to workspace $workspace10; workspace $workspace10
 
 # Workspace Monitors
 workspace $workspace1 output $monitor1
@@ -163,7 +162,6 @@ for_window [class="Lxappearance"] floating enable
 for_window [class="Seahorse"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Qalculate-gtk"] floating enable
-for_window [class="Termite" title="nm_tui_win"] floating enable
 for_window [class="Xpdf"] fullscreen disable
 for_window [class="Xpdf"] floating enable
 for_window [class="Xpdf"] resize set 700 900
@@ -217,6 +215,7 @@ bindsym $mod+t split toggle
 
 # applications
 bindsym $mod+n exec pcmanfm
+bindsym $mod+m exec st -e neomutt
 bindsym $mod+s exec slack
 bindsym $mod+Shift+b exec --no-startup-id corebird
 bindsym $mod+Shift+r exec --no-startup-id ~/.bin/remind-me
@@ -226,3 +225,4 @@ bindsym $mod+Shift+r exec --no-startup-id ~/.bin/remind-me
 
 bindsym $mod+Tab workspace back_and_forth
 bindsym Mod1+Tab focus right
+''
