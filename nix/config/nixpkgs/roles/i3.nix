@@ -1,6 +1,21 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-{
+let
+  gtk2-theme = import ../utils/gtk2Theme.nix {
+    theme = {
+      package = pkgs.arc-theme;
+      name = "Arc";
+    };
+    icons = {
+      package = pkgs.arc-icon-theme;
+      name = "Arc";
+    };
+  };
+in {
+  imports = [
+    gtk2-theme
+  ];
+
   environment.systemPackages = with pkgs; [
     rofi                         # for app launcher
     rofi-menugen                 # Generates menu based applications using rofi
@@ -34,12 +49,10 @@
     xfce.xfce4icontheme          # Icons for Xfce
     xfce.xfconf                  # Simple client-server configuration storage and query system for Xfce
     gnome3.vte
-    gnome3.gnome_themes_standard # arc theme
+    gnome3.gnome_themes_standard
     gnome3.gnome_settings_daemon # makes DPI scaling, fonts and GTK settings come active.
     gnome3.dconf
-    arc-icon-theme
-    arc-theme
-    gtk-engine-murrine           # arc theme
+    gtk-engine-murrine
     lxappearance                 # configure theme
     vanilla-dmz                  # cursor theme
 
@@ -86,6 +99,7 @@
       lightdm = {
         enable = true;
         background = "#195466";
+
         greeters.mini.enable = true;
         greeters.mini.user = "dejanr";
         greeters.mini.extraConfig = ''
@@ -106,16 +120,33 @@
 		xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
 
-  # Enable secrets store.
-  security.pam.services.lightdm.enableGnomeKeyring = true;
 
   # Services for i3
   systemd.user.services."dunst" = {
     enable = true;
-    description = "Notifications service";
+    description = "";
     wantedBy = [ "default.target" ];
     serviceConfig.Restart = "always";
     serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
+    serviceConfig.Environment = "DISPLAY=:0";
+    serviceConfig.ExecStart = "${lib.getBin pkgs.dunst}/bin/dunst";
   };
+
+  systemd.user.services."mutt-sync" = {
+    enable = true;
+    description = "Sync all mailboxes";
+    wantedBy = [ "default.target" ];
+    path = [ pkgs.isync pkgs.bash pkgs.libnotify pkgs.pass ];
+    script = "${lib.getBin pkgs.mutt-sync}/bin/mutt-sync";
+    serviceConfig.Type = "oneshot";
+  };
+
+  systemd.user.timers."mutt-sync" = {
+    wantedBy = [ "timers.target" ];
+    description = "Run mutt-sync every 5 minutes";
+    timerConfig = {
+      OnStartupSec="10s";
+      OnUnitActiveSec ="5min";
+    };
+ };
 }

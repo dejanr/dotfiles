@@ -9,7 +9,6 @@
     corebird # twitter client
     electrum # bitcoin thin-client
     evince # gnome document viewer
-    unstable.firefox # A web browser built from Firefox source tree
     gimp # Image Manipulation Program
     gnupg # encryption
     google-chrome # google chrome browser
@@ -17,11 +16,14 @@
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
     inkscape # vector graphics editor
+    kazam	# A screencasting program created with design in mind
+    kdeApplications.kleopatra
     keepassx2 # password managment
     keychain # Keychain management tool
     libnotify # send notifications to a notification daemon
     libreoffice # Comprehensive, professional-quality productivity suite
     lm_sensors # Tools for reading hardware sensors
+    magic-wormhole # Securely transfer data between computers
     mutt # A small but very powerful text-based mail client
     openscad # 3D parametric model compiler
     openvpn # A robust and highly flexible tunneling application
@@ -38,6 +40,7 @@
     scrot # screen capturing
     slack # slack desktop client
     slic3r-prusa3d # G-code generator for 3D printer
+    st # Simple Terminal for X from Suckless.org Community
     surf # suckless browser
     sxiv # image viewer
     termite # A simple VTE-based terminal
@@ -45,7 +48,9 @@
     thunderbird # email client
     tigervnc # Fork of tightVNC, made in cooperation with VirtualGL
     transmission-gtk
-    unrar
+    transporter # Simple magic-wormhole client
+    unrar # Utility for RAR archives
+    unstable.firefox # A web browser built from Firefox source tree
     update-resolv-conf # Script to update your /etc/resolv.conf with DNS settings that come from the received push dhcp-options pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     utox # Lightweight Tox client
     weechat # A fast, light and extensible chat client
@@ -57,8 +62,5 @@
     xsettingsd # Provides settings to X11 applications via the XSETTINGS specification
     zathura # pdf viewer
     zoom-us # zoom.us desktop app
-    magic-wormhole # Securely transfer data between computers
-    transporter # Simple magic-wormhole client
-    kazam	# A screencasting program created with design in mind
   ];
 }

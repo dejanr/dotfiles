@@ -93,7 +93,13 @@ in
     urxvt_perl
     urxvt_perls
     font-manager # Simple font management for GTK+ desktop environments
+    gnome3.gnome_keyring
+    keychain
+    kdeApplications.kleopatra
   ];
+
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+  programs.gnupg.agent.enable = true;
 
   users = {
     mutableUsers = true;
