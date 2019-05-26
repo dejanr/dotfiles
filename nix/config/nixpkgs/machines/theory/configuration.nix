@@ -15,6 +15,7 @@ in {
       ../../roles/development.nix
       ../../roles/services.nix
       ../../roles/fonts.nix
+      ../../roles/email-client.nix
    ];
 
   nix.useSandbox = false;

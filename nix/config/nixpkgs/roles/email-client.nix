@@ -1,5 +1,19 @@
 { config, pkgs, ... }:
 
+# Pass store and gpg setup
+#
+# On fresh install we have to create gpg key pass store
+#
+# $ gpg --full-gen-key
+#
+# And then initialize password store:
+#
+# $ pass init gpg-id
+#
+# Then we have to add password for every imap account
+#
+# $ pass add imap.gmail.com/email@dot.com
+
 {
   environment.systemPackages = with pkgs; [
     neomutt # A small but very powerful text-based mail client
