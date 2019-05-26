@@ -1,12 +1,6 @@
 { } : ''
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Sync mail and give notification if there is a new mail.
-
-# Run only if user logged in (prevent cron errors)
-pgrep -u "$USER" >/dev/null || exit
-
-# Checks for internet connection and set notification script.
-ping -q -c 1 1.1.1.1 > /dev/null || exit
 
 export DISPLAY=:0.0
 

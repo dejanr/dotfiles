@@ -8,6 +8,7 @@ let
   };
 in stdenv.mkDerivation {
   name = "notmuch-wrapper";
+  version = notmuch.version;
   buildInputs = [ makeWrapper ];
   phases = [ "buildPhase" ];
   buildCommand = ''
