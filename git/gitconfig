@@ -50,6 +50,7 @@
   # treeish like history
   hist = log --no-merges --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
   merge-their = git merge --strategy-option their
+  pure = clean -fdx -e .vimrc
 
 [pager]
   diff = diff-so-fancy | less -RFXx1,5
