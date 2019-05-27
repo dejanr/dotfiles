@@ -7,7 +7,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "${fonts.family.mono}:size=${fonts.size.default}:antialias=true:autohint=true";
+static char *font = "${fonts.family.mono}:size=18:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /*
