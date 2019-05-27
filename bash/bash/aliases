@@ -10,6 +10,11 @@ alias e='emacsclient -t'
 alias em='emacsclient -c'
 alias dig='dig +short +noshort'
 
+# vim / tmux
+
+alias run-last-history-in-vimux="history | grep \"clear;\" | grep -v \"grep clear;\" | sort -n -r | head -n 1 | cut -d\";\" -f2- | xargs -i tmux send-keys -t 0 Escape :VimuxPromptCommand Enter \"clear; {}\" Enter"
+
+
 # pdf
 alias pdf='xpdf -fullscreen'
 alias xpdf='xpdf -fullscreen'
