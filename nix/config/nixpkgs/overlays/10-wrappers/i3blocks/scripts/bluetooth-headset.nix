@@ -1,3 +1,4 @@
+{}: ''
 #!/usr/bin/env bash
 
 HEADSET_ID=$1
@@ -23,11 +24,11 @@ EOF
 function set_profile() {
   IDXS=($(pacmd list-cards | grep 'index' | cut -d ':' -f 2))
   DEVS=($(pacmd list-cards | grep 'device.string' | cut -d '=' -f 2))
-  for i in "${!DEVS[@]}"
+  for i in "''${!DEVS[@]}"
   do
     # NOTE the device string returned by pacmd has double-quotes around it
-    if [[ "${DEVS[i]}" == "\"$HEADSET_ID\"" ]]; then
-      pacmd set-card-profile "${IDXS[i]}" "$HEADSET_PROFILE"
+    if [[ "''${DEVS[i]}" == "\"$HEADSET_ID\"" ]]; then
+      pacmd set-card-profile "''${IDXS[i]}" "$HEADSET_PROFILE"
       [[ ! $? -eq 0 ]] && echo "Cannot set pulseaudio profile" && ERROR_CONDITION=1 && exit 1
       echo "profile successfully changed"
     fi
@@ -73,7 +74,7 @@ case $BLOCK_BUTTON in
       disconnect > /dev/null
       notify-send "Headphones" "Disconnected"
     else
-      connect > /dev/null 
+      connect > /dev/null
       notify-send "Headphones" "Connected"
     fi
     ;;
@@ -87,7 +88,9 @@ elif [[ "$STATUS_CONNECTED" == "$STATUS" ]]
 then
   echo " on"
   echo ""
-else 
+else
   echo " off"
   echo ""
 fi
+
+''

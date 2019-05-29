@@ -1,9 +1,10 @@
+{}: ''
 #!/usr/bin/env bash
 
 MBOXES=(ranisavljevic)
 
 STATUS=""
-for m in "${MBOXES[@]}"; do
+for m in "''${MBOXES[@]}"; do
   COUNT=$(find ~/mail/$m/inbox/new -type f 2> /dev/null | wc -l)
   if [ $COUNT -gt 0 ];
   then
@@ -19,3 +20,4 @@ else
  echo "$STATUS"
   exit 33
 fi
+''
