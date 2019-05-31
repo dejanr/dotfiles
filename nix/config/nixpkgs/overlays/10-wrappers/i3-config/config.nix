@@ -1,5 +1,10 @@
 { colors, fonts }:
 ''
+smart_gaps on
+smart_borders on
+gaps inner 2
+gaps outer 1
+
 smart_borders on
 
 # Constants
