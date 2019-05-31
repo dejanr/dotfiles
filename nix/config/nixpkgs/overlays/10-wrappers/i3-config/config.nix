@@ -63,7 +63,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+f fullscreen toggle
 bindsym $mod+space focus mode_toggle
 
-bindsym $mod+r mode "  "
+bindsym $mod+Shift+r mode "  "
 mode "  " {
   bindsym h resize shrink width 10 px or 10 ppt
   bindsym j resize grow height 10 px or 10 ppt
@@ -214,11 +214,10 @@ bar {
 bindsym $mod+t split toggle
 
 # applications
-bindsym $mod+n exec pcmanfm
-bindsym $mod+m exec st -e neomutt
-bindsym $mod+s exec slack
+bindsym $mod+w exec --no-startup-id firefox
+bindsym $mod+r exec --no-startup-id st -e ranger
+bindsym $mod+m exec --no-startup-id st -e neomutt
 bindsym $mod+Shift+b exec --no-startup-id corebird
-bindsym $mod+Shift+r exec --no-startup-id ~/.bin/remind-me
 
 
 # Windows switching
