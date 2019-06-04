@@ -132,6 +132,16 @@ in {
     serviceConfig.ExecStart = "${lib.getBin pkgs.dunst}/bin/dunst";
   };
 
+  systemd.user.services."grobi" = {
+    enable = true;
+    description = "grobi display auto config service";
+    wantedBy = [ "default.target" ];
+    serviceConfig.Restart = "always";
+    serviceConfig.RestartSec = 2;
+    serviceConfig.Environment = "DISPLAY=:0";
+    serviceConfig.ExecStart = "${lib.getBin pkgs.grobi}/bin/grobi watch -v";
+  };
+
   systemd.user.services."mutt-sync" = {
     enable = true;
     description = "Sync all mailboxes";
@@ -148,5 +158,5 @@ in {
       OnStartupSec="10s";
       OnUnitActiveSec ="5min";
     };
- };
+  };
 }
