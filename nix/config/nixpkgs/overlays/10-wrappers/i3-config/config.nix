@@ -96,8 +96,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+x restart
 
 # Program-Related Bindings
-bindsym $mod+Return exec st
-bindsym $mod+Shift+Return exec i3-msg split toggle && st && i3-msg split toggle
+bindsym $mod+Return exec termite
+bindsym $mod+Shift+Return exec i3-msg split toggle && termite && i3-msg split toggle
 bindsym $mod+d exec rofi -show run
 # bindsym --release Print exec take-screenshot
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
@@ -220,8 +220,8 @@ bindsym $mod+t split toggle
 
 # applications
 bindsym $mod+w exec --no-startup-id firefox
-bindsym $mod+r exec --no-startup-id st -e ranger
-bindsym $mod+m exec --no-startup-id st -e neomutt
+bindsym $mod+r exec --no-startup-id termite -e ranger
+bindsym $mod+m exec --no-startup-id termite -e neomutt
 bindsym $mod+Shift+b exec --no-startup-id corebird
 
 
