@@ -129,25 +129,28 @@ in {
     serviceConfig.Restart = "always";
     serviceConfig.RestartSec = 2;
     serviceConfig.Environment = "DISPLAY=:0";
-    serviceConfig.ExecStart = "${lib.getBin pkgs.dunst}/bin/dunst";
+    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
   };
 
   systemd.user.services."grobi" = {
     enable = true;
     description = "grobi display auto config service";
     wantedBy = [ "default.target" ];
+    path = with pkgs; [
+      xorg.xrandr
+      grobi
+    ];
     serviceConfig.Restart = "always";
     serviceConfig.RestartSec = 2;
-    serviceConfig.Environment = "DISPLAY=:0";
-    serviceConfig.ExecStart = "${lib.getBin pkgs.grobi}/bin/grobi watch -v";
+    serviceConfig.ExecStart = "${pkgs.grobi}/bin/grobi watch -v";
   };
 
   systemd.user.services."mutt-sync" = {
     enable = true;
     description = "Sync all mailboxes";
     wantedBy = [ "default.target" ];
-    path = [ pkgs.isync pkgs.bash pkgs.libnotify pkgs.pass ];
-    script = "${lib.getBin pkgs.mutt-sync}/bin/mutt-sync";
+    path = with pkgs; [ mutt-sync isync bash libnotify pass ];
+    script = "${pkgs.mutt-sync}/bin/mutt-sync";
     serviceConfig.Type = "oneshot";
   };
 
