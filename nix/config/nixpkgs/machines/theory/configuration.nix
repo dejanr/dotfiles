@@ -28,25 +28,9 @@ in {
   services = {
     xserver = {
       enable = true;
-      modules = [ pkgs.xf86_input_mtrack ];
       videoDrivers = [ "intel" ];
 
-      synaptics.enable = false;
-
-      libinput = {
-        enable = true;
-        disableWhileTyping = true;
-        scrollMethod = "twofinger";
-        tapping = true;
-      };
-
-      extraConfig = ''
-        Section "InputClass"
-        Identifier     "Enable libinput for TrackPoint"
-        MatchIsPointer "on"
-        Driver         "libinput"
-        EndSection
-      '';
+      synaptics.enable = true;
 
       deviceSection = ''
         Driver "intel"
