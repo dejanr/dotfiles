@@ -30,7 +30,24 @@ in {
       enable = true;
       videoDrivers = [ "intel" ];
 
-      synaptics.enable = true;
+      synaptics = {
+        enable = true;
+        palmDetect = true;
+        twoFingerScroll = true;
+        vertTwoFingerScroll = true;
+        horizTwoFingerScroll = true;
+        buttonsMap = [ 1 3 2 ];
+        fingersMap = [ 1 3 2 ];
+        tapButtons = false;
+
+        additionalOptions = ''
+          Option "VertScrollDelta" "-100"
+          Option "HorizScrollDelta" "-100"
+          Option "MinSpeed" "0.7"
+          Option "MaxSpeed" "1.4"
+          Option "AccelFactor" "0.1"
+        '';
+      };
 
       deviceSection = ''
         Driver "intel"
