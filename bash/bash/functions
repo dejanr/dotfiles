@@ -91,5 +91,6 @@ function load-time() {
 }
 
 function lb() {
+    mkdir -p ~/documents/logbook
     vim -c 'cd %:p:h' ~/documents/logbook/$(date '+%Y-%m-%d').org
 }
