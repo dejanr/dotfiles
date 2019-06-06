@@ -221,6 +221,7 @@ bindsym $mod+t split toggle
 # applications
 bindsym $mod+w exec --no-startup-id firefox
 bindsym $mod+r exec --no-startup-id st -e ranger
+bindsym $mod+n exec --no-startup-id st -e newsboat
 bindsym $mod+m exec --no-startup-id st -e neomutt
 bindsym $mod+Shift+b exec --no-startup-id corebird
 
