@@ -44,6 +44,7 @@
     surf # suckless browser
     sxiv # image viewer
     termite # A simple VTE-based terminal
+    termite.terminfo # terminfo for termite
     tesseract # OCR engine
     thunderbird # email client
     tigervnc # Fork of tightVNC, made in cooperation with VirtualGL

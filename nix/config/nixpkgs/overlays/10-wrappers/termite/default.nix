@@ -14,8 +14,10 @@ in stdenv.mkDerivation {
   buildInputs = [ makeWrapper ];
   propagatedBuildInputs = [ termite ];
   phases = [ "buildPhase" ];
+  pathsToLink = [ "/share" "/nix-support" ];
   buildCommand = ''
     mkdir -p $out/bin
     makeWrapper ${termite}/${execPath}/termite $out/bin/termite --add-flags "--config ${configFile}"
   '';
+  passthru.terminfo = termite.terminfo;
 }
