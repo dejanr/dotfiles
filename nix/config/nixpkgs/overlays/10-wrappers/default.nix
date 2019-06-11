@@ -52,4 +52,8 @@ makeWrapper perl pkgs stdenv which;
     inherit (self) colors;
     inherit (super) stdenv makeWrapper writeTextFile writeScript i3blocks;
   };
+
+  newsboat = import ./newsboat {
+    inherit (super) stdenv makeWrapper writeTextFile newsboat;
+  };
 }
