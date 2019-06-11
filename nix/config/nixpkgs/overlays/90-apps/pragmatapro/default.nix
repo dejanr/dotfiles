@@ -1,25 +1,24 @@
 { stdenv, requireFile, unzip }:
 
-# To use this drv do add PragmataPro.zip to the store:
-#   nix-store --add-fixed sha256 PragmataPro0.827.zip
-#   nix-prefetch-url --type sha256 file:///home/dejanr/downloads/PragmataPro0.827.zip
-
 let
   version = "0.827";
-  installPath = "share/fonts/truetype/";
 in stdenv.mkDerivation rec {
   name = "pragmatapro-${version}";
   src = requireFile rec {
     name = "PragmataPro${version}.zip";
     url = "file://path/to/${name}";
     sha256 = "0xkr0ypqf1zxdi9ils6zhn6scw9aj1v5nhmm2wr71ga82ny3zhch";
+    message = ''
+      ${name} font not found in nix store, to add it run:
+
+      $ nix-store --add-fixed sha256 ~/downloads/${name}'';
   };
   buildInputs = [ unzip ];
   phases = [ "unpackPhase" "installPhase" ];
   pathsToLink = [ "/share/fonts/truetype/" ];
   sourceRoot = ".";
   installPhase = ''
-    install_path=$out/${installPath}
+    install_path=$out/share/fonts/truetype
     mkdir -p $install_path
     find -name "PragmataPro*.ttf" -exec cp {} $install_path \;
   '';
