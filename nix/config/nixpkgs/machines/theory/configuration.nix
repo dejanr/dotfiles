@@ -36,8 +36,7 @@ in {
       libinput = {
         enable = true;
         disableWhileTyping = true;
-        scrollMethod = "twofinger";
-        tapping = true;
+        naturalScrolling = true;
       };
 
       extraConfig = ''
