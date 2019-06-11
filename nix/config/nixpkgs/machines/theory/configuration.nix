@@ -28,26 +28,25 @@ in {
   services = {
     xserver = {
       enable = true;
+      modules = [ pkgs.xf86_input_mtrack ];
       videoDrivers = [ "intel" ];
 
-      synaptics = {
-        enable = true;
-        palmDetect = true;
-        twoFingerScroll = true;
-        vertTwoFingerScroll = true;
-        horizTwoFingerScroll = true;
-        buttonsMap = [ 1 3 2 ];
-        fingersMap = [ 1 3 2 ];
-        tapButtons = false;
+      synaptics.enable = false;
 
-        additionalOptions = ''
-          Option "VertScrollDelta" "-100"
-          Option "HorizScrollDelta" "-100"
-          Option "MinSpeed" "0.7"
-          Option "MaxSpeed" "1.4"
-          Option "AccelFactor" "0.1"
-        '';
+      libinput = {
+        enable = true;
+        disableWhileTyping = true;
+        scrollMethod = "twofinger";
+        tapping = true;
       };
+
+      extraConfig = ''
+        Section "InputClass"
+        Identifier     "Enable libinput for TrackPoint"
+        MatchIsPointer "on"
+        Driver         "libinput"
+        EndSection
+      '';
 
       deviceSection = ''
         Driver "intel"
