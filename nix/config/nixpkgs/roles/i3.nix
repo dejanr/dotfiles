@@ -126,18 +126,18 @@ in {
     serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
   };
 
-  systemd.user.services."grobi" = {
-    enable = true;
-    description = "grobi display auto config service";
-    wantedBy = [ "default.target" ];
-    path = with pkgs; [
-      xorg.xrandr
-      grobi
-    ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.grobi}/bin/grobi watch -v";
-  };
+  #systemd.user.services."grobi" = {
+  #  enable = true;
+  #  description = "grobi display auto config service";
+  #  wantedBy = [ "default.target" ];
+  #  path = with pkgs; [
+  #    xorg.xrandr
+  #    grobi
+  #  ];
+  #  serviceConfig.Restart = "always";
+  #  serviceConfig.RestartSec = 2;
+  #  serviceConfig.ExecStart = "${pkgs.grobi}/bin/grobi watch -v";
+  #};
 
   systemd.user.services."mutt-sync" = {
     enable = true;
