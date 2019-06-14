@@ -81,8 +81,7 @@ bindsym $mod+Escape mode "$mode_system"
 set $mode_system System:  (l)ock   log(o)ut   (s)uspend   (r)eboot   (p)oweroff
 mode "$mode_system" {
     bindsym l exec wm-lock, mode "default"
-    bindsym o exec ~/.bin/i3exit logout, mode "default"
-    bindsym e exec i3-msg exit, mode "default"
+    bindsym o exec i3-msg exit, mode "default"
     bindsym s exec systemctl suspend, mode "default"
     bindsym r exec systemctl reboot, mode "default"
     bindsym p exec systemctl poweroff, mode "default"
