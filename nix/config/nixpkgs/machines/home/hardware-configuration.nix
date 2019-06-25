@@ -9,14 +9,19 @@
     ];
 
   boot = {
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
     kernelParams = [
+      "quiet" "loglevel=3" "vga=current" # quiet boot
     ];
     blacklistedKernelModules = [
       "sp5100-tco"
     ];
+
+    extraModprobeConfig = ''
+      options k10temp force=1
+    '';
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = "1048576";
