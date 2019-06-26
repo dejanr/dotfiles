@@ -1,7 +1,10 @@
-{ writeScript, colors }:
+{ writeScript, colors, xorg }:
 
 let
   audio = writeScript "audio" (import ./scripts/audio.nix { });
+  brightness = writeScript "brightness" (import ./scripts/brightness.nix {
+    inherit xorg;
+  });
   mail = writeScript "mail" (import ./scripts/mail.nix { });
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   microphone = writeScript "audio" (import ./scripts/microphone.nix { });
@@ -44,6 +47,15 @@ command=${microphone}
 interval=5
 label=
 color=${colors.foreground}
+
+[seperator]
+
+[brightness]
+command=${brightness}
+color=${colors.foreground}
+interval=5
+label=
+interval=5
 
 [seperator]
 

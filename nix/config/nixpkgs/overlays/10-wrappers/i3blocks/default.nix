@@ -1,8 +1,8 @@
-{ stdenv, makeWrapper, writeTextFile, writeScript, colors, i3blocks }:
+{ stdenv, makeWrapper, writeTextFile, writeScript, colors, i3blocks, xorg }:
 
 let
   config = import ./config.nix {
-    inherit writeScript colors;
+    inherit writeScript colors xorg;
   };
   execPath = "bin";
   configFile = writeTextFile {
