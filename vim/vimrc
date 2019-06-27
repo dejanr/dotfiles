@@ -15,8 +15,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   " Fugitive Conflict Resolution
   nnoremap <leader>gd :Gvdiff<CR>
-  nnoremap gdh :diffget //2<CR>
-  nnoremap gdl :diffget //3<CR>
+  nnoremap gdj :diffget //2<CR>
+  nnoremap gdk :diffget //3<CR>
 
   Plug 'gregsexton/gitv'
 
