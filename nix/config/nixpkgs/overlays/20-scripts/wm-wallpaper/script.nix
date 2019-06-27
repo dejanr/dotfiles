@@ -1,3 +1,3 @@
 { pkgs } : ''
-  ${pkgs.feh}/bin/feh --bg-fill ~/.dotfiles/wallpapers/bluemist.jpg &
+  ${pkgs.feh}/bin/feh --bg-fill /home/dejanr/.dotfiles/wallpapers/bluemist.jpg &
 ''

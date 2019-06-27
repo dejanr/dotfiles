@@ -105,7 +105,7 @@ in {
 
       sessionCommands = with pkgs; lib.mkAfter
       ''
-        ${pkgs.feh}/bin/feh --bg-fill /etc/nixos/wallpapers/bluemist.jpg &
+        ${pkgs.wm-wallpaper}/bin/wm-wallpaper
         ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
         ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources
       '';
@@ -114,6 +114,16 @@ in {
 		xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
 
+  services.compton = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
+    extraOptions = ''
+      unredir-if-possible = true;
+      paint-on-overlay = true;
+      dbe = true;
+    '';
+  };
 
   # Services for i3
   systemd.user.services."dunst" = {
