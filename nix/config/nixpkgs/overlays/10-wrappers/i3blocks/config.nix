@@ -1,4 +1,4 @@
-{ writeScript, colors, xorg }:
+{ writeScript, colors, xorg, libnotify, maim, xclip }:
 
 let
   audio = writeScript "audio" (import ./scripts/audio.nix { });
@@ -9,12 +9,20 @@ let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   microphone = writeScript "audio" (import ./scripts/microphone.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
-
+  screenshot = writeScript "screenshot" (import ./scripts/screenshot.nix { inherit libnotify maim xclip; });
 in ''
 full_text=|
 align=center
 separator=false
 separator_block_width=5
+
+[seperator]
+
+[screenshot]
+interval=5
+command=${screenshot}
+label=
+color=${colors.foreground}
 
 [seperator]
 

@@ -50,7 +50,7 @@ makeWrapper perl pkgs stdenv which;
 
   i3blocks = import ./i3blocks {
     inherit (self) colors;
-    inherit (super) stdenv makeWrapper writeTextFile writeScript i3blocks xorg;
+    inherit (super) stdenv makeWrapper writeTextFile writeScript i3blocks xorg libnotify maim xclip;
   };
 
   newsboat = import ./newsboat {
