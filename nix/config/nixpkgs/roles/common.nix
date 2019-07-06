@@ -184,4 +184,9 @@ in
     item = "nofile";
     value = "4096";
   }];
+
+  powerManagement.resumeCommands = ''
+    sudo systemctl restart fancontrol
+
+  '';
 }
