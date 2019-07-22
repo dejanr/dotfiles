@@ -20,7 +20,6 @@
     keepassx2 # password managment
     keychain # Keychain management tool
     libnotify # send notifications to a notification daemon
-    libreoffice # Comprehensive, professional-quality productivity suite
     lm_sensors # Tools for reading hardware sensors
     magic-wormhole # Securely transfer data between computers
     mutt # A small but very powerful text-based mail client
