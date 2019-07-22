@@ -215,7 +215,7 @@ bar {
 }
 
 # toggle split orientation
-bindsym $mod+t split toggle
+bindsym $mod+s split toggle
 
 # applications
 bindsym $mod+w exec --no-startup-id firefox

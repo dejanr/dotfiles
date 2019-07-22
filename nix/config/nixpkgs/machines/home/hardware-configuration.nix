@@ -31,7 +31,7 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
 
-    supportedFilesystems = [ "zfs" ];
+    supportedFilesystems = [ "zfs" "exfat" ];
     zfs.enableUnstable = true;
     cleanTmpDir = true;
   };
