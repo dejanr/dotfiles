@@ -21,30 +21,40 @@ Master :ranisavljevic-remote:"Inbox"
 Slave :local:ranisavljevic/inbox
 Create Both
 SyncState *
+Sync All
+Expunge Master
 
 Channel sync-ranisavljevic-sent
 Master :ranisavljevic-remote:"[Gmail]/Sent Mail"
 Slave :local:ranisavljevic/sent
 Create Both
 SyncState *
+Sync All
+Expunge Master
 
 Channel sync-ranisavljevic-drafts
 Master :ranisavljevic-remote:"[Gmail]/Drafts"
 Slave :local:ranisavljevic/drafts
 Create Both
 SyncState *
+Sync All
+Expunge Master
 
 Channel sync-ranisavljevic-trash
 Master :ranisavljevic-remote:"[Gmail]/Trash"
 Slave :local:ranisavljevic/trash
 Create Both
 SyncState *
+Sync All
+Expunge Master
 
 Channel sync-ranisavljevic-all
 Master :ranisavljevic-remote:"[Gmail]/All Mail"
 Slave :local:ranisavljevic/all
 Create Both
 SyncState *
+Sync All
+Expunge Master
 
 Group sync-ranisavljevic
 Channel sync-ranisavljevic-inbox
