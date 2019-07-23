@@ -1,51 +1,41 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   username = "dejanr";
-  unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
-in
-{
-  nix.nixPath = [
-    "nixos=channel:nixos"
-    "nixos-hardware=https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
-    "nixpkgs=channel:nixpkgs-unstable"
-    "nixos-config=/etc/nixos/configuration.nix"
-    "nixpkgs-overlays=/home/${username}/.config/nixpkgs/overlays"
-  ];
-
+  githubKeys = builtins.fetchurl {
+    name = "github-ssh-keys";
+    url = "https://api.github.com/users/${username}/keys";
+    sha256 = "1z8kphz22dhr06kfdwbkl5904mbvmp2a6c0jr76s9d3b6bcif0hq";
+  };
+in {
   nix.extraOptions = ''
     gc-keep-outputs = false
     gc-keep-derivations = false
     auto-optimise-store = true
   '';
-
   nix.binaryCaches = [ https://cache.nixos.org ];
   nix.trustedUsers = [ "${username}" "root" ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowBroken = true;
-    allowUnsupportedSystem = true;
-    android_sdk.accept_license = true;
-
-    packageOverrides = pkgs: {
-      unstable = import unstableTarball {
-        config = config.nixpkgs.config;
-      };
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowBroken = true;
+      allowUnsupportedSystem = true;
+      android_sdk.accept_license = true;
     };
-  };
 
-  nixpkgs.overlays =
-    let
-      paths = [
-        ../overlays
-      ];
-    in with builtins;
-      concatMap (path:
-        (map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                    pathExists (path + ("/" + n + "/default.nix")))
-                    (attrNames (readDir path))))) paths;
+    overlays =
+      let
+        paths = [
+          ../overlays
+        ];
+      in with builtins;
+        concatMap (path:
+          (map (n: import (path + ("/" + n)))
+            (filter (n: match ".*\\.nix" n != null ||
+                      pathExists (path + ("/" + n + "/default.nix")))
+                      (attrNames (readDir path))))) paths;
+  };
 
   time.timeZone = "Europe/Berlin";
 
@@ -72,8 +62,8 @@ in
     haskellPackages.gitHUD # command-line HUD for git repos
     linuxPackages.cpupower # Tool to examine and tune power saving features
     wget # Tool for retrieving files
-    unstable.neovim
-    unstable.vimHugeX
+    neovim
+    vimHugeX
     rsync #	A fast incremental file transfer utility
     unzip # An extraction utility for archives compressed in .zip format
     zip # Compressor/archiver for creating and modifying zipfiles
@@ -103,9 +93,9 @@ in
 
   users = {
     mutableUsers = true;
-    extraUsers.dejanr = {
+    users."${username}" = {
       description = "Dejan Ranisavljevic";
-      name = "dejanr";
+      name = username;
       group = "users";
       extraGroups = [
 				"lp" "kmem"
@@ -122,12 +112,16 @@ in
         "adbusers"
 			];
       shell = "/run/current-system/sw/bin/bash";
-      home = "/home/dejanr";
+      home = "/home/${username}";
       createHome = true;
+
+      openssh.authorizedKeys.keys = with builtins; (
+        map (x: x.key) ( fromJSON (readFile githubKeys))
+      );
     };
   };
 
-  services.openssh.authorizedKeysFiles = ["/home/dejanr/.ssh/authorized_keys" "/etc/nixos/authorized_keys"];
+  services.openssh.authorizedKeysFiles = ["/home/${username}/.ssh/authorized_keys" "/etc/nixos/authorized_keys"];
 
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;

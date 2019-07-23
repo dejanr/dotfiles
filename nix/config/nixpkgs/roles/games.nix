@@ -4,9 +4,9 @@
   environment.systemPackages = with pkgs; [
     steam
     steam-run
-    unstable.minecraft
-    unstable.wineStaging
-    unstable.winetricks
+    minecraft
+    wineStaging
+    winetricks
   ];
 
   services = {
