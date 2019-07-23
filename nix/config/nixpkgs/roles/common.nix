@@ -129,16 +129,16 @@ in {
     startAgent = true;
     extraConfig = ''
       Host pocket
-        HostName 192.168.1.10
+        HostName 10.147.17.10
         User dejanr
       Host home
-        HostName 192.168.1.20
+        HostName 10.147.17.20
         User dejanr
       Host homelab
-        HostName 192.168.1.30
+        HostName 10.147.17.30
         User dejanr
       Host theory
-        HostName 192.168.1.40
+        HostName 10.147.17.40
         User dejanr
     '';
   };
