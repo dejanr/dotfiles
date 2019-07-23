@@ -116,12 +116,12 @@ in {
       createHome = true;
 
       openssh.authorizedKeys.keys = with builtins; (
-        map (x: x.key) ( fromJSON (readFile githubKeys))
+        map (x: x.key) (fromJSON (readFile githubKeys))
       );
     };
   };
 
-  services.openssh.authorizedKeysFiles = ["/home/${username}/.ssh/authorized_keys" "/etc/nixos/authorized_keys"];
+  services.openssh.authorizedKeysFiles = ["/home/${username}/.ssh/authorized_keys" ];
 
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;
@@ -169,9 +169,6 @@ in {
   security.sudo.wheelNeedsPassword = false;
   security.polkit.enable = true;
   security.rtkit.enable = true;
-
-  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
-
   security.pam.loginLimits = [{
     domain = "*";
     type = "soft";
@@ -179,8 +176,5 @@ in {
     value = "4096";
   }];
 
-  powerManagement.resumeCommands = ''
-    sudo systemctl restart fancontrol
-
-  '';
+  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
 }
