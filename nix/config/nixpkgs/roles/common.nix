@@ -125,7 +125,23 @@ in {
 
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;
-  programs.ssh.startAgent = true;
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      Host pocket
+        HostName 192.168.1.10
+        User dejanr
+      Host home
+        HostName 192.168.1.20
+        User dejanr
+      Host homelab
+        HostName 192.168.1.30
+        User dejanr
+      Host theory
+        HostName 192.168.1.40
+        User dejanr
+    '';
+  };
   programs.bash.enableCompletion = true;
 
   networking = {
