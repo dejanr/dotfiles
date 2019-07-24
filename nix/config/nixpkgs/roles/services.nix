@@ -61,5 +61,8 @@
       enable = true;
       setSendmail = true;
     };
+
+    zerotierone.enable = true;
+    zerotierone.joinNetworks = [ "17d709436c300cfe" ];
   };
 }

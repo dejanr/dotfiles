@@ -69,9 +69,6 @@ in {
         DEVICES_TO_DISABLE_ON_STARTUP=""
       '';
     };
-
-    zerotierone.enable = true;
-    zerotierone.joinNetworks = [ "17d709436c300cfe" ];
   };
 
   environment = {
