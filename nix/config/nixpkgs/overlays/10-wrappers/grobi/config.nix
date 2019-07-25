@@ -71,4 +71,15 @@ rules:
     configure_single: eDP1
     execute_after:
       - wm-wallpaper
+
+  - name: office-luis
+    outputs_connected:
+      - eDP1-AUO-9014-0
+      - DP1-GSM-23313-443931-LG
+    configure_row:
+      - eDP1
+      - DP1
+    execute_after:
+      - xrandr --output DP1 --mode 3840x2160 --pos 1920x0 --output eDP1 --off
+      - wm-wallpaper
 ''
