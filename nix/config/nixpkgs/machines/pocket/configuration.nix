@@ -47,9 +47,6 @@ in {
       extraConfig = ''
       '';
     };
-
-    zerotierone.enable = true;
-    zerotierone.joinNetworks = [ "17d709436c300cfe" ];
   };
 
   environment = {

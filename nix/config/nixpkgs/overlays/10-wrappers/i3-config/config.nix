@@ -218,7 +218,7 @@ bar {
 bindsym $mod+s split toggle
 
 # applications
-bindsym $mod+w exec --no-startup-id firefox
+bindsym $mod+w exec --no-startup-id google-chrome-stable
 bindsym $mod+r exec --no-startup-id termite -e ranger
 bindsym $mod+n exec --no-startup-id termite -e newsboat
 bindsym $mod+m exec --no-startup-id termite -e neomutt
