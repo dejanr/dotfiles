@@ -14,6 +14,7 @@ in {
     ../../roles/i3.nix
     ../../roles/development.nix
     ../../roles/services.nix
+    ../../roles/games.nix
     ../../roles/electronics.nix
     ../../roles/email-client.nix
    ];
