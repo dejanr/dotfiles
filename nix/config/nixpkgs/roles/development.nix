@@ -73,6 +73,7 @@
     nox # tools to make nix nicer
     obs-studio # video recording and live streaming
     openssl
+    sshuttle # Transparent proxy server that works as a poor man's VPN
     patchelf
     psmisc
     python
