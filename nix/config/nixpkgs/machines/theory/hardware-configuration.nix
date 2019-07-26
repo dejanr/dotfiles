@@ -19,15 +19,11 @@
       "acpi_call"
       "kvm-intel"
       "i915"
+      "modesetting"
     ];
 
     blacklistedKernelModules = [
       "fbcon"
-      "bbswitch"
-      "nvidia"
-      "nvidia-drm"
-      "nvidia-uvm"
-      "nvidia-modesetting"
       "nouveau"
     ];
 
@@ -84,6 +80,7 @@
 
     nvidiaOptimus.disable = true;
 
+
     opengl = {
       driSupport = true;
       driSupport32Bit = true;
@@ -91,6 +88,10 @@
         vaapiIntel
         vaapiVdpau
         libvdpau-va-gl
+        linuxPackages.nvidia_x11.out
+      ];
+      extraPackages32 = with pkgs; [
+        linuxPackages.nvidia_x11.lib32
       ];
     };
 

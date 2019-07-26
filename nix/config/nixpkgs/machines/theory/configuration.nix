@@ -74,7 +74,7 @@ in {
         USB_AUTOSUSPEND=0
         CONTROL_USB_AUTOSUSPEND="off"
         DEVICES_TO_DISABLE_ON_STARTUP=""
-        RUNTIME_PM_DRIVER_BLACKLIST="nouveau nvidia"
+        RUNTIME_PM_DRIVER_BLACKLIST="nouveau"
       '';
     };
   };
