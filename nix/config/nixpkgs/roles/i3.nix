@@ -11,11 +11,6 @@ let
       name = "Arc";
     };
   };
-  lightDMNvidiaSwitch = pkgs.writeScript "lightdm-nvidia-switch" ''
-    #!/usr/bin/env bash
-    xrandr --setprovideroutputsource modesetting NVIDIA-0
-    xrandr --auto
-  '';
 in {
   imports = [
     gtk2-theme
@@ -105,11 +100,6 @@ in {
           window-color = "#245361"
           xft-dpi=144
           dpi=144
-        '';
-
-        extraConfig = ''
-          [Seat:*]
-          display-setup-script=${lightDMNvidiaSwitch}
         '';
       };
 
