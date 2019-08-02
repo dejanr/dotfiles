@@ -56,6 +56,7 @@
     llvm
     lshw
     lsof
+    jq # A lightweight and flexible command-line JSON processor
     mercurial
     mosh # mobile shell, ssh replacement
     mr # multiple repository managment
