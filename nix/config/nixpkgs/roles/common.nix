@@ -166,6 +166,7 @@ in {
         5353
         4445 # minecraft discovery
       ];
+      logRefusedConnections = false;
       allowedUDPPortRanges = [];
       connectionTrackingModules = [];
     };
