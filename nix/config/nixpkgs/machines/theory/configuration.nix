@@ -37,6 +37,7 @@ in {
         enable = true;
         disableWhileTyping = true;
         naturalScrolling = true;
+        buttonMapping = "1 1 1";
       };
 
       extraConfig = ''

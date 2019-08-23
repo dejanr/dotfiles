@@ -118,11 +118,11 @@ in {
     enable = true;
     backend = "glx";
     vSync = true;
-    extraOptions = ''
+    settings = {
       unredir-if-possible = true;
       paint-on-overlay = true;
       dbe = true;
-    '';
+    };
   };
 
   # Services for i3

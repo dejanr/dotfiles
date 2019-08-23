@@ -53,6 +53,7 @@
       efiSupport = true;
       extraInitrd = "/boot/initrd.keys.gz";
       enableCryptodisk = true;
+      copyKernels = true;
       zfsSupport = true;
         efiInstallAsRemovable = true;
       };
