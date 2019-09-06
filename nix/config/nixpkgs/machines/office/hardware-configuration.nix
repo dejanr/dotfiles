@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Asrock A300
+# ASRock A300
 # Ryzen 2400G
 
 {
@@ -57,24 +57,27 @@
     enableRedistributableFirmware = true;
   };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D951-D4DC";
-      fsType = "vfat";
-    };
-
   fileSystems."/" =
-    { device = "zpool/root/nixos";
+    { device = "zroot/root";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "zpool/home";
+    { device = "zroot/root/home";
       fsType = "zfs";
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/0ea6483b-2e05-4992-9612-4265246dc693"; }
-    ];
+  fileSystems."/nix" =
+    { device = "zroot/root/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/0011-8A19";
+      fsType = "vfat";
+    };
+
+  swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 8;
 }

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  hostName = "home";
+  hostName = "office";
   fancontrol = import ./fancontrol.nix {};
 in {
   imports =
@@ -14,9 +14,9 @@ in {
     ../../roles/i3.nix
     ../../roles/development.nix
     ../../roles/services.nix
-    ../../roles/games.nix
-    ../../roles/electronics.nix
-    ../../roles/email-client.nix
+    #../../roles/games.nix
+    #../../roles/electronics.nix
+    #../../roles/email-client.nix
    ];
 
   nix.useSandbox = false;
