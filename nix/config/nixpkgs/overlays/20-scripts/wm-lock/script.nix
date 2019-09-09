@@ -1,6 +1,6 @@
-{} : ''
+{ i3lock-pixeled } : ''
 # Command to start the locker (should not fork)
-locker="i3lock-fancy -p -g"
+locker="${i3lock-pixeled}/bin/i3lock-pixeled"
 
 # Delay in seconds. Note that by default systemd-logind allows a maximum sleep
 # delay of 5 seconds.
