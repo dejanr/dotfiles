@@ -24,7 +24,7 @@
     mu
     ripmime # Attachment extractor for MIME messages
     w3m # A text-mode web browser
-    vdirsyncer # Synchronize calendars and contacts
+    #vdirsyncer # Synchronize calendars and contacts
     urlscan # Mutt and terminal url selector (similar to urlview)
     pass # Stores, retrieves, generates, and synchronizes passwords securely
     qtpass # gui for pass
