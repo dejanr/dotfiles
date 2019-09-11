@@ -2,13 +2,13 @@
 
 {
   environment.systemPackages = with pkgs; [
-    i3lock-fancy                 # lock session
+    wm-lock
     xautolock                    # suckless xautolock
     xss-lock                     # screensaver
   ];
 
   services.xserver.displayManager.sessionCommands = with pkgs; lib.mkAfter
   ''
-    ${pkgs.xautolock}/bin/xautolock -time 15 -locker ~/.bin/lock &
+    ${pkgs.xautolock}/bin/xautolock -time 15 -locker ${wm-lock}/bin/wm-lock &
   '';
 }
