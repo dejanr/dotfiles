@@ -7,6 +7,7 @@ in {
   imports =
     [
       ./hardware-configuration.nix
+      ./throttled.nix
       ../../roles/common.nix
       ../../roles/desktop.nix
       ../../roles/i3.nix
