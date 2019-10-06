@@ -2,11 +2,19 @@
 ''
 rules:
   - name: home
-
     outputs_connected:
       - HDMI2-GSM-30454-219122
     configure_single: HDMI2
     execute_after:
+      - wm-wallpaper
+
+  - name: home-desktop
+    outputs_connected:
+      - DisplayPort-0-GSM-30436-219122-LG
+      - HDMI-A-0-DEL-41138-927026508-DELL
+    configure_single: HDMI2
+    execute_after:
+      - xrandr --output HDMI-A-0 --pos 0x0 --rotate right --output DisplayPort-0 --auto --pos 1080x0
       - wm-wallpaper
 
   - name: office
