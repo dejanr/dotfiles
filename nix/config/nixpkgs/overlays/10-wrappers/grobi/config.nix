@@ -11,13 +11,12 @@ rules:
 
   - name: office
     outputs_connected:
-      - eDP1-AUO-9014-0
-      - HDMI2-HPN-13411-16843009
+      - HDMI2-GSM-30484-304405-LG
     configure_row:
-      - eDP1
       - DP1
     execute_after:
-      - xrandr --output HDMI2 --mode 1920x1200 --scale 1.5x1.5 --pos 0x0 --output eDP1 --pos 0x1920
+      - xrandr --dpi 123 --output eDP1 --off --output HDMI2 --mode 2560x1080 --rate 60 --pos 0x0 --primary
+      - echo "Xft.dpi: 123" | xrdb -merge
       - wm-wallpaper
 
   - name: office-mirror
@@ -70,16 +69,5 @@ rules:
   - name: Fallback
     configure_single: eDP1
     execute_after:
-      - wm-wallpaper
-
-  - name: office-luis
-    outputs_connected:
-      - eDP1-AUO-9014-0
-      - DP1-GSM-23313-443931-LG
-    configure_row:
-      - eDP1
-      - DP1
-    execute_after:
-      - xrandr --output DP1 --mode 3840x2160 --pos 1920x0 --output eDP1 --off
       - wm-wallpaper
 ''
