@@ -2,11 +2,21 @@
 ''
 rules:
   - name: home
-
     outputs_connected:
       - HDMI2-GSM-30454-219122
     configure_single: HDMI2
     execute_after:
+      - wm-wallpaper
+
+  - name: home-desktop
+    outputs_connected:
+      - DisplayPort-0-GSM-30454-219122
+      - HDMI-A-0-DEL-41138-927026508
+    configure_row:
+      - DisplayPort-0
+      - HDMI-A-0
+    execute_after:
+      - xrandr --output HDMI-A-0 --pos 0x0 --rotate right --output DisplayPort-0 --auto --pos 1080x0
       - wm-wallpaper
 
   - name: office
@@ -42,10 +52,6 @@ rules:
     outputs_connected:
       - eDP1-AUO-9014-0
       - DP1-ACR-1040-1361092661
-
-    configure_row:
-      - eDP1
-      - DP1
     configure_row:
       - eDP1
       - DP1
