@@ -97,5 +97,5 @@ in {
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "zfs";
 
-  system.stateVersion = "19.03";
+  system.stateVersion = "19.09";
 }
