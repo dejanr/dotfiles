@@ -515,7 +515,7 @@ let g:VimuxOrientation = "h"
 let g:VimuxUseNearestPane = 1
 
 nmap t :call VimuxRunLastCommand()<CR>
-nmap T :call VimuxRunCommand("run-last-history-in-vimux")<CR>
+nmap T :call VimuxRunCommand(" run-last-history-in-vimux")<CR>
 nmap <leader>s :w<CR>
 
 set ttymouse=xterm2
