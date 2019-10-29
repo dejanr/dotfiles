@@ -57,26 +57,17 @@
   };
 
   fileSystems."/" =
-    { device = "zroot/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/home" =
-    { device = "zroot/root/home";
-      fsType = "zfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "zroot/root/nix";
+    { device = "zpool/root";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0011-8A19";
+    { device = "/dev/disk/by-uuid/33F0-21B7";
       fsType = "vfat";
     };
 
   swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 8;
+  i18n.consoleFont = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
 }
