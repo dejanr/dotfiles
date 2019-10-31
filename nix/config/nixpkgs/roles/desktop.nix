@@ -6,7 +6,7 @@
     arandr # manage dispays
     axel #  Console downloading program with some features for parallel connections for faster downloading
     chromium # An open source web browser from Google
-    corebird # twitter client
+    #corebird # twitter client
     evince # gnome document viewer
     gimp # Image Manipulation Program
     gnupg # encryption
