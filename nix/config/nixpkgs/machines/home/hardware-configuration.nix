@@ -35,7 +35,6 @@
     cleanTmpDir = true;
   };
 
-
   hardware = {
     bluetooth.enable = true;
 
