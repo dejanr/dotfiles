@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  hostName = "home";
+  hostName = "office";
   fancontrol = import ./fancontrol.nix {};
 in {
   imports =
