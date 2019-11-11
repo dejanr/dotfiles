@@ -35,6 +35,10 @@
     cleanTmpDir = true;
   };
 
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
   hardware = {
     bluetooth.enable = true;
 
@@ -46,6 +50,12 @@
       enable =true;
       driSupport = true;
       driSupport32Bit = true;
+      extraPackages = with pkgs; [
+        vaapiIntel
+        vaapiVdpau
+        libvdpau-va-gl
+        intel-media-driver # only available starting nixos-19.03 or the current nixos-unstable
+      ];
     };
 
     firmware = [
