@@ -10,12 +10,14 @@ sleep_delay=1
 pre_lock() {
     #mpc pause
     xset dpms 0 0 10
+    killall -SIGUSR1 dunst # pause dunst
     return
 }
 
 # Run after the locker exits
 post_lock() {
     xset -dpms
+    killall -SIGUSR2 dunst # resume
     return
 }
 
