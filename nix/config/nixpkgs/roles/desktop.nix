@@ -7,6 +7,7 @@
     axel #  Console downloading program with some features for parallel connections for faster downloading
     chromium # An open source web browser from Google
     #corebird # twitter client
+    imv # A command line image viewer for tiling window managers
     evince # gnome document viewer
     gimp # Image Manipulation Program
     gnupg # encryption
