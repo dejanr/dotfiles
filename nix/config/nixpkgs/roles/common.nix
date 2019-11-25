@@ -63,7 +63,8 @@ in {
     linuxPackages.cpupower # Tool to examine and tune power saving features
     wget # Tool for retrieving files
     neovim
-    vimHugeX
+    vimHugeX # vim with clipboard and x support
+    gnvim # GUI for neovim, without any web bloat
     rsync #	A fast incremental file transfer utility
     unzip # An extraction utility for archives compressed in .zip format
     zip # Compressor/archiver for creating and modifying zipfiles
