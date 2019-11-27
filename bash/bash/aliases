@@ -64,3 +64,6 @@ alias wgets='wget --referer="http://www.google.com" --user-agent="Mozilla/5.0 (W
 alias timestamp="date +%s"
 # generate random password and save it in clipboard
 alias passgen="date +%s | shasum | base64 | head -c 8 | pbcopy | echo \"Password saved in clipboard\""
+
+alias lmk="notify-send 'Something happened!'"
+alias open="xdg-open &>/dev/null"
