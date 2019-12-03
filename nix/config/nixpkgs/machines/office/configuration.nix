@@ -45,6 +45,10 @@ in {
         Option "DRI" "3"
         Option "VariableRefresh" "true"
       '';
+
+      displayManager = {
+        xserverArgs = [ "-dpi 82" ];
+      };
     };
 
     tlp = {
@@ -72,9 +76,11 @@ in {
 
   environment = {
     etc."X11/Xresources".text = ''
-      Xft.dpi: 109
+      Xft.dpi: 82
     '';
   };
+
+  fonts.fontconfig.dpi = 82;
 
   programs.light.enable = true;
 

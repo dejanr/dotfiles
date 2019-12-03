@@ -29,7 +29,6 @@
 
     fontconfig = {
       enable = true;
-      dpi = 100;
       antialias = true;
       hinting = {
         autohint = false;
@@ -39,7 +38,7 @@
       subpixel.lcdfilter = "default";
 
       ultimate = {
-        enable = true; 
+        enable = true;
       };
 
       defaultFonts = {
