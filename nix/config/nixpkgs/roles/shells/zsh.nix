@@ -69,7 +69,6 @@
       "git-extras"
       "httpie"
       "systemd"
-      "sudo"
       "tig"
       "tmux"
       "nix"
