@@ -12,7 +12,7 @@ git clone https://github.com/dejanr/dotfiles.git ~/.dotfiles
 
 This project when built, generates a cli inside ./result/bin/dotfiles.
 
-The easiest way to build it and run it via nix-shell, so lets enter the nix shell:
+The easiest way to build it and run it is with nix-shell, so lets enter the nix shell:
 
 ```
 nix-shell
@@ -29,38 +29,30 @@ All possible commands are:
 - link - (re-)link dotfiles
 - unlink - unlink dotfiles
 
-## NixOS
+### NixOS configuration files
 
-NixOS configuration could be found under _nix/config/nixpkgs_
-
-### NixOS configuration files could be found under:
+They could be found under _~/.dotfiles/nix/config/nixpkgs_
 
 ```bash
-nix/config/nixpkgs/
-```
-
-
-```
-.
+~/.dotfiles/nix/config/nixpkgs/
 ├── machines
 ├── overlays
 └── roles
 ```
 
 - A **machine** has one or more role and defines how machine should be configured
-- A **overlay** is reusable nix derivation, wrapper or just an script
+- A **overlay** is reusable nix derivation, app, wrapper or just an nix script
 - A **role** is collection of configuration to fulfill a specific role
 
-### Dotfiles configuration files
+### dotfiles
 
 It would be ideal that all configuration files are expressed via nix, so that when
-we do a rollback our dotfiles are also rollbacked. But being pragmatic its also
-fine to have a dotfile as a easy path of configuring and trying something initally.
+we do a rollback our dotfiles are also rollbacked. But being pragmatic we could also
+symlink dotfile to our home folder, and use it as is.
 
 File organization is inspired from stew, except that files are not prefixed with _._
-There are only two rules to it.
 
-- __Files__ like ~/.dotfiles/bash/bashrc is symlinked as follows:
+- __Files__ like ~/.dotfiles/bash/bashrc are symlinked as follows:
 ```
 ln -s ~/.dotfiles/bash/bashrc ~/.bashrc
 ```
