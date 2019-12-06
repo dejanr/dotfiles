@@ -16,8 +16,7 @@ alias run-last-history-in-vimux="history | grep \"clear;\" | grep -v \"grep clea
 
 
 # pdf
-alias pdf='xpdf -fullscreen'
-alias xpdf='xpdf -fullscreen'
+alias pdf='zathura'
 
 # clipboard
 if [[ "$(uname -s)" != "Darwin" ]]; then
