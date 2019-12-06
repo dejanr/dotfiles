@@ -78,7 +78,6 @@
       spaceship-prompt #  A Zsh prompt for Astronauts
       nix-zsh-completions #	ZSH completions for Nix, NixOS, and NixOps
       fzf-zsh #	ZSH completions for Nix, NixOS, and NixOps
-      zsh-nix-shell
     ];
   };
 
