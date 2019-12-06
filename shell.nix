@@ -3,7 +3,6 @@ let
   dotfiles = import ./default.nix {};
 in
   pkgs.mkShell {
-    src = default.nix;
     buildInputs = [
       dotfiles
     ];
