@@ -5,17 +5,16 @@ Reproducible set of dotfiles and packages
 ### Installation
 
 ```
-nix-env -f https://github.com/dejanr/dotfiles/archive/master.tar.gz -i --remove-all && dotfiles install
+git clone https://github.com/dejanr/dotfiles.git ~/.dotfiles
 ```
 
 ### Usage
 
 ```
-dotfiles [command]
+nix-shell
+dotfiles link
 ```
 
-- install - install prerequisites and link
-- uninstall - unlink and remove configurations
 - link - (re-)link dotfiles
 - unlink - unlink dotfiles
 
