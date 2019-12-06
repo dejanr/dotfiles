@@ -12,7 +12,7 @@
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
     initrd.supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
-    kernelPackages = pkgs.linuxPackages_5_2;
+    kernelPackages = pkgs.linuxPackages_5_4;
     kernelParams = [
       "quiet" "loglevel=3" "vga=current" # quiet boot
     ];
