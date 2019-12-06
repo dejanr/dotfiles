@@ -5,22 +5,6 @@
 }:
 
 let
-  install = pkgs.writeScript "install" ''
-    #!/usr/bin/env bash
-    set -e
-
-    nix-channel --add https://nixos.org/channels/${channel} nixpkgs
-    nix-channel --update nixpkgs
-
-    if [ ! -d ${targetDir} ]; then
-      echo "setting up dotfiles repository" >&2
-      mkdir -p ${targetDir}
-      git clone --depth=1 ${repoUrl} ${targetDir}
-    fi
-
-    ${link}
-  '';
-
   link = pkgs.writeScript "link" ''
     #!/usr/bin/env bash
     set -e
@@ -90,19 +74,12 @@ let
     done
   '';
 
-  uninstall = pkgs.writeScript "uninstall" ''
-    #!/usr/bin/env bash
-    ${unlink}
-
-    if [ -d ${targetDir} ]; then
-        echo "removing dotfiles repository" >&2
-        rm -rf ${targetDir}
-    fi
-  '';
-
   help = pkgs.writeScript "help" ''
     #!/usr/bin/env bash
-    echo "dotfiles: [install] [uninstall] [link] [unlink] [help]"
+    echo "usage: dotfiles <command>"
+    echo ""
+    echo "  link    Symlink all dotfiles"
+    echo "  unlink  Remove all symlinked dotfiles"
     exit
   '';
 
@@ -116,16 +93,13 @@ in pkgs.stdenv.mkDerivation {
 
   script = ''
     set -e
-    while [ "$#" -gt 0 ]; do
-      case "$1" in
-        install   ) ${install} ;;
-        uninstall ) ${uninstall} ;;
-        link      ) ${link} ;;
-        unlink    ) ${unlink} ;;
-        *         ) ${help} ;;
-      esac
-      shift 1
-    done
+    option=''${1:-help}
+    case $option in
+      link      ) ${link} ;;
+      unlink    ) ${unlink} ;;
+      help      ) ${help} ;;
+      *         ) ${help} && exit 1 ;;
+    esac
     exit
   '';
 

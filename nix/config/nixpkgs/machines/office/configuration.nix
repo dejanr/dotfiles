@@ -8,6 +8,7 @@ in {
     [
     ./hardware-configuration.nix
     ../../roles/common.nix
+    ../../roles/shells/zsh.nix
     ../../roles/fonts.nix
     ../../roles/multimedia.nix
     ../../roles/desktop.nix
@@ -45,6 +46,10 @@ in {
         Option "DRI" "3"
         Option "VariableRefresh" "true"
       '';
+
+      displayManager = {
+        xserverArgs = [ "-dpi 82" ];
+      };
     };
 
     tlp = {
@@ -72,9 +77,11 @@ in {
 
   environment = {
     etc."X11/Xresources".text = ''
-      Xft.dpi: 109
+      Xft.dpi: 82
     '';
   };
+
+  fonts.fontconfig.dpi = 82;
 
   programs.light.enable = true;
 

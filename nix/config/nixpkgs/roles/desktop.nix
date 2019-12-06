@@ -57,7 +57,6 @@
     xarchiver # GTK+ frontend to 7z,zip,rar,tar,bzip2, gzip,arj, lha, rpm and deb (open and extract only)
     xclip # clipboard
     xdg_utils # Set of cli tools that assist applications integration
-    xpdf # pdf viewer
     xsel # Command-line program for getting and setting the contents of the X selection
     xsettingsd # Provides settings to X11 applications via the XSETTINGS specification
     zathura # pdf viewer

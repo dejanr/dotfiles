@@ -68,7 +68,6 @@ in {
 
   services.xserver = {
     enable = true;
-    dpi = 144;
     useGlamor = true;
     autorun = true;
 
@@ -98,8 +97,6 @@ in {
         greeters.mini.user = "dejanr";
         greeters.mini.extraConfig = ''
           window-color = "#245361"
-          xft-dpi=144
-          dpi=144
         '';
       };
 

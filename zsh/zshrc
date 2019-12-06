@@ -1,0 +1,2 @@
+# this is just a placeholder, zsh config could be found in nix/config/nixpkgs/roles/shells/zsh.nix
+eval "$(direnv hook zsh)"

@@ -9,6 +9,7 @@ in {
       ./hardware-configuration.nix
       ./throttled.nix
       ../../roles/common.nix
+      ../../roles/shells/zsh.nix
       ../../roles/desktop.nix
       ../../roles/i3.nix
       ../../roles/autolock.nix

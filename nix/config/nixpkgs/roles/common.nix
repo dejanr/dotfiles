@@ -55,10 +55,9 @@ in {
 
     # nixpkgs
     apg # Tools for random password generation
-    bash
+    direnv # A shell extension that manages your environment
+    lorri
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
-    bash-completion
-    nix-bash-completions
     haskellPackages.gitHUD # command-line HUD for git repos
     linuxPackages.cpupower # Tool to examine and tune power saving features
     wget # Tool for retrieving files
@@ -108,7 +107,6 @@ in {
         "transmission" "plex"
         "adbusers"
 			];
-      shell = "/run/current-system/sw/bin/bash";
       home = "/home/${username}";
       createHome = true;
 
@@ -139,7 +137,6 @@ in {
         User dejanr
     '';
   };
-  programs.bash.enableCompletion = true;
 
   networking = {
     networkmanager.enable = true;

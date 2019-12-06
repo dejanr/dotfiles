@@ -2,11 +2,11 @@
 
 {
   fonts = {
-    enableCoreFonts = true;
     enableFontDir = true;
     enableGhostscriptFonts = false;
 
     fonts = with pkgs; [
+      corefonts
       pragmatapro
       font-awesome-ttf
       terminus_font
@@ -29,7 +29,6 @@
 
     fontconfig = {
       enable = true;
-      dpi = 100;
       antialias = true;
       hinting = {
         autohint = false;
@@ -37,10 +36,6 @@
       };
 
       subpixel.lcdfilter = "default";
-
-      ultimate = {
-        enable = true; 
-      };
 
       defaultFonts = {
         serif = [ "PragmataPro" ];

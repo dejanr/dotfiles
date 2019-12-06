@@ -28,10 +28,6 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
-    extraConfig = ''
-      [General]
-      Enable=Source,Sink,Media,Socket
-    '';
   };
 
   hardware.pulseaudio = {
