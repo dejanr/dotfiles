@@ -37,8 +37,6 @@
         dir           # Current directory section
         host          # Hostname section
         git           # Git section (git_branch + git_status)
-        package       # Package version
-        node          # Node.js section
         exec_time     # Execution time
         line_sep      # Line break
         jobs          # Background jobs indicator
