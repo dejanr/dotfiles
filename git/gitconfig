@@ -56,6 +56,7 @@
   diff = diff-so-fancy | less -RFXx1,5
   log  = diff-so-fancy | less -RFXx1,5
   show = diff-so-fancy | less -RFXx1,5
+	branch = false
 
 [advice]
   statusHints = no
