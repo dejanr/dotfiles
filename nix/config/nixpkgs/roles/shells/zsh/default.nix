@@ -67,6 +67,8 @@
       export npm_config_loglevel=warn # NPM log level
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"' # FZF default command
 
+      export PATH="node_modules/.bin:$HOME/.npm/bin:/run/wrappers/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$PATH"
+
       any-nix-shell zsh --info-right | source /dev/stdin
     '';
   };
