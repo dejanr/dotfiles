@@ -187,5 +187,23 @@ in {
     value = "4096";
   }];
 
+  security.pki = {
+      caCertificateBlacklist = [
+        "WoSign"
+        "WoSign China"
+        "CA WoSign ECC Root"
+        "Certification Authority of WoSign G2"
+      ];
+
+      certificateFiles = let
+        p = "/home/${username}/.mitmproxy/mitmproxy-ca.pem";
+        mitmCA = if builtins.pathExists p then
+          [ (builtins.toFile "mitmproxy-ca.pem" (builtins.readFile p)) ]
+        else
+          [ ];
+        CAs = [ ];
+      in mitmCA ++ CAs;
+  };
+
   systemd.extraConfig = "DefaultLimitNOFILE=1048576";
 }

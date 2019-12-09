@@ -177,6 +177,9 @@ call plug#begin('~/.vim/plugged')
     return expand('%')
   endfunction
 
+  " Direnv
+  Plug 'direnv/direnv.vim'
+
   " Themes
   Plug 'whatyouhide/vim-gotham'
 

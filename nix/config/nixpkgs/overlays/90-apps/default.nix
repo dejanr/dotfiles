@@ -18,8 +18,4 @@ in {
   d9vk = super.callPackage ./d9vk {
     multiStdenv = multiNativeStdenv;
   };
-
-  zsh-nix-shell = super.callPackage ./zsh-nix-shell {
-    inherit (super) stdenv fetchFromGitHub;
-  };
 }
