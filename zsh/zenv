@@ -1,0 +1,5 @@
+# dont append anything to $PATH and $path if it is there already
+typeset -U PATH path
+
+export GOPATH=~/projects
+export PATH="node_modules/.bin:$HOME/.npm/bin:/run/wrappers/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$PATH"

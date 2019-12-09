@@ -1,6 +1,10 @@
 { ... }:
 
 {
+  imports = [
+    ../common/aliases.nix
+  ];
+
   programs.bash = {
     enable = true;
     enableCompletion = true;

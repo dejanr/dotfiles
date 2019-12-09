@@ -1,6 +1,10 @@
 { pkgs, lib, ... }:
 
 {
+  imports = [
+    ../common/aliases.nix
+  ];
+
   environment.systemPackages = with pkgs; [
       fzf # A command-line fuzzy finder written in Go
       powerline-fonts # Pre-patched and adjusted fonts for usage with the Powerline plugin.
@@ -8,10 +12,9 @@
   ];
 
   programs.zsh = {
-    autosuggestions.enable = true;
     enable = true;
-    shellAliases = {
-      gs = "clear; git status -sb";
+    autosuggestions = {
+      enable = true;
     };
     enableCompletion = true;
     histSize = 9999;
@@ -50,6 +53,19 @@
 
       export SPACESHIP_CHAR_SYMBOL="λ "
       export SPACESHIP_CHAR_COLOR_SUCCESS=white
+
+      export LC_ALL=en_US.UTF-8
+      export LC_CTYPE=en_US.UTF-8
+      export LANG=en_US.UTF-8
+      export EDITOR="vim"
+      export GIT_EDITOR="vim"
+      export VISUAL="vim"
+      export ACK_PAGER_COLOR="less -R"
+      export ALTERNATE_EDITOR="vim"
+      export XDG_CONFIG_HOME=~/.config
+      export TZ="Europe/Berlin"
+      export npm_config_loglevel=warn # NPM log level
+      export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"' # FZF default command
 
       any-nix-shell zsh --info-right | source /dev/stdin
     '';

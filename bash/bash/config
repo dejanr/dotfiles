@@ -26,9 +26,7 @@ HISTFILESIZE=2000
 shopt -s checkwinsize
 
 source ~/.bash/paths
-source ~/.bash/functions
 source ~/.bash/prompt
-source ~/.bash/aliases
 
 # NPM log level
 export npm_config_loglevel=warn

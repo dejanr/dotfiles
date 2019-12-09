@@ -9,7 +9,7 @@ in {
   imports = [
     ./hardware-configuration.nix
     ../../roles/common.nix
-    ../../roles/shells/zsh.nix
+    ../../roles/shells/zsh
     ../../roles/fonts.nix
     ../../roles/multimedia.nix
     ../../roles/desktop.nix
