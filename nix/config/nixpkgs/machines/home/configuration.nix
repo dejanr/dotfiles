@@ -70,6 +70,15 @@ in {
         DEVICES_TO_DISABLE_ON_STARTUP=""
       '';
     };
+
+    wakeonlan.interfaces = [
+      {
+        interface = "enp3s0";
+      }
+      {
+        interface = "ztks5tst4sLink";
+      }
+    ];
   };
 
   environment = {
