@@ -21,8 +21,8 @@ rules:
 
   - name: office
     outputs_connected:
-      - HDMI-A-0-GSM-30484-304405-LG
-    configure_single: HDMI-A-0
+      - HDMI2-GSM-30484-304405-LG
+    configure_single: HDMI2
     execute_after:
       - wm-wallpaper
 
