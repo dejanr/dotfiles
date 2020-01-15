@@ -56,7 +56,6 @@ in {
     # nixpkgs
     apg # Tools for random password generation
     direnv # A shell extension that manages your environment
-    lorri
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     haskellPackages.gitHUD # command-line HUD for git repos
     linuxPackages.cpupower # Tool to examine and tune power saving features
