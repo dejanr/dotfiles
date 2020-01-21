@@ -37,3 +37,5 @@ stty ixoff -ixon
 
 # FZF default command
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
+eval "$(direnv hook bash)"
