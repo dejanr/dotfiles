@@ -24,6 +24,7 @@ rules:
       - HDMI2-GSM-30484-304405-LG
     configure_single: HDMI2
     execute_after:
+      - xrandr --output eDP1 --off --output HDMI2 --mode 2560x1080 --rate 60 --pos 0x0 --primary --scale 1.3x1.3
       - wm-wallpaper
 
   - name: mobile
