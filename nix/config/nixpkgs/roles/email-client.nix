@@ -42,6 +42,24 @@
     mailLocation = "maildir:~/Mail:LAYOUT=fs";
   };
 
+  #systemd.user.services."mutt-sync" = {
+  #  enable = true;
+  #  description = "Sync all mailboxes";
+  #  wantedBy = [ "default.target" ];
+  #  path = with pkgs; [ mutt-sync isync bash libnotify pass ];
+  #  script = "${pkgs.mutt-sync}/bin/mutt-sync";
+  #  serviceConfig.Type = "oneshot";
+  #};
+
+  #systemd.user.timers."mutt-sync" = {
+  #  wantedBy = [ "timers.target" ];
+  #  description = "Run mutt-sync every 5 minutes";
+  #  timerConfig = {
+  #    OnStartupSec="10s";
+  #    OnUnitActiveSec ="5min";
+  #  };
+  #};
+
   # dovecot has some helpers in libexec (namely, imap).
   environment.pathsToLink = [ "/libexec/dovecot" ];
 }

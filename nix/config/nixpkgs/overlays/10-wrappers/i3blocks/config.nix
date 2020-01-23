@@ -5,7 +5,6 @@ let
   brightness = writeScript "brightness" (import ./scripts/brightness.nix {
     inherit xorg;
   });
-  mail = writeScript "mail" (import ./scripts/mail.nix { });
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   microphone = writeScript "audio" (import ./scripts/microphone.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
@@ -14,14 +13,6 @@ full_text=|
 align=center
 separator=false
 separator_block_width=5
-
-[seperator]
-
-[mail]
-interval=5
-command=${mail}
-label=✉
-color=${colors.foreground}
 
 [seperator]
 
