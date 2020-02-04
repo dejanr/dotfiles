@@ -85,6 +85,7 @@
     telnet
     tmux
     tree
+    tldr # Simplified and community-driven man pages
     usbutils
     wget
     which
