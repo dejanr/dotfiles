@@ -18,4 +18,6 @@ in {
   d9vk = super.callPackage ./d9vk {
     multiStdenv = multiNativeStdenv;
   };
+
+  parsecgaming = super.callPackage ./parsecgaming/default.nix { };
 }
