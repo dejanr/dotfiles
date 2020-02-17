@@ -20,6 +20,7 @@
       "kvm-intel"
       "i915"
       "modesetting"
+      "thinkpad_acpi"
     ];
 
     blacklistedKernelModules = [
@@ -34,6 +35,10 @@
       "bbswitch.load_state=0"
       "bbswitch.unload_state=1"
     ];
+
+    extraModprobeConfig = ''
+      options thinkpad_acpi experimental=1 fan_control=1
+    '';
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = "1048576";
@@ -108,6 +113,16 @@
       Option         "TripleBuffer" "on"
     '';
 
+  };
+
+  services.thinkfan = {
+    enable = true;
+  };
+
+  services.undervolt = {
+    enable = true;
+    tempAc = "80";
+    tempBat = "70";
   };
 
   swapDevices = [ ];

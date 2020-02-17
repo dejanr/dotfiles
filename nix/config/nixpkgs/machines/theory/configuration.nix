@@ -98,5 +98,9 @@ in {
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "zfs";
 
+  environment.systemPackages = with pkgs; [
+    thinkfan
+  ];
+
   system.stateVersion = "19.09";
 }
