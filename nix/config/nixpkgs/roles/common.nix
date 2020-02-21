@@ -169,9 +169,12 @@ in {
     };
   };
 
+  console = {
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+    keyMap = "us";
+  };
+
   i18n = {
-    consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
-    consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" "sr_RS@latin/UTF-8" ];
   };

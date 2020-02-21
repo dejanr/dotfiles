@@ -31,7 +31,6 @@ in {
   services = {
     xserver = {
       enable = true;
-      modules = [ pkgs.xf86_input_mtrack ];
       videoDrivers = [ "intel" ];
 
       synaptics.enable = false;

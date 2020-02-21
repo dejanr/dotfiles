@@ -30,7 +30,6 @@ in {
     xserver = {
       enable = true;
       useGlamor = true;
-      modules = [ pkgs.xf86_input_mtrack ];
       videoDrivers = [ "amdgpu" "mesa" "modesetting" ];
 
       synaptics.enable = false;

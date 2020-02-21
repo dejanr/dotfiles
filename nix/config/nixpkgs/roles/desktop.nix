@@ -47,7 +47,6 @@
     termite.terminfo # terminfo for termite
     tesseract # OCR engine
     thunderbird # email client
-    tigervnc # Fork of tightVNC, made in cooperation with VirtualGL
     transmission-gtk
     unrar # Utility for RAR archives
     firefox # A web browser built from Firefox source tree

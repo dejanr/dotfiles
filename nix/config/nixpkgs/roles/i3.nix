@@ -79,16 +79,15 @@ in {
         package = pkgs.i3-gaps;
         configFile = "${pkgs.i3-config}/config";
       };
-
-      default = "i3";
     };
 
     desktopManager = {
-      default = "none";
       xterm.enable = false;
     };
 
     displayManager = {
+      defaultSession = "none+i3";
+
       lightdm = {
         enable = true;
         background = "#195466";
