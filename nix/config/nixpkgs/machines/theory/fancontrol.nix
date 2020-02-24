@@ -1,14 +1,15 @@
 {}:
 
 ''
-INTERVAL=5
-DEVPATH=hwmon2=devices/virtual/thermal/thermal_zone2 hwmon5=devices/platform/thinkpad_hwmon
-DEVNAME=hwmon2=acpitz hwmon5=thinkpad
-FCTEMPS=hwmon5/pwm1=hwmon2/temp1_input
-FCFANS= hwmon5/pwm1=hwmon5/fan1_input
-MINPWM=10
-MINSTART=hwmon0/pwm2=60
-MINSTOP=hwmon0/pwm2=50
-MAXTEMP=hwmon0/pwm2=100
-MAXPWM=250
+INTERVAL=10
+DEVPATH=hwmon0=devices/pci0000:00/0000:00:1d.2/0000:3d:00.0 hwmon6=devices/platform/thinkpad_hwmon
+DEVNAME=hwmon0=nvme hwmon6=thinkpad
+FCTEMPS=hwmon6/pwm1=hwmon0/temp1_input
+FCFANS= hwmon6/pwm1=
+MINTEMP=hwmon6/pwm1=50
+MAXTEMP=hwmon6/pwm1=80
+MINSTART=hwmon6/pwm1=50
+MINSTOP=hwmon6/pwm1=10
+MINPWM=hwmon6/pwm1=10
+MAXPWM=hwmon6/pwm1=255
 ''
