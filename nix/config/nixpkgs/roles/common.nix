@@ -51,7 +51,6 @@ in {
     t
     wm-lock
     wm-wallpaper
-    music
 
     # nixpkgs
     apg # Tools for random password generation

@@ -34,20 +34,18 @@ in {
       enable = true;
       videoDrivers = [ "intel" ];
 
-      synaptics.enable = false;
-
       libinput = {
         enable = true;
         disableWhileTyping = true;
         naturalScrolling = true;
-        buttonMapping = "1 1 1";
+        middleEmulation = true;
       };
 
       extraConfig = ''
         Section "InputClass"
-        Identifier     "Enable libinput for TrackPoint"
-        MatchIsPointer "on"
-        Driver         "libinput"
+          Identifier     "Enable libinput for TrackPoint"
+          MatchIsPointer "on"
+          Driver         "libinput"
         EndSection
       '';
 

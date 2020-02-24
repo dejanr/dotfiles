@@ -2,7 +2,7 @@
 
 {
   boot = {
-    #kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
     zfs.enableUnstable = true;
