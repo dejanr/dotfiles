@@ -29,7 +29,7 @@ in {
     xserver = {
       enable = true;
       useGlamor = true;
-      videoDrivers = [ "amdgpu" "modesetting" "vesa" ];
+      videoDrivers = [ "amdgpu" "vesa" ];
 
       synaptics.enable = false;
 

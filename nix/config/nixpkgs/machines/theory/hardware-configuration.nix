@@ -19,7 +19,6 @@
       "acpi_call"
       "kvm-intel"
       "i915"
-      "modesetting"
       "thinkpad_acpi"
     ];
 
