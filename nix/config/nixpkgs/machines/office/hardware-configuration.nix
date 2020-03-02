@@ -9,6 +9,7 @@
     ];
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_5_5;
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
     kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
     kernelParams = [
@@ -78,5 +79,4 @@
   swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 8;
-  i18n.consoleFont = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
 }

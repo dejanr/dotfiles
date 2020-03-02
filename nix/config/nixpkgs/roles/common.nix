@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   username = "dejanr";
@@ -149,9 +149,12 @@ in {
         80
         443
         631 # CUPS ports
+        8625 # wireguard
         3000
         4000
         5000
+        22000 # syntching transfer
+        8200 # minidlna xbox
       ];
       allowedTCPPortRanges = [
         # castnow
@@ -161,6 +164,8 @@ in {
         631 # CUPS ports
         5353
         4445 # minecraft discovery
+        21027 # syntching discovery
+        1900 # minidlna xbox
       ];
       logRefusedConnections = false;
       allowedUDPPortRanges = [];
