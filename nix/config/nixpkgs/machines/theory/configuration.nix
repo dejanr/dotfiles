@@ -3,6 +3,7 @@
 let
   username = "dejanr";
   hostName = "theory";
+  fancontrol = import ./fancontrol.nix {};
 in {
   imports =
     [
@@ -31,23 +32,20 @@ in {
   services = {
     xserver = {
       enable = true;
-      modules = [ pkgs.xf86_input_mtrack ];
       videoDrivers = [ "intel" ];
-
-      synaptics.enable = false;
 
       libinput = {
         enable = true;
         disableWhileTyping = true;
         naturalScrolling = true;
-        buttonMapping = "1 1 1";
+        middleEmulation = true;
       };
 
       extraConfig = ''
         Section "InputClass"
-        Identifier     "Enable libinput for TrackPoint"
-        MatchIsPointer "on"
-        Driver         "libinput"
+          Identifier     "Enable libinput for TrackPoint"
+          MatchIsPointer "on"
+          Driver         "libinput"
         EndSection
       '';
 
@@ -83,10 +81,30 @@ in {
     };
   };
 
+  systemd.services.fancontrol = {
+    description = "Start fancontrol";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol";
+    };
+  };
+
+  systemd.services.fancontrolRestart = {
+    description = "Restart fancontrol on resume";
+    wantedBy = [ "suspend.target" ];
+    after = [ "suspend.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.systemd}/bin/systemctl --no-block restart fancontrol";
+    };
+  };
+
   environment = {
     etc."X11/Xresources".text = ''
       Xft.dpi: 144
     '';
+    etc."fancontrol".text = fancontrol;
     variables.GDK_SCALE = "2";
     variables.GDK_DPI_SCALE = "0.5";
     variables.QT_SCALE_FACTOR = "1";
