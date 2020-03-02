@@ -1,13 +1,13 @@
 { stdenv, requireFile, unzip }:
 
 let
-  version = "0.827";
+  version = "0.828-2";
 in stdenv.mkDerivation rec {
   name = "pragmatapro-${version}";
   src = requireFile rec {
     name = "PragmataPro${version}.zip";
     url = "file://path/to/${name}";
-    sha256 = "0xkr0ypqf1zxdi9ils6zhn6scw9aj1v5nhmm2wr71ga82ny3zhch";
+    sha256 = "19q6d0dxgd9k2mhr31944wpprks1qbqs1h5f400dyl5qzis2dji3";
     message = ''
       ${name} font not found in nix store, to add it run:
 
