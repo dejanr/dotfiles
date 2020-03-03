@@ -30,7 +30,7 @@ in {
     xserver = {
       enable = true;
       useGlamor = true;
-      videoDrivers = [ "amdgpu" "vesa" ];
+      videoDrivers = [ "amdgpu" ];
 
       synaptics.enable = false;
 
@@ -44,7 +44,6 @@ in {
       deviceSection = ''
         Option "TearFree" "true"
         Option "DRI" "3"
-        Option "VariableRefresh" "true"
       '';
 
       displayManager = {

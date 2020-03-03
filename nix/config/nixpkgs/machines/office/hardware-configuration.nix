@@ -9,7 +9,7 @@
     ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_5;
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
     kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
     kernelParams = [
@@ -21,6 +21,8 @@
 
     extraModprobeConfig = ''
       options k10temp force=1
+      options amdgpu si_support=1
+      options amdgpu cik_support=0
     '';
 
     kernel.sysctl = {
