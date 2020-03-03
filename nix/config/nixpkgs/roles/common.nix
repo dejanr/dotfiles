@@ -7,6 +7,19 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "1z97vzr4hpvazmgq46g295dzbrg5w1ks55radllnamlkqn4z062n";
   };
+  overlays =
+    let
+      paths = [
+        ../overlays
+      ];
+    in with builtins;
+      concatMap (path:
+        (map (n: import (path + ("/" + n)))
+          (filter (n: match ".*\\.nix" n != null ||
+                    pathExists (path + ("/" + n + "/default.nix")))
+                    (attrNames (readDir path))))) paths;
+
+  emacsOverlay = [(import (builtins.fetchTarball https://github.com/nix-community/emacs-overlay/archive/master.tar.gz))];
 in {
   nix.extraOptions = ''
     gc-keep-outputs = false
@@ -24,17 +37,7 @@ in {
       android_sdk.accept_license = true;
     };
 
-    overlays =
-      let
-        paths = [
-          ../overlays
-        ];
-      in with builtins;
-        concatMap (path:
-          (map (n: import (path + ("/" + n)))
-            (filter (n: match ".*\\.nix" n != null ||
-                      pathExists (path + ("/" + n + "/default.nix")))
-                      (attrNames (readDir path))))) paths;
+    overlays = overlays ++ emacsOverlay;
   };
 
   time.timeZone = "Europe/Berlin";
@@ -51,38 +54,41 @@ in {
     t
     wm-lock
     wm-wallpaper
+    dotemacs
 
     # nixpkgs
     apg # Tools for random password generation
+    bc # GNU software calculator
     direnv # A shell extension that manages your environment
+    font-manager # Simple font management for GTK+ desktop environments
+    gitAndTools.diff-so-fancy # Good looking diffs
+    gitAndTools.gitFull # Distributed version control system
+    gnvim # GUI for neovim, without any web bloat
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     haskellPackages.gitHUD # command-line HUD for git repos
-    linuxPackages.cpupower # Tool to examine and tune power saving features
-    wget # Tool for retrieving files
-    neovim
-    vimHugeX # vim with clipboard and x support
-    gnvim # GUI for neovim, without any web bloat
-    rsync #	A fast incremental file transfer utility
-    unzip # An extraction utility for archives compressed in .zip format
-    zip # Compressor/archiver for creating and modifying zipfiles
-    gitAndTools.gitFull # Distributed version control system
-    gitAndTools.diff-so-fancy # Good looking diffs
     htop # An interactive process viewer for Linux
+    kdeApplications.kleopatra
+    keychain
+    fd # A simple, fast and user-friendly alternative to find
+    linuxPackages.cpupower # Tool to examine and tune power saving features
+    neovim
+    nixops # NixOS cloud provisioning and deployment tool
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
-    tmux # Terminal multiplexer
-    bc # GNU software calculator
-    nixops # NixOS cloud provisioning and deployment tool
+    ripgrep
+    rsync #	A fast incremental file transfer utility
     rxvt
     rxvt_unicode
-    urxvt_vtwheel
+    tmux # Terminal multiplexer
+    unzip # An extraction utility for archives compressed in .zip format
     urxvt_font_size
     urxvt_perl
     urxvt_perls
-    font-manager # Simple font management for GTK+ desktop environments
-    keychain
-    kdeApplications.kleopatra
+    urxvt_vtwheel
+    vimHugeX # vim with clipboard and x support
+    wget # Tool for retrieving files
+    zip # Compressor/archiver for creating and modifying zipfiles
   ];
 
   users = {
