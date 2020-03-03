@@ -6,44 +6,30 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-;; don't show menu bar in terminal mode
-;; https://emacs.stackexchange.com/questions/29441/how-do-i-disable-menu-bar-mode-only-for-tty-frames
-(unless (display-graphic-p)
-   (menu-bar-mode -1))
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 
-(require 'color-theme-sanityinc-tomorrow)
-  (load-theme 'sanityinc-tomorrow-eighties t)
+;; Calculate default font size
+(setq default-frame-font-size 14)
+
+;; Build font descriptor strings
+;; (defun font-desc (name size)
+;;   (concat "-unknown-" name "-normal-normal-normal-*-"
+;;           (number-to-string size) "-*-*-*-m-0-iso10646-1"))
+(defun font-desc (name size)
+  (concat name " " (number-to-string size)))
+
+;; Set default and presentation mode fonts
+(defun default-frame-font ()
+  (font-desc "Pragmata Pro" default-frame-font-size))
+
+;; Set frame font
+(set-frame-font (default-frame-font))
 
 ;; show available commands after a delay
 (require 'which-key)
   (which-key-mode)
-
-(setq ensime-startup-notification nil)
-(setq org-pomodoro-finished-sound-p nil)
-
-;; line numbers
-(setq-default display-line-numbers 'visual)
-(setq-default linum-relative-current-symbol "")
-
-(require 'evil)
-  (evil-mode 1)
-
-(require 'key-chord)
-  (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
-  (key-chord-mode 1)
-
-(require 'evil-org)
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-
-;; Everything below here is an intricate tower of org-mode config.  Most of this was taken and
-;; slightly modified from Bernt Hansen's "Org Mode - Organize Your Life In Plain Text!" document.
-;; http://doc.norang.ca/org-mode.html
-(require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
-  (evil-define-key 'motion org-agenda-mode-map
-    (kbd "RET") 'org-agenda-switch-to
-  )
 
 (setq org-agenda-files
       (list "~/todo/next-actions.org" "~/todo/schedule.org" "~/todo/refile.org"))
