@@ -20,7 +20,7 @@
     bash
     bind
     binutils
-    clang
+    clang # A c, c++, objective-c, and objective-c++ frontend for the llvm compiler (wrapper script)
     cmake
     connect # Make network connection via SOCKS and https proxy
     coreutils
@@ -30,7 +30,6 @@
     docker
     docker_compose
     exercism # A Go based command line tool for exercism.io
-    emacs
     file # show file type
     fish
     gcc
@@ -48,7 +47,6 @@
     htop
     haskellPackages.ghc # The Glasgow Haskell Compiler
     haskellPackages.cabal-install # The command-line interface for Cabal and Hackage
-    stack # The Haskell Tool Stack
     iftop
     imagemagickBig
     iotop

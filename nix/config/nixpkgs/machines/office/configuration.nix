@@ -8,14 +8,15 @@ in {
     [
     ./hardware-configuration.nix
     ../../roles/common.nix
-    ../../roles/shells/zsh
+    ../../roles/shells/bash
     ../../roles/fonts.nix
     ../../roles/multimedia.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
     ../../roles/development.nix
     ../../roles/services.nix
-    ../../roles/email-client.nix
+    ../../roles/nas.nix
+    ../../roles/games.nix
    ];
 
   nix.useSandbox = false;
@@ -29,7 +30,7 @@ in {
     xserver = {
       enable = true;
       useGlamor = true;
-      videoDrivers = [ "amdgpu" "vesa" ];
+      videoDrivers = [ "amdgpu" ];
 
       synaptics.enable = false;
 
@@ -43,7 +44,6 @@ in {
       deviceSection = ''
         Option "TearFree" "true"
         Option "DRI" "3"
-        Option "VariableRefresh" "true"
       '';
 
       displayManager = {

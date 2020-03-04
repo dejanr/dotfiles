@@ -54,4 +54,9 @@
 
     support32Bit = true;
   };
+
+  services.minidlna = {
+    enable = true;
+    mediaDirs = [ "/home/dejanr/downloads"];
+  };
 }
