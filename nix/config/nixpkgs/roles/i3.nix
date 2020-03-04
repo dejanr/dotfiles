@@ -85,6 +85,15 @@ in {
         enable = true;
         package = pkgs.i3-gaps;
         configFile = "${pkgs.i3-config}/config";
+
+        extraSessionCommands = ''
+          ${pkgs.wm-wallpaper}/bin/wm-wallpaper
+          ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
+          ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources
+          ${pkgs.dunst}/bin/dunst &
+          ${pkgs.networkmanager_dmenu}/bin/nm-applet &
+          ${pkgs.dunst}/bin/nm-applet &
+        '';
       };
     };
 
@@ -105,13 +114,6 @@ in {
           window-color = "#245361"
         '';
       };
-
-      sessionCommands = with pkgs; lib.mkAfter
-      ''
-        ${pkgs.wm-wallpaper}/bin/wm-wallpaper
-        ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
-        ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources
-      '';
     };
 
 		xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
@@ -126,16 +128,5 @@ in {
       paint-on-overlay = true;
       dbe = true;
     };
-  };
-
-  # Services for i3
-  systemd.user.services."dunst" = {
-    enable = true;
-    description = "";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.Environment = "DISPLAY=:0";
-    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
   };
 }
