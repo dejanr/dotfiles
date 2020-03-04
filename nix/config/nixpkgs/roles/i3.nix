@@ -73,6 +73,13 @@ in {
 
     startDbusSession = true;
 
+    libinput = {
+      enable = true;
+      disableWhileTyping = true;
+      naturalScrolling = true;
+      middleEmulation = true;
+    };
+
     windowManager = {
       i3 = {
         enable = true;

@@ -32,15 +32,6 @@ in {
       useGlamor = true;
       videoDrivers = [ "amdgpu" ];
 
-      synaptics.enable = false;
-
-      libinput = {
-        enable = true;
-        disableWhileTyping = true;
-        scrollMethod = "twofinger";
-        tapping = true;
-      };
-
       deviceSection = ''
         Option "TearFree" "true"
         Option "DRI" "3"
