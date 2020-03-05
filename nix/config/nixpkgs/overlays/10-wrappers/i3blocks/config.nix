@@ -19,7 +19,7 @@ separator_block_width=5
 [headset]
 interval=5
 command=${bluetooth-headset} "00:1B:66:83:D1:86"
-label=
+label=
 color=${colors.foreground}
 
 [seperator]
