@@ -7,7 +7,5 @@
     winetricks
     dxvk
     d9vk
-    lutris
-    parsecgaming
   ];
 }

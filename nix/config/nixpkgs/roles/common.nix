@@ -5,7 +5,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1z97vzr4hpvazmgq46g295dzbrg5w1ks55radllnamlkqn4z062n";
+    sha256 = "04ky1a5ll07a9p9iihgsiqw8dinr1xy1j5bkd5bjc6qr2il2pk8i";
   };
   overlays =
     let
@@ -35,6 +35,9 @@ in {
       allowBroken = true;
       allowUnsupportedSystem = true;
       android_sdk.accept_license = true;
+      permittedInsecurePackages = [
+        "openssl-1.0.2u"
+      ];
     };
 
     overlays = overlays ++ emacsOverlay;

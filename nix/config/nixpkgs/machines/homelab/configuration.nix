@@ -9,12 +9,11 @@ in {
   imports = [
     ./hardware-configuration.nix
     ../../roles/common.nix
-    ../../roles/shells/zsh
+    ../../roles/shells/bash
     ../../roles/fonts.nix
     ../../roles/multimedia.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
-    ../../roles/keybase.nix
     ../../roles/development.nix
     ../../roles/services.nix
     ../../roles/electronics.nix
@@ -32,17 +31,24 @@ in {
     unifi.enable = true;
     unifi.openPorts = true;
 
-    octoprint = {
-      enable = true;
-      port = 8000;
-    };
-
     xserver = {
       enable = true;
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "nvidiaBeta" ];
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
+
+      deviceSection = ''
+          Driver "nvidia"
+          VendorName "NVIDIA Corporation"
+          BusID "PCI:1:0:0"
+      '';
+
+      screenSection = ''
+        Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+        Option         "AllowIndirectGLXProtocol" "off"
+        Option         "TripleBuffer" "on"
+      '';
     };
 
     tlp = {
@@ -68,8 +74,6 @@ in {
       '';
     };
   };
-
-  users.users.octoprint.extraGroups = [ "dialout" ];
 
   environment = {
     etc."X11/Xresources".text = ''

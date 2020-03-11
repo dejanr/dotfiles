@@ -2,6 +2,7 @@
 
 {
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     initrd.kernelModules = [ "vfio_pci" "fbcon" ];
     kernelModules = [
@@ -20,23 +21,21 @@
       "fs.inotify.max_user_watches" = "1048576";
     };
     kernelParams = [
-      "quiet nomodeset"
-
       #"vfio-pci.ids=10de:1c03,10de:10f1"
 
       # Use IOMMU
-      "intel_iommu=on"
-      "intel_iommu=igfx_off"
-      "i915.preliminary_hw_support=1"
-      "i915.enable_hd_vgaarb=1"
-      "vfio_iommu_type1.allow_unsafe_interrupts=1"
+      #"intel_iommu=on"
+      #"intel_iommu=igfx_off"
+      #"i915.preliminary_hw_support=1"
+      #"i915.enable_hd_vgaarb=1"
+      #"vfio_iommu_type1.allow_unsafe_interrupts=1"
 
-      "kvm.allow_unsafe_assigned_interrupts=1"
+      #"kvm.allow_unsafe_assigned_interrupts=1"
 
       # Needed by OS X
-      "kvm.ignore_msrs=1"
-      "kvm_intel.nested=1"
-      "kvm_intel.emulate_invalid_guest_state=0"
+      #"kvm.ignore_msrs=1"
+      #"kvm_intel.nested=1"
+      #"kvm_intel.emulate_invalid_guest_state=0"
 
       # Only schedule cpus 0,1
       # "isolcpus=1-3,5-7"
@@ -44,7 +43,8 @@
       "hugepagesz=1GB"
     ];
     blacklistedKernelModules = [
-      "nouveau" "nvidia"
+      "fbcon"
+      "nouveau"
     ];
     extraModulePackages = [];
     extraModprobeConfig = ''
@@ -72,20 +72,15 @@
     cleanTmpDir = true;
   };
 
-  fileSystems."/" = {
-    device = "rpool/root/nixos";
-    fsType = "zfs";
-  };
+  fileSystems."/" =
+    { device = "zroot/root";
+      fsType = "zfs";
+    };
 
-  fileSystems."/home" = {
-    device = "rpool/home";
-    fsType = "zfs";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/sdb1";
-    fsType = "vfat";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/D7FB-4550";
+      fsType = "vfat";
+    };
 
   swapDevices = [ ];
 
@@ -102,6 +97,10 @@
         vaapiVdpau
       ];
     };
+
+    firmware = [
+      pkgs.firmwareLinuxNonfree
+    ];
   };
 
   nix.maxJobs = lib.mkDefault 8;
