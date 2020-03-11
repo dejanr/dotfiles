@@ -38,7 +38,7 @@ in {
       '';
 
       displayManager = {
-        xserverArgs = [ "-dpi 82" ];
+        xserverArgs = [ "-dpi 109" ];
       };
     };
 
@@ -67,11 +67,11 @@ in {
 
   environment = {
     etc."X11/Xresources".text = ''
-      Xft.dpi: 82
+      Xft.dpi: 109
     '';
   };
 
-  fonts.fontconfig.dpi = 82;
+  fonts.fontconfig.dpi = 109;
 
   programs.light.enable = true;
 
