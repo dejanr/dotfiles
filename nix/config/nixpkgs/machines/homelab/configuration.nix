@@ -5,6 +5,7 @@ with lib;
 let
   username = "dejanr";
   hostName = "homelab";
+  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -79,7 +80,15 @@ in {
     etc."X11/Xresources".text = ''
       Xft.dpi: 109
     '';
+    systemPackages = [ nvidia_x11 ];
   };
+
+  systemd.services.nvidia-control-devices = {
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.ExecStart = "${nvidia_x11.bin}/bin/nvidia-smi";
+  };
+
+  virtualisation.docker.enableNvidia = true;
 
   system.stateVersion = "19.03";
 }

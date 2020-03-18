@@ -1,5 +1,10 @@
 { config, lib, pkgs, ... }:
 
+let
+  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  nvidia_gl = nvidia_x11.out;
+  nvidia_gl_32 = nvidia_x11.lib32;
+in
 {
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -46,7 +51,7 @@
       "fbcon"
       "nouveau"
     ];
-    extraModulePackages = [];
+    extraModulePackages = [ nvidia_x11 ];
     extraModprobeConfig = ''
       # 41:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] (rev a1)
       # 41:00.1 Audio device: NVIDIA Corporation GP106 High Definition Audio Controller (rev a1)
@@ -86,16 +91,19 @@
 
   hardware = {
     cpu.intel.updateMicrocode = true;
+    nvidia.modesetting.enable = lib.mkForce false;
 
     opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        vaapiIntel
-        libvdpau-va-gl
-        vaapiVdpau
+      extraPackages = [
+        nvidia_gl
+        pkgs.vaapiIntel
+        pkgs.libvdpau-va-gl
+        pkgs.vaapiVdpau
       ];
+      extraPackages32 = [ nvidia_gl_32 ];
     };
 
     firmware = [
