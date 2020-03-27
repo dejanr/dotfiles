@@ -223,6 +223,6 @@ bindsym $mod+Shift+b exec --no-startup-id corebird
 
 # Windows switching
 
-bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+a workspace back_and_forth
 bindsym Mod1+Tab focus right
 ''
