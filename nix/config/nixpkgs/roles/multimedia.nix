@@ -57,6 +57,6 @@
 
   services.minidlna = {
     enable = true;
-    mediaDirs = [ "/home/dejanr/downloads"];
+    mediaDirs = [ "/home/dejanr/downloads" ];
   };
 }

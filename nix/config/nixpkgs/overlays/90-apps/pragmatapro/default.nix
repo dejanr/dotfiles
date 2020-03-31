@@ -1,8 +1,8 @@
 { stdenv, requireFile, unzip }:
-
 let
   version = "0.828-2";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "pragmatapro-${version}";
   src = requireFile rec {
     name = "PragmataPro${version}.zip";

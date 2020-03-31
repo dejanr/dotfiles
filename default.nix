@@ -1,7 +1,6 @@
 { pkgs ? (import ./nix).pkgs {}
 , dotfilesDir ? "$HOME/.dotfiles"
 }:
-
 let
   link = pkgs.writeScript "link" ''
     #!/usr/bin/env bash
@@ -133,8 +132,8 @@ let
     echo "  switch  Remove all symlinked dotfiles"
     exit
   '';
-
-in pkgs.stdenv.mkDerivation {
+in
+pkgs.stdenv.mkDerivation {
   name = "dotfiles";
   preferLocalBuild = true;
   propagatedBuildInputs = [ pkgs.git ];

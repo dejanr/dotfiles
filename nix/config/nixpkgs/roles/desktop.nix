@@ -16,7 +16,7 @@
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
     inkscape # vector graphics editor
-    kazam	# A screencasting program created with design in mind
+    kazam # A screencasting program created with design in mind
     kdeApplications.kleopatra
     keepassx2 # password managment
     keychain # Keychain management tool
@@ -62,7 +62,7 @@
     zoom-us # zoom.us desktop app
     sweethome3d.furniture-editor # Quickly create SH3F files and edit the properties of the 3D models it contain
     sweethome3d.application # Design and visualize your future home
-    sweethome3d.textures-editor	# Easily create SH3T files and edit the properties of the texture images it contain
-    wxcam	# An open-source, wxGTK-based webcam app for Linux
+    sweethome3d.textures-editor # Easily create SH3T files and edit the properties of the texture images it contain
+    wxcam # An open-source, wxGTK-based webcam app for Linux
   ];
 }

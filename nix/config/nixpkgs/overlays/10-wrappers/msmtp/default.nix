@@ -1,12 +1,12 @@
 { stdenv, makeWrapper, writeTextFile, msmtp }:
-
 let
-  config = import ./config.nix { };
+  config = import ./config.nix {};
   configFile = writeTextFile {
     name = "config";
     text = config;
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "msmtp-wrapper";
   buildInputs = [ makeWrapper ];
   propagatedBuildInputs = [ msmtp ];

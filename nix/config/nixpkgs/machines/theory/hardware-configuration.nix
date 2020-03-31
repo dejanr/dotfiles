@@ -53,24 +53,26 @@
       efi.efiSysMountPoint = "/efi";
 
       grub = {
-      device = "nodev";
-      efiSupport = true;
-      extraInitrd = "/boot/initrd.keys.gz";
-      enableCryptodisk = true;
-      copyKernels = true;
-      zfsSupport = true;
+        device = "nodev";
+        efiSupport = true;
+        extraInitrd = "/boot/initrd.keys.gz";
+        enableCryptodisk = true;
+        copyKernels = true;
+        zfsSupport = true;
         efiInstallAsRemovable = true;
       };
     };
   };
 
   fileSystems."/" =
-    { device = "zroot/root";
+    {
+      device = "zroot/root";
       fsType = "zfs";
     };
 
   fileSystems."/efi" =
-    { device = "/dev/disk/by-id/nvme-WDC_PC_SN720_SDAQNTW-512G-1001_184791804261-part1";
+    {
+      device = "/dev/disk/by-id/nvme-WDC_PC_SN720_SDAQNTW-512G-1001_184791804261-part1";
       fsType = "vfat";
     };
 
@@ -124,6 +126,6 @@
     tempBat = "70";
   };
 
-  swapDevices = [ ];
+  swapDevices = [];
   nix.maxJobs = lib.mkDefault 8;
 }

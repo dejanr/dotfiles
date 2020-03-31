@@ -1,7 +1,6 @@
 { lib ? (import ./nix).lib }:
 
 with builtins; with lib;
-
 let
   hosts = {
     home = "x86_64-linux";

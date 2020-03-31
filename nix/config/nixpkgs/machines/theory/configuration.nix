@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
-
 let
   username = "dejanr";
   hostName = "theory";
   fancontrol = import ./fancontrol.nix {};
-in {
+in
+{
   imports =
     [
       ./hardware-configuration.nix
@@ -20,7 +20,7 @@ in {
       ../../roles/fonts.nix
       ../../roles/email-client.nix
       ../../roles/autolock.nix
-   ];
+    ];
 
   nix.useSandbox = false;
 

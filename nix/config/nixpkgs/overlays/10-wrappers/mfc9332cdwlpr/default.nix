@@ -1,5 +1,16 @@
-{ coreutils, dpkg, fetchurl, file, ghostscript, gnugrep, gnused,
-makeWrapper, perl, pkgs, stdenv, which }:
+{ coreutils
+, dpkg
+, fetchurl
+, file
+, ghostscript
+, gnugrep
+, gnused
+, makeWrapper
+, perl
+, pkgs
+, stdenv
+, which
+}:
 
 stdenv.mkDerivation rec {
   name = "mfc9332cdwlpr-${version}";

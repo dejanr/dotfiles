@@ -1,11 +1,11 @@
 { pkgs }:
 
 with pkgs;
-
 let
   name = "mutt-openfile";
-  source = import ./script.nix { };
-in stdenv.mkDerivation {
+  source = import ./script.nix {};
+in
+stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];

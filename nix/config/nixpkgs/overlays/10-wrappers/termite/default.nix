@@ -1,5 +1,4 @@
 { stdenv, makeWrapper, writeTextFile, termite, fonts, colors }:
-
 let
   config = import ./config.nix {
     inherit colors fonts;
@@ -9,7 +8,8 @@ let
     name = "config";
     text = config;
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "termite-wrapper";
   buildInputs = [ makeWrapper ];
   propagatedBuildInputs = [ termite ];

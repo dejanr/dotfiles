@@ -1,5 +1,4 @@
 { colors, fonts, st, fetchurl, writeTextFile }:
-
 let
   clipboard = fetchurl {
     url = "https://st.suckless.org/patches/clipboard/st-clipboard-0.8.2.diff";
@@ -10,7 +9,8 @@ let
     name = "config.h";
     text = config;
   };
-in st.override {
+in
+st.override {
   patches = [
     clipboard
   ];

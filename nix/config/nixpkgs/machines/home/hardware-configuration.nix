@@ -10,7 +10,9 @@
     kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
     kernelPackages = pkgs.linuxPackages_5_4;
     kernelParams = [
-      "quiet" "loglevel=3" "vga=current" # quiet boot
+      "quiet"
+      "loglevel=3"
+      "vga=current" # quiet boot
     ];
     blacklistedKernelModules = [
       "sp5100-tco"
@@ -45,7 +47,7 @@
     };
 
     opengl = {
-      enable =true;
+      enable = true;
       driSupport = true;
       driSupport32Bit = true;
       extraPackages = with pkgs; [
@@ -64,21 +66,24 @@
   };
 
   fileSystems."/" =
-    { device = "zpool/root";
+    {
+      device = "zpool/root";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "zpool/home";
+    {
+      device = "zpool/home";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4182-AF1E";
+    {
+      device = "/dev/disk/by-uuid/4182-AF1E";
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
+  swapDevices = [];
 
   nix.maxJobs = lib.mkDefault 8;
 }

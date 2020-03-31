@@ -1,14 +1,14 @@
 { pkgs }:
 
 with pkgs;
-
 let
   name = "music";
   source = import ./script.nix {
     mpsyt = "${mps-youtube}/bin/mpsyt";
     tmux = "${tmux}/bin/tmux";
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];

@@ -2,23 +2,23 @@
 
 {
   services = {
-		printing.enable = true;
+    printing.enable = true;
     printing.drivers = [ pkgs.mfc9332cdwlpr ];
     printing.browsing = true;
     printing.defaultShared = true;
     printing.extraConf = ''
       DefaultEncryption Never
     '';
-		avahi.enable = true;
+    avahi.enable = true;
     avahi.publish.enable = true;
     avahi.publish.userServices = true;
     avahi.nssmdns = true;
     urxvtd.enable = true;
 
     mpd.enable = true;
-		udisks2.enable = true;
+    udisks2.enable = true;
 
-		fail2ban = {
+    fail2ban = {
       enable = true;
       jails = {
         # this is predefined
@@ -31,7 +31,7 @@
     openssh = {
       enable = true;
       permitRootLogin = "yes";
-			passwordAuthentication = false;
+      passwordAuthentication = false;
     };
 
     logind.extraConfig = ''

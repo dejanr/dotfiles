@@ -1,7 +1,6 @@
 { stdenv, makeWrapper, writeTextFile, fonts, colors, neomutt, msmtp, isync, notmuch }:
-
 let
-  mailcap = import ./config/mailcap.nix { };
+  mailcap = import ./config/mailcap.nix {};
   mailcapFile = writeTextFile {
     name = "mailcap";
     text = mailcap;
@@ -13,7 +12,8 @@ let
     name = "config";
     text = config;
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "neomutt-wrapper";
   buildInputs = [ notmuch makeWrapper ];
   propagatedBuildInputs = [ neomutt ];

@@ -1,9 +1,11 @@
-self: super: let
+self: super:
+let
   multiNativeStdenv = super.impureUseNativeOptimizations super.multiStdenv;
   emacsWithPackages = (super.emacsPackagesNgGen super.emacsGit).emacsWithPackages;
   epkgs = super.epkgs.melpaStablePackages;
-in {
-  pragmatapro = super.callPackage ./pragmatapro/default.nix { };
+in
+{
+  pragmatapro = super.callPackage ./pragmatapro/default.nix {};
 
   st = super.callPackage ./st/default.nix {
     inherit (self) colors fonts;
@@ -22,7 +24,7 @@ in {
     multiStdenv = multiNativeStdenv;
   };
 
-  parsecgaming = super.callPackage ./parsecgaming/default.nix { };
+  parsecgaming = super.callPackage ./parsecgaming/default.nix {};
 
   dotemacs = super.callPackage ./dotemacs {
     inherit (super) emacsWithPackages epkgs symlinkJoin makeWrapper;

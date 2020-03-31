@@ -1,24 +1,25 @@
 { pkgs ? import <nixpkgs> {} }:
 with pkgs;
-
-let debExtract = stdenv.mkDerivation {
-  name = "parsecgaming-pkg";
-  src = fetchurl {
-    url = "https://s3.amazonaws.com/parsec-build/package/parsec-linux.deb";
-    sha256 = "0xbq87sz88ldisl65cpcpza2hqjr5y9npn2lmkznzb5qcjd99i5f";
+let
+  debExtract = stdenv.mkDerivation {
+    name = "parsecgaming-pkg";
+    src = fetchurl {
+      url = "https://s3.amazonaws.com/parsec-build/package/parsec-linux.deb";
+      sha256 = "0xbq87sz88ldisl65cpcpza2hqjr5y9npn2lmkznzb5qcjd99i5f";
     };
-  phases = [ "buildPhase" ];
-  buildInputs = [ dpkg ];
-  buildPhase = ''
-    mkdir $out
-    dpkg-deb -x $src $out
-    # dpkg-deb makes $out group-writable, which nix doesn't like
-    chmod 755 $out
-    mv $out/usr/* $out
-    rmdir $out/usr
-  '';
-};
-in buildFHSUserEnv {
+    phases = [ "buildPhase" ];
+    buildInputs = [ dpkg ];
+    buildPhase = ''
+      mkdir $out
+      dpkg-deb -x $src $out
+      # dpkg-deb makes $out group-writable, which nix doesn't like
+      chmod 755 $out
+      mv $out/usr/* $out
+      rmdir $out/usr
+    '';
+  };
+in
+buildFHSUserEnv {
   name = "parsecgaming";
   targetPkgs = pkgs: with pkgs; [
     alsaLib

@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   username = "dejanr";
   hostName = "homelab";
   nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../../roles/common.nix
@@ -40,9 +40,9 @@ in {
       };
 
       deviceSection = ''
-          Driver "nvidia"
-          VendorName "NVIDIA Corporation"
-          BusID "PCI:1:0:0"
+        Driver "nvidia"
+        VendorName "NVIDIA Corporation"
+        BusID "PCI:1:0:0"
       '';
 
       screenSection = ''

@@ -1,5 +1,4 @@
 self: super:
-
 let
   theme = "dark";
 in

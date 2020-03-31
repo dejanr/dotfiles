@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
   nvidia_gl = nvidia_x11.out;
@@ -69,7 +68,7 @@ in
 
       grub.enable = true;
       grub.version = 2;
-      grub.devices = ["nodev"];
+      grub.devices = [ "nodev" ];
       grub.efiSupport = true;
       grub.useOSProber = true;
     };
@@ -78,16 +77,18 @@ in
   };
 
   fileSystems."/" =
-    { device = "zroot/root";
+    {
+      device = "zroot/root";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D7FB-4550";
+    {
+      device = "/dev/disk/by-uuid/D7FB-4550";
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
+  swapDevices = [];
 
   hardware = {
     cpu.intel.updateMicrocode = true;

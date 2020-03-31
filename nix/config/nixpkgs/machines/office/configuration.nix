@@ -1,23 +1,23 @@
 { config, lib, pkgs, ... }:
-
 let
   hostName = "office";
   fancontrol = import ./fancontrol.nix {};
-in {
+in
+{
   imports =
     [
-    ./hardware-configuration.nix
-    ../../roles/common.nix
-    ../../roles/shells/bash
-    ../../roles/fonts.nix
-    ../../roles/multimedia.nix
-    ../../roles/desktop.nix
-    ../../roles/i3.nix
-    ../../roles/development.nix
-    ../../roles/services.nix
-    ../../roles/nas.nix
-    ../../roles/games.nix
-   ];
+      ./hardware-configuration.nix
+      ../../roles/common.nix
+      ../../roles/shells/bash
+      ../../roles/fonts.nix
+      ../../roles/multimedia.nix
+      ../../roles/desktop.nix
+      ../../roles/i3.nix
+      ../../roles/development.nix
+      ../../roles/services.nix
+      ../../roles/nas.nix
+      ../../roles/games.nix
+    ];
 
   nix.useSandbox = false;
 

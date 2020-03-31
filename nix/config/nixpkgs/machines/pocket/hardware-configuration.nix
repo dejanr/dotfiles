@@ -13,8 +13,7 @@
       "fbcon=rotate:1"
       "vga=current" # quiet boot
     ];
-    blacklistedKernelModules = [
-    ];
+    blacklistedKernelModules = [];
 
     extraModprobeConfig = ''
     '';
@@ -39,7 +38,7 @@
     };
 
     opengl = {
-      enable =true;
+      enable = true;
       driSupport = true;
       driSupport32Bit = true;
     };
@@ -52,17 +51,20 @@
   };
 
   fileSystems."/" =
-    { device = "zpool/root/nixos";
+    {
+      device = "zpool/root/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BB5B-730A";
+    {
+      device = "/dev/disk/by-uuid/BB5B-730A";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/1bcf70c9-0def-4d4d-9540-e113a96f5730"; }
+    [
+      { device = "/dev/disk/by-uuid/1bcf70c9-0def-4d4d-9540-e113a96f5730"; }
     ];
 
   nix.maxJobs = lib.mkDefault 4;

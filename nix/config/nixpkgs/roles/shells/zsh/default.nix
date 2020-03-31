@@ -6,9 +6,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
-      fzf # A command-line fuzzy finder written in Go
-      powerline-fonts # Pre-patched and adjusted fonts for usage with the Powerline plugin.
-      any-nix-shell
+    fzf # A command-line fuzzy finder written in Go
+    powerline-fonts # Pre-patched and adjusted fonts for usage with the Powerline plugin.
+    any-nix-shell
   ];
 
   programs.zsh = {
@@ -20,7 +20,7 @@
     histSize = 9999;
     syntaxHighlighting = {
       enable = true;
-      highlighters = [ "main" "brackets" "pattern" "root" "line"];
+      highlighters = [ "main" "brackets" "pattern" "root" "line" ];
     };
     vteIntegration = true;
 
@@ -91,8 +91,8 @@
     ];
     customPkgs = with pkgs; [
       spaceship-prompt #  A Zsh prompt for Astronauts
-      nix-zsh-completions #	ZSH completions for Nix, NixOS, and NixOps
-      fzf-zsh #	ZSH completions for Nix, NixOS, and NixOps
+      nix-zsh-completions #  ZSH completions for Nix, NixOS, and NixOps
+      fzf-zsh #  ZSH completions for Nix, NixOS, and NixOps
     ];
   };
 

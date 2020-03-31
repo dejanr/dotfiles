@@ -1,75 +1,77 @@
 { writeScript, colors, xorg, libnotify, maim, xclip }:
-
 let
-  audio = writeScript "audio" (import ./scripts/audio.nix { });
-  brightness = writeScript "brightness" (import ./scripts/brightness.nix {
-    inherit xorg;
-  });
-  bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
-  microphone = writeScript "audio" (import ./scripts/microphone.nix { });
-  language = writeScript "audio" (import ./scripts/language.nix { });
-in ''
-full_text=|
-align=center
-separator=false
-separator_block_width=5
+  audio = writeScript "audio" (import ./scripts/audio.nix {});
+  brightness = writeScript "brightness" (
+    import ./scripts/brightness.nix {
+      inherit xorg;
+    }
+  );
+  bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix {});
+  microphone = writeScript "audio" (import ./scripts/microphone.nix {});
+  language = writeScript "audio" (import ./scripts/language.nix {});
+in
+''
+  full_text=|
+  align=center
+  separator=false
+  separator_block_width=5
 
-[seperator]
+  [seperator]
 
-[headset]
-interval=5
-command=${bluetooth-headset} "00:1B:66:83:D1:86"
-label=
-color=${colors.foreground}
+  [headset]
+  interval=5
+  command=${bluetooth-headset} "00:1B:66:83:D1:86"
+  label=
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 
-[audio]
-command=${audio}
-interval=5
-label=
-color=${colors.foreground}
+  [audio]
+  command=${audio}
+  interval=5
+  label=
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 
-[microphone]
-command=${microphone}
-interval=5
-label=
-color=${colors.foreground}
+  [microphone]
+  command=${microphone}
+  interval=5
+  label=
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 
-[brightness]
-command=${brightness}
-color=${colors.foreground}
-interval=5
-label=
-interval=5
+  [brightness]
+  command=${brightness}
+  color=${colors.foreground}
+  interval=5
+  label=
+  interval=5
 
-[seperator]
+  [seperator]
 
-[language]
-command=${language}
-interval=1
-label= 
-color=${colors.foreground}
+  [language]
+  command=${language}
+  interval=1
+  label= 
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 
-[date]
-command=echo " `date +'%A ◦ %d %B ◦ %Y'`"
-interval=1
-label= 
-color=${colors.foreground}
+  [date]
+  command=echo " `date +'%A ◦ %d %B ◦ %Y'`"
+  interval=1
+  label= 
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 
-[time]
-command=echo " `date +'%H:%M'`"
-interval=1
-label= 
-color=${colors.foreground}
+  [time]
+  command=echo " `date +'%H:%M'`"
+  interval=1
+  label= 
+  color=${colors.foreground}
 
-[seperator]
+  [seperator]
 ''

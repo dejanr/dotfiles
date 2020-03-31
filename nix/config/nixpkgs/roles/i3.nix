@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }:
-
 let
   gtk2-theme = import ../utils/gtk2Theme.nix {
     theme = {
@@ -11,20 +10,21 @@ let
       name = "Arc";
     };
   };
-in {
+in
+{
   imports = [
     gtk2-theme
   ];
 
   environment.systemPackages = with pkgs; [
-    rofi                         # for app launcher
-    rofi-menugen                 # Generates menu based applications using rofi
-    feh                          # for background image
-    scrot                        # screenshot
-    shutter                      # Screenshot and annotation tool
-    lxqt.screengrab              # Crossplatform tool for fast making screenshots
-    polybar                      # status bar
-    xdotool                      # inspect window title
+    rofi # for app launcher
+    rofi-menugen # Generates menu based applications using rofi
+    feh # for background image
+    scrot # screenshot
+    shutter # Screenshot and annotation tool
+    lxqt.screengrab # Crossplatform tool for fast making screenshots
+    polybar # status bar
+    xdotool # inspect window title
     xorg.utilmacros
     xorg.xcursorgen
     xorg.xcursorthemes
@@ -32,29 +32,29 @@ in {
     xorg.xsetroot
     xorg.xbacklight
     sound-theme-freedesktop
-    dunst                        # notifications
-    compton                      # window transitions
-    i3minator                    # i3 project manager
-    i3-config                    # custom i3 config from overlay
+    dunst # notifications
+    compton # window transitions
+    i3minator # i3 project manager
+    i3-config # custom i3 config from overlay
     i3blocks
     i3lock-fancy
-    xscreensaver                 # screensaver
-    xfce.thunar                  # file amanger
+    xscreensaver # screensaver
+    xfce.thunar # file amanger
     xfce.thunar_volman
     xfce.thunar-archive-plugin
     xfce.xfce4-screenshooter
-    xfce.gvfs                    # virtual filesystem
-    xfce.ristretto               # A fast and lightweight picture-viewer for the Xfce desktop environment
-    xfce.tumbler                 # A D-Bus thumbnailer service
-    xfce.xfce4icontheme          # Icons for Xfce
-    xfce.xfconf                  # Simple client-server configuration storage and query system for Xfce
+    xfce.gvfs # virtual filesystem
+    xfce.ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
+    xfce.tumbler # A D-Bus thumbnailer service
+    xfce.xfce4icontheme # Icons for Xfce
+    xfce.xfconf # Simple client-server configuration storage and query system for Xfce
     gnome3.vte
     gnome3.gnome_themes_standard
     gnome3.gnome_settings_daemon # makes DPI scaling, fonts and GTK settings come active.
     gnome3.dconf
     gtk-engine-murrine
-    lxappearance                 # configure theme
-    vanilla-dmz                  # cursor theme
+    lxappearance # configure theme
+    vanilla-dmz # cursor theme
 
     xlibs.libX11
     xlibs.libXinerama
@@ -62,8 +62,8 @@ in {
     xlibs.xkill
     xlibs.xmessage
 
-    networkmanagerapplet         # NetworkManager control applet for GNOME
-    networkmanager_openvpn       # NetworkManager's OpenVPN plugin
+    networkmanagerapplet # NetworkManager control applet for GNOME
+    networkmanager_openvpn # NetworkManager's OpenVPN plugin
   ];
 
   services.xserver = {
@@ -116,7 +116,7 @@ in {
       };
     };
 
-		xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
+    xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
 
   services.compton = {

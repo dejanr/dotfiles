@@ -1,5 +1,4 @@
 { stdenv, makeWrapper, writeTextFile, colors, fonts, i3-gaps }:
-
 let
   config = import ./config.nix { inherit colors fonts; };
   configFile = writeTextFile {

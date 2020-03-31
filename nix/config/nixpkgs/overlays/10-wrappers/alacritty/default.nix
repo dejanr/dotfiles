@@ -1,5 +1,4 @@
 { stdenv, makeWrapper, writeTextFile, alacritty, fonts, colors }:
-
 let
   config = import ./config.nix {
     inherit colors fonts stdenv;

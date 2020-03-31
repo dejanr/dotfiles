@@ -1,10 +1,11 @@
-{ multiStdenv,
-  fetchFromGitHub,
-  stdenv,
-  meson,
-  ninja,
-  glslang,
-  wine,
+{ multiStdenv
+, fetchFromGitHub
+, stdenv
+, meson
+, ninja
+, glslang
+, wine
+,
 }:
 
 multiStdenv.mkDerivation rec {

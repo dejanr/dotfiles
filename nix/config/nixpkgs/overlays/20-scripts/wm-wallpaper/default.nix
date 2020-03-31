@@ -1,13 +1,13 @@
 { pkgs }:
 
 with pkgs;
-
 let
   name = "wm-wallpaper";
   source = import ./script.nix {
     inherit pkgs;
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];

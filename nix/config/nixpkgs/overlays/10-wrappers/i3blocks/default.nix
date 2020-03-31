@@ -1,5 +1,4 @@
 { stdenv, makeWrapper, writeTextFile, writeScript, colors, i3blocks, xorg, libnotify, maim, xclip }:
-
 let
   config = import ./config.nix {
     inherit writeScript colors xorg libnotify maim xclip;
@@ -9,7 +8,8 @@ let
     name = "config";
     text = config;
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "i3blocks-wrapper";
   buildInputs = [ makeWrapper ];
   propagatedBuildInputs = [ i3blocks libnotify ];

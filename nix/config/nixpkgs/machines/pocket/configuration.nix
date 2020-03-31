@@ -1,23 +1,23 @@
 { config, lib, pkgs, ... }:
-
 let
   hostName = "pocket";
   fancontrol = import ./fancontrol.nix {};
-in {
+in
+{
   imports =
     [
-    ./hardware-configuration.nix
-    ../../roles/common.nix
-    ../../roles/shells/zsh
-    ../../roles/fonts.nix
-    ../../roles/multimedia.nix
-    ../../roles/desktop.nix
-    ../../roles/i3.nix
-    ../../roles/development.nix
-    ../../roles/services.nix
-    ../../roles/electronics.nix
-    ../../roles/email-client.nix
-   ];
+      ./hardware-configuration.nix
+      ../../roles/common.nix
+      ../../roles/shells/zsh
+      ../../roles/fonts.nix
+      ../../roles/multimedia.nix
+      ../../roles/desktop.nix
+      ../../roles/i3.nix
+      ../../roles/development.nix
+      ../../roles/services.nix
+      ../../roles/electronics.nix
+      ../../roles/email-client.nix
+    ];
 
   nix.useSandbox = false;
 
@@ -60,27 +60,27 @@ in {
 
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "zfs";
-#
-#  systemd.services.fancontrol = {
-#    description = "Start fancontrol";
-#    wantedBy = [ "multi-user.target" ];
-#    serviceConfig = {
-#      Type = "simple";
-#      ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol";
-#    };
-#  };
-#
-#  systemd.services.fancontrolRestart = {
-#    description = "Restart fancontrol on resume";
-#    wantedBy = [ "suspend.target" ];
-#    after = [ "suspend.target" ];
-#    serviceConfig = {
-#      Type = "simple";
-#      ExecStart = "${pkgs.systemd}/bin/systemctl --no-block restart fancontrol";
-#    };
-#  };
-#
-#  environment.etc."fancontrol".text = fancontrol;
+  #
+  #  systemd.services.fancontrol = {
+  #    description = "Start fancontrol";
+  #    wantedBy = [ "multi-user.target" ];
+  #    serviceConfig = {
+  #      Type = "simple";
+  #      ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol";
+  #    };
+  #  };
+  #
+  #  systemd.services.fancontrolRestart = {
+  #    description = "Restart fancontrol on resume";
+  #    wantedBy = [ "suspend.target" ];
+  #    after = [ "suspend.target" ];
+  #    serviceConfig = {
+  #      Type = "simple";
+  #      ExecStart = "${pkgs.systemd}/bin/systemctl --no-block restart fancontrol";
+  #    };
+  #  };
+  #
+  #  environment.etc."fancontrol".text = fancontrol;
 
   system.stateVersion = "19.03";
 }

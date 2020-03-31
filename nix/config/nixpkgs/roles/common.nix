@@ -2,7 +2,6 @@
 , lib ? (import ./nix).lib
 , ...
 }:
-
 let
   username = "dejanr";
   githubKeys = builtins.fetchurl {
@@ -17,12 +16,21 @@ let
         ../overlays
       ];
     in with builtins;
-      concatMap (path:
-        (map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                    pathExists (path + ("/" + n + "/default.nix")))
-                    (attrNames (readDir path))))) paths;
-in {
+    concatMap (
+      path:
+        (
+          map (n: import (path + ("/" + n)))
+            (
+              filter (
+                n: match ".*\\.nix" n != null
+                || pathExists (path + ("/" + n + "/default.nix"))
+              )
+                (attrNames (readDir path))
+            )
+        )
+    ) paths;
+in
+{
   nix.extraOptions = ''
     gc-keep-outputs = false
     gc-keep-derivations = false
@@ -42,7 +50,7 @@ in {
       ];
     };
 
-    overlays = overlays ++ [(import sources.emacs-overlay)];
+    overlays = overlays ++ [ (import sources.emacs-overlay) ];
   };
 
   time.timeZone = "Europe/Berlin";
@@ -84,7 +92,7 @@ in {
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
     ripgrep
-    rsync #	A fast incremental file transfer utility
+    rsync #  A fast incremental file transfer utility
     rxvt
     rxvt_unicode
     tmux # Terminal multiplexer
@@ -105,19 +113,30 @@ in {
       name = username;
       group = "users";
       extraGroups = [
-				"lp" "kmem"
-				"wheel" "disk"
-				"audio" "video"
-				"networkmanager"
-				"systemd-journal"
-				"vboxusers" "docker"
-				"utmp" "adm" "input"
-				"tty" "floppy" "uucp"
-				"cdrom" "tape" "dialout"
+        "lp"
+        "kmem"
+        "wheel"
+        "disk"
+        "audio"
+        "video"
+        "networkmanager"
+        "systemd-journal"
+        "vboxusers"
+        "docker"
+        "utmp"
+        "adm"
+        "input"
+        "tty"
+        "floppy"
+        "uucp"
+        "cdrom"
+        "tape"
+        "dialout"
         "libvirtd"
-        "transmission" "plex"
+        "transmission"
+        "plex"
         "adbusers"
-			];
+      ];
       home = "/home/${username}";
       createHome = true;
 
@@ -127,7 +146,7 @@ in {
     };
   };
 
-  services.openssh.authorizedKeysFiles = ["/home/${username}/.ssh/authorized_keys" ];
+  services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
 
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;
@@ -155,8 +174,9 @@ in {
     firewall = {
       enable = true;
       allowPing = true;
-      allowedTCPPorts = [ # incoming connections allowed
-        22   # ssh
+      allowedTCPPorts = [
+        # incoming connections allowed
+        22 # ssh
         9418 # tor
         25565 # minecraft server
         80
@@ -199,29 +219,31 @@ in {
   security.sudo.wheelNeedsPassword = false;
   security.polkit.enable = true;
   security.rtkit.enable = true;
-  security.pam.loginLimits = [{
-    domain = "*";
-    type = "soft";
-    item = "nofile";
-    value = "4096";
-  }];
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "4096";
+    }
+  ];
 
   security.pki = {
-      caCertificateBlacklist = [
-        "WoSign"
-        "WoSign China"
-        "CA WoSign ECC Root"
-        "Certification Authority of WoSign G2"
-      ];
+    caCertificateBlacklist = [
+      "WoSign"
+      "WoSign China"
+      "CA WoSign ECC Root"
+      "Certification Authority of WoSign G2"
+    ];
 
-      certificateFiles = let
-        p = "/home/${username}/.mitmproxy/mitmproxy-ca.pem";
-        mitmCA = if builtins.pathExists p then
-          [ (builtins.toFile "mitmproxy-ca.pem" (builtins.readFile p)) ]
-        else
-          [ ];
-        CAs = [ ];
-      in mitmCA ++ CAs;
+    certificateFiles = let
+      p = "/home/${username}/.mitmproxy/mitmproxy-ca.pem";
+      mitmCA = if builtins.pathExists p then
+        [ (builtins.toFile "mitmproxy-ca.pem" (builtins.readFile p)) ]
+      else
+        [];
+      CAs = [];
+    in mitmCA ++ CAs;
   };
 
   systemd.extraConfig = "DefaultLimitNOFILE=1048576";

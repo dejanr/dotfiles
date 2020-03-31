@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-	services.znc = {
+  services.znc = {
     enable = true;
     openFirewall = true;
 
@@ -34,7 +34,7 @@
       port = 9000;
       # passBlock with `nix-shell -p znc --command "znc --makepass"`.
       # and place it inside secrets.nix
-			passBlock = (import ../secrets.nix).zncPassBlock;
+      passBlock = (import ../secrets.nix).zncPassBlock;
     };
   };
 }

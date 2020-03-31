@@ -1,11 +1,11 @@
 {}: ''
-#!/usr/bin/env bash
+  #!/usr/bin/env bash
 
-IP_ADDRESS=$(ip route get 1 | awk '{print $NF;exit}')
+  IP_ADDRESS=$(ip route get 1 | awk '{print $NF;exit}')
 
-if [[ "''${IP_ADDRESS}" != "" ]]; then
-  echo "''${IP_ADDRESS}"
-  echo "''${IP_ADDRESS}"
-  echo ""
-fi
+  if [[ "''${IP_ADDRESS}" != "" ]]; then
+    echo "''${IP_ADDRESS}"
+    echo "''${IP_ADDRESS}"
+    echo ""
+  fi
 ''

@@ -1,11 +1,11 @@
 { pkgs }:
 
 with pkgs;
-
 let
   name = "t";
   source = import ./script.nix {};
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];
