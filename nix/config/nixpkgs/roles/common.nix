@@ -188,6 +188,7 @@ in
         5000
         22000 # syntching transfer
         8200 # minidlna xbox
+        56789 # kam server
       ];
       allowedTCPPortRanges = [
         # castnow
@@ -199,6 +200,7 @@ in
         4445 # minecraft discovery
         21027 # syntching discovery
         1900 # minidlna xbox
+        56789 # kam server
       ];
       logRefusedConnections = false;
       allowedUDPPortRanges = [];
