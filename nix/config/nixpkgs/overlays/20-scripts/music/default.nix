@@ -5,7 +5,7 @@ with pkgs;
 let
   name = "music";
   source = import ./script.nix {
-    mpsyt = "${python37Packages.mps-youtube}/bin/mpsyt";
+    mpsyt = "${mps-youtube}/bin/mpsyt";
     tmux = "${tmux}/bin/tmux";
   };
 in stdenv.mkDerivation {
