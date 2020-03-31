@@ -3,17 +3,13 @@
 # GPD Pocket 2
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
-
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
-      "quiet" 
-      "loglevel=3" 
+      "quiet"
+      "loglevel=3"
       "fbcon=rotate:1"
       "vga=current" # quiet boot
     ];

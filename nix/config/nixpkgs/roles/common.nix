@@ -1,4 +1,7 @@
-{ lib, pkgs, ... }:
+{ pkgs ? (import ./nix).pkgs {}
+, lib ? (import ./nix).lib
+, ...
+}:
 
 let
   username = "dejanr";
@@ -7,6 +10,7 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "04ky1a5ll07a9p9iihgsiqw8dinr1xy1j5bkd5bjc6qr2il2pk8i";
   };
+  sources = import ../../../sources.nix;
   overlays =
     let
       paths = [
@@ -18,8 +22,6 @@ let
           (filter (n: match ".*\\.nix" n != null ||
                     pathExists (path + ("/" + n + "/default.nix")))
                     (attrNames (readDir path))))) paths;
-
-  emacsOverlay = [(import (builtins.fetchTarball https://github.com/nix-community/emacs-overlay/archive/master.tar.gz))];
 in {
   nix.extraOptions = ''
     gc-keep-outputs = false
@@ -40,7 +42,7 @@ in {
       ];
     };
 
-    overlays = overlays ++ emacsOverlay;
+    overlays = overlays ++ [(import sources.emacs-overlay)];
   };
 
   time.timeZone = "Europe/Berlin";
@@ -75,6 +77,7 @@ in {
     keychain
     fd # A simple, fast and user-friendly alternative to find
     linuxPackages.cpupower # Tool to examine and tune power saving features
+    niv # dependency manager for nix projects
     neovim
     nixops # NixOS cloud provisioning and deployment tool
     pixz # A parallel compressor/decompressor for xz format

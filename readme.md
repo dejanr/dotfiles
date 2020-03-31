@@ -28,6 +28,22 @@ All possible commands are:
 
 - link - (re-)link dotfiles
 - unlink - unlink dotfiles
+- switch - switch machine configuration (use this instead of nixos-rebuild switch)
+
+Update nix dependencies:
+
+```
+niv update
+```
+
+Testing config for home machine:
+
+```
+nix-build machines.nix -A home
+```
+
+When adding a new machine machines.nix has to be updated and entrypoint
+has to be added at nix/config/nixpkgs/$machine/configuration.nix
 
 ### NixOS configuration files
 
@@ -42,7 +58,7 @@ They could be found under _~/.dotfiles/nix/config/nixpkgs_
 
 - A **machine** has one or more role and defines how machine should be configured
 - A **overlay** is reusable nix derivation, app, wrapper or just an nix script
-- A **role** is collection of configuration to fulfill a specific role
+- A **role** is collection of configurations to fulfill a specific role
 
 ### dotfiles
 
