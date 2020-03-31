@@ -4,11 +4,12 @@
 , meson
 , ninja
 , glslang
-, wine
-,
+, wineWowPackages
 }:
 
-multiStdenv.mkDerivation rec {
+let
+  wine = wineWowPackages.staging;
+in multiStdenv.mkDerivation rec {
   pname = "dxvk";
   version = "v1.4.3";
 

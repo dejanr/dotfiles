@@ -4,11 +4,12 @@
 , meson
 , ninja
 , glslang
-, wine
-,
+, wineWowPackages
 }:
+
 let
   version = "0.22";
+  wine = wineWowPackages.staging;
 in
   # Note: D9VK builds its own copy of DXVK, but in this implementation we're only using the
   # D3D9 library it produces. This may cause problems if the DXVK version used does not match

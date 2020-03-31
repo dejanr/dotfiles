@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     steam
-    wine
+    wineWowPackages.stable
     winetricks
     dxvk
     d9vk

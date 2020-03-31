@@ -29,6 +29,5 @@ stdenv.mkDerivation rec {
       designed by Fabrizio Schiavi to be the ideal font for coding, math and engineering
     '';
     platforms = platforms.all;
-    broken = true;
   };
 }
