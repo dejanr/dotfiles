@@ -30,6 +30,11 @@ let
     echo "$VM"
     "$VM" -m 2G,maxmem=4G -smp 4
   '';
+  lb = pkgs.writeScriptBin "lb" ''
+    #!/bin/sh
+    mkdir -p ~/documents/logbook/
+    vim -c 'cd %:p:h' ~/documents/logbook/$(date '+%Y-%m-%d').org
+  '';
 in
 {
   environment.systemPackages = with pkgs; [
@@ -38,6 +43,7 @@ in
     decrypt
     generate-ssl
     nix-test
+    lb
   ];
 
   environment.shellAliases = {
