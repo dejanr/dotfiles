@@ -16,7 +16,6 @@ in
       ../../roles/development.nix
       ../../roles/services.nix
       ../../roles/nas.nix
-      ../../roles/games.nix
     ];
 
   nix.useSandbox = false;
