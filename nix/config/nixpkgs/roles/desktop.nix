@@ -53,7 +53,6 @@
     update-resolv-conf # Script to update your /etc/resolv.conf with DNS settings that come from the received push dhcp-options pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     utox # Lightweight Tox client
     weechat # A fast, light and extensible chat client
-    xarchiver # GTK+ frontend to 7z,zip,rar,tar,bzip2, gzip,arj, lha, rpm and deb (open and extract only)
     xclip # clipboard
     xdg_utils # Set of cli tools that assist applications integration
     xsel # Command-line program for getting and setting the contents of the X selection
