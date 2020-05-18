@@ -71,65 +71,12 @@ let
     done
   '';
 
-  switch = pkgs.writeScript "switch" ''
-    #! /usr/bin/env bash
-    set -o pipefail -o noclobber -o nounset
-
-    function error() {
-        local red
-        local reset
-        red="$(tput setaf 1)"
-        reset="$(tput sgr0)"
-
-        printf "%s%s%s\n" "$red" "$*" "$reset"
-        exit 1
-    }
-
-    function set_work_dir() {
-        if [[ ! -v WORK_DIR ]]; then
-            WORK_DIR="$(mktemp --tmpdir -u nix-config-sync.XXXXXXXXXX)"
-            trap "rm -rf '$WORK_DIR'" EXIT
-        fi
-    }
-
-    function build() {
-        [ "$#" -eq 0 ] || error "build"
-        set_work_dir
-        local machine
-        machine="$(hostname)"
-        unset NIX_PATH
-        nix-build machines.nix --out-link "$WORK_DIR" -A "$machine" ||
-            error "Failed to build system"
-    }
-
-    function switch() {
-        [ "$#" -eq 0 ] || error "switch"
-        set_work_dir
-        local switch_bin="$WORK_DIR/bin/switch-to-configuration"
-        sudo nix-env --set \
-            --profile "/nix/var/nix/profiles/system" \
-            "$WORK_DIR" ||
-            error "Failed to activate profile"
-        sudo "$switch_bin" "switch" ||
-            error "Failed to activate system"
-    }
-
-    function main() {
-        build
-        switch
-        exit 0
-    }
-
-    main "$@"
-  '';
-
   help = pkgs.writeScript "help" ''
     #!/usr/bin/env bash
     echo "usage: dotfiles <command>"
     echo ""
     echo "  link    Symlink all dotfiles"
     echo "  unlink  Remove all symlinked dotfiles"
-    echo "  switch  Remove all symlinked dotfiles"
     exit
   '';
 in
@@ -147,7 +94,6 @@ pkgs.stdenv.mkDerivation {
     case $option in
       link      ) ${link} ;;
       unlink    ) ${unlink} ;;
-      switch    ) ${switch} ;;
       help      ) ${help} ;;
       *         ) ${help} && exit 1 ;;
     esac

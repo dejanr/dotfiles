@@ -28,7 +28,6 @@ All possible commands are:
 
 - link - (re-)link dotfiles
 - unlink - unlink dotfiles
-- switch - switch machine configuration (use this instead of nixos-rebuild switch)
 
 Update nix dependencies:
 
