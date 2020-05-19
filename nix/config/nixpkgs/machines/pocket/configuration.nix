@@ -8,7 +8,7 @@ in
     [
       ./hardware-configuration.nix
       ../../roles/common.nix
-      ../../roles/shells/zsh
+      ../../roles/shells/bash
       ../../roles/fonts.nix
       ../../roles/multimedia.nix
       ../../roles/desktop.nix
