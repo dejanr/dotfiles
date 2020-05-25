@@ -38,13 +38,13 @@
       tmux send-keys "$EDITOR" C-m #':CtrlP' C-m
       _safe_window bash bash
 
-      tmux select-window -t "$SESSION":1
+      direnv exec / tmux select-window -t "$SESSION":1
     fi
   fi
 
   if [ -z "$TMUX" ]; then
-    tmux attach -t "$SESSION"
+    direnv exec / tmux attach -t "$SESSION"
   else
-    tmux switch-client -t "$SESSION"
+    direnv exec / tmux switch-client -t "$SESSION"
   fi
 ''

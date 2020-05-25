@@ -9,7 +9,7 @@ stdenv.mkDerivation {
   name = name;
   script = writeScript name source;
   phases = [ "installPhase" ];
-  propagatedBuildInputs = [ tmux ];
+  propagatedBuildInputs = [ tmux direnv ];
   installPhase = ''
     mkdir -p $out/bin
     echo "$script" > $out/bin/$name
