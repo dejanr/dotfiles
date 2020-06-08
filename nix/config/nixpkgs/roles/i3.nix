@@ -1,4 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, pkgs, ... }:
+
 let
   gtk2-theme = import ../utils/gtk2Theme.nix {
     theme = {

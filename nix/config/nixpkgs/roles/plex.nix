@@ -1,4 +1,4 @@
-{ config, lib, pkgs, boot, networking, containers, ... }:
+{ config, lib, boot, networking, containers, pkgs, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [ 32400 ];

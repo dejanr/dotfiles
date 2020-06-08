@@ -32,6 +32,7 @@
     exercism # A Go based command line tool for exercism.io
     file # show file type
     fish
+    fzf
     gcc
     graphicsmagick # Swiss army knife of image processing
     gdb

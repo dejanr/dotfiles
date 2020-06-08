@@ -42,6 +42,7 @@
 
   hardware = {
     bluetooth.enable = true;
+    openrazer.enable = true;
 
     cpu = {
       amd.updateMicrocode = true;
