@@ -1,7 +1,5 @@
-{ pkgs ? (import ./nix).pkgs {}
-, lib ? (import ./nix).lib
-, ...
-}:
+{ pkgs , lib , ... }:
+
 let
   username = "dejanr";
   githubKeys = builtins.fetchurl {
@@ -40,16 +38,17 @@ in
   nix.trustedUsers = [ "${username}" "root" ];
 
   nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowBroken = true;
-      allowUnsupportedSystem = true;
-      android_sdk.accept_license = true;
-      permittedInsecurePackages = [
-        "openssl-1.0.2u"
-      ];
+    pkgs = (import ../../../default.nix).pkgs {
+      config = {
+        allowUnfree = true;
+        allowBroken = true;
+        allowUnsupportedSystem = true;
+        android_sdk.accept_license = true;
+        permittedInsecurePackages = [
+          "p7zip-16.02"
+        ];
+      };
     };
-
     overlays = overlays ++ [ (import sources.emacs-overlay) ];
   };
 
