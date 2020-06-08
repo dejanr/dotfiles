@@ -39,16 +39,7 @@ call plug#begin('~/.vim/plugged')
   let g:ale_sign_warning = '-'
   let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 
-  " Javascript
-  Plug 'pangloss/vim-javascript'
-  Plug 'mxw/vim-jsx'
-
-  " Dont require jsx file extension for enabling this plugin
-  let g:jsx_ext_required = 0
-
-  " Plug 'JavaScript-Indent'
-  Plug 'elzr/vim-json'
-  Plug 'vim-scripts/ParseJSON'
+  Plug 'sheerun/vim-polyglot'
 
   " Gist
   Plug 'mattn/webapi-vim'
@@ -69,21 +60,14 @@ call plug#begin('~/.vim/plugged')
   " Markdown
   Plug 'itspriddle/vim-marked', { 'for': 'markdown' }
 
-  " Bash
-  Plug 'WolfgangMehner/bash-support'
+  " FZF
 
-  " CtrlP
-  Plug 'kien/ctrlp.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
-  let g:ctrlp_use_caching = 1
-  let g:ctrlp_clear_cache_on_exit = 1
-  let g:ctrlp_working_path_mode = ''
-
-  nmap <leader>b :CtrlPBuffer<CR>
-
-  if executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  endif
+  nnoremap <C-p> :Files<CR>
+  nnoremap <Leader>b :Buffers<CR>
+  nnoremap <Leader>h :History<CR>
 
   " NERDTree
   Plug 'scrooloose/nerdtree'
@@ -126,8 +110,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'styled-components/vim-styled-components'
 
   " TypeScript
-
-  Plug 'leafgarland/typescript-vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   " ReasonML
   Plug 'reasonml-editor/vim-reason'
@@ -146,8 +129,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-scripts/utl.vim'
   Plug 'vim-scripts/SyntaxRange'
   Plug 'tpope/vim-speeddating'
+
   " Silence vim-orgmode Speeddating missing
   command! -nargs=* -range SpeedDatingFormat
+
   Plug 'jceb/vim-orgmode'
 
   " More focus
