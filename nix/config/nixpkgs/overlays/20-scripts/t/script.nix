@@ -25,7 +25,7 @@
 
   _safe_window() {
     if [ -x "$2" ]; then
-      tmux new-window -n "$1" -t "$SESSION"
+      direnv exec / tmux new-window -n "$1" -t "$SESSION"
       tmux send-keys "$2" C-m
     fi
   }
@@ -34,11 +34,11 @@
     if [ -L "$PWD"/.tmux ] && [ -e "$PWD"/.tmux ] || [ -x "$PWD"/.tmux ]; then
       "$PWD"/.tmux "$SESSION"
     else
-      tmux new-session -s "$SESSION" -n editor -d
+      direnv exec / tmux new-session -s "$SESSION" -n editor -d
       tmux send-keys "$EDITOR" C-m #':CtrlP' C-m
       _safe_window bash bash
 
-      direnv exec / tmux select-window -t "$SESSION":1
+      tmux select-window -t "$SESSION":1
     fi
   fi
 
