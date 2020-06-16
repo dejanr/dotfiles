@@ -1,52 +1,31 @@
-{ multiStdenv
-, fetchFromGitHub
-, stdenv
-, meson
-, ninja
-, glslang
-, wineWowPackages
-}:
+ { stdenv, fetchurl }:
 
-let
-  wine = wineWowPackages.staging;
-in multiStdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   pname = "dxvk";
-  version = "v1.4.3";
+  version = "1.7";
 
-  src = fetchFromGitHub {
-    owner = "doitsujin";
-    repo = "dxvk";
-    rev = version;
-    sha256 = "1hh5mnpdv7wmd5zn3a69m0fgjrakfaznrs0ff0wv74bp81r6yw6y";
+  src = fetchurl {
+    url = "https://github.com/doitsujin/dxvk/releases/download/v${version}/dxvk-${version}.tar.gz";
+    sha256 = "18f7lj6b08abywidsq3s98kiwwn1jbbjzg7clm8bs93cj0wq5mv7";
   };
 
-  buildInputs = [ meson ninja glslang wine ];
-
-  phases = "unpackPhase patchPhase buildPhase installPhase fixupPhase";
-
-  patches = [ ./dxvk_fix_setup_script_hang.patch ];
-
-  buildPhase =
-    let
-      builder = ./builder.sh;
-    in ''
-      source ${builder}
-      build_dxvk 64
-      build_dxvk 32
-    '';
+  phases = "unpackPhase installPhase fixupPhase";
 
   installPhase = ''
+    mkdir -p $out/share/dxvk/
+
     cp setup_dxvk.sh $out/share/dxvk/setup_dxvk
     chmod +x $out/share/dxvk/setup_dxvk
 
     mkdir -p $out/bin/
     ln -s $out/share/dxvk/setup_dxvk $out/bin/setup_dxvk
+
+    cp -r x64/ $out/share/dxvk/
+    cp -r x32/ $out/share/dxvk/
   '';
 
   fixupPhase = ''
-    substituteInPlace $out/share/dxvk/setup_dxvk --replace \
-      "#!/bin/bash" \
-      "#!${stdenv.shell}"
+    patchShebangs $out/share/dxvk/setup_dxvk
   '';
 
   meta = with stdenv.lib; {
