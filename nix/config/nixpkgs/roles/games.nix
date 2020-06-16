@@ -3,9 +3,9 @@
 {
   environment.systemPackages = with pkgs; [
     steam
-    wineWowPackages.stable
+    wineWowPackages.fonts
+    wineWowPackages.staging
     winetricks
     dxvk
-    d9vk
   ];
 }

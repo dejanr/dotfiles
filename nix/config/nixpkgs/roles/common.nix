@@ -7,7 +7,7 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "08dn49czxixazrpfm0x37ppf20jx9qpss0j299a5rw8k8mjjp7a2";
   };
-  sources = import ../../../sources.nix;
+  emacs-overlay = (import ../../../default.nix).emacs-overlay;
   overlays =
     let
       paths = [
@@ -49,7 +49,7 @@ in
         ];
       };
     };
-    overlays = overlays ++ [ (import sources.emacs-overlay) ];
+    overlays = overlays ++ [ emacs-overlay ];
   };
 
   time.timeZone = "Europe/Berlin";
