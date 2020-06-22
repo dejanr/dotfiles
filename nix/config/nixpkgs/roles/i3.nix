@@ -34,7 +34,6 @@ in
     xorg.xbacklight
     sound-theme-freedesktop
     dunst # notifications
-    compton # window transitions
     i3minator # i3 project manager
     i3-config # custom i3 config from overlay
     i3blocks
@@ -120,14 +119,9 @@ in
     xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
 
-  services.compton = {
+  services.picom = {
     enable = true;
     backend = "glx";
-    vSync = true;
-    settings = {
-      unredir-if-possible = true;
-      paint-on-overlay = true;
-      dbe = true;
-    };
+    vSync = "opengl";
   };
 }
