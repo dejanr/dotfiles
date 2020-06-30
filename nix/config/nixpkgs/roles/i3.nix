@@ -104,15 +104,8 @@ in
     displayManager = {
       defaultSession = "none+i3";
 
-      lightdm = {
+      gdm = {
         enable = true;
-        background = "#195466";
-
-        greeters.mini.enable = true;
-        greeters.mini.user = "dejanr";
-        greeters.mini.extraConfig = ''
-          window-color = "#245361"
-        '';
       };
     };
 
@@ -122,6 +115,6 @@ in
   services.picom = {
     enable = true;
     backend = "glx";
-    vSync = "opengl";
+    vSync = true;
   };
 }
