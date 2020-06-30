@@ -28,9 +28,12 @@ in
     hostName = "${hostName}";
   };
 
+  programs.x2goserver.enable = true;
+
   services = {
     unifi.enable = true;
     unifi.openPorts = true;
+
 
     xserver = {
       enable = true;
