@@ -111,10 +111,4 @@ in
 
     xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
-
-  services.picom = {
-    enable = true;
-    backend = "glx";
-    vSync = true;
-  };
 }
