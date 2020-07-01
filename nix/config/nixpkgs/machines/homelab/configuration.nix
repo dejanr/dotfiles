@@ -4,7 +4,7 @@ with lib;
 let
   username = "dejanr";
   hostName = "homelab";
-  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
 {
   imports = [

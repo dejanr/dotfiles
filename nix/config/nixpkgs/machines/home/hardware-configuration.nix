@@ -67,7 +67,7 @@
 
   fileSystems."/" =
     {
-      device = "zpool/root";
+      device = "zpool/root/nixos";
       fsType = "zfs";
     };
 
