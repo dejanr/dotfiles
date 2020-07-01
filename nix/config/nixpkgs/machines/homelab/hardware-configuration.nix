@@ -1,12 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ boot, lib, pkgs, ... }:
 let
-  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
   nvidia_gl = nvidia_x11.out;
   nvidia_gl_32 = nvidia_x11.lib32;
 in
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     initrd.kernelModules = [ "vfio_pci" "fbcon" ];
     kernelModules = [
@@ -78,7 +77,7 @@ in
 
   fileSystems."/" =
     {
-      device = "zroot/root";
+      device = "rpool/root";
       fsType = "zfs";
     };
 

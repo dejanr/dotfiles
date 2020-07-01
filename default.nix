@@ -1,6 +1,8 @@
-{ pkgs ? (import ./nix).pkgs {}
+{ sources ? import ./nix/sources.nix
+, pkgs ? import sources.nixpkgs {}
 , dotfilesDir ? "$HOME/.dotfiles"
 }:
+
 let
   link = pkgs.writeScript "link" ''
     #!/usr/bin/env bash

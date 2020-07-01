@@ -37,7 +37,7 @@ in
 
     xserver = {
       enable = true;
-      videoDrivers = [ "nvidiaBeta" ];
+      videoDrivers = [ "nvidia" ];
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
@@ -93,5 +93,5 @@ in
 
   virtualisation.docker.enableNvidia = true;
 
-  system.stateVersion = "19.03";
+  system.stateVersion = "20.03";
 }

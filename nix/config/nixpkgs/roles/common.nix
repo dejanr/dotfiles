@@ -1,13 +1,14 @@
 { pkgs , lib , ... }:
 
 let
+  sources = import ../../../sources.nix;
   username = "dejanr";
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "0d6xpbl6kcd2r8ywy0sxxl51n5al261j4mln3xz3im11i8x0y2s1";
   };
-  emacs-overlay = (import ../../../default.nix).emacs-overlay;
+  emacs-overlay = (import sources.emacs-overlay);
   overlays =
     let
       paths = [
@@ -38,16 +39,14 @@ in
   nix.trustedUsers = [ "${username}" "root" ];
 
   nixpkgs = {
-    pkgs = (import ../../../default.nix).pkgs {
-      config = {
-        allowUnfree = true;
-        allowBroken = true;
-        allowUnsupportedSystem = true;
-        android_sdk.accept_license = true;
-        permittedInsecurePackages = [
-          "p7zip-16.02"
-        ];
-      };
+    config = {
+      allowUnfree = true;
+      allowBroken = true;
+      allowUnsupportedSystem = true;
+      android_sdk.accept_license = true;
+      permittedInsecurePackages = [
+        "p7zip-16.02"
+      ];
     };
     overlays = overlays ++ [ emacs-overlay ];
   };
