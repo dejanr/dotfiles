@@ -100,6 +100,7 @@ in
     urxvt_perl
     urxvt_perls
     urxvt_vtwheel
+    x2goclient # x2go client for remote desktop
     vimHugeX # vim with clipboard and x support
     wget # Tool for retrieving files
     zip # Compressor/archiver for creating and modifying zipfiles
