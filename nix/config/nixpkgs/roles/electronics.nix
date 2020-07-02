@@ -6,6 +6,5 @@
     minicom
     picocom
     platformio
-    fritzing
   ];
 }

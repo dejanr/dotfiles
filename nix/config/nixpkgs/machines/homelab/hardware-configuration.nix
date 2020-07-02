@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ boot, lib, pkgs, ... }:
 let
-  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  nvidia_x11 = pkgs.linuxPackages_latest.nvidia_x11;
   nvidia_gl = nvidia_x11.out;
   nvidia_gl_32 = nvidia_x11.lib32;
 in
@@ -62,6 +62,8 @@ in
 
     supportedFilesystems = [ "zfs" ];
 
+    zfs.enableUnstable = true;
+
     loader = {
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot";
@@ -78,7 +80,7 @@ in
 
   fileSystems."/" =
     {
-      device = "zroot/root";
+      device = "rpool/root";
       fsType = "zfs";
     };
 

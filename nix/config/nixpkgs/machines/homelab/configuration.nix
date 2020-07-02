@@ -4,7 +4,7 @@ with lib;
 let
   username = "dejanr";
   hostName = "homelab";
-  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
 {
   imports = [
@@ -28,13 +28,16 @@ in
     hostName = "${hostName}";
   };
 
+  programs.x2goserver.enable = true;
+
   services = {
     unifi.enable = true;
     unifi.openPorts = true;
 
+
     xserver = {
       enable = true;
-      videoDrivers = [ "nvidiaBeta" ];
+      videoDrivers = [ "nvidia" ];
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
@@ -90,5 +93,5 @@ in
 
   virtualisation.docker.enableNvidia = true;
 
-  system.stateVersion = "19.03";
+  system.stateVersion = "20.03";
 }
