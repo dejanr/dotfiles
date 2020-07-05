@@ -185,6 +185,7 @@ in
         3000
         4000
         5000
+        { from = 5900; to = 5910; } # VNC
         22000 # syntching transfer
         8200 # minidlna xbox
         56789 # kam server
