@@ -166,6 +166,7 @@
   for_window [class="Seahorse"] floating enable
   for_window [class="Pavucontrol"] floating enable
   for_window [class="Qalculate-gtk"] floating enable
+  for_window [class=".kazam-wrapped"] floating enable
   for_window [class="Pidgin"] floating enable
   for_window [class="Pidgin"] resize set 400 600
   for_window [class="Pidgin"] move window to position 1500 50
