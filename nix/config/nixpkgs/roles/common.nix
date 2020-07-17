@@ -85,7 +85,6 @@ in
     linuxPackages.cpupower # Tool to examine and tune power saving features
     niv # dependency manager for nix projects
     neovim
-    nixops # NixOS cloud provisioning and deployment tool
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
@@ -185,6 +184,7 @@ in
         3000
         4000
         5000
+        5900 # VNC
         22000 # syntching transfer
         8200 # minidlna xbox
         56789 # kam server
