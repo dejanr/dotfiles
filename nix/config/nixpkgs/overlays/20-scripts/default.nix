@@ -35,4 +35,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  eu = import ./eu {
+    inherit (super);
+    pkgs = super;
+  };
 }

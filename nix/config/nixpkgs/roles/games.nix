@@ -7,5 +7,6 @@
     wineWowPackages.staging
     winetricks
     dxvk
+    eu
   ];
 }
