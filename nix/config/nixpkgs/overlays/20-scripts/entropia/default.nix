@@ -2,14 +2,14 @@
 
 with pkgs;
 let
-  name = "music";
+  name = "entropia";
   eu = import ./script.nix {
     wine = pkgs.wine;
-    prefix = "~/.entropia";
+    prefix = ".entropia";
   };
   eufs = import ./script.nix {
     wine = pkgs.wine;
-    prefix = "~/.entropia-fs";
+    prefix = ".entropia-fs";
   };
 in
 stdenv.mkDerivation {
