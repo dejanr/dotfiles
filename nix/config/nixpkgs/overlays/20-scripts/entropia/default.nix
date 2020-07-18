@@ -5,11 +5,11 @@ let
   name = "music";
   eu = import ./script.nix {
     wine = pkgs.wine;
-    prefix = "~/.wine";
+    prefix = "~/.entropia";
   };
   eufs = import ./script.nix {
     wine = pkgs.wine;
-    prefix = "~/.wine-fs";
+    prefix = "~/.entropia-fs";
   };
 in
 stdenv.mkDerivation {
@@ -19,9 +19,9 @@ stdenv.mkDerivation {
   phases = [ "installPhase" ];
   installPhase = ''
     mkdir -p $out/bin
-    echo "$euScript" > $out/bin/eu
-    echo "$eufsScript" > $out/bin/eufs
-    chmod +x $out/bin/eu
-    chmod +x $out/bin/eufs
+    echo "$euScript" > $out/bin/entropia
+    echo "$eufsScript" > $out/bin/entropia-fs
+    chmod +x $out/bin/entropia
+    chmod +x $out/bin/entropia
   '';
 }

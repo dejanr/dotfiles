@@ -36,7 +36,7 @@ self: super:
     pkgs = super;
   };
 
-  eu = import ./eu {
+  entropia = import ./entropia {
     inherit (super);
     pkgs = super;
   };

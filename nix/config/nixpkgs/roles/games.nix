@@ -7,6 +7,6 @@
     wineWowPackages.staging
     winetricks
     dxvk
-    eu
+    entropia
   ];
 }
