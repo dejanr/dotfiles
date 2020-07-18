@@ -66,12 +66,8 @@ in
 
     loader = {
       efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot";
-
-      grub.enable = true;
-      grub.version = 2;
-      grub.devices = [ "nodev" ];
       grub.efiSupport = true;
+      grub.device = "nodev";
       grub.useOSProber = true;
     };
 
@@ -79,14 +75,17 @@ in
   };
 
   fileSystems."/" =
-    {
-      device = "rpool/root";
+    { device = "rpool/root/nixos";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "rpool/home";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/D7FB-4550";
+    { device = "/dev/disk/by-uuid/4830-6CE0";
       fsType = "vfat";
     };
 
