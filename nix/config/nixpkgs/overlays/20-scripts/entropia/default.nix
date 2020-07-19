@@ -22,6 +22,6 @@ stdenv.mkDerivation {
     echo "$euScript" > $out/bin/entropia
     echo "$eufsScript" > $out/bin/entropia-fs
     chmod +x $out/bin/entropia
-    chmod +x $out/bin/entropia
+    chmod +x $out/bin/entropia-fs
   '';
 }
