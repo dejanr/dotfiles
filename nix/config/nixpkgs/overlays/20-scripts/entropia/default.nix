@@ -15,7 +15,7 @@ in
 stdenv.mkDerivation {
   name = name;
   euScript = writeScript name eu;
-  eufsScript = writeScript name eu;
+  eufsScript = writeScript name eufs;
   phases = [ "installPhase" ];
   installPhase = ''
     mkdir -p $out/bin
