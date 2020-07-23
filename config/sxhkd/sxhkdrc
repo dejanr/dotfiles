@@ -7,7 +7,7 @@ super + {_,shift + }q
 super + t
 	bspc desktop -l next
 
-super + apostrophe
+super + a
 	bspc window -s last
 
 # Attach to a detached session. If none is available create a new one, rather
@@ -18,13 +18,13 @@ super + Return
 ctrl + super + Return
 	xst
 
-super + grave
+super + o
 	scratch
 
 super + shift + grave
 	emacsclient -e '(open-scratch-frame)'
 
-super + space
+super + d
 	~/.dotfiles/bin/rofi/appmenu
 
 super + Tab
@@ -34,7 +34,7 @@ super + backslash
 	~/.dotfiles/bin/rofi/passmenu
 
 super + slash
-	~/.dotfiles/bin/rofi/filemenu -x
+	~/.dotfiles/bin/rofi/filemenu
 
 super + Escape
 	pkill -USR1 -x sxhkd
@@ -91,10 +91,10 @@ super + shift + {Left,Down,Up,Right}
 ## Media keys
 
 # screenshot region
-Print
+super + {
 	scrcap
 # screencast region to mp4
-super + Print
+super + (
 	scrrec -s ~/recordings/$(date +%F-%T).mp4
 # screencast region to gif
 super + ctrl + Print
