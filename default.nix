@@ -25,6 +25,8 @@ device: username:
     # So we can use absolute import paths
     "bin=/etc/dotfiles/bin"
     "config=/etc/dotfiles/config"
+    "nixpkgs=${(import ./nix/sources.nix).nixpkgs}"
+    "home-manager=${(import ./nix/sources.nix)."home-manager"}"
   ];
 
   # Add custom packages & unstable channel, so they can be accessed via pkgs.*
