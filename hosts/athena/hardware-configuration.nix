@@ -15,7 +15,6 @@
     kernelParams = [
       "quiet"
       "loglevel=3"
-      "vga=current" # quiet boot
     ];
     blacklistedKernelModules = [
       "sp5100-tco"
