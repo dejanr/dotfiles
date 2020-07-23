@@ -52,6 +52,7 @@ let cfg = config.modules; in
 
     fonts.fonts = [ pkgs.nerdfonts ];
     my.packages = with pkgs; [
+      sxhkd
       my.ant-dracula
       paper-icon-theme # for rofi
     ];
