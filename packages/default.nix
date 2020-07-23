@@ -1,0 +1,19 @@
+[
+  (self: super: with super; {
+    my = {
+      ant-dracula = (callPackage ./ant-dracula.nix {});
+      cached-nix-shell = (import ../nix/sources.nix).cached-nix-shell;
+    };
+
+    nur = import (import ../nix/sources.nix).nur {
+      inherit super;
+    };
+
+    # Occasionally, "stable" packages are broken or incomplete, so access to the
+    # bleeding edge is necessary, as a last resort.
+    unstable = import (import ../nix/sources.nix).nixpkgs-unstable { inherit config; };
+  })
+
+  # emacsGit
+  (import (import ../nix/sources.nix).emacs-overlay)
+]

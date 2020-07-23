@@ -1,110 +1,70 @@
-{ sources ? import ./nix/sources.nix
-, pkgs ? import sources.nixpkgs {}
-, dotfilesDir ? "$HOME/.dotfiles"
-}:
+# default.nix --- the heart of dotfiles
+#
+# Author:  Dejan Ranisavljevic <dejan@ranisavljevic.com>
+# URL:     https://github.com/dejanr/dotfiles
+# License: MIT
+#
+# This is ground zero, where the absolute essentials go, to be present on all
+# systems I use nixos on. Most of which are single user systems (the ones that
+# aren't are configured from their hosts/*/default.nix).
 
-let
-  link = pkgs.writeScript "link" ''
-    #!/usr/bin/env bash
-    set -e
+device: username:
+{ pkgs, options, lib, config, ... }:
+{
+  networking.hostName = lib.mkDefault device;
+  my.username = username;
 
-    link() {
-      from="$1"
-      to="$2"
-      echo "link $from -> $to"
-      rm -f $to
-      ln -s "$from" "$to"
-    }
+  imports = [
+    ./modules
+    "${./hosts}/${device}"
+  ];
 
-    mkdir -p ~/.config
+  ### NixOS
+  nix.autoOptimiseStore = true;
+  nix.nixPath = options.nix.nixPath.default ++ [
+    # So we can use absolute import paths
+    "bin=/etc/dotfiles/bin"
+    "config=/etc/dotfiles/config"
+  ];
 
-    for main in $(find ${dotfilesDir} -maxdepth 2 -mindepth 2 ! -path '*.git*' | sort)
-    do
-      name=$(basename $main)
+  # Add custom packages & unstable channel, so they can be accessed via pkgs.*
+  nixpkgs.overlays = import ./packages;
+  nixpkgs.config.allowUnfree = true;  # forgive me Stallman senpai
 
-      if [ -d $main ]; then
-        echo "mkdir $HOME/.$name"
-        mkdir -p $HOME/.$name
+  # These are the things I want installed on all my systems
+  environment.systemPackages = with pkgs; [
+    # Just the bare essentials~
+    coreutils
+    git
+    killall
+    unzip
+    vim
+    wget
+    sshfs
 
-        for location in $(find $main -maxdepth 1 -mindepth 1 | sort)
-        do
-          dot=$(basename $location)
-          link $location $HOME/.$name/$dot
-        done
-      fi
+    gnumake               # for our own makefile
+    my.cached-nix-shell   # for instant nix-shell scripts
+  ];
+  environment.shellAliases = {
+    nix-env = "NIXPKGS_ALLOW_UNFREE=1 nix-env";
+    nix-shell = ''NIX_PATH="nixpkgs-overlays=/etc/dotfiles/packages/default.nix:$NIX_PATH" nix-shell'';
+    nsh = "nix-shell";
+    nen = "nix-env";
+    dots = "make -C ~/.dotfiles";
+  };
 
-      if [ -f $main ]; then
-        link $main $HOME/.$name
-      fi
-    done
-  '';
+  # Default settings for primary user account. `my` is defined in
+  # modules/default.nix
+  my.user = {
+    isNormalUser = true;
+    uid = 1000;
+    extraGroups = [ "wheel" "video" "networkmanager" ];
+    shell = pkgs.zsh;
+  };
 
-  unlink = pkgs.writeScript "unlink" ''
-    #!/usr/bin/env bash
-    set -e
-
-    remove() {
-      from="$1"
-      echo "unlink $from"
-      unlink $from
-    }
-
-    for main in $(find ${dotfilesDir} -maxdepth 2 -mindepth 1 ! -path '*.git*' | sort -r)
-    do
-      name=$(basename $main)
-
-      if [ -L $HOME/.$name ]; then
-        remove $HOME/.$name
-      fi
-
-      if [ -d $HOME/.$name ]; then
-        for location in $(find $main -maxdepth 1 -mindepth 1)
-        do
-          dot=$(basename $location)
-
-          if [ -L $HOME/.$name/$dot ]; then
-            remove $HOME/.$name/$dot
-          fi
-        done
-
-        echo "rmdir $HOME/.$name"
-        find $HOME/.$name -type d -empty -delete
-      fi
-    done
-  '';
-
-  help = pkgs.writeScript "help" ''
-    #!/usr/bin/env bash
-    echo "usage: dotfiles <command>"
-    echo ""
-    echo "  link    Symlink all dotfiles"
-    echo "  unlink  Remove all symlinked dotfiles"
-    exit
-  '';
-in
-pkgs.stdenv.mkDerivation {
-  name = "dotfiles";
-  preferLocalBuild = true;
-  propagatedBuildInputs = [ pkgs.git ];
-  propagatedUserEnvPkgs = [ pkgs.git ];
-
-  unpackPhase = ":";
-
-  script = ''
-    set -e
-    option=''${1:-help}
-    case $option in
-      link      ) ${link} ;;
-      unlink    ) ${unlink} ;;
-      help      ) ${help} ;;
-      *         ) ${help} && exit 1 ;;
-    esac
-    exit
-  '';
-
-  installPhase = ''
-    mkdir -p $out/bin
-    echo "$script" > $out/bin/dotfiles
-    chmod +x $out/bin/dotfiles
-  '';
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid breaking some software such as database
+  # servers. You should change this only after NixOS release notes say you
+  # should.
+  system.stateVersion = "20.03"; # Did you read the comment?
 }

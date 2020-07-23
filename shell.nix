@@ -2,10 +2,10 @@ let
   sources = import ./nix/sources.nix;
   nixpkgs = sources.nixpkgs;
   pkgs = import nixpkgs {};
-  dotfiles = import ./default.nix {};
+  dotfiles = import ./packages/dotfiles.nix {};
 in
 pkgs.mkShell {
-  src = ./default.nix;
+  src = ./packages/default.nix;
 
   name = "dotfiles-shell";
 
@@ -19,6 +19,5 @@ pkgs.mkShell {
   shellHook = ''
     export PATH="./result/bin:$PATH"
     export NIX_PATH="nixos-config=/etc/nixos/configuration.nix:nixpkgs=${nixpkgs}:home-manager=${sources."home-manager"}"
-    export HOME_MANAGER_CONFIG="./home.nix"
   '';
 }

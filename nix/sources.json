@@ -1,14 +1,26 @@
 {
+    "cached-nix-shell": {
+        "branch": "master",
+        "description": "Instant startup time for nix-shell",
+        "homepage": "",
+        "owner": "xzfc",
+        "repo": "cached-nix-shell",
+        "rev": "a0a7ca18f1f3bb30a704ea01a6030ae107197c09",
+        "sha256": "0viqcaiykvbh11bq4zjq66r7nnfd4zkxcfki59hsz8p2nyrc24fs",
+        "type": "tarball",
+        "url": "https://github.com/xzfc/cached-nix-shell/archive/a0a7ca18f1f3bb30a704ea01a6030ae107197c09.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "emacs-overlay": {
         "branch": "master",
         "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "879082baf65330aa591c51c8c261fddb22ec72aa",
-        "sha256": "1ap7fhk25yq4pkcg9ghq77inmpd2r1r24klafqpq5jvj4vvqh18g",
+        "rev": "a392216c05efe30f169391b830464abfff7602b9",
+        "sha256": "05kx7mzg0068y62c06hiydpr0f4b2jwbyhp4gvby8qnl01vz0lj5",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/879082baf65330aa591c51c8c261fddb22ec72aa.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/a392216c05efe30f169391b830464abfff7602b9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "home-manager": {
@@ -17,10 +29,10 @@
         "homepage": "https://rycee.gitlab.io/home-manager/",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "7f7348b47049e8d25fb5b98db1d6215f8f643f0d",
-        "sha256": "1s8j8h42k354xzwlqizbzxlqvsagx7yrxl20qfxgxmx522ajw63p",
+        "rev": "8ad55800216760291e253150a7ecc831c2956229",
+        "sha256": "0nif0a2pv5wgyjhfqd8jmlc055y0604xmqfnnr2hfrzz0blpl4ww",
         "type": "tarball",
-        "url": "https://github.com/rycee/home-manager/archive/7f7348b47049e8d25fb5b98db1d6215f8f643f0d.tar.gz",
+        "url": "https://github.com/rycee/home-manager/archive/8ad55800216760291e253150a7ecc831c2956229.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -29,10 +41,10 @@
         "homepage": "https://github.com/nmattia/niv",
         "owner": "nmattia",
         "repo": "niv",
-        "rev": "f73bf8d584148677b01859677a63191c31911eae",
-        "sha256": "0jlmrx633jvqrqlyhlzpvdrnim128gc81q5psz2lpp2af8p8q9qs",
+        "rev": "febd3530f0c2f2fb74752ee4d9dd2518d302f618",
+        "sha256": "1gifi50k4h6wk9ix0yvp66p7jk8rrqgr39r5rf4lyha6pbs7dbk6",
         "type": "tarball",
-        "url": "https://github.com/nmattia/niv/archive/f73bf8d584148677b01859677a63191c31911eae.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/febd3530f0c2f2fb74752ee4d9dd2518d302f618.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
@@ -65,10 +77,10 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "nur",
-        "rev": "518bb7cb3a967bd14c8970c5ba9650f7d410f9d9",
-        "sha256": "0ds5s2wzzj25gyibjigm00nc0xymgn03mwxn1gcsj6j3jsfyflpp",
+        "rev": "d48fe6e8030cda08b1da25bd6a71985c9d4b98b3",
+        "sha256": "0drlx8wny1s5xh05j58mlhxxgpaiv92mg7pw6q9rnfgdd58f3kni",
         "type": "tarball",
-        "url": "https://github.com/nix-community/nur/archive/518bb7cb3a967bd14c8970c5ba9650f7d410f9d9.tar.gz",
+        "url": "https://github.com/nix-community/nur/archive/d48fe6e8030cda08b1da25bd6a71985c9d4b98b3.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

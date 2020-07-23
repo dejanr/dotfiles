@@ -1,3 +1,2 @@
 result
-vim/vim/plugged
-*.el#
+secrets.nix
