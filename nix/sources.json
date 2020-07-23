@@ -36,15 +36,39 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
+        "branch": "nixos-20.03",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "9ea61f7bc4454734ffbff73c9b6173420fe3147b",
+        "sha256": "0cra1cimf7692f9aziaszgy55l0xcmsawzfqmyz14jjw2psir246",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/9ea61f7bc4454734ffbff73c9b6173420fe3147b.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-unstable": {
         "branch": "nixos-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "NixOS",
         "repo": "nixpkgs-channels",
-        "rev": "c71518e75bf067fb639d44264fdd8cf80f53d75a",
-        "sha256": "0hwa79prsqgvfwd3ah54nl0wh73q215z7np4k6y0pd6zr3m17vxs",
+        "rev": "5717d9d2f7ca0662291910c52f1d7b95b568fec2",
+        "sha256": "17gxd2f622pyss3r6cjngdav6wzdbr31d7bqx9z2lawxg47mmk1l",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/c71518e75bf067fb639d44264fdd8cf80f53d75a.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/5717d9d2f7ca0662291910c52f1d7b95b568fec2.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nur": {
+        "branch": "master",
+        "description": "Nix User Repository: User contributed nix packages [maintainer=@Mic92]",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "nur",
+        "rev": "518bb7cb3a967bd14c8970c5ba9650f7d410f9d9",
+        "sha256": "0ds5s2wzzj25gyibjigm00nc0xymgn03mwxn1gcsj6j3jsfyflpp",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/nur/archive/518bb7cb3a967bd14c8970c5ba9650f7d410f9d9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
