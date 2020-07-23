@@ -3,16 +3,12 @@
 with builtins; with lib;
 let
   hosts = {
-    home = "x86_64-linux";
-    office = "x86_64-linux";
-    homelab = "x86_64-linux";
-    pocket = "x86_64-linux";
-    theory = "x86_64-linux";
+    athena = "x86_64-linux";
   };
 
   mkNixOS = name: arch:
     let
-      configuration = ./nix/config/nixpkgs/machines + "/${name}/configuration.nix";
+      configuration = "./hosts/${name}/configuration.nix";
       system = arch;
       nixos = (import ./nix).nixos { inherit configuration system; };
     in nixos.config.system.build;
