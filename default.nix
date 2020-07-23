@@ -62,6 +62,7 @@ device: username:
     uid = 1000;
     extraGroups = [ "wheel" "video" "networkmanager" ];
     shell = pkgs.zsh;
+    initialPassword = "initial";
   };
 
   # This value determines the NixOS release with which your system is to be
