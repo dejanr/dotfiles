@@ -1,3 +1,7 @@
+# switch between last two desktops
+super + a
+	  bspc desktop -f last
+
 super + alt + Escape
 	bspc quit
 
@@ -6,9 +10,6 @@ super + {_,shift + }q
 
 super + t
 	bspc desktop -l next
-
-super + a
-	bspc window -s last
 
 # Attach to a detached session. If none is available create a new one, rather
 # than attach to one that is already attached to elsewhere.
@@ -27,7 +28,7 @@ super + shift + grave
 super + d
 	~/.dotfiles/bin/rofi/appmenu
 
-super + Tab
+super + w
 	~/.dotfiles/bin/rofi/windowmenu
 
 super + backslash
