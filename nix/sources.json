@@ -11,6 +11,18 @@
         "url": "https://github.com/xzfc/cached-nix-shell/archive/a0a7ca18f1f3bb30a704ea01a6030ae107197c09.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "doom-emacs": {
+        "branch": "develop",
+        "description": "An Emacs framework for the stubborn martian hacker",
+        "homepage": "",
+        "owner": "hlissner",
+        "repo": "doom-emacs",
+        "rev": "15f0bccde57538812e64f1c12771bc454aa254c6",
+        "sha256": "1ydif4qwq0l6rv1h5418vl8igbk4qclzwg9ck3b7jzpbv27rmf1z",
+        "type": "tarball",
+        "url": "https://github.com/hlissner/doom-emacs/archive/15f0bccde57538812e64f1c12771bc454aa254c6.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "emacs-overlay": {
         "branch": "master",
         "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",

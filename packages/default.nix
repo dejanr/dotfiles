@@ -2,6 +2,7 @@
   (self: super: with super; {
     my = {
       ant-dracula = (callPackage ./ant-dracula.nix {});
+      doom-emacs = (callPackage ./doom-emacs.nix {});
       cached-nix-shell = import (import ../nix/sources.nix).cached-nix-shell {};
     };
 

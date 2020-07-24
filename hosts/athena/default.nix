@@ -22,7 +22,7 @@
       term.default = "xst";
       term.st.enable = true;
 
-      browsers.default = "firefox";
+      browsers.default = "google-chrome";
       browsers.firefox.enable = true;
       # browsers.qutebrowser.enable = true;
       # browsers.vimb.enable = true;
