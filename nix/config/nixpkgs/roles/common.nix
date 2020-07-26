@@ -2,6 +2,7 @@
 
 let
   sources = import ../../../sources.nix;
+  nixpkgs = sources.nixpkgs;
   username = "dejanr";
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
@@ -37,6 +38,11 @@ in
   '';
   nix.binaryCaches = [ https://cache.nixos.org ];
   nix.trustedUsers = [ "${username}" "root" ];
+  nix.nixPath = [
+    "nixos-config=/etc/nixos/configuration.nix"
+    "nixpkgs=${nixpkgs}"
+    "home-manager=${sources."home-manager"}"
+  ];
 
   nixpkgs = {
     config = {
