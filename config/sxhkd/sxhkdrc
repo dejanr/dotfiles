@@ -16,7 +16,7 @@ super + t
 super + Return
 	termite
 
-ctrl + super + Return
+super + shift + Return
 	termite -e bash -c "(tmux ls | grep -qEv 'attached|scratch' && tmux at) || tmux"
 
 super + o

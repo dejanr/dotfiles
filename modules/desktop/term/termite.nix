@@ -10,8 +10,6 @@ with lib;
   };
 
   config = mkIf config.modules.desktop.term.termite.enable {
-    my.home.home.file.".config/termite/config".source = <config/termite/config>;
-
     my.packages = with pkgs; [
       termite
     ];
