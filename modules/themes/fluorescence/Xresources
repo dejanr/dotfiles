@@ -50,11 +50,11 @@
 
 
 !! general
-scratch.font: Fira Code:pixelsize=16
+scratch.font: PragmataPro:pixelsize=16
 
 
 !! xst
-st.font: Fira Code:pixelsize=12
+st.font: PragmataPro:pixelsize=12
 
 
 !! urxvt

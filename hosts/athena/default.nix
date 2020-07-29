@@ -19,8 +19,8 @@
       apps.recording.enable = true;  # recording screen/audio
       #apps.vm.enable = true;         # virtualbox for testing
 
-      term.default = "xst";
-      term.st.enable = true;
+      term.default = "termite";
+      term.termite.enable = true;
 
       browsers.default = "google-chrome";
       browsers.firefox.enable = true;
