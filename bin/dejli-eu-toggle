@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ps aux | grep dejli-eu-deamon | head -n 1 | awk '{ print $2 }' | xargs kill -s SIGINT

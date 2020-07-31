@@ -49,6 +49,8 @@ with lib;
         # :lang rust
         rustfmt
         rls
+
+        nixfmt # nix formatter
       ];
 
       env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
