@@ -63,21 +63,6 @@ in {
     themes.fluorescence.enable = true;
   };
 
-  services = {
-    postgresql = {
-      enable = true;
-      enableTCPIP = true;
-      authentication = pkgs.lib.mkOverride 10 ''
-        local all all trust
-        host all all ::1/128 trust
-      '';
-      initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE ROLE ${secrets.postgresql.username} WITH LOGIN PASSWORD '${secrets.postgresql.password}' CREATEDB;
-        CREATE DATABASE nixcloud;
-        GRANT ALL PRIVILEGES ON DATABASE nixcloud TO nixcloud;
-      '';
-    };
-  };
   programs.ssh.startAgent = true;
   networking.networkmanager.enable = true;
   networking.hostId = "8425e349";
