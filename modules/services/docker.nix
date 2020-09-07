@@ -1,6 +1,5 @@
 { config, options, pkgs, lib, ... }:
-with lib;
-{
+with lib; {
   options.modules.services.docker = {
     enable = mkOption {
       type = types.bool;
@@ -16,7 +15,6 @@ with lib;
       env.MACHINE_STORAGE_PATH = "$XDG_DATA_HOME/docker/machine";
 
       user.extraGroups = [ "docker" ];
-      zsh.rc = lib.readFile <config/docker/aliases.zsh>;
     };
 
     virtualisation = {

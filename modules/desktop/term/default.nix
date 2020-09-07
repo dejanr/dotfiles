@@ -1,10 +1,6 @@
 { config, options, lib, pkgs, ... }:
-with lib;
-{
-  imports = [
-    ./st.nix
-    ./termite.nix
-  ];
+with lib; {
+  imports = [ ./termite.nix ];
 
   options.modules.desktop.term = {
     default = mkOption {

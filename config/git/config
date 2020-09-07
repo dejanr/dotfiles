@@ -3,6 +3,7 @@
 	email = dejan@ranisavljevic.com
 [core]
 	whitespace = trailing-space
+	pager        = diff-so-fancy | less
 [github]
 	user = dejanr
 [rebase]
@@ -26,3 +27,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
+
+[pager]
+  diff = diff-so-fancy | less -RFXx1,5
+  log  = diff-so-fancy | less -RFXx1,5
+  show = diff-so-fancy | less -RFXx1,5
+	branch = false

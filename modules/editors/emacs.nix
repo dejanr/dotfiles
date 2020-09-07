@@ -3,8 +3,7 @@
 # particular Doomy needs.
 
 { config, options, lib, pkgs, ... }:
-with lib;
-{
+with lib; {
   options.modules.editors.emacs = {
     enable = mkOption {
       type = types.bool;
@@ -18,15 +17,15 @@ with lib;
         ## Doom dependencies
         emacsUnstable
         git
-        (ripgrep.override {withPCRE2 = true;})
-        gnutls              # for TLS connectivity
+        (ripgrep.override { withPCRE2 = true; })
+        gnutls # for TLS connectivity
 
         ## Optional dependencies
-        fd                  # faster projectile indexing
-        imagemagick         # for image-dired
+        fd # faster projectile indexing
+        imagemagick # for image-dired
         (lib.mkIf (config.programs.gnupg.agent.enable)
-          pinentry_emacs)   # in-emacs gnupg prompts
-        zstd                # for undo-fu-session/undo-tree compression
+          pinentry_emacs) # in-emacs gnupg prompts
+        zstd # for undo-fu-session/undo-tree compression
 
         ## Module dependencies
         # :checkers spell
@@ -54,15 +53,8 @@ with lib;
       ];
 
       env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
-      zsh.rc = lib.readFile <config/emacs/aliases.zsh>;
-
-      home.home.file = {
-        ".emacs.d".source = pkgs.my.doom-emacs;
-      };
     };
 
-    fonts.fonts = [
-      pkgs.emacs-all-the-icons-fonts
-    ];
+    fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
   };
 }

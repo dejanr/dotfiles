@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-{
+with lib; {
   options.modules.desktop.term.termite = {
     enable = mkOption {
       type = types.bool;
@@ -10,8 +9,6 @@ with lib;
   };
 
   config = mkIf config.modules.desktop.term.termite.enable {
-    my.packages = with pkgs; [
-      termite
-    ];
+    my = { packages = with pkgs; [ termite ]; };
   };
 }

@@ -1,12 +1,12 @@
 { config, options, lib, pkgs, ... }:
-with lib;
-{
-  imports = [
-    ./common.nix
-  ];
+with lib; {
+  imports = [ ./common.nix ];
 
   options.modules.desktop.bspwm = {
-    enable = mkOption { type = types.bool; default = false; };
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf config.modules.desktop.bspwm.enable {
@@ -33,12 +33,10 @@ with lib;
     };
 
     # link recursively so other modules can link files in their folders
-    my.home.xdg.configFile = {
-      "sxhkd".source = <config/sxhkd>;
-      "bspwm" = {
-        source = <config/bspwm>;
-        recursive = true;
-      };
+    my.home.xdg.configFile."sxhkd".source = <config/sxhkd>;
+    my.home.xdg.configFile."bspwm" = {
+      source = <config/bspwm>;
+      recursive = true;
     };
   };
 }

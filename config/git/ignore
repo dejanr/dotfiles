@@ -17,11 +17,6 @@ TAGS
 tags
 !tags/
 
-# Logs and databases #
-######################
-*.log
-*.cache
-
 # OS generated files #
 ######################
 .DS_Store?
@@ -59,3 +54,6 @@ config.codekit
 *.so
 *.dll
 *.pyc
+
+# Project vimrc
+.vimrc

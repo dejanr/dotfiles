@@ -1,4 +1,4 @@
-# Kuro -- my desktop
+# Athena -- my desktop
 
 { pkgs, options, config, ... }:
 
@@ -50,7 +50,6 @@ in {
       direnv.enable = true;
       git.enable = true;
       gnupg.enable = true;
-      # weechat.enable = true;
       pass.enable = true;
       tmux.enable = true;
       ranger.enable = true;
