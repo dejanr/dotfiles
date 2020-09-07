@@ -5,13 +5,11 @@ stdenv.mkDerivation rec {
   version = "1.3.0";
 
   src = fetchurl {
-    url = "https://github.com/EliverLara/Ant-Dracula/releases/download/v${version}/Ant-Dracula.tar";
+    url = "https://github.com/dracula/gtk/archive/v${version}.zip";
     sha256 = "09lcnysb6r1rm9fgxhpqgv4amjxwhv675lc5jbjwikz5m4nfnnga";
   };
 
-  propagatedUserEnvPkgs = [
-    gtk-engine-murrine
-  ];
+  propagatedUserEnvPkgs = [ gtk-engine-murrine ];
 
   dontBuild = true;
 
@@ -29,11 +27,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "A flat and light theme with a modern look";
-    homepage = https://github.com/EliverLara/Ant-Dracula;
+    homepage = "https://github.com/dracula/gtk";
     license = licenses.gpl3;
     platforms = platforms.all;
-    maintainers = [
-      maintainers.pbogdan
-    ];
+    maintainers = [ maintainers.pbogdan ];
   };
 }
