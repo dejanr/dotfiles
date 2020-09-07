@@ -148,7 +148,7 @@ call plug#begin('~/.vim/plugged')
 
   " Replace filename component of Lightline statusline
   let g:lightline = {
-    \ 'colorscheme': 'gotham',
+    \ 'colorscheme': 'dracula',
     \ 'component_function': {
     \   'filename': 'FilenameForLightline'
     \ }
@@ -166,7 +166,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'direnv/direnv.vim'
 
   " Themes
-  Plug 'whatyouhide/vim-gotham'
+  Plug 'dracula/vim', { 'as': 'dracula' }
 
   function! s:goyo_enter()
     silent !tmux set status off
@@ -354,8 +354,8 @@ set shortmess+=I
 
 set background=dark
 
-" Set color scheme to dejanr
-colorscheme gotham
+" Set color scheme
+colorscheme dracula
 
 " disable swapping
 set nobackup
