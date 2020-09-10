@@ -62,6 +62,7 @@ in {
     themes.fluorescence.enable = true;
   };
 
+  programs.adb.enable = true;
   programs.ssh.startAgent = true;
   networking.networkmanager.enable = true;
   networking.hostId = "8425e349";
