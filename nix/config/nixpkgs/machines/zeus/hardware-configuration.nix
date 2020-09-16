@@ -1,21 +1,27 @@
 { boot, lib, pkgs, ... }:
 let
-  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
+  nvidia_x11 = pkgs.linuxPackages_latest.nvidia_x11;
   nvidia_gl = nvidia_x11.out;
   nvidia_gl_32 = nvidia_x11.lib32;
 in
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages;
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-    initrd.kernelModules = [ "vfio_pci" "fbcon" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "vfio_pci" "fbcon" ];
+    initrd.kernelModules = [ ];
+    initrd.preDeviceCommands = ''
+      DEVS="0000:01:00.0 0000:01:00.1"
+      for DEV in $DEVS; do
+        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+      done
+      modprobe -i vfio-pci
+    '';
     kernelModules = [
-      "kvm"
       "kvm-intel"
-      "vfio"
-      "vfio_pci"
-      "vfio_iommu_type1"
-      "vfio_virqfd"
+      #"vfio"
+      #"vfio_pci"
+      #"vfio_iommu_type1"
+      #"vfio_virqfd"
       "tun"
       "virtio"
       "coretemp"
@@ -28,7 +34,8 @@ in
       #"vfio-pci.ids=10de:1c03,10de:10f1"
 
       # Use IOMMU
-      #"intel_iommu=on"
+      "intel_iommu=on"
+      #"pcie_aspm=off" # disable pcie power managment
       #"intel_iommu=igfx_off"
       #"i915.preliminary_hw_support=1"
       #"i915.enable_hd_vgaarb=1"

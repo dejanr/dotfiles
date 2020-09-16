@@ -13,15 +13,19 @@
     libvirt # A toolkit to interact with the virtualization capabilities of recent versions of Linux (and other OSes)
     virt-viewer # A viewer for remote virtual machines
     bridge-utils
+    looking-glass-client # Viewer for vms with passed-through gpus
   ];
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemuOvmf = true;
+    qemuRunAsRoot = false;
+    onBoot = "ignore";
+    onShutdown = "shutdown";
+  };
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
   networking.firewall.checkReversePath = false;
-
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
 
   virtualisation.docker = {
     enable = true;

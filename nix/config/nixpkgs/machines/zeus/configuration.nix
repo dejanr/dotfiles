@@ -14,6 +14,7 @@ in
     ../../roles/fonts.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
+    ../../roles/virtualization.nix
   ];
 
   nix.useSandbox = false;
@@ -23,12 +24,9 @@ in
     hostName = "${hostName}";
   };
 
-  programs.x2goserver.enable = true;
-
   services = {
     unifi.enable = true;
     unifi.openPorts = true;
-
 
     xserver = {
       enable = true;
@@ -72,6 +70,11 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig.ExecStart = "${nvidia_x11.bin}/bin/nvidia-smi";
   };
+
+  # Auto create looking glass shm file
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/looking-glass 0660 dejanr qemu-libvirtd -"
+  ];
 
   virtualisation.docker.enableNvidia = true;
 
