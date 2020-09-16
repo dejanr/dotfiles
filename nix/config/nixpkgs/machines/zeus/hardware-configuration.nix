@@ -62,8 +62,6 @@ in
 
     supportedFilesystems = [ "zfs" ];
 
-    zfs.enableUnstable = true;
-
     loader = {
       efi.canTouchEfiVariables = true;
       grub.efiSupport = true;
