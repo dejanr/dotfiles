@@ -71,8 +71,6 @@ in
     t
     wm-lock
     wm-wallpaper
-    dotemacs
-    music
 
     # nixpkgs
     apg # Tools for random password generation
