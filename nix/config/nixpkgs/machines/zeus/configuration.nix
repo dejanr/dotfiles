@@ -3,7 +3,7 @@
 with lib;
 let
   username = "dejanr";
-  hostName = "homelab";
+  hostName = "zeus";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
 {
@@ -12,13 +12,8 @@ in
     ../../roles/common.nix
     ../../roles/shells/bash
     ../../roles/fonts.nix
-    ../../roles/multimedia.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
-    ../../roles/development.nix
-    ../../roles/services.nix
-    ../../roles/electronics.nix
-    ../../roles/games.nix
   ];
 
   nix.useSandbox = false;
@@ -37,22 +32,9 @@ in
 
     xserver = {
       enable = true;
-      videoDrivers = [ "nvidia" ];
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
-
-      deviceSection = ''
-        Driver "nvidia"
-        VendorName "NVIDIA Corporation"
-        BusID "PCI:1:0:0"
-      '';
-
-      screenSection = ''
-        Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
-        Option         "AllowIndirectGLXProtocol" "off"
-        Option         "TripleBuffer" "on"
-      '';
     };
 
     tlp = {

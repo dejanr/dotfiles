@@ -75,21 +75,29 @@ in
   };
 
   fileSystems."/" =
-    { device = "rpool/root/nixos";
-      fsType = "zfs";
-    };
-
-  fileSystems."/home" =
-    { device = "rpool/home";
+    { device = "zpool/root/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4830-6CE0";
+    { device = "/dev/disk/by-uuid/6D9B-B398";
       fsType = "vfat";
     };
 
-  swapDevices = [];
+  fileSystems."/nix" =
+    { device = "zpool/root/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "zpool/home";
+      fsType = "zfs";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/b477f8bc-6496-4ae4-8366-8d3ed518bc3d"; }
+      { device = "/dev/disk/by-uuid/f8eb046e-cd09-4ce7-aa1c-3c00980aa6bb"; }
+    ];
 
   hardware = {
     cpu.intel.updateMicrocode = true;
