@@ -10,7 +10,11 @@ in
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "vfio_pci" "fbcon" ];
     initrd.kernelModules = [ ];
     initrd.preDeviceCommands = ''
-      DEVS="0000:01:00.0 0000:01:00.1"
+      # 0000:01:00.0 nvidia
+      # 0000:01:00.1 nvidia
+      # 0000:05:00.0 Ethernet
+      # 0000:05:00.1 Ethernet
+      DEVS="0000:01:00.0 0000:01:00.1 0000:05:00.0 0000:05:00.1"
       for DEV in $DEVS; do
         echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
       done
