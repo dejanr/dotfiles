@@ -13,7 +13,6 @@
     libvirt # A toolkit to interact with the virtualization capabilities of recent versions of Linux (and other OSes)
     virt-viewer # A viewer for remote virtual machines
     bridge-utils
-    looking-glass-client # Viewer for vms with passed-through gpus
   ];
 
   virtualisation.libvirtd = {

@@ -14,6 +14,7 @@ in
     ../../roles/fonts.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
+    ../../roles/multimedia.nix
     ../../roles/virtualization.nix
   ];
 
@@ -70,11 +71,6 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig.ExecStart = "${nvidia_x11.bin}/bin/nvidia-smi";
   };
-
-  # Auto create looking glass shm file
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 dejanr qemu-libvirtd -"
-  ];
 
   virtualisation.docker.enableNvidia = true;
 

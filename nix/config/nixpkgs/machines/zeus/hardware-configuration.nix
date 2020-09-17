@@ -31,26 +31,7 @@ in
       "fs.inotify.max_user_watches" = "1048576";
     };
     kernelParams = [
-      #"vfio-pci.ids=10de:1c03,10de:10f1"
-
-      # Use IOMMU
       "intel_iommu=on"
-      #"pcie_aspm=off" # disable pcie power managment
-      #"intel_iommu=igfx_off"
-      #"i915.preliminary_hw_support=1"
-      #"i915.enable_hd_vgaarb=1"
-      #"vfio_iommu_type1.allow_unsafe_interrupts=1"
-
-      #"kvm.allow_unsafe_assigned_interrupts=1"
-
-      # Needed by OS X
-      #"kvm.ignore_msrs=1"
-      #"kvm_intel.nested=1"
-      #"kvm_intel.emulate_invalid_guest_state=0"
-
-      # Only schedule cpus 0,1
-      # "isolcpus=1-3,5-7"
-
       "hugepagesz=1GB"
     ];
     blacklistedKernelModules = [
@@ -59,11 +40,6 @@ in
     ];
     extraModulePackages = [ nvidia_x11 ];
     extraModprobeConfig = ''
-      # 41:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] (rev a1)
-      # 41:00.1 Audio device: NVIDIA Corporation GP106 High Definition Audio Controller (rev a1)
-
-      # Assign devices to vfio
-      #options vfio-pci ids=10de:1c03,10de:10f1
       options snd-hda-intel vid=8086 pid=8ca0 snoop=0
     '';
 
