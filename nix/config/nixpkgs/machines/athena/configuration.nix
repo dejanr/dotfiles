@@ -15,11 +15,11 @@ in
       ../../roles/i3.nix
       ../../roles/development.nix
       ../../roles/services.nix
-      ../../roles/nas.nix
+      #../../roles/nas.nix
       ../../roles/games.nix
     ];
 
-  nix.useSandbox = false;
+  nix.useSandbox = true;
 
   networking = {
     hostName = hostName;

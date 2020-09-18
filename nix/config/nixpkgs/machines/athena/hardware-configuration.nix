@@ -28,11 +28,14 @@
       "kernel.nmi_watchdog" = 0;
     };
 
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub.efiSupport = true;
+      grub.device = "nodev";
+      grub.useOSProber = true;
+    };
 
     supportedFilesystems = [ "zfs" "exfat" ];
-    zfs.enableUnstable = true;
     cleanTmpDir = true;
   };
 
@@ -67,19 +70,28 @@
   };
 
   fileSystems."/" =
-    {
-      device = "zpool/root";
+    { device = "zpool/root/nixos";
+      fsType = "zfs";
+    };
+
+  fileSystems."/nix" =
+    { device = "zpool/root/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "zpool/home";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    {
-      device = "/dev/nvme0n1p1";
+    { device = "/dev/disk/by-uuid/437A-C657";
       fsType = "vfat";
     };
 
-
-  swapDevices = [];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/141c8269-4dbb-4dcd-a622-db4ea142b6e7"; }
+    ];
 
   nix.maxJobs = lib.mkDefault 8;
 }
