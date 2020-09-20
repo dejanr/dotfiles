@@ -30,6 +30,7 @@
     enable = true;
     enableOnBoot = true;
     autoPrune.enable = true;
+    storageDriver = "zfs";
   };
 
   virtualisation.lxd.zfsSupport = true;

@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   hostName = "rhea";
-  fancontrol = import ./fancontrol.nix {};
 in
 {
   imports =
@@ -69,32 +68,7 @@ in
   };
 
   fonts.fontconfig.dpi = 109;
-
   programs.light.enable = true;
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "zfs";
-
-  systemd.services.fancontrol = {
-    description = "Start fancontrol";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol";
-    };
-  };
-
-  systemd.services.fancontrolRestart = {
-    description = "Restart fancontrol on resume";
-    wantedBy = [ "suspend.target" ];
-    after = [ "suspend.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.systemd}/bin/systemctl --no-block restart fancontrol";
-    };
-  };
-
-  environment.etc."fancontrol".text = fancontrol;
 
   system.stateVersion = "19.09";
 }
