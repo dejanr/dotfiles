@@ -68,7 +68,6 @@
     ngrep # network packet alalyzer
     nix-prefetch-scripts
     nmap # network discovery and security audit
-    nodejs-12_x # Event-driven I/O framework for the V8 JavaScript engine
     nox # tools to make nix nicer
     obs-studio # video recording and live streaming
     sshuttle # Transparent proxy server that works as a poor man's VPN
