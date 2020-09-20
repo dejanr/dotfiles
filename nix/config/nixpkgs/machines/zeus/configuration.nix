@@ -14,7 +14,7 @@ in
     ../../roles/fonts.nix
     ../../roles/desktop.nix
     ../../roles/i3.nix
-    ../../roles/multimedia.nix
+    ../../roles/services.nix
     ../../roles/virtualization.nix
   ];
 

@@ -13,6 +13,7 @@ in
       ../../roles/desktop.nix
       ../../roles/i3.nix
       ../../roles/services.nix
+      ../../roles/virtualization.nix
     ];
 
   nix.useSandbox = true;

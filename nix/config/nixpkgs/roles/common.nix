@@ -7,7 +7,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1bcnnvr8b07qx2cfxr8xrsmbdi4xxmng6dyf1fv38dv3gm86rhxr";
+    sha256 = "0c9vf7cfa6fafawikl72h9p3ic8l29v56ich8zys67vm0d11pf35";
   };
   emacs-overlay = (import sources.emacs-overlay);
   overlays =
