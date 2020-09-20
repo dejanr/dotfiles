@@ -8,9 +8,6 @@ in
       ./hardware-configuration.nix
       ../../roles/common.nix
       ../../roles/shells/bash
-      ../../roles/fonts.nix
-      ../../roles/desktop.nix
-      ../../roles/i3.nix
       ../../roles/services.nix
       ../../roles/virtualization.nix
     ];
