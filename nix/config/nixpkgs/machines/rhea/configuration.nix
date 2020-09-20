@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  hostName = "athena";
+  hostName = "rhea";
   fancontrol = import ./fancontrol.nix {};
 in
 {
