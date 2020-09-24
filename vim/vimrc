@@ -65,7 +65,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  nnoremap <C-p> :Files<CR>
+  nnoremap <Leader><Leader> :Files<CR>
   nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>h :History<CR>
 
@@ -382,9 +382,6 @@ nmap <silent> <leader>n :set invhls<CR>:set hls?<CR>
 " Show all available VIM servers
 nmap <silent> <leader>ss :echo serverlist()<CR>
 
-" set text wrapping toggles
-nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
-
 " Edit the vimrc file
 nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
@@ -510,7 +507,7 @@ let g:VimuxUseNearestPane = 1
 
 nmap t :call VimuxRunLastCommand()<CR>
 nmap T :call VimuxRunCommand(" run-last-history-in-vimux")<CR>
-nmap <leader>s :w<CR>
+nmap <leader>fs :w<CR>
 
 set ttymouse=xterm2
 
@@ -521,13 +518,11 @@ set guifont=PragmataPro:h13
 let g:Powerline_symbols='fancy'
 
 " Shortcut for file explorer
-nmap <leader>f :NERDTreeFocus<CR>
+nmap <leader>op :NERDTreeFocus<CR>
 
 " netrw settings
 let g:netrw_banner = 0
 let g:netrw_browse_split = 0
-
-nmap <C-b> :CtrlPBuffer<CR>
 
 " Set dictionary (Its used with C-X C-K to autocomplete words)
 set dictionary=/usr/share/dict/words
