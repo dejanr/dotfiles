@@ -65,7 +65,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  nnoremap <Leader><Leader> :Files<CR>
+  nnoremap <Leader><Space> :Files<CR>
   nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>h :History<CR>
 
