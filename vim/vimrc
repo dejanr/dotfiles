@@ -171,8 +171,25 @@ call plug#begin('~/.vim/plugged')
   " Wiki
   Plug 'vimwiki/vimwiki'
 
-  let g:vimwiki_list = [{'path': '~/vimwiki/',
-                       \ 'syntax': 'markdown', 'ext': '.md'}]
+  " when linking to directory link to the index file instead
+  let g:vimwiki_dir_link = 'index'
+
+  let personal_wiki = {}
+  let personal_wiki.path = '~/wiki/personal/'
+  let personal_wiki.syntax = 'markdown'
+  let personal_wiki.ext = 'md'
+
+  let work_wiki = {}
+  let work_wiki.path = '~/wiki/work/'
+  let work_wiki.syntax = 'markdown'
+  let work_wiki.ext = 'md'
+
+  let personal_website = {}
+  let personal_website.path = '~/projects/dejan.ranisavljevic.com/pages/'
+  let personal_website.syntax = 'markdown'
+  let personal_website.ext = 'mdx'
+
+  let g:vimwiki_list = [personal_wiki, work_wiki, personal_website]
 
   function! s:goyo_enter()
     silent !tmux set status off
