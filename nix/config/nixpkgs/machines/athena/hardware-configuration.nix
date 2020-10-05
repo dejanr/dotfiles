@@ -7,7 +7,7 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
-    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
+    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" "i2c-dev" ];
     kernelParams = [
       "quiet"
       "loglevel=3"
