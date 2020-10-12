@@ -49,6 +49,12 @@ in
     etc."X11/Xresources".text = ''
       Xft.dpi: 109
     '';
+
+    systemPackages = with pkgs; [
+      libgphoto2 # A library for accessing digital cameras
+      gphoto2 # A ready to use set of digital camera software applications
+      gphoto2fs # mount camera as fs
+    ];
   };
 
   fonts.fontconfig.dpi = 109;

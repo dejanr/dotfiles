@@ -70,6 +70,7 @@
     nmap # network discovery and security audit
     nox # tools to make nix nicer
     obs-studio # video recording and live streaming
+    obs-v4l2sink
     sshuttle # Transparent proxy server that works as a poor man's VPN
     patchelf
     psmisc
