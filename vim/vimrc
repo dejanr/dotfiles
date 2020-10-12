@@ -3,6 +3,9 @@ let g:plug_shallow = 0
 let g:plug_window  = 'enew'
 let g:plug_pwindow = 'vertical rightbelow new'
 
+nnoremap <space> <nop>
+let mapleader = " "
+
 call plug#begin('~/.vim/plugged')
   " Ack
   Plug 'mileszs/ack.vim'
@@ -65,7 +68,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  nnoremap <leader><leader> :Files<CR>
+  nnoremap <leader><space> :Files<CR>
   nnoremap <leader>b :Buffers<CR>
   nnoremap <leader>h :History<CR>
 
@@ -219,8 +222,6 @@ filetype off                   " required!
 
 " ale runtime path
 let &runtimepath.=',~/.vim/bundle/ale'
-
-let mapleader = " "
 
 " Global Stuff
 "-----------------------------------------------------------------------------
