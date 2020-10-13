@@ -72,6 +72,7 @@
     obs-studio # video recording and live streaming
     obs-v4l2sink
     sshuttle # Transparent proxy server that works as a poor man's VPN
+    sqlite
     patchelf
     psmisc
     python
