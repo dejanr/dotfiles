@@ -3,6 +3,9 @@ let g:plug_shallow = 0
 let g:plug_window  = 'enew'
 let g:plug_pwindow = 'vertical rightbelow new'
 
+nnoremap <space> <nop>
+let mapleader = " "
+
 call plug#begin('~/.vim/plugged')
   " Ack
   Plug 'mileszs/ack.vim'
@@ -65,9 +68,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  nnoremap <C-p> :Files<CR>
-  nnoremap <Leader>b :Buffers<CR>
-  nnoremap <Leader>h :History<CR>
+  nnoremap <leader><space> :Files<CR>
+  nnoremap <leader>b :Buffers<CR>
+  nnoremap <leader>h :History<CR>
 
   " NERDTree
   Plug 'scrooloose/nerdtree'
@@ -168,6 +171,29 @@ call plug#begin('~/.vim/plugged')
   " Themes
   Plug 'whatyouhide/vim-gotham'
 
+  " Wiki
+  Plug 'vimwiki/vimwiki'
+
+  " when linking to directory link to the index file instead
+  let g:vimwiki_dir_link = 'index'
+
+  let personal_wiki = {}
+  let personal_wiki.path = '~/wiki/personal/'
+  let personal_wiki.syntax = 'markdown'
+  let personal_wiki.ext = 'md'
+
+  let work_wiki = {}
+  let work_wiki.path = '~/wiki/work/'
+  let work_wiki.syntax = 'markdown'
+  let work_wiki.ext = 'md'
+
+  let personal_website = {}
+  let personal_website.path = '~/projects/dejan.ranisavljevic.com/pages/'
+  let personal_website.syntax = 'markdown'
+  let personal_website.ext = 'mdx'
+
+  let g:vimwiki_list = [personal_wiki, work_wiki, personal_website]
+
   function! s:goyo_enter()
     silent !tmux set status off
     silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
@@ -196,8 +222,6 @@ filetype off                   " required!
 
 " ale runtime path
 let &runtimepath.=',~/.vim/bundle/ale'
-
-let mapleader = " "
 
 " Global Stuff
 "-----------------------------------------------------------------------------
@@ -376,9 +400,6 @@ nmap <silent> <leader>n :set invhls<CR>:set hls?<CR>
 " Show all available VIM servers
 nmap <silent> <leader>ss :echo serverlist()<CR>
 
-" set text wrapping toggles
-nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
-
 " Edit the vimrc file
 nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
@@ -504,7 +525,7 @@ let g:VimuxUseNearestPane = 1
 
 nmap t :call VimuxRunLastCommand()<CR>
 nmap T :call VimuxRunCommand(" run-last-history-in-vimux")<CR>
-nmap <leader>s :w<CR>
+nmap <leader>fs :w<CR>
 
 set ttymouse=xterm2
 
@@ -515,13 +536,11 @@ set guifont=PragmataPro:h13
 let g:Powerline_symbols='fancy'
 
 " Shortcut for file explorer
-nmap <leader>f :NERDTreeFocus<CR>
+nmap <leader>op :NERDTreeFocus<CR>
 
 " netrw settings
 let g:netrw_banner = 0
 let g:netrw_browse_split = 0
-
-nmap <C-b> :CtrlPBuffer<CR>
 
 " Set dictionary (Its used with C-X C-K to autocomplete words)
 set dictionary=/usr/share/dict/words

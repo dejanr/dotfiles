@@ -5,7 +5,7 @@
     acpi # Show battery status and other ACPI information
     arandr # manage dispays
     axel #  Console downloading program with some features for parallel connections for faster downloading
-    chromium # An open source web browser from Google
+    (chromium.override { enableVaapi = true; })  # An open source web browser from Google
     caffeine-ng # Status bar application to temporarily inhibit screensaver and sleep mode
     imv # A command line image viewer for tiling window managers
     evince # gnome document viewer

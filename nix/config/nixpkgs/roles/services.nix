@@ -53,7 +53,6 @@
     };
 
     upower.enable = true;
-    nixosManual.showManual = false;
 
     chrony.enable = true;
 

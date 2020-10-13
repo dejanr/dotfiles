@@ -35,6 +35,7 @@ in
     gc-keep-outputs = false
     gc-keep-derivations = false
     auto-optimise-store = true
+    experimental-features = nix-command flakes 
   '';
   nix.binaryCaches = [ https://cache.nixos.org ];
   nix.trustedUsers = [ "${username}" "root" ];
@@ -43,6 +44,7 @@ in
     "nixpkgs=${nixpkgs}"
     "home-manager=${sources."home-manager"}"
   ];
+  nix.package = pkgs.nixFlakes;
 
   nixpkgs = {
     config = {
