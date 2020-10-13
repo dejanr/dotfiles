@@ -13,9 +13,8 @@ in
       ../../roles/desktop.nix
       ../../roles/i3.nix
       ../../roles/development.nix
+      ../../roles/virtualisation.nix
     ];
-
-  nix.useSandbox = true;
 
   networking = {
     hostName = hostName;

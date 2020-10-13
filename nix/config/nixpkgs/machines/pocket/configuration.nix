@@ -19,8 +19,6 @@ in
       ../../roles/email-client.nix
     ];
 
-  nix.useSandbox = false;
-
   networking = {
     hostName = hostName;
     hostId = "efc96a34";
