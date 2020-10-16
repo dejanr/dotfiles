@@ -13,11 +13,8 @@ in
       ../../roles/desktop.nix
       ../../roles/i3.nix
       ../../roles/development.nix
-      ../../roles/services.nix
-      ../../roles/games.nix
+      ../../roles/virtualisation.nix
     ];
-
-  nix.useSandbox = true;
 
   networking = {
     hostName = hostName;
@@ -30,11 +27,6 @@ in
       useGlamor = true;
       videoDrivers = [ "amdgpu" ];
 
-      deviceSection = ''
-        Option "TearFree" "true"
-        Option "DRI" "3"
-      '';
-
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
@@ -43,6 +35,44 @@ in
     tlp = {
       enable = true;
     };
+
+    fail2ban = {
+      enable = true;
+      jails = {
+        # this is predefined
+        ssh-iptables = ''
+          enabled  = true
+        '';
+      };
+    };
+
+    openssh = {
+      enable = true;
+      permitRootLogin = "yes";
+      passwordAuthentication = false;
+    };
+
+    logind.extraConfig = ''
+      HandlePowerKey=ignore
+      HandleSuspendKey=ignore
+      HandleHibernateKey=ignore
+    '';
+
+    acpid = {
+      enable = true;
+
+      powerEventCommands = ''
+        systemctl suspend
+      '';
+    };
+
+    postfix = {
+      enable = true;
+      setSendmail = true;
+    };
+
+    upower.enable = true;
+    chrony.enable = true;
   };
 
   environment = {
@@ -61,8 +91,5 @@ in
 
   programs.light.enable = true;
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "zfs";
-
-  system.stateVersion = "19.09";
+  system.stateVersion = "20.09";
 }

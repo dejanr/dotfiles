@@ -22,8 +22,6 @@ in
       ../../roles/autolock.nix
     ];
 
-  nix.useSandbox = false;
-
   networking = {
     hostName = "theory";
     hostId = "7392bf5d";

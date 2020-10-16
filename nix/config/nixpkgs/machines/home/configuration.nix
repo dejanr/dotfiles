@@ -19,8 +19,6 @@ in
       ../../roles/games.nix
     ];
 
-  nix.useSandbox = false;
-
   networking = {
     hostName = hostName;
     hostId = "8425e349";

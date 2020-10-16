@@ -15,10 +15,8 @@ in
     ../../roles/desktop.nix
     ../../roles/i3.nix
     ../../roles/services.nix
-    ../../roles/virtualization.nix
+    ../../roles/virtualisation.nix
   ];
-
-  nix.useSandbox = false;
 
   networking = {
     hostId = "8425e349";

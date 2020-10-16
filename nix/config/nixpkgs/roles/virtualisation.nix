@@ -21,7 +21,9 @@
     qemuRunAsRoot = false;
     onBoot = "ignore";
     onShutdown = "shutdown";
+    allowedBridges = [ "br0" ];
   };
+
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
   networking.firewall.checkReversePath = false;
@@ -30,6 +32,7 @@
     enable = true;
     enableOnBoot = true;
     autoPrune.enable = true;
+    autoPrune.flags = [ "--all" ];
     storageDriver = "zfs";
   };
 
