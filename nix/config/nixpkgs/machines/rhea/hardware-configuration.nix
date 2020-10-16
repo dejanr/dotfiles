@@ -7,7 +7,7 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "lm92" ];
-    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" ];
+    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" "i2c-dev" "v4l2loopback" ];
     kernelParams = [
       "quiet"
       "loglevel=3"
@@ -21,6 +21,7 @@
       options k10temp force=1
       options amdgpu si_support=1
       options amdgpu cik_support=0
+      options v4l2loopback video_nr=10 card_label="OBS Video Source" exclusive_caps=1 max_buffers=2 devices=1
     '';
 
     kernel.sysctl = {
