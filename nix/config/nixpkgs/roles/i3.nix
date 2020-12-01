@@ -104,7 +104,7 @@ in
     displayManager = {
       defaultSession = "none+i3";
 
-      gdm = {
+      lightdm = {
         enable = true;
       };
     };

@@ -35,7 +35,7 @@ in
     gc-keep-outputs = false
     gc-keep-derivations = false
     auto-optimise-store = true
-    experimental-features = nix-command flakes 
+    experimental-features = nix-command flakes
   '';
   nix.binaryCaches = [ https://cache.nixos.org ];
   nix.trustedUsers = [ "${username}" "root" ];
@@ -83,6 +83,7 @@ in
     gitAndTools.gitFull # Distributed version control system
     gnvim # GUI for neovim, without any web bloat
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
+    fzf # fuzzy finder
     haskellPackages.gitHUD # command-line HUD for git repos
     htop # An interactive process viewer for Linux
     kdeApplications.kleopatra

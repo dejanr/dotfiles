@@ -3,10 +3,9 @@
 {
   environment.systemPackages = with pkgs; [
     steam
-    wineWowPackages.fonts
-    wineWowPackages.staging
+    wine
     winetricks
     dxvk
-    entropia
+    pyfa
   ];
 }

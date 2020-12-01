@@ -68,7 +68,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  nnoremap <leader><space> :Files<CR>
+  nnoremap <leader><space> :FZF<CR>
   nnoremap <leader>b :Buffers<CR>
   nnoremap <leader>h :History<CR>
 
@@ -109,8 +109,6 @@ call plug#begin('~/.vim/plugged')
   " Testing phase.
 
   " Styled Components
-
-  Plug 'styled-components/vim-styled-components'
 
   " TypeScript
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
