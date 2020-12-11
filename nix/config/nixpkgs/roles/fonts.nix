@@ -2,9 +2,6 @@
 
 {
   fonts = {
-    enableFontDir = true;
-    enableGhostscriptFonts = false;
-
     fonts = with pkgs; [
       corefonts
       pragmatapro
@@ -15,7 +12,6 @@
       freefont_ttf
       source-code-pro
       inconsolata
-      vistafonts
       dejavu_fonts
       freefont_ttf
       unifont

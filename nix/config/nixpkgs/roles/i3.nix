@@ -71,8 +71,6 @@ in
     useGlamor = true;
     autorun = true;
 
-    startDbusSession = true;
-
     libinput = {
       enable = true;
       disableWhileTyping = true;

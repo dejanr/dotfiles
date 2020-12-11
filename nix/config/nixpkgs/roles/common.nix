@@ -61,13 +61,6 @@ in
 
   time.timeZone = "Europe/Berlin";
 
-  fonts = {
-    enableFontDir = true;
-    fonts = with pkgs; [
-      pragmatapro
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
     # scripts
     t
