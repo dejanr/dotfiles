@@ -7,5 +7,9 @@
     winetricks
     dxvk
     pyfa
+    libstrangle
+    vulkan-loader
+    vulkan-validation-layers
+    vulkan-tools
   ];
 }
