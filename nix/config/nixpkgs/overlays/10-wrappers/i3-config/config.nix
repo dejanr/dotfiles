@@ -184,7 +184,7 @@
   for_window [class="Corebird"] floating enable
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
-  for_window [class="EVE"] floating disable
+  for_window [class="exefile.exe"] floating disable
 
   # Widow Colours
   #                         border  background text    indicator
