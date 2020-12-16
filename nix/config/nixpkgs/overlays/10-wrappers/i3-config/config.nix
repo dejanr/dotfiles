@@ -152,8 +152,8 @@
   assign [class="Slack"] $workspace10
   assign [class="Mail"] $workspace9
   assign [class="Daily"] $workspace9
-  assign [class="EVE"] $workspace5
   assign [class="pyfa.py"] $workspace5
+  assign [class="exefile.exe"] $workspace6
 
   # fix graphics glitch
   new_window none
