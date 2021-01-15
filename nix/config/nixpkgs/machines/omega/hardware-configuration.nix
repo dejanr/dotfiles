@@ -49,6 +49,17 @@ in
       grub.efiSupport = true;
       grub.device = "nodev";
       grub.useOSProber = true;
+      grub.extraEntries = ''
+        menuentry "Firmware" {
+          fwsetup
+        }
+        menuentry "Reboot" {
+          reboot
+        }
+        menuentry "Poweroff" {
+          halt
+        }
+      '';
     };
 
     cleanTmpDir = true;
