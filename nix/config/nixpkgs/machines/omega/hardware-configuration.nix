@@ -1,9 +1,6 @@
 { boot, lib, pkgs, ... }:
 let
   linuxPackages = pkgs.linuxPackages_latest;
-  nvidia_x11 = linuxPackages.nvidia_x11;
-  nvidia_gl = nvidia_x11.out;
-  nvidia_gl_32 = nvidia_x11.lib32;
 in
 {
   boot = {
@@ -40,7 +37,6 @@ in
       "amdgpu"
     ];
 
-    extraModulePackages = [ nvidia_x11 ];
     extraModprobeConfig = ''
       options it87 force_id=0x8628
       options k10temp force=1
@@ -87,19 +83,15 @@ in
       amd.updateMicrocode = true;
     };
 
-    nvidia.modesetting.enable = lib.mkForce false;
-
     opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
       extraPackages = [
-        nvidia_gl
         pkgs.vaapiIntel
         pkgs.libvdpau-va-gl
         pkgs.vaapiVdpau
       ];
-      extraPackages32 = [ nvidia_gl_32 ];
     };
 
     firmware = [

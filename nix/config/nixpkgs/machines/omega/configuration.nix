@@ -5,7 +5,6 @@ let
   username = "dejanr";
   hostName = "omega";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
-  fancontrol = import ./fancontrol.nix {};
 in
 {
   imports = [
@@ -18,7 +17,7 @@ in
     ../../roles/i3.nix
     ../../roles/services.nix
     ../../roles/development.nix
-    ../../roles/games.nix
+    #../../roles/games.nix
   ];
 
   networking = {
@@ -76,32 +75,12 @@ in
     etc."X11/Xresources".text = ''
       Xft.dpi: 109
     '';
-    etc."fancontrol".text = fancontrol;
     systemPackages = [ nvidia_x11 ];
   };
 
   systemd.services.nvidia-control-devices = {
     wantedBy = [ "multi-user.target" ];
     serviceConfig.ExecStart = "${nvidia_x11.bin}/bin/nvidia-smi";
-  };
-
-  systemd.services.fancontrol = {
-    description = "Start fancontrol";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol";
-    };
-  };
-
-  systemd.services.fancontrolRestart = {
-    description = "Restart fancontrol on resume";
-    wantedBy = [ "suspend.target" ];
-    after = [ "suspend.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.systemd}/bin/systemctl --no-block restart fancontrol";
-    };
   };
 
   virtualisation.docker.enableNvidia = true;
