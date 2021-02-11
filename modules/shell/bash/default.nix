@@ -1,6 +1,50 @@
 { config, lib, pkgs, ... }:
 
 {
+  programs.readline = {
+    enable = true;
+    bindings = {
+      "\\e\\e[D"  = "backward-word";
+      "\\eOd"    = "backward-word";
+      "\\e[1;3D" = "backward-word";
+      "\\e[1;5D" = "backward-word";
+      "\\e[5D"   = "backward-word";
+      "\\eb"     = "backward-word";
+      "\\C-f"    = "forward-char";
+      "\\eOC"    = "forward-char";
+      "\\e[C"    = "forward-char";
+      "\\C-s"    = "forward-search-history";
+      "\\e\\e[C"  = "forward-word";
+      "\\eOc"    = "forward-word";
+      "\\e[1;3C" = "forward-word";
+      "\\e[1;5C" = "forward-word";
+      "\\e[5C"   = "forward-word";
+      "\\ef"     = "forward-word";
+      "\\C-u"    = "kill-whole-line";
+      "\\C-w"    = "backward-kill-word";
+      "\\e[1~"   = "beginning-of-line";
+      "\\e[4~"   = "end-of-line";
+      "\\e[5~"   = "beginning-of-history";
+      "\\e[6~"   = "end-of-history";
+      "\\e[3~"   = "delete-char";
+      "\\e[2~"   = "quoted-insert";
+      "\\eOH"    = "beginning-of-line";
+      "\\eOF"    = "end-of-line]]]";
+    };
+
+    variables = {
+      completion-ignore-case = true;
+      visible-stats = true;
+      show-all-if-ambiguous = true;
+      input-meta = true;
+      meta-flag = true;
+      output-meta = true;
+      convert-meta = false;
+      blink-matching-paren = true;
+      bind-tty-special-chars = false;
+    };
+  };
+
   programs.dircolors = {
     enable = true;
     enableBashIntegration = true;
@@ -70,6 +114,10 @@
     };
 
     bashrcExtra = ''
+      # Disable XOFF
+      stty ixany
+      stty ixoff -ixon
+
       # prompt:start
       function restore_prompt_after_nix_shell() {
         if [ "$PS1" != "$PROMPT" ]; then
