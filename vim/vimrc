@@ -28,12 +28,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'Raimondi/delimitMate'
   Plug 'tpope/vim-surround'
 
-  " Snipmate
-  Plug 'MarcWeber/vim-addon-mw-utils'
-  Plug 'tomtom/tlib_vim'
-  Plug 'garbas/vim-snipmate'
-
   Plug 'w0rp/ale'
+
+  " Themes
+  Plug 'chriskempson/base16-vim'
+  Plug 'mike-hearn/base16-vim-lightline'
 
   let g:ale_linters = {'javascript': ['eslint']}
   let g:ale_javascript_eslint_executable = './node_modules/.bin/eslint'
@@ -149,7 +148,7 @@ call plug#begin('~/.vim/plugged')
 
   " Replace filename component of Lightline statusline
   let g:lightline = {
-    \ 'colorscheme': 'gotham',
+    \ 'colorscheme': 'Tomorrow_Night',
     \ 'component_function': {
     \   'filename': 'FilenameForLightline'
     \ }
@@ -377,7 +376,7 @@ set shortmess+=I
 set background=dark
 
 " Set color scheme to dejanr
-colorscheme gotham
+colorscheme base16-default-dark
 
 " disable swapping
 set nobackup
