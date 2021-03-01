@@ -66,7 +66,6 @@ in
     tree
 
     tmux
-    reattach-to-user-namespace
 
     vim
     wget
