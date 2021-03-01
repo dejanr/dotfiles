@@ -1,10 +1,8 @@
 { boot, lib, pkgs, ... }:
-let
-  linuxPackages = pkgs.linuxPackages_latest;
-in
+
 {
   boot = {
-    kernelPackages = linuxPackages;
+    initrd.kernelModules = [ "amdgpu" ];
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
 
     kernelModules = [
@@ -18,6 +16,8 @@ in
       "v4l2loopback"
     ];
 
+    kernelPackages = pkgs.linuxPackages_latest;
+
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
       "vm.swappiness" = 10;
@@ -27,14 +27,11 @@ in
       "quiet"
       "hugepagesz=1GB"
       "loglevel=3"
-      "vga=current" # quiet boot
-      "acpi_enforce_resources=lax"
     ];
 
     blacklistedKernelModules = [
       "fbcon"
       "nouveau"
-      "amdgpu"
     ];
 
     extraModprobeConfig = ''
@@ -42,7 +39,8 @@ in
       options k10temp force=1
     '';
 
-    supportedFilesystems = [ "zfs" ];
+
+    supportedFilesystems = [ "btrfs" ];
 
     loader = {
       efi.canTouchEfiVariables = true;
@@ -66,27 +64,18 @@ in
   };
 
   fileSystems."/" =
-    { device = "zpool/root/nixos";
-      fsType = "zfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "zpool/root/nix";
-      fsType = "zfs";
-    };
-
-  fileSystems."/home" =
-    { device = "zpool/home";
-      fsType = "zfs";
+    { device = "/dev/disk/by-uuid/dd307a32-5dd8-40eb-a672-b734aa92f7ff";
+      fsType = "btrfs";
+      options = [ "subvol=nixos" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_500GB_S4EVNF0M840573B-part1";
+    { device = "/dev/disk/by-uuid/3907-7539";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_500GB_S4EVNF0M840573B-part2"; }
+    [ { device = "/dev/disk/by-uuid/49bb4d84-077a-4da7-8e9a-0b33fde0e220"; }
     ];
 
   hardware = {
@@ -94,14 +83,19 @@ in
       amd.updateMicrocode = true;
     };
 
+    video.hidpi.enable = lib.mkDefault true;
+
     opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
       extraPackages = [
-        pkgs.vaapiIntel
-        pkgs.libvdpau-va-gl
-        pkgs.vaapiVdpau
+        pkgs.rocm-opencl-icd
+        pkgs.rocm-opencl-runtime
+        pkgs.amdvlk
+      ];
+      extraPackages32 = [
+        pkgs.driversi686Linux.amdvlk
       ];
     };
 

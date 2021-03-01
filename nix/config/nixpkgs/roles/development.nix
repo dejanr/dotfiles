@@ -15,7 +15,6 @@
     alacritty
     s3cmd
     s3fs
-    unfs3
     s3fs
     bash
     bind

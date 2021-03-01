@@ -1,4 +1,4 @@
-{ stdenv, requireFile, unzip }:
+{ lib, stdenv, requireFile, unzip }:
 let
   version = "0.828-2";
 in
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
     mkdir -p $install_path
     find -name "PragmataPro*.ttf" -exec cp {} $install_path \;
   '';
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://www.fsd.it/shop/fonts/pragmatapro/";
     description = ''
       PragmataPro™ is a condensed monospaced font optimized for screen,

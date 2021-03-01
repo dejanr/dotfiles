@@ -1,4 +1,4 @@
- { stdenv, fetchurl }:
+ { lib, stdenv, fetchurl }:
 
 stdenv.mkDerivation rec {
   pname = "dxvk";
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
     patchShebangs $out/share/dxvk/setup_dxvk
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     platforms = platforms.linux;
     licenses = [ licenses.zlib licenses.png ];
   };

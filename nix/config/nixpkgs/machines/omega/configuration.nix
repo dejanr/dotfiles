@@ -4,7 +4,6 @@ with lib;
 let
   username = "dejanr";
   hostName = "omega";
-  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
 {
   imports = [
@@ -29,22 +28,11 @@ in
     xserver = {
       enable = true;
       useGlamor = true;
-      videoDrivers = [ "modesetting" "nvidia" ];
+      videoDrivers = [ "amdgpu" ];
 
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
-
-      deviceSection = ''
-              Driver "nvidia"
-              VendorName "NVIDIA Corporation"
-      '';
-
-      screenSection = ''
-              Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
-              Option         "AllowIndirectGLXProtocol" "off"
-              Option         "TripleBuffer" "on"
-      '';
     };
 
     tlp = {
@@ -75,12 +63,7 @@ in
     etc."X11/Xresources".text = ''
       Xft.dpi: 109
     '';
-    systemPackages = [ nvidia_x11 ];
-  };
-
-  systemd.services.nvidia-control-devices = {
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.ExecStart = "${nvidia_x11.bin}/bin/nvidia-smi";
+    systemPackages = [ ];
   };
 
   virtualisation.docker.enableNvidia = true;

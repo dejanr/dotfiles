@@ -76,7 +76,7 @@ in stdenv.mkDerivation rec {
 
   buildInputs = [ env ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     license = licenses.unfree;
     description = "Python Fitting Assistant";
   };

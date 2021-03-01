@@ -73,9 +73,11 @@ in
 
     libinput = {
       enable = true;
-      disableWhileTyping = true;
-      naturalScrolling = true;
-      middleEmulation = true;
+      touchpad = {
+        disableWhileTyping = true;
+        naturalScrolling = true;
+        middleEmulation = true;
+      };
     };
 
     windowManager = {
