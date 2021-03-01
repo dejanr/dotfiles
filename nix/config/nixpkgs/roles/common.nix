@@ -7,8 +7,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "0x4ngl1s4yxnm85zhzgm8cca29m7gygis3al8bzasg42plimswih";
-  };
+    sha256 = "1sqbvdh843lcajagysfs3ii0i43qzzsbpjrljnhhd9yrl67y5i2q"; };
   emacs-overlay = (import sources.emacs-overlay);
   overlays =
     let
@@ -79,7 +78,6 @@ in
     fzf # fuzzy finder
     haskellPackages.gitHUD # command-line HUD for git repos
     htop # An interactive process viewer for Linux
-    kdeApplications.kleopatra
     keychain
     fd # A simple, fast and user-friendly alternative to find
     linuxPackages.cpupower # Tool to examine and tune power saving features
