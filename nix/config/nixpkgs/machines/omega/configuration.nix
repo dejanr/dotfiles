@@ -16,7 +16,7 @@ in
     ../../roles/i3.nix
     ../../roles/services.nix
     ../../roles/development.nix
-    #../../roles/games.nix
+    ../../roles/games.nix
   ];
 
   networking = {

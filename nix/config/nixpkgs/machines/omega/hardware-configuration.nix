@@ -29,6 +29,18 @@
       "loglevel=3"
     ];
 
+    kernelPatches = let
+      # For Wine
+      fsync = rec {
+        name = "v5.11-fsync";
+        patch = pkgs.fetchpatch {
+          name = name + ".patch";
+          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.11/0007-v5.11-fsync.patch";
+          sha256 = "2hHSMHtr4B0bZ1zehOJL1NMgVFgOT+gS+TDb3IgS3x4=";
+        };
+      };
+    in [ fsync ];
+
     blacklistedKernelModules = [
       "fbcon"
       "nouveau"

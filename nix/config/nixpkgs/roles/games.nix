@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     steam
-    wine
+    wineUnstable
     winetricks
     dxvk
     pyfa

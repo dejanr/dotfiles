@@ -152,8 +152,8 @@
   assign [class="Slack"] $workspace10
   assign [class="Mail"] $workspace9
   assign [class="Daily"] $workspace9
-  assign [class="pyfa.py"] $workspace5
-  assign [class="exefile.exe"] $workspace6
+  assign [class="pyfa.py"] $workspace6
+  assign [class="steam_app_8500"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -184,7 +184,16 @@
   for_window [class="Corebird"] floating enable
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
-  for_window [class="exefile.exe"] floating disable
+
+  for_window [title="EVE - D' Zwer"] floating enable
+  for_window [title="EVE - D' Zwer"] resize set 1490 1420
+  for_window [title="EVE - D' Zwer"] move window to position 0 20
+  for_window [title="EVE - hollyoake09"] floating enable
+  for_window [title="EVE - hollyoake09"] resize set 1490 1420
+  for_window [title="EVE - hollyoake09"] move window to position 975 20
+  for_window [title="EVE - Haibu"] floating enable
+  for_window [title="EVE - Haibu"] resize set 1490 1420
+  for_window [title="EVE - Haibu"] move window to position 1950 20
 
   # Widow Colours
   #                         border  background text    indicator

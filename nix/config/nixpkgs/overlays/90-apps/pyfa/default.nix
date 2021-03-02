@@ -1,4 +1,4 @@
-{ stdenv, python3, fetchurl, makeDesktopItem, writeScriptBin }:
+{ lib, stdenv, python3, fetchurl, makeDesktopItem, writeScriptBin }:
 let
   env = python3.withPackages (p:
     with p; [
