@@ -5,6 +5,9 @@
 		home = "/var/lib/valheim";
 	};
 
+  networking.firewall.allowedTCPPorts = [ 2456 2457 ];
+  networking.firewall.allowedUDPPorts = [ 2456 2457 ];
+
 	systemd.services.valheim = {
 		wantedBy = [ "multi-user.target" ];
 		serviceConfig = {
