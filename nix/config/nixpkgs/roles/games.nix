@@ -5,6 +5,7 @@
     steam
     wineUnstable
     winetricks
+    cabextract
     dxvk
     pyfa
     libstrangle

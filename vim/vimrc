@@ -376,7 +376,7 @@ set shortmess+=I
 set background=dark
 
 " Set color scheme to dejanr
-colorscheme base16-default-dark
+colorscheme gotham
 
 " disable swapping
 set nobackup
