@@ -194,6 +194,9 @@
   for_window [title="EVE - Haibu"] floating enable
   for_window [title="EVE - Haibu"] resize set 1490 1420
   for_window [title="EVE - Haibu"] move window to position 1950 20
+  for_window [title="EVE - Brqa"] floating enable
+  for_window [title="EVE - Brqa"] resize set 1490 1420
+  for_window [title="EVE - Brqa"] move window to position 1950 20
 
   # Widow Colours
   #                         border  background text    indicator
