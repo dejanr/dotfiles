@@ -73,7 +73,7 @@ in
     font-manager # Simple font management for GTK+ desktop environments
     gitAndTools.diff-so-fancy # Good looking diffs
     gitAndTools.gitFull # Distributed version control system
-    gnvim # GUI for neovim, without any web bloat
+    #gnvim # GUI for neovim, without any web bloat
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     fzf # fuzzy finder
     haskellPackages.gitHUD # command-line HUD for git repos

@@ -57,9 +57,9 @@
     xsel # Command-line program for getting and setting the contents of the X selection
     xsettingsd # Provides settings to X11 applications via the XSETTINGS specification
     zathura # pdf viewer
-    sweethome3d.furniture-editor # Quickly create SH3F files and edit the properties of the 3D models it contain
-    sweethome3d.application # Design and visualize your future home
-    sweethome3d.textures-editor # Easily create SH3T files and edit the properties of the texture images it contain
+    #sweethome3d.furniture-editor # Quickly create SH3F files and edit the properties of the 3D models it contain
+    #sweethome3d.application # Design and visualize your future home
+    #sweethome3d.textures-editor # Easily create SH3T files and edit the properties of the texture images it contain
     wxcam # An open-source, wxGTK-based webcam app for Linux
   ];
 }
