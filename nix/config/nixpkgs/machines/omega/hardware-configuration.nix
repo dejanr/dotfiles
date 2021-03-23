@@ -76,18 +76,18 @@
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/dd307a32-5dd8-40eb-a672-b734aa92f7ff";
+    { device = "/dev/nvme0n1p3";
       fsType = "btrfs";
       options = [ "subvol=nixos" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/3907-7539";
+    { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/49bb4d84-077a-4da7-8e9a-0b33fde0e220"; }
+    [ { device = "/dev/nvme0n1p2"; }
     ];
 
   hardware = {
