@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     steam
-    wineUnstable
+    wine
     winetricks
     cabextract
     dxvk
