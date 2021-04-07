@@ -129,3 +129,8 @@ Switch home
 ```
 home-manager switch -f home.nix
 ```
+Add tmux dep
+
+```
+nix-env -iA nixpkgs.reattach-to-user-namespace
+```
