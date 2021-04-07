@@ -100,3 +100,32 @@ To use secret you would then just import secrets and access specific field:
 ```
 password = (import ../secrets.nix).name.password;
 ```
+
+## Darwin Setup
+
+For initial setup add nix channels if missing:
+
+```
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+
+nix-channel --update
+```
+
+Change to the dotfiles folder:
+
+```
+cd ~/.dotfiles
+```
+
+Enter nix shell sandbox:
+
+```
+nix-shell shell.nix
+````
+
+Switch home
+
+```
+home-manager switch -f home.nix
+```
