@@ -16,13 +16,6 @@ let
     python37Packages.virtualenv
   ];
 
-  scalaPkgs = with pkgs; [
-    openjdk11
-    sbt
-    scala_2_12
-    metals
-  ];
-
   t = import ./nix/config/nixpkgs/overlays/20-scripts/t/default.nix {
     inherit (pkgs);
     pkgs = pkgs;
@@ -70,7 +63,7 @@ in
     vim
     wget
     haskellPackages.gitHUD
-  ] ++ pyPkgs ++ scalaPkgs ++ bashScripts;
+  ] ++ pyPkgs ++ bashScripts;
 
   home.sessionVariables = {
     EDITOR = "vim";
