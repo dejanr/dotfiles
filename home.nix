@@ -70,7 +70,7 @@ in
     JAVA_HOME = pkgs.openjdk11;
   };
 
-  home.sessionPath = [ "/usr/local/bin" "${homeDir}/.bin" ];
+  home.sessionPath = [ "/usr/local/bin" "${homeDir}/.bin" "${homeDir}/.local/bin"];
 
   nixpkgs.config = {
     allowUnfree = true;
