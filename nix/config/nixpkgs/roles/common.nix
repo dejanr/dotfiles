@@ -7,7 +7,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1sqbvdh843lcajagysfs3ii0i43qzzsbpjrljnhhd9yrl67y5i2q"; };
+    sha256 = "0dg9rys45494i0y627i2qrjmwy59hm40zn76j2rf1539fqp7wrf9"; };
   emacs-overlay = (import sources.emacs-overlay);
   overlays =
     let
@@ -134,6 +134,7 @@ in
         "plex"
         "adbusers"
       ];
+      isNormalUser = true;
       home = "/home/${username}";
       createHome = true;
 

@@ -153,7 +153,7 @@
   assign [class="Mail"] $workspace9
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
-  assign [class="steam_app_8500"] $workspace5
+  assign [class="exefile.exe"] $workspace5
 
   # fix graphics glitch
   new_window none

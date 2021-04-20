@@ -14,7 +14,7 @@
     vkd3dSupport = false;
     mingwSupport = true;
 }).overrideAttrs (old: rec {
-    version = "6.5";
+  version = "6.4";
 
     # From https://github.com/Frogging-Family/wine-tkg-git
     protonPatchRev = "f63bc8e5ea38a29955bd20655c58347a8bdc8158";
@@ -37,7 +37,7 @@
     patches = [];
 
     NIX_CFLAGS_COMPILE = "-O3 -march=native -fomit-frame-pointer";
-})).overrideDerivation (drv: let
+    })).overrideDerivation (drv: let
     patch = path: sha256: fetchurl {
       url = "https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/${drv.protonPatchRev}/wine-tkg-git/wine-tkg-patches/${path}.patch";
       inherit sha256;
@@ -106,3 +106,4 @@
         autoreconf -f
       '';
 })
+

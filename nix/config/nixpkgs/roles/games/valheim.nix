@@ -3,6 +3,7 @@
 {
 	users.users.valheim = {
 		home = "/var/lib/valheim";
+		isSystemUser = true;
 	};
 
   networking.firewall.allowedTCPPorts = [ 2456 2457 ];
