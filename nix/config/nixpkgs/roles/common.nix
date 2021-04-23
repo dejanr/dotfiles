@@ -65,6 +65,8 @@ in
     t
     wm-lock
     wm-wallpaper
+    music
+    youtube-dl
 
     # nixpkgs
     apg # Tools for random password generation
@@ -82,7 +84,7 @@ in
     fd # A simple, fast and user-friendly alternative to find
     linuxPackages.cpupower # Tool to examine and tune power saving features
     niv # dependency manager for nix projects
-    nodejs
+    nodejs-15_x
     neovim
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
