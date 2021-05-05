@@ -43,7 +43,6 @@ in
     xfce.thunar_volman
     xfce.thunar-archive-plugin
     xfce.xfce4-screenshooter
-    xfce.gvfs # virtual filesystem
     xfce.ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
     xfce.tumbler # A D-Bus thumbnailer service
     xfce.xfce4icontheme # Icons for Xfce
