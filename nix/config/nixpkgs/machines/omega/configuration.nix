@@ -9,6 +9,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ../../roles/common.nix
+    ../../roles/hosts.nix
     ../../roles/shells/bash
     ../../roles/fonts.nix
     ../../roles/desktop.nix
