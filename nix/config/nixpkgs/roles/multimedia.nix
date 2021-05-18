@@ -5,7 +5,7 @@
     alsaLib
     alsaPlugins
     alsaUtils
-    ardour
+    #ardour
     audacity
     blueman
     calf

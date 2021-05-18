@@ -3,12 +3,12 @@
 let
   gtk2-theme = import ../utils/gtk2Theme.nix {
     theme = {
-      package = pkgs.arc-theme;
-      name = "Arc";
+      package = pkgs.materia-theme;
+      name = "Materia";
     };
     icons = {
-      package = pkgs.arc-icon-theme;
-      name = "Arc";
+      package = pkgs.materia-theme;
+      name = "Materia";
     };
   };
 in
