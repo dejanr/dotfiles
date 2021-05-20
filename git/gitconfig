@@ -12,11 +12,23 @@
   whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   excludesfile = ~/.gitignore
 	quotepath    = off
-	pager        = diff-so-fancy | less
+  pager        = delta
   editor       = vim
   excludesfile = ~/.gitignore
   autocrlf     = false
   filemode     = false
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
 
 [fetch]
   prune = true
@@ -53,9 +65,9 @@
   pure = clean -fdx -e .vimrc
 
 [pager]
-  diff = diff-so-fancy | less -RFXx1,5
-  log  = diff-so-fancy | less -RFXx1,5
-  show = diff-so-fancy | less -RFXx1,5
+  diff = delta
+  log  = delta
+  show = delta
 	branch = false
 
 [advice]

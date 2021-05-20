@@ -75,6 +75,7 @@ in
     font-manager # Simple font management for GTK+ desktop environments
     gitAndTools.diff-so-fancy # Good looking diffs
     gitAndTools.gitFull # Distributed version control system
+    delta # A syntax-highlighting pager for git
     #gnvim # GUI for neovim, without any web bloat
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     fzf # fuzzy finder
