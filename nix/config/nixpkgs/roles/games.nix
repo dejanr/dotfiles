@@ -12,5 +12,6 @@
     vulkan-loader
     vulkan-validation-layers
     vulkan-tools
+    legendary-gl # A free and open-source Epic Games Launcher alternative
   ];
 }
