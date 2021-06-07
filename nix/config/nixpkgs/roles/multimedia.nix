@@ -5,8 +5,10 @@
     alsaLib
     alsaPlugins
     alsaUtils
-    #ardour
     audacity
+    gphoto2 # A ready to use set of digital camera software applications
+    gphoto2fs # Fuse FS to mount a digital camera
+    libgphoto2 # A library for accessing digital cameras
     blueman
     calf
     ffmpeg
