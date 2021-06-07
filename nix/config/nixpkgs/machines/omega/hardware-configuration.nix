@@ -16,6 +16,10 @@
       "v4l2loopback"
     ];
 
+    extraModulePackages = with pkgs; [
+      linuxPackages_latest.v4l2loopback
+    ];
+
     kernelPackages = pkgs.linuxPackages_latest;
 
     kernel.sysctl = {
@@ -49,6 +53,7 @@
     extraModprobeConfig = ''
       options it87 force_id=0x8628
       options k10temp force=1
+      options v4l2loopback exclusive_caps=1 video_nr=9 card_label=v4l2
     '';
 
 
