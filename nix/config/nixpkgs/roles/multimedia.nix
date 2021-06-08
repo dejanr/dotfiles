@@ -25,6 +25,7 @@
     puredata
     qjackctl
     vlc
+    darktable # Virtual lighttable and darkroom for photographers
   ];
 
   hardware.bluetooth = {
