@@ -38,8 +38,8 @@
   set $workspace9 "9: "
   set $workspace10 "10: "
 
-  set $monitor1 "eDP1"
-  set $monitor2 "HDMI2"
+  set $monitor1 "DispayPort-1"
+  set $monitor2 "HDMI-A-0"
 
   # General Configuration
   font pango:PragmataPro 9
@@ -138,12 +138,12 @@
   workspace $workspace2 output $monitor1
   workspace $workspace3 output $monitor1
   workspace $workspace4 output $monitor1
-  workspace $workspace5 output $monitor2
-  workspace $workspace6 output $monitor2
-  workspace $workspace7 output $monitor2
+  workspace $workspace5 output $monitor1
+  workspace $workspace6 output $monitor1
+  workspace $workspace7 output $monitor1
   workspace $workspace8 output $monitor2
-  workspace $workspace9 output $monitor2
-  workspace $workspace10 output $monitor2
+  workspace $workspace9 output $monitor1
+  workspace $workspace10 output $monitor1
 
   # Program Workspaces
   assign [class="Pronterface.py"] $workspace5
