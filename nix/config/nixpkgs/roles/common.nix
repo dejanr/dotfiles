@@ -85,15 +85,13 @@ in
     fd # A simple, fast and user-friendly alternative to find
     linuxPackages.cpupower # Tool to examine and tune power saving features
     niv # dependency manager for nix projects
-    nodejs-15_x
+    nodejs-16_x
     neovim
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
     ripgrep
     rsync #  A fast incremental file transfer utility
-    rxvt
-    rxvt_unicode
     tmux # Terminal multiplexer
     unzip # An extraction utility for archives compressed in .zip format
     urxvt_font_size
