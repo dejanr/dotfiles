@@ -21,7 +21,7 @@
     mplayer
     pamixer # cli tools for pulseaudio
     paprefs
-    pavucontrol # volume control
+    lxqt.pavucontrol-qt
     puredata
     qjackctl
     vlc
