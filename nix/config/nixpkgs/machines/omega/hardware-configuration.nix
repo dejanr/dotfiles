@@ -127,13 +127,13 @@
 
         galliumDrivers = [ "radeonsi" "virgl" "svga" "swrast" "zink" ];
       }).overrideAttrs (oldAttrs: rec {
-        version = "21.2.0";
+        version = "21.0.0";
 
         src = pkgs.fetchgit {
           url = "https://gitlab.freedesktop.org/mesa/mesa.git";
-          # 14-07-21
-          rev = "d41faa69ca4e05c0099ffce35824e2abd3782981";
-          sha256 = "Lf9tFXMIhR+9nIPun+2tch8BusGEB6PscatDwKBmjSQ=";
+          # 01-30-21
+          rev = "205e737f51baf2958c047ae6ce3af66bffb52b37";
+          sha256 = "WkGiW06wEnDHTr2dIVHAcZlWLMvacHh/m4P+eVD4huI=";
         };
 
         mesonFlags = oldAttrs.mesonFlags ++ [
