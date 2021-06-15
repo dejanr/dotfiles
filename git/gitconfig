@@ -76,3 +76,5 @@
 	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
 [merge]
 	tool = fugitive
+[init]
+	defaultBranch = develop
