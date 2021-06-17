@@ -33,10 +33,10 @@ in
   home.stateVersion = "21.03";
 
   home.packages = with pkgs; [
+    ag
     awscli
     awslogs
     bat
-    cachix
     direnv
     gitAndTools.diff-so-fancy
     exiftool
