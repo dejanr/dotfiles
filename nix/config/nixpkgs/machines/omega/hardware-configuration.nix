@@ -17,10 +17,10 @@
     ];
 
     extraModulePackages = with pkgs; [
-      linuxPackages_5_11.v4l2loopback
+      linuxPackages_latest.v4l2loopback
     ];
 
-    kernelPackages = pkgs.linuxPackages_5_11;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
@@ -33,34 +33,6 @@
       "loglevel=3"
     ];
 
-    kernelPatches = let
-      # For Wine
-      fsync = rec {
-        name = "v5.11-fsync";
-        patch = pkgs.fetchpatch {
-          name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.11/0007-v5.11-fsync.patch";
-          sha256 = "2hHSMHtr4B0bZ1zehOJL1NMgVFgOT+gS+TDb3IgS3x4=";
-        };
-      };
-
-      futex2 = rec {
-        name = "v5.11-futex2";
-        patch = pkgs.fetchpatch {
-          name = name + ".patch";
-          url = "https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/5.11/futex2-dev-trunk-patches-v4/0001-futex2-resync-from-gitlab.collabora.com.patch";
-          sha256 = "a/5TL1OLTC7WILIKA1Vprwdgp2mo7tf3VCukyACdvcI=";
-        };
-      };
-
-      enableFutex2 = {
-        name = "futex2-config";
-        patch = null;
-        extraConfig = ''
-          FUTEX2 y
-        '';
-      };
-    in [ fsync futex2 enableFutex2 ];
 
     blacklistedKernelModules = [
       "fbcon"
