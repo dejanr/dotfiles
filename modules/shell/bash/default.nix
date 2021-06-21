@@ -157,6 +157,9 @@
       export XDG_CONFIG_HOME=~/.config
       export TZ="Europe/Berlin"
 
+      export GEM_HOME=$HOME/.gem
+      export PATH=$GEM_HOME/bin:$PATH
+
       # Android Studio
       export ANDROID_HOME=$HOME/Library/Android/sdk
       export PATH=$PATH:$ANDROID_HOME/emulator

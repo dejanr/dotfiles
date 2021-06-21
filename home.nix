@@ -37,6 +37,7 @@ in
     awscli
     awslogs
     bat
+    cocoapods
     direnv
     gitAndTools.diff-so-fancy
     exiftool
@@ -67,7 +68,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "vim";
-    JAVA_HOME = pkgs.openjdk11;
+    JAVA_HOME = pkgs.openjdk8;
   };
 
   home.sessionPath = [ "/usr/local/bin" "${homeDir}/.bin" "${homeDir}/.local/bin"];
