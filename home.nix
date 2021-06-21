@@ -39,6 +39,7 @@ in
     bat
     cocoapods
     direnv
+    delta
     gitAndTools.diff-so-fancy
     exiftool
     exa
@@ -68,7 +69,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "vim";
-    JAVA_HOME = pkgs.openjdk8;
+    JAVA_HOME = "${pkgs.openjdk8}/zulu-8.jdk/Contents/Home/";
   };
 
   home.sessionPath = [ "/usr/local/bin" "${homeDir}/.bin" "${homeDir}/.local/bin"];
