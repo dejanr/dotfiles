@@ -20,7 +20,7 @@ in
 
   [headset]
   interval=5
-  command=${bluetooth-headset} "00:1B:66:83:D1:86"
+  command=${bluetooth-headset} "14:3F:A6:A3:47:F3"
   label=
   color=${colors.foreground}
 
