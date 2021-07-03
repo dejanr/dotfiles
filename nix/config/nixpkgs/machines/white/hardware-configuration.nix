@@ -1,0 +1,132 @@
+{ boot, lib, pkgs, ... }:
+
+let
+  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
+  nvidia_gl = nvidia_x11.out;
+  nvidia_gl_32 = nvidia_x11.lib32;
+in
+{
+  boot = {
+    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+
+    kernelModules = [
+      "kvm-amd"
+      "tun"
+      "virtio"
+      "coretemp"
+      "i2c-dev"
+      "k10temp"
+      "it87"
+      "v4l2loopback"
+    ];
+
+    extraModulePackages = with pkgs; [
+      nvidia_x11
+      linuxPackages.v4l2loopback
+    ];
+
+    kernelPackages = pkgs.linuxPackages;
+
+    kernel.sysctl = {
+      "fs.inotify.max_user_watches" = 524288;
+      "vm.swappiness" = 10;
+    };
+
+    kernelParams = [
+      "quiet"
+      "hugepagesz=1GB"
+      "loglevel=3"
+    ];
+
+
+    blacklistedKernelModules = [
+      "nouveau"
+    ];
+
+    extraModprobeConfig = ''
+      options it87 force_id=0x8628
+      options k10temp force=1
+      options v4l2loopback exclusive_caps=1 video_nr=9 card_label=v4l2
+    '';
+
+    initrd.supportedFilesystems = [ "zfs" ];
+    supportedFilesystems = [ "zfs" ];
+
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub.efiSupport = true;
+      grub.device = "nodev";
+      grub.useOSProber = true;
+      grub.extraEntries = ''
+        menuentry "Firmware" {
+          fwsetup
+        }
+        menuentry "Reboot" {
+          reboot
+        }
+        menuentry "Poweroff" {
+          halt
+        }
+      '';
+    };
+
+    cleanTmpDir = true;
+  };
+
+  fileSystems."/" =
+    { device = "zpool/root/nixos";
+      fsType = "zfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/F25D-8EAF";
+      fsType = "vfat";
+    };
+
+  fileSystems."/nix" =
+    { device = "zpool/root/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "zpool/home";
+      fsType = "zfs";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/2b15d6da-dad7-4e46-b657-491bb57fc93c"; }
+    ];
+
+  hardware = {
+    cpu.amd.updateMicrocode = true;
+    video.hidpi.enable = true;
+    nvidia.modesetting.enable = false;
+
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = [
+        nvidia_gl
+        pkgs.vaapiIntel
+        pkgs.libvdpau-va-gl
+        pkgs.vaapiVdpau
+      ];
+      extraPackages32 = [ nvidia_gl_32 ];
+    };
+
+    firmware = [
+      pkgs.firmwareLinuxNonfree
+    ];
+
+    enableRedistributableFirmware = true;
+  };
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
+  nix.maxJobs = lib.mkDefault 8;
+  # High-DPI console
+  console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+}
