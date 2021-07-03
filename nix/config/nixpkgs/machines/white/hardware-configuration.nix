@@ -1,5 +1,9 @@
 { boot, lib, pkgs, ... }:
 
+# Ryzen 5800x
+# gpu gtx 970
+# passtrough gpu radeon 6800xt
+
 let
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
   nvidia_gl = nvidia_x11.out;
