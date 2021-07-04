@@ -4,11 +4,9 @@
 #
 # Machine that is used to run any other machine
 
-with lib;
 let
   username = "dejanr";
   hostName = "white";
-  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
   {
     imports = [
@@ -33,7 +31,7 @@ in
       xserver = {
         enable = true;
         useGlamor = true;
-        videoDrivers = [ "nvidia" ];
+        videoDrivers = [ "modesetting" "nvidia" ];
 
         displayManager = {
           xserverArgs = [ "-dpi 109" ];
@@ -68,10 +66,10 @@ in
       etc."X11/Xresources".text = ''
         Xft.dpi: 109
       '';
-      systemPackages = [ nvidia_x11 ];
+      systemPackages = [ ];
     };
 
     virtualisation.docker.enableNvidia = true;
 
-    system.stateVersion = "20.09";
+    system.stateVersion = "21.05";
   }

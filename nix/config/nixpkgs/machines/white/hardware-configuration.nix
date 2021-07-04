@@ -4,11 +4,6 @@
 # gpu gtx 970
 # passtrough gpu radeon 6800xt
 
-let
-  nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
-  nvidia_gl = nvidia_x11.out;
-  nvidia_gl_32 = nvidia_x11.lib32;
-in
 {
   boot = {
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
@@ -39,7 +34,6 @@ in
     ];
 
     extraModulePackages = with pkgs; [
-      nvidia_x11
       linuxPackages.v4l2loopback
     ];
 
@@ -60,7 +54,6 @@ in
       "hugepagesz=1GB"
       "loglevel=3"
     ];
-
 
     blacklistedKernelModules = [
       "nouveau"
@@ -130,12 +123,11 @@ in
       driSupport = true;
       driSupport32Bit = true;
       extraPackages = [
-        nvidia_gl
         pkgs.vaapiIntel
         pkgs.libvdpau-va-gl
         pkgs.vaapiVdpau
       ];
-      extraPackages32 = [ nvidia_gl_32 ];
+      extraPackages32 = [ ];
     };
 
     firmware = [
