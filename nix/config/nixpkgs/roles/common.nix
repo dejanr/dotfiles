@@ -130,7 +130,6 @@ in
         "cdrom"
         "tape"
         "dialout"
-        "libvirtd"
         "transmission"
         "plex"
         "adbusers"
