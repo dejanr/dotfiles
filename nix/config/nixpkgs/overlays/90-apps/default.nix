@@ -24,6 +24,10 @@ in
 
   dxvk = super.callPackage ./dxvk {};
 
+  scream-receivers = super.callPackage ./scream-receivers {
+    inherit (super) stdenv lib fetchFromGitHub alsaLib;
+  };
+
   pyfa = super.callPackage ./pyfa {
     inherit (super) python3 fetchurl makeDesktopItem writeScriptBin;
   };
