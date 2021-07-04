@@ -133,6 +133,8 @@ in
         "transmission"
         "plex"
         "adbusers"
+        "libvirtd"
+        "qemu-libvirtd"
       ];
       isNormalUser = true;
       home = "/home/${username}";
