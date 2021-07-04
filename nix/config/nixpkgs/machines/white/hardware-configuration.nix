@@ -12,6 +12,15 @@ in
 {
   boot = {
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.preDeviceCommands = ''
+      # 0000:0d:00.0 6800xt
+      # 0000:0d:00.1 6800xt audio
+      DEVS="0000:0d:00.0 0000:0d:00.1"
+      for DEV in $DEVS; do
+        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+      done
+      modprobe -i vfio-pci
+    '';
 
     kernelModules = [
       "kvm-amd"
@@ -22,6 +31,11 @@ in
       "k10temp"
       "it87"
       "v4l2loopback"
+      "vfio"
+      "vfio_pci"
+      "vfio_iommu_type1"
+      "vfio_virqfd"
+      "virtio" # paravirtual 3D graphics driver based on virgl
     ];
 
     extraModulePackages = with pkgs; [
@@ -37,7 +51,12 @@ in
     };
 
     kernelParams = [
+      "amd_iommu=on"
+      "iommu=pt"
+      "iommu=1"
+      "video=efifb:off"
       "quiet"
+      "splash"
       "hugepagesz=1GB"
       "loglevel=3"
     ];

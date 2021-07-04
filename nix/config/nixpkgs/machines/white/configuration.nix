@@ -1,9 +1,13 @@
 { config, lib, pkgs, ... }:
 
+# White
+#
+# Machine that is used to run any other machine
+
 with lib;
 let
   username = "dejanr";
-  hostName = "omega";
+  hostName = "white";
   nvidia_x11 = pkgs.linuxPackages.nvidia_x11;
 in
   {
@@ -17,9 +21,7 @@ in
       ../../roles/multimedia.nix
       ../../roles/i3.nix
       ../../roles/services.nix
-      ../../roles/development.nix
-      #../../roles/games.nix
-      #../../roles/games/valheim.nix
+      ../../roles/virtualisation.nix
     ];
 
     networking = {
