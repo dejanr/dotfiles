@@ -1,9 +1,15 @@
 { config, pkgs, ... }:
 
+#
+#<shmem name='looking-glass'>
+#  <model type='ivshmem-plain'/>
+#  <size unit='M'>64</size>
+#</shmem>
+#
+
 {
   environment.systemPackages = with pkgs; [
     looking-glass-client
-    scream-receivers
     qemu # A generic and open source machine emulator and virtualizer
     virtmanager # Desktop user interface for managing virtual machines
     vde2 # Virtual Distributed Ethernet, an Ethernet compliant virtual network
@@ -29,17 +35,6 @@
     "f /dev/shm/scream 0660 dejanr qemu-libvirtd -"
     "f /dev/shm/looking-glass 0660 dejanr qemu-libvirtd -"
   ];
-
-  systemd.user.services.scream-ivshmem = {
-    enable = true;
-    description = "Scream IVSHMEM";
-    serviceConfig = {
-      ExecStart = "${pkgs.scream-receivers}/bin/scream-ivshmem-pulse /dev/shm/scream";
-      Restart = "always";
-    };
-    wantedBy = [ "multi-user.target" ];
-    requires = [ "pulseaudio.service" ];
-  };
 
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
