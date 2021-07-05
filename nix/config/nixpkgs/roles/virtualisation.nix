@@ -2,13 +2,14 @@
 
 {
   environment.systemPackages = with pkgs; [
+    looking-glass-client
+    scream-receivers
     qemu # A generic and open source machine emulator and virtualizer
     virtmanager # Desktop user interface for managing virtual machines
     vde2 # Virtual Distributed Ethernet, an Ethernet compliant virtual network
     pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     OVMF # Sample UEFI firmware for QEMU and KVM
     seabios # Open source implementation of a 16bit X86 BIOS
-    libguestfs # Tools for accessing and modifying virtual machine disk images
     libguestfs # Tools for accessing and modifying virtual machine disk images
     libvirt # A toolkit to interact with the virtualization capabilities of recent versions of Linux (and other OSes)
     virt-viewer # A viewer for remote virtual machines
@@ -22,6 +23,22 @@
     onBoot = "ignore";
     onShutdown = "shutdown";
     allowedBridges = [ "br0" ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/scream 0660 dejanr qemu-libvirtd -"
+    "f /dev/shm/looking-glass 0660 dejanr qemu-libvirtd -"
+  ];
+
+  systemd.user.services.scream-ivshmem = {
+    enable = true;
+    description = "Scream IVSHMEM";
+    serviceConfig = {
+      ExecStart = "${pkgs.scream-receivers}/bin/scream-ivshmem-pulse /dev/shm/scream";
+      Restart = "always";
+    };
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "pulseaudio.service" ];
   };
 
   users.groups.libvirtd.members = [ "root" "dejanr" ];
