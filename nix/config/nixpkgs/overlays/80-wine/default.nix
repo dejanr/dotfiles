@@ -15,23 +15,23 @@ self: super:
     vkd3dSupport = false;
     mingwSupport = true;
   }).overrideAttrs (oldAttrs: rec {
-    version = "6.10";
+    version = "6.11";
 
     # From https://github.com/Frogging-Family/wine-tkg-git
-    protonPatchRev = "56bd2967acd0882445c49643dceeb0debe05d44d";
+    protonPatchRev = "6ca41962a07c8e74eff2183a2a956622b8b6142d";
 
     src = super.fetchFromGitHub {
       owner = "wine-mirror";
       repo = "wine";
-      rev = "f5bd0be6a44c1c7d69afb8b8eb6311923e7762a1";
-      sha256 = "4bXEoWRX66Q2xH8H21qAFpDERhWqPGeFJCrdrppArac=";
+      rev = "wine-${version}";
+      sha256 = "QUVdF0lh7EiDHBKgn6Xtpn+VPPIYgrGe5CA+/vXwftU=";
     };
 
     staging = super.fetchFromGitHub {
       owner = "wine-staging";
       repo = "wine-staging";
-      rev = "8a3554ad85966069c06b0f28b34e582f7ead6e01";
-      sha256 = "cuJaODJ1jDxlUG9QTIQjg4IQqK5rOZGjgdpzjd4XAHc=";
+      rev = "v${version}";
+      sha256 = "dWV2eoI2SZj2ZELZggmIIb6MaxFwEenObyvQLR2KbD0=";
     };
 
     # Temp
@@ -65,12 +65,12 @@ self: super:
 
     postPatch =
       let
-        vulkanVersion = "1.2.176";
+        vulkanVersion = "1.2.178";
 
         vkXmlFile = super.fetchurl {
           name = "vk-${vulkanVersion}.xml";
           url = "https://raw.github.com/KhronosGroup/Vulkan-Docs/v${vulkanVersion}/xml/vk.xml";
-          sha256 = "Bec9LLVV3sMeG1GvNLBNjaJyaXX3ciZloKjJ+rTJe5k=";
+          sha256 = "Ic9H2kPWfAVhtlUndso8AB9YDFC4RO/Hzws7dYfqI30=";
         };
       in ''
         # staging patches
@@ -115,5 +115,5 @@ self: super:
         ./tools/make_requests
         autoreconf -f
       '';
-    });
-  }
+  });
+}

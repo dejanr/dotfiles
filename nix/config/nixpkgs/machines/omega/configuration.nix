@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+# White
+#
+# nvidia gpu for passtrough, radeon as main gpu
+
 let
   username = "dejanr";
   hostName = "omega";

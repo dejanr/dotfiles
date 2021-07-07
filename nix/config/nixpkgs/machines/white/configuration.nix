@@ -2,7 +2,7 @@
 
 # White
 #
-# Machine that is used to run any other machine
+# radeon gpu passtrough, nvidia as main gpu
 
 let
   username = "dejanr";
