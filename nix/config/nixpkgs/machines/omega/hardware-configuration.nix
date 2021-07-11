@@ -122,11 +122,6 @@
       fsType = "zfs";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F25D-8EAF";
-      fsType = "vfat";
-    };
-
   fileSystems."/nix" =
     { device = "zpool/root/nix";
       fsType = "zfs";
@@ -137,8 +132,13 @@
       fsType = "zfs";
     };
 
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/2DA1-8C8C";
+      fsType = "vfat";
+    };
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/2b15d6da-dad7-4e46-b657-491bb57fc93c"; }
+    [ { device = "/dev/disk/by-uuid/6dd43542-2512-436f-b572-ce2a787aadc1"; }
     ];
 
   hardware = {
@@ -160,7 +160,7 @@
         version = "21.0.0";
 
         src = pkgs.fetchgit {
-          url = "https://gitlab.freedesktop.org/mesa/mesa.git";
+          url = "https://github.com/mesa3d/mesa.git";
           # 01-30-21
           rev = "205e737f51baf2958c047ae6ce3af66bffb52b37";
           sha256 = "WkGiW06wEnDHTr2dIVHAcZlWLMvacHh/m4P+eVD4huI=";
