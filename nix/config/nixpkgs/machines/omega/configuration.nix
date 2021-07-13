@@ -38,6 +38,11 @@ in
         displayManager = {
           xserverArgs = [ "-dpi 109" ];
         };
+
+        deviceSection = ''
+          Option "TearFree" "true"
+          Option "DRI" "3"
+        '';
       };
 
       tlp = {

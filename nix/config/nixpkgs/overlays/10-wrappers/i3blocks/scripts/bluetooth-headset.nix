@@ -68,14 +68,18 @@
   STATUS=$(show_status)
 
   case $BLOCK_BUTTON in
-    2)
+    1)
+      if [[ "$STATUS_DISCONNECTED" == "$STATUS" ]]
+      then
+        connect > /dev/null
+        notify-send "Headphones" "Connected"
+      fi
+      ;;
+    3)
       if [[ "$STATUS_CONNECTED" == "$STATUS" ]]
       then
         disconnect > /dev/null
         notify-send "Headphones" "Disconnected"
-      else
-        connect > /dev/null
-        notify-send "Headphones" "Connected"
       fi
       ;;
   esac
