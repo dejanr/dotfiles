@@ -40,8 +40,11 @@ in
         };
 
         deviceSection = ''
-          Option "TearFree" "true"
+          Option "AccelMethod" "glamor"
           Option "DRI" "3"
+          Option "TearFree" "on"
+          Option "ColorTiling" "on"
+          Option "ColorTiling2D" "on"
         '';
       };
 
