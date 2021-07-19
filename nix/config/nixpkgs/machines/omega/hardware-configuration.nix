@@ -1,6 +1,8 @@
 { boot, lib, pkgs, ... }:
 
-{
+let
+  kernelPackages = pkgs.linuxPackages_5_13;
+in {
   boot = {
     initrd.kernelModules = [ "amdgpu" ];
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
@@ -30,11 +32,11 @@
       "virtio" # paravirtual 3D graphics driver based on virgl
     ];
 
-    extraModulePackages = with pkgs; [
-      linuxPackages_5_12.v4l2loopback
-    ];
+    kernelPackages = kernelPackages;
 
-    kernelPackages = pkgs.linuxPackages_5_12;
+    extraModulePackages = with kernelPackages; [
+      v4l2loopback
+    ];
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
@@ -53,21 +55,21 @@
     ];
 
     kernelPatches = let
-      fsync = rec {
-        name = "v5.12-fsync";
+      futex2 = rec {
+        name = "v5.13-futex2";
         patch = pkgs.fetchpatch {
           name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.12/0007-v5.12-fsync.patch";
-          sha256 = "2hHSMHtr4B0bZ1zehOJL1NMgVFgOT+gS+TDb3IgS3x4=";
+          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.13/0007-v5.13-futex2_interface.patch";
+          sha256 = "EUS6XJwcGqcQLLxhPgdYdG3oB3qxsJueGXn7tLaEorc=";
         };
       };
 
-      futex2 = rec {
-        name = "v5.12-futex2";
+      winesync = rec {
+        name = "v5.13-winesync";
         patch = pkgs.fetchpatch {
           name = name + ".patch";
-          url = "https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/5.12/futex2-stable-patches/0001-futex2-resync-from-gitlab.collabora.com.patch";
-          sha256 = "lcNTIQ9Xr2xKTePrdo8JVivOMgTIMUBJa/LUUiEjGd8=";
+          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.13/0007-v5.13-winesync.patch";
+          sha256 = "MHNc4K3wmBP4EHcx48pcu7fI7WXjfcqIhW1+Zt8zpng=";
         };
       };
 
@@ -78,7 +80,8 @@
           FUTEX2 y
         '';
       };
-    in [ fsync futex2 enableFutex2 ];
+    in #[ futex2 winesync enableFutex2 ]; # TODO: fix futex2 patch
+    [ winesync ];
 
     blacklistedKernelModules = [
       "fbcon"
@@ -149,36 +152,22 @@
     video.hidpi.enable = lib.mkDefault true;
 
     opengl = let
+      # mesa with zink driver
+      # TODO: enable building with b_lto
       mesaDrivers = pkgs: ((pkgs.mesa.override {
         stdenv = pkgs.impureUseNativeOptimizations (if !pkgs.stdenv.is32bit then
-        pkgs.llvmPackages_latest.stdenv
+          pkgs.llvmPackages_latest.stdenv
         else
-        pkgs.stdenv);
+          # Using LLVM for 32-bit builds requires us to build GCC and LLVM, which isn't very nice
+          pkgs.stdenv);
 
         galliumDrivers = [ "radeonsi" "virgl" "svga" "swrast" "zink" ];
       }).overrideAttrs (oldAttrs: rec {
-        version = "21.0.0";
-
-        src = pkgs.fetchgit {
-          url = "https://github.com/mesa3d/mesa.git";
-          # 01-30-21
-          rev = "205e737f51baf2958c047ae6ce3af66bffb52b37";
-          sha256 = "WkGiW06wEnDHTr2dIVHAcZlWLMvacHh/m4P+eVD4huI=";
-        };
-
-        mesonFlags = oldAttrs.mesonFlags ++ [
-          "-Dmicrosoft-clc=disabled"
-          "-Dosmesa=true"
-        ];
-
         # For zink driver
         buildInputs = oldAttrs.buildInputs ++ [
           pkgs.vulkan-loader
         ];
 
-        patches = [
-          ./patches/disk_cache-include-dri-driver-path-in-cache-key.patch
-        ];
       })).drivers;
     in {
       driSupport = true;
