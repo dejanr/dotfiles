@@ -7,9 +7,9 @@ in {
     initrd.kernelModules = [ "amdgpu" ];
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.preDeviceCommands = ''
-      # 0000:0d:00.0 6800xt
-      # 0000:0d:00.1 6800xt audio
-      DEVS=""
+      # 0000:04:00.0 nvidia
+      # 0000:04:00.1 nvidia audio
+      DEVS="0000:04:00.0 0000:04:00.1"
       for DEV in $DEVS; do
         echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
       done

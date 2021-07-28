@@ -21,7 +21,7 @@ in
       ../../roles/services.nix
       ../../roles/development.nix
       ../../roles/games.nix
-      ../../roles/games/valheim.nix
+      ../../roles/virtualisation.nix
     ];
 
     networking = {
