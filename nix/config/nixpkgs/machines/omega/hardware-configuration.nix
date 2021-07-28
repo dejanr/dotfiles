@@ -177,13 +177,9 @@ in {
       package32 = mesaDrivers pkgs.pkgsi686Linux;
 
       extraPackages = with pkgs; [
-        amdvlk
-        rocm-opencl-icd
-        rocm-opencl-runtime
       ];
 
       extraPackages32 = with pkgs; [
-        driversi686Linux.amdvlk
       ];
     };
 
