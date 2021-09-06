@@ -148,6 +148,8 @@ in
 
   services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
 
+  services.timesyncd.enable = true;
+
   programs.mosh.enable = true;
   programs.vim.defaultEditor = true;
   programs.ssh = {
