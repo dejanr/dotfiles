@@ -3,11 +3,11 @@
 let
   gtk2-theme = import ../utils/gtk2Theme.nix {
     theme = {
-      package = pkgs.materia-theme;
+      package = pkgs.arc-theme;
       name = "Materia";
     };
     icons = {
-      package = pkgs.materia-theme;
+      package = pkgs.arc-icon-theme;
       name = "Materia";
     };
   };
@@ -53,7 +53,6 @@ in
     gnome3.dconf
     gtk-engine-murrine
     lxappearance # configure theme
-    vanilla-dmz # cursor theme
 
     xlibs.libX11
     xlibs.libXinerama
@@ -63,6 +62,12 @@ in
 
     networkmanagerapplet # NetworkManager control applet for GNOME
     networkmanager_openvpn # NetworkManager's OpenVPN plugin
+
+    pragmatapro
+
+    # theme
+    arc-icon-theme arc-theme capitaine-cursors
+    numix-icon-theme papirus-icon-theme arc-icon-theme
   ];
 
   services.xserver = {
@@ -105,6 +110,24 @@ in
 
       lightdm = {
         enable = true;
+        greeters.gtk.theme.package = pkgs.arc-theme;
+        greeters.gtk.theme.name = "Arc-Dark";
+        greeters.gtk.iconTheme.name = "Arc";
+        greeters.gtk.cursorTheme.name = "Capitaine Cursors - White";
+
+        background = pkgs.fetchurl {
+          url = "https://w.wallhaven.cc/full/wq/wallhaven-wqery6.jpg";
+          sha256 = "0d5416glma4l2sksxszddd6iqchng85j2gf9vc10y14g07cgayg0";
+        };
+
+        greeters.gtk.extraConfig = ''
+          indicators = ~spacer
+          font-name = PragmataPro 12
+          xft-antialias=true
+          xft-dpi=109
+          xft-hintstyle=hintslight
+          xft-rgba=rgb
+        '';
       };
     };
 

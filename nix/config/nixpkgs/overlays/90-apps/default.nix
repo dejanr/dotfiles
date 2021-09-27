@@ -31,6 +31,19 @@ let
   }));
 in
 {
+  arc-theme = super.arc-theme.overrideAttrs (oldAttrs: {
+    configureFlags = oldAttrs.configureFlags or [] ++ [
+      "--disable-light"
+      "--disable-cinnamon"
+      "--disable-gnome-shell"
+      "--disable-metacity"
+      "--disable-unity"
+      "--disable-xfwm"
+      "--disable-plank"
+      "--disable-openbox"
+    ];
+  });
+
   pragmatapro = super.callPackage ./pragmatapro/default.nix {};
 
   dxvk = super.callPackage ./dxvk {};
