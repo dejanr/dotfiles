@@ -21,7 +21,7 @@
     mplayer
     pamixer # cli tools for pulseaudio
     paprefs
-    lxqt.pavucontrol-qt
+    pavucontrol
     puredata
     qjackctl
     vlc
@@ -33,29 +33,19 @@
     powerOnBoot = true;
   };
 
-  hardware.pulseaudio = {
+  services.pipewire = {
     enable = true;
-    extraConfig = ''
-      load-module module-udev-detect tsched=0
-      load-module module-bluetooth-policy
-      load-module module-bluetooth-discover
-      load-module module-switch-on-connect
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
-      ### Enable Echo/Noise-Cancellation
-      load-module module-echo-cancel use_master_format=1 aec_method=webrtc aec_args="analog_gain_control=0 digital_gain_control=1" source_name=echoCancel_source sink_name=echoCancel_sink
-      set-default-source echoCancel_source
-      set-default-sink echoCancel_sink
-    '';
-    extraModules = [
-      pkgs.pulseaudio-modules-bt
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
     ];
-
-    daemon.config = {
-      avoid-resampling = "yes";
-      default-sample-rate = 48000;
-    };
-
-    support32Bit = true;
+    gtkUsePortal = true;
   };
 
   services.minidlna = {

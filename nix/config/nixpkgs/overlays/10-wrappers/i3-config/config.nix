@@ -231,10 +231,10 @@
 
   # applications
   bindsym $mod+w exec --no-startup-id google-chrome-stable
+  bindsym $mod+Alt+w exec i3-msg split toggle && exec --no-startup-id google-chrome-stable && i3-msg split toggle
   bindsym $mod+r exec --no-startup-id termite -e ranger
   bindsym $mod+n exec --no-startup-id termite -e newsboat
   bindsym $mod+m exec --no-startup-id termite -e neomutt
-  bindsym $mod+Shift+b exec --no-startup-id corebird
 
 
   # Windows switching
