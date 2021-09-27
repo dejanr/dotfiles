@@ -15,24 +15,23 @@ self: super:
     vkd3dSupport = false;
     mingwSupport = true;
   }).overrideAttrs (oldAttrs: rec {
-    version = "6.12";
+    version = "6.14";
 
     # From https://github.com/Frogging-Family/wine-tkg-git
-    protonPatchRev = "cdc194ab1d4e65979ac45c8632b687c46f4ade99";
+    protonPatchRev = "f9a601896b16f0611b3960ce680b7c683d1c6752";
 
     src = super.fetchFromGitHub {
       owner = "wine-mirror";
       repo = "wine";
       rev = "wine-${version}";
-      sha256 = "KXl8T6ZamYh9pVvq9sD3i+OyJtTW9wt0hU0o/NiRRzk=";
+      sha256 = "Ij0NtLp9Vq8HBkAeMrv2x0YdiPxEYgYc6lpn5dqbtzk=";
     };
 
     staging = super.fetchFromGitHub {
       owner = "wine-staging";
       repo = "wine-staging";
-      #rev = "v${version}";
-      rev = "163f74fe61851ff57264437073805dd5e7afe2bd";
-      sha256 = "92718RI3eRd5Sf6GWqk5mQaQVRwMs5puW1ZMWXj25dU=";
+      rev = "v${version}";
+      sha256 = "yzpRWNx/e3BDCh1dyf8VdjLgvu6yZ/CXre/cb1roaVs=";
     };
 
     # Temp
@@ -58,20 +57,22 @@ self: super:
 
     protonPatches = let
       proton = name: patch "proton/${name}";
+      protonTkg = name: patch "proton-tkg-specific/${name}";
     in [
-      #(proton "proton-winevulkan-nofshack" "h44pBXCZ5pxepHpgNubnNwJy2JHzDlgbruqPlJ0OnVw=")
-      (proton "fsync-unix-staging" "UIZNHmR41s7UamsDFJZy9s0gYrRpSRnAkriL2O2vODo=")
+      (protonTkg "proton-tkg-staging" "MBUBnAZrINRBfyMqkBcISq4HipJYG9lyJlt/qqKW5Vg=")
+      #(proton "proton-winevulkan" "J5+tMZWmBNiX1Rpqz6AfFVpYpIJyyxOQ2x8MjLQ/21o=")
+      (proton "fsync-unix-staging" "5hPGsLoRbkRNcPIUH8PrMthQGbd68f361qTAP4yyXIA=")
       (proton "fsync_futex2" "G+j2oKTWzjGjQqjtKYzRGHOFx12RXUx9WXjabVbt9os=")
     ];
 
     postPatch =
       let
-        vulkanVersion = "1.2.182";
+        vulkanVersion = "1.2.185";
 
         vkXmlFile = super.fetchurl {
           name = "vk-${vulkanVersion}.xml";
           url = "https://raw.github.com/KhronosGroup/Vulkan-Docs/v${vulkanVersion}/xml/vk.xml";
-          sha256 = "dxhxE4rB9CujFQGXqffC5E4Is8Z6jY6KNnTIbkBVydQ=";
+          sha256 = "db+HT8m+NZJfK1u564N2rMiJjKaETrDLz2MeumAy+e8=";
         };
       in ''
         # staging patches
@@ -116,5 +117,5 @@ self: super:
         ./tools/make_requests
         autoreconf -f
       '';
-    });
-  }
+  });
+}

@@ -188,6 +188,7 @@ in {
     ];
 
     enableRedistributableFirmware = true;
+    enableAllFirmware = true;
   };
 
   nixpkgs.config.packageOverrides = pkgs: {

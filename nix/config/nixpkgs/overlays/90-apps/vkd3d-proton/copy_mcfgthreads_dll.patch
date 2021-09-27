@@ -1,0 +1,28 @@
+diff --git a/setup_vkd3d_proton.sh b/setup_vkd3d_proton.sh
+index 6b0ed126..02a9733e 100644
+--- a/setup_vkd3d_proton.sh
++++ b/setup_vkd3d_proton.sh
+@@ -150,14 +150,23 @@ uninstallFile() {
+   fi
+ }
+
++installMcfgthreadsDll() {
++  local dstPath="$2/mcfgthread-12.dll"
++  rm -f "$dstPath"
++  ln -s "$1" "$dstPath"
++}
++
+ install() {
+   installFile "$win64_sys_path" "$vkd3d_lib64" "$1"
+   inst64_ret="$?"
+
++  installMcfgthreadsDll "__MCFGTHREADS_64_DLL__" "$win64_sys_path"
++
+   inst32_ret=-1
+   if $wow64; then
+     installFile "$win32_sys_path" "$vkd3d_lib32" "$1"
+     inst32_ret="$?"
++    installMcfgthreadsDll "__MCFGTHREADS_32_DLL__" "$win32_sys_path"
+   fi
+
+   if (( (inst32_ret == 0) || (inst64_ret == 0) )); then
