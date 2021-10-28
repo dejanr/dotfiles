@@ -43,6 +43,11 @@ self: super:
       url = "https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/${drv.protonPatchRev}/wine-tkg-git/wine-tkg-patches/${path}.patch";
       inherit sha256;
     };
+    evePatch = super.fetchurl {
+      name = "eve-patch";
+      url = "https://bugs.winehq.org/attachment.cgi?id=70739";
+      sha256 = "sha256-en8BAlTiOUHP6XtC8bgfgwtZCOMgCdYTgJtsmzAMlUk=";
+    };
   in {
     name = "wine-wow-${drv.version}-staging";
 
@@ -63,7 +68,7 @@ self: super:
       #(proton "proton-winevulkan" "J5+tMZWmBNiX1Rpqz6AfFVpYpIJyyxOQ2x8MjLQ/21o=")
       (proton "fsync-unix-staging" "5hPGsLoRbkRNcPIUH8PrMthQGbd68f361qTAP4yyXIA=")
       (proton "fsync_futex2" "G+j2oKTWzjGjQqjtKYzRGHOFx12RXUx9WXjabVbt9os=")
-    ];
+    ] ++ [evePatch];
 
     postPatch =
       let
