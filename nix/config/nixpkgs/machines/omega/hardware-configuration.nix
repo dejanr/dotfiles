@@ -1,7 +1,7 @@
 { boot, lib, pkgs, ... }:
 
 let
-  kernelPackages = pkgs.linuxPackages_5_13;
+  kernelPackages = pkgs.linuxPackages_latest;
 in {
   boot = {
     initrd.kernelModules = [ "amdgpu" ];
@@ -56,19 +56,19 @@ in {
 
     kernelPatches = let
       futex2 = rec {
-        name = "v5.13-futex2";
+        name = "v5.14-futex2";
         patch = pkgs.fetchpatch {
           name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.13/0007-v5.13-futex2_interface.patch";
+          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.14/0007-v5.14-futex2_interface.patch";
           sha256 = "EUS6XJwcGqcQLLxhPgdYdG3oB3qxsJueGXn7tLaEorc=";
         };
       };
 
       winesync = rec {
-        name = "v5.13-winesync";
+        name = "v5.14-winesync";
         patch = pkgs.fetchpatch {
           name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.13/0007-v5.13-winesync.patch";
+          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.14/0007-v5.14-winesync.patch";
           sha256 = "MHNc4K3wmBP4EHcx48pcu7fI7WXjfcqIhW1+Zt8zpng=";
         };
       };
