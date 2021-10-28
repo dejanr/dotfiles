@@ -4,6 +4,7 @@ let
     with p; [
       wxPython_4_0
       Logbook
+      numpy
       matplotlib
       python-dateutil
       requests
@@ -15,14 +16,16 @@ let
       beautifulsoup4
       pyyaml
       setuptools
+      python-jose
+      requests-cache
     ]);
 in stdenv.mkDerivation rec {
   name = "pyfa";
-  version = "2.32.0";
+  version = "2.38.1";
 
   src = fetchurl {
     url = "https://github.com/pyfa-org/Pyfa/archive/v${version}.tar.gz";
-    sha256 = "0K4gkygZH2ucN2u5cv+NYTLjhPVMqsEYuCxOihYJb2Q=";
+    sha256 = "sha256-kpWx5aHIdpa6TzeengehreFM3mm2ZD7IAWRsMbVzHiU=";
   };
 
   buildPhase = ''
