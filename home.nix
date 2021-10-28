@@ -65,7 +65,7 @@ in
     vim
     wget
     haskellPackages.gitHUD
-  ] ++ pyPkgs ++ bashScripts;
+  ] ++ bashScripts;
 
   home.sessionVariables = {
     EDITOR = "vim";
