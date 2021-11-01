@@ -15,34 +15,36 @@ self: super:
     vkd3dSupport = false;
     mingwSupport = true;
   }).overrideAttrs (oldAttrs: rec {
-    version = "6.14";
+    version = "6.20";
 
-    # From https://github.com/Frogging-Family/wine-tkg-git
-    protonPatchRev = "f9a601896b16f0611b3960ce680b7c683d1c6752";
+    protonGeVersion = "GE-1";
+
+    fullVersion = "${version}-${protonGeVersion}";
 
     src = super.fetchFromGitHub {
       owner = "wine-mirror";
       repo = "wine";
       rev = "wine-${version}";
-      sha256 = "Ij0NtLp9Vq8HBkAeMrv2x0YdiPxEYgYc6lpn5dqbtzk=";
+      sha256 = "9aDK4lXaId+q2zAQNEwfKNBRhfkpfar8J37WG9JPENE=";
     };
 
     staging = super.fetchFromGitHub {
       owner = "wine-staging";
       repo = "wine-staging";
       rev = "v${version}";
-      sha256 = "yzpRWNx/e3BDCh1dyf8VdjLgvu6yZ/CXre/cb1roaVs=";
+      sha256 = "dlF5ufIGF2Qh/OGiusjANCAmE8DUxz7zbRzrfI5124k=";
     };
-
-    # Temp
-    patches = [];
 
     NIX_CFLAGS_COMPILE = "-O3 -march=native -fomit-frame-pointer";
   })).overrideDerivation (drv: let
     patch = path: sha256: super.fetchurl {
-      url = "https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/${drv.protonPatchRev}/wine-tkg-git/wine-tkg-patches/${path}.patch";
+      url = "https://raw.githubusercontent.com/GloriousEggroll/proton-ge-custom/${drv.version}-${drv.protonGeVersion}/patches/${path}.patch";
       inherit sha256;
     };
+
+    proton = name: patch "proton/${name}";
+    hotfix = name: patch "wine-hotfixes/${name}";
+
     evePatch = super.fetchurl {
       name = "eve-patch";
       url = "https://bugs.winehq.org/attachment.cgi?id=70739";
@@ -60,24 +62,42 @@ self: super:
       super.perl
     ];
 
-    protonPatches = let
-      proton = name: patch "proton/${name}";
-      protonTkg = name: patch "proton-tkg-specific/${name}";
-    in [
-      (protonTkg "proton-tkg-staging" "MBUBnAZrINRBfyMqkBcISq4HipJYG9lyJlt/qqKW5Vg=")
-      #(proton "proton-winevulkan" "J5+tMZWmBNiX1Rpqz6AfFVpYpIJyyxOQ2x8MjLQ/21o=")
-      (proton "fsync-unix-staging" "5hPGsLoRbkRNcPIUH8PrMthQGbd68f361qTAP4yyXIA=")
-      (proton "fsync_futex2" "G+j2oKTWzjGjQqjtKYzRGHOFx12RXUx9WXjabVbt9os=")
+    protonPatches = [
+      (proton "01-proton-use_clock_monotonic" "EM502UOkslyXNLT9w1Paj/cLSpHeACZJn7HJqRjgxuk=")
+      (proton "03-proton-fsync_staging" "BFcs1y1B1o/A/iybEgR6P6kiFaMrPJkZL49t5sJIzW4=")
+      (proton "04-proton-LAA_staging" "nahqJ/PjFXAv9dV3HlJeDIchsiNPAkRW2WCFWQfDSBE=")
+      (proton "08-proton-steamclient_swap" "58LZZxRNgWyvZX/j8bbZGhmS+IZ+WIA9eaKDBAHdwjg=")
+      #(proton "10-proton-protonify_staging" "FzxaRjyB6SmcTvJuLuJ5TG2Phzk4UKgPp6c9/b5oMpk=")
+      ./patches/wine_protonify.patch # Same as above but without a few winhttp patches that cause errors
+      (proton "18-proton-amd_ags" "qk89nt1Ni67EBWT2w8oprG7Co+/jOdlmzC8F73xn9s0=")
+      (proton "40-proton-futex2" "G+j2oKTWzjGjQqjtKYzRGHOFx12RXUx9WXjabVbt9os=")
+      # broken
+      #(proton "41-valve_proton_fullscreen_hack-staging-tkg" "YECgZgtWvZOpGWIGlGiwKCpehUpI9CNSqjX1ZinwPEs=")
+      #(proton "48-proton-fshack_amd_fsr" "kC7VHAC830aCfF1HXnwMm9j2jd2oQjFjTzfpqg0r4Qs=")
+      (proton "49-proton_QPC" "+4tkY+hpRf5KJN6Ggx/95Oz7LjY76SXoiEkrpxxGWco=")
+      (proton "50-proton_LFH" "X0MmPblcRj2LApUvsBaLtGSV/gvUE/dsuEfmMNZ4ApU=")
+      (proton "51-proton_fonts" "RAYMMYaVW8uEXCqbZgWuWjLkY+RCBdJlS7W8+SoZ1Yk=")
+
+      (hotfix "pending/hotfix-remi_heap_alloc" "iOu0ulDghiAeOFB9Ab9i4S0TC2GSVuToAphbXbrFVP8=")
     ] ++ [evePatch];
+
+    reverts = [
+      (hotfix "steamclient/d4259ac8e93_revert" "B3GuY52ufzhDdkNCwWzFKRW3QupA4GRuXdu8V8PvXsM=")
+      "patches/Compiler_Warnings/0031-include-Check-element-type-in-CONTAINING_RECORD-and-.patch"
+    ];
+
+    preStagingReverts = [
+      (hotfix "staging/proton-staging-syscall-emu" "/mN70WxCjX1bxNn9iqXzlTJ7Wj9DxwNf1O92xTa0A08=")
+    ];
 
     postPatch =
       let
-        vulkanVersion = "1.2.185";
+        vulkanVersion = "1.2.196";
 
         vkXmlFile = super.fetchurl {
           name = "vk-${vulkanVersion}.xml";
           url = "https://raw.github.com/KhronosGroup/Vulkan-Docs/v${vulkanVersion}/xml/vk.xml";
-          sha256 = "db+HT8m+NZJfK1u564N2rMiJjKaETrDLz2MeumAy+e8=";
+          sha256 = "fAumeM5F9vldZvbHD+k0RzNRS8GiUHAJZk+I/BAOW9Y=";
         };
       in ''
         # staging patches
@@ -85,10 +105,26 @@ self: super:
         cp -r ${drv.staging}/patches .
         chmod +w -R patches/
 
+        for patch in $preStagingReverts; do
+          echo "!! reverting pre-staging ''${patch}"
+          patch -Np1 < "$patch"
+        done
+
         cd patches
         patchShebangs gitapply.sh
-        ./patchinstall.sh DESTDIR="$PWD/.." --all
+        ./patchinstall.sh DESTDIR="$PWD/.." --all \
+          -W winex11-_NET_ACTIVE_WINDOW \
+          -W winex11-WM_WINDOWPOSCHANGING \
+          -W ntdll-NtAlertThreadByThreadId \
+          -W dwrite-FontFallback
         cd ..
+
+        echo "applying reverts.."
+
+        for patch in $reverts; do
+          echo "!! reverting ''${patch}"
+          patch -RNp1 < "$patch"
+        done
 
         echo "applying Proton patches.."
 
@@ -122,5 +158,5 @@ self: super:
         ./tools/make_requests
         autoreconf -f
       '';
-  });
-}
+    });
+  }
