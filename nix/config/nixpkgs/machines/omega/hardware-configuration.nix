@@ -1,7 +1,7 @@
 { boot, lib, pkgs, ... }:
 
 let
-  kernelPackages = pkgs.linuxPackages_latest;
+  kernelPackages = pkgs.linuxPackages_5_14;
 in {
   boot = {
     initrd.kernelModules = [ "amdgpu" ];
@@ -81,7 +81,7 @@ in {
         '';
       };
     in #[ futex2 winesync enableFutex2 ]; # TODO: fix futex2 patch
-    [ winesync ];
+    [ ];
 
     blacklistedKernelModules = [
       "fbcon"
