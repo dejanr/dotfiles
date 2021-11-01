@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 
+#
 # Omega
 #
 
@@ -9,6 +10,8 @@ in
   {
     imports = [
       ./hardware-configuration.nix
+      ../../roles/common.nix
+      ../../roles/hosts.nix
     ];
 
     networking = {
