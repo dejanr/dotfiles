@@ -16,11 +16,6 @@ in
   '';
   nix.binaryCaches = [ https://cache.nixos.org ];
   nix.trustedUsers = [ "${username}" "root" ];
-  nix.nixPath = [
-    "nixos-config=/etc/nixos/configuration.nix"
-    "nixpkgs=${nixpkgs}"
-    "home-manager=${sources."home-manager"}"
-  ];
   nix.package = pkgs.nixFlakes;
 
   nixpkgs = {
@@ -33,7 +28,6 @@ in
         "p7zip-16.02"
       ];
     };
-    overlays = overlays ++ [ emacs-overlay ];
   };
 
   time.timeZone = "Europe/Berlin";
@@ -63,6 +57,7 @@ in
     users."${username}" = {
       description = "Dejan Ranisavljevic";
       name = username;
+      initialHashedPassword = "";
       group = "users";
       extraGroups = [
         "lp"
