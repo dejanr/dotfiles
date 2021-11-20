@@ -32,6 +32,7 @@
     file # show file type
     fish
     fzf
+    gist # Upload code to github gist from cli
     gcc
     graphicsmagick # Swiss army knife of image processing
     gdb
