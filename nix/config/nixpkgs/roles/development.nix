@@ -64,6 +64,7 @@
     ocamlPackages.ounit # Unit test framework for OCaml
     ocamlPackages.utop # Universal toplevel for OCaml
     ocamlPackages.reason # Facebook's friendly syntax to OCaml
+    pulumi
     ncftp
     ngrep # network packet alalyzer
     nix-prefetch-scripts

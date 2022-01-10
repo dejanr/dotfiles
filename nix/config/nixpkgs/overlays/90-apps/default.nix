@@ -65,4 +65,6 @@ in
   dotemacs = super.callPackage ./dotemacs {
     inherit (super) emacsWithPackages epkgs symlinkJoin makeWrapper;
   };
+
+  pulumi = super.callPackage ./pulumi {};
 }
