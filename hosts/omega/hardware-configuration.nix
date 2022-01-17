@@ -1,7 +1,7 @@
 { boot, lib, pkgs, ... }:
 
 let
-  kernelPackages = pkgs.linuxPackages_latest;
+  kernelPackages = pkgs.linuxPackages_zen;
 in {
   nixpkgs = {
     config = {
@@ -61,35 +61,6 @@ in {
       "hugepagesz=1GB"
       "loglevel=3"
     ];
-
-    kernelPatches = let
-      futex2 = rec {
-        name = "v5.14-futex2";
-        patch = pkgs.fetchpatch {
-          name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.14/0007-v5.14-futex2_interface.patch";
-          sha256 = "EUS6XJwcGqcQLLxhPgdYdG3oB3qxsJueGXn7tLaEorc=";
-        };
-      };
-
-      winesync = rec {
-        name = "v5.14-winesync";
-        patch = pkgs.fetchpatch {
-          name = name + ".patch";
-          url = "https://raw.githubusercontent.com/Frogging-Family/linux-tkg/master/linux-tkg-patches/5.14/0007-v5.14-winesync.patch";
-          sha256 = "MHNc4K3wmBP4EHcx48pcu7fI7WXjfcqIhW1+Zt8zpng=";
-        };
-      };
-
-      enableFutex2 = {
-        name = "futex2-config";
-        patch = null;
-        extraConfig = ''
-          FUTEX2 y
-        '';
-      };
-    in #[ futex2 winesync enableFutex2 ]; # TODO: fix futex2 patch
-    [ winesync ];
 
     blacklistedKernelModules = [
       "fbcon"

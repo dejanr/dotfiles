@@ -1,3 +1,5 @@
 result
 vim/vim/plugged
 *.el#
+nix/config/nixpkgs/overlays/80-wine/generated-reverts
+nix/config/nixpkgs/overlays/80-wine/revert-hashes

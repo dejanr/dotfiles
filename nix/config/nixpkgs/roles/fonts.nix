@@ -3,24 +3,26 @@
 {
   fonts = {
     fonts = with pkgs; [
-      corefonts
-      pragmatapro
-      font-awesome-ttf
-      terminus_font
-      ubuntu_font_family
-      liberation_ttf
-      freefont_ttf
-      source-code-pro
-      inconsolata
-      dejavu_fonts
-      freefont_ttf
-      unifont
-      cm_unicode
-      ipafont
       baekmuk-ttf
+      cm_unicode
+      corefonts
+      dejavu_fonts
+      font-awesome-ttf
+      freefont_ttf
+      freefont_ttf
+      google-fonts
+      hasklig
+      inconsolata
+      ipafont
+      liberation_ttf
+      pragmatapro
+      source-code-pro
       source-sans-pro
       source-serif-pro
-      hasklig
+      terminus_font
+      ubuntu_font_family
+      unifont
+      vistafonts
     ];
 
     fontconfig = {
