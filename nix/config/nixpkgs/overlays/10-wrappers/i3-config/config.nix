@@ -154,7 +154,6 @@
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
   assign [class="exefile.exe"] $workspace5
-  assign [class="World of Warcraft"] $workspace5
 
   # fix graphics glitch
   new_window none
