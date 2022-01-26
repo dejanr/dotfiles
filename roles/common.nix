@@ -106,6 +106,8 @@ in
   networking = {
     networkmanager.enable = true;
 
+    timeServers = ["time.cloudflare.com"];
+
     firewall = {
       enable = true;
       allowPing = true;
