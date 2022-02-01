@@ -21,9 +21,6 @@ in
     rofi # for app launcher
     rofi-menugen # Generates menu based applications using rofi
     feh # for background image
-    scrot # screenshot
-    shutter # Screenshot and annotation tool
-    lxqt.screengrab # Crossplatform tool for fast making screenshots
     polybar # status bar
     xdotool # inspect window title
     xorg.utilmacros
@@ -68,6 +65,8 @@ in
     # theme
     arc-icon-theme arc-theme capitaine-cursors
     numix-icon-theme papirus-icon-theme arc-icon-theme
+
+    screenshot
   ];
 
   services.xserver = {
