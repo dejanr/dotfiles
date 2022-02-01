@@ -31,6 +31,7 @@ in
   };
 
   time.timeZone = "Europe/Berlin";
+  time.hardwareClockInLocalTime = true;
 
   environment.systemPackages = with pkgs; [
     # nixpkgs
