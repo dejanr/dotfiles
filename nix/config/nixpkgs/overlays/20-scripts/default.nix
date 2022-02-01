@@ -40,4 +40,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  screenshot = import ./screenshot {
+    inherit (super);
+    pkgs = super;
+  };
 }
