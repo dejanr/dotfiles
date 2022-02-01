@@ -8,7 +8,6 @@
     caffeine-ng # Status bar application to temporarily inhibit screensaver and sleep mode
     imv # A command line image viewer for tiling window managers
     evince # gnome document viewer
-    flameshot # screenshot capturing
     gimp # Image Manipulation Program
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
