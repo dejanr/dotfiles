@@ -36,8 +36,8 @@ in
     auto-optimise-store = true
     experimental-features = nix-command flakes
   '';
-  nix.binaryCaches = [ https://cache.nixos.org ];
-  nix.trustedUsers = [ "${username}" "root" ];
+  nix.settings.substituters = [ https://cache.nixos.org ];
+  nix.settings.trusted-users = [ "${username}" "root" ];
   nix.nixPath = [
     "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs=${nixpkgs}"

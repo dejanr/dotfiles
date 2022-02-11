@@ -6,7 +6,7 @@
     winetricks
     cabextract
     dxvk
-    vkd3d
+    #vkd3d
     pyfa
     libstrangle
     vulkan-loader

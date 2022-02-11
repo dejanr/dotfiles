@@ -14,8 +14,8 @@ in
     auto-optimise-store = true
     experimental-features = nix-command flakes
   '';
-  nix.binaryCaches = [ https://cache.nixos.org ];
-  nix.trustedUsers = [ "${username}" "root" ];
+  nix.settings.substituters = [ https://cache.nixos.org ];
+  nix.trusted-users = [ "${username}" "root" ];
   nix.package = pkgs.nixFlakes;
 
   nixpkgs = {

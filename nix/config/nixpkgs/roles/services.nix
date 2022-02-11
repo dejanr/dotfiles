@@ -1,6 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
+  systemd.services.updateTime = {
+    script = ''
+      sudo ntpdate -u time.cloudflare.com
+    '';
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+  };
+
   services = {
     localtime.enable = true;
 

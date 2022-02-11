@@ -23,7 +23,6 @@ self: super:
     gphoto2Support = false;
     saneSupport = false;
     openclSupport = false;
-    gsmSupport = false;
     gstreamerSupport = false;
     vkd3dSupport = false;
     mingwSupport = true;

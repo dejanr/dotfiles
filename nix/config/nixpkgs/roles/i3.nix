@@ -44,10 +44,10 @@ in
     xfce.tumbler # A D-Bus thumbnailer service
     xfce.xfce4icontheme # Icons for Xfce
     xfce.xfconf # Simple client-server configuration storage and query system for Xfce
-    gnome3.vte
-    gnome3.gnome_themes_standard
-    gnome3.gnome_settings_daemon # makes DPI scaling, fonts and GTK settings come active.
-    gnome3.dconf
+    vte
+    gnome3.gnome-themes-extra
+    gnome3.gnome-settings-daemon # makes DPI scaling, fonts and GTK settings come active.
+    dconf
     gtk-engine-murrine
     lxappearance # configure theme
 
