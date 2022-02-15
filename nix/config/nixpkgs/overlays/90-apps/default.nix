@@ -67,8 +67,4 @@ in
   };
 
   pulumi = super.callPackage ./pulumi {};
-
-  mps-youtube = super.callPackage ./mps-youtube {
-    inherit (super) lib python3Packages fetchFromGitHub;
-  };
 }

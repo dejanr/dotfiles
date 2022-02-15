@@ -1,9 +1,9 @@
-{ mpsyt, tmux }: ''
+{ pipe-viewer, tmux }: ''
   #!/usr/bin/env bash
 
   create_music_session() {
     ${tmux} new-session -s music -d
-    ${tmux} send-keys ${mpsyt} Enter
+    ${tmux} send-keys "${pipe-viewer} --use-colors --player=mpv --novideo" Enter
 
     if [ -z "$TMUX" ]; then
       ${tmux} attach -t music

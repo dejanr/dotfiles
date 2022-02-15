@@ -1,16 +1,15 @@
 { pkgs }:
 
-with pkgs;
 let
   name = "music";
   source = import ./script.nix {
-    mpsyt = "${mps-youtube}/bin/mpsyt";
-    tmux = "${tmux}/bin/tmux";
+    pipe-viewer = "${pkgs.pipe-viewer}/bin/pipe-viewer";
+    tmux = "${pkgs.tmux}/bin/tmux";
   };
 in
-stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation {
   name = name;
-  script = writeScript name source;
+  script = pkgs.writeScript name source;
   phases = [ "installPhase" ];
   installPhase = ''
     mkdir -p $out/bin
