@@ -38,7 +38,6 @@
 
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
-  networking.firewall.checkReversePath = false;
 
   virtualisation.docker = {
     enable = true;

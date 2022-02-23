@@ -1,9 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
+  services.mullvad-vpn.enable = true;
+
   systemd.services.updateTime = {
     script = ''
-      sudo ntpdate -u time.cloudflare.com
+      ntpdate -u time.cloudflare.com
     '';
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
