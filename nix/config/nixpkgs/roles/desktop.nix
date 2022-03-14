@@ -47,7 +47,6 @@
     transmission-gtk
     usbutils # Tools for working with USB devices, such as lsusb
     unrar # Utility for RAR archives
-    firefox # A web browser built from Firefox source tree
     update-resolv-conf # Script to update your /etc/resolv.conf with DNS settings that come from the received push dhcp-options pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     weechat # A fast, light and extensible chat client
     xclip # clipboard
