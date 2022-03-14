@@ -34,9 +34,10 @@
   set $workspace5 "5: "
   set $workspace6 "6: "
   set $workspace7 "7: "
-  set $workspace8 "8: "
+  set $workspace8 "8: "
   set $workspace9 "9: "
   set $workspace10 "10: "
+  set $workspace11 "11: "
 
   set $monitor1 "DispayPort-1"
   set $monitor2 "HDMI-A-0"
@@ -97,7 +98,7 @@
   # Program-Related Bindings
   bindsym $mod+Return exec termite
   bindsym $mod+Shift+Return exec i3-msg split toggle && termite && i3-msg split toggle
-  bindsym $mod+d exec rofi -show run
+  bindsym $mod+d exec "rofi -show drun -modi drun,run -show-icons"
   bindsym $mod+p exec screenshot
   bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -154,6 +155,9 @@
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
   assign [class="exefile.exe"] $workspace5
+  assign [title="Google Meet"] $workspace11
+  assign [title="Google Calendar"] $workspace9
+  assign [title="Gmail"] $workspace9
 
   # fix graphics glitch
   new_window none
@@ -197,6 +201,10 @@
   for_window [title="EVE - Brqa"] floating enable
   for_window [title="EVE - Brqa"] resize set 1490 1420
   for_window [title="EVE - Brqa"] move window to position 1950 20
+
+  for_window [title="Google Meet"] floating disable
+  for_window [title="Google Calendar"] floating disable
+  for_window [title="Gmail"] floating disable
 
   # Widow Colours
   #                         border  background text    indicator
