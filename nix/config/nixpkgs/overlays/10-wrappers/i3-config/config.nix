@@ -158,7 +158,7 @@
   assign [title="Google Meet"] $workspace11
   assign [title="Google Calendar"] $workspace9
   assign [title="Gmail"] $workspace9
-  assign [title="Eve Launcher"] $workspace4
+  assign [title="EVE Launcher"] $workspace4
   assign [title="Steam"] $workspace4
 
   # fix graphics glitch
