@@ -2,7 +2,6 @@
 
 {
   environment.systemPackages = with pkgs; [
-    ag
     ack
     aspell
     aspellDicts.de
