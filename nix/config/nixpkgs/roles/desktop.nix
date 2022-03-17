@@ -64,4 +64,6 @@
     arc-theme
     gnome3.adwaita-icon-theme
   ];
+
+  services.blueman.enable = true;
 }

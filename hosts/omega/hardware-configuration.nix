@@ -38,12 +38,14 @@ in {
       "vfio_iommu_type1"
       "vfio_virqfd"
       "virtio" # paravirtual 3D graphics driver based on virgl
+      "hid-nintendo"
     ];
 
     kernelPackages = kernelPackages;
 
     extraModulePackages = with kernelPackages; [
       v4l2loopback
+      hid-nintendo
     ];
 
     kernel.sysctl = {
