@@ -39,7 +39,7 @@
   set $workspace10 "10: "
   set $workspace11 "11: "
 
-  set $monitor1 "DispayPort-1"
+  set $monitor1 "DispayPort-2"
   set $monitor2 "HDMI-A-0"
 
   # General Configuration
@@ -142,9 +142,10 @@
   workspace $workspace5 output $monitor1
   workspace $workspace6 output $monitor1
   workspace $workspace7 output $monitor1
-  workspace $workspace8 output $monitor2
+  workspace $workspace8 output $monitor1
   workspace $workspace9 output $monitor1
   workspace $workspace10 output $monitor1
+  workspace $workspace11 output $monitor2
 
   # Program Workspaces
   assign [class="Pronterface.py"] $workspace5

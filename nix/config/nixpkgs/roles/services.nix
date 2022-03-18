@@ -3,14 +3,6 @@
 {
   services.mullvad-vpn.enable = true;
 
-  systemd.services.updateTime = {
-    script = ''
-      ntpdate -u time.cloudflare.com
-    '';
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-  };
-
   services = {
     localtime.enable = true;
 
