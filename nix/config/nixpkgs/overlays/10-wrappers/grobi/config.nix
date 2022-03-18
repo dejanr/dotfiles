@@ -1,7 +1,17 @@
 {}:
 ''
   rules:
-    - name: home
+    - name: play
+      outputs_connected: [DisplayPort-2, HDMI-A-0]
+      configure_row:
+        - DisplayPort-0
+        - HDMI-A-0
+      atomic: true
+      execute_after:
+        - xrandr --output HDMI-A-0 --off --output DisplayPort-0 --off --output DisplayPort-1 --off --output DisplayPort-2 --mode 3440x1440 --pos 0x0 --rotate normal --primary
+        - wm-wallpaper
+
+    - name: work
       outputs_connected: [DisplayPort-2, HDMI-A-0]
       configure_row:
         - DisplayPort-0
