@@ -7,7 +7,7 @@
       cm_unicode
       corefonts
       dejavu_fonts
-      font-awesome-ttf
+      font-awesome
       freefont_ttf
       freefont_ttf
       google-fonts

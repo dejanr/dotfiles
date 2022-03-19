@@ -16,7 +16,7 @@ in
   '';
   nix.settings.substituters = [ https://cache.nixos.org ];
   nix.trusted-users = [ "${username}" "root" ];
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.unstable.nixVersions.nix_2_7
 
   nixpkgs = {
     config = {

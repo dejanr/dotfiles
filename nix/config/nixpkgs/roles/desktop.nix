@@ -27,8 +27,8 @@
     openvpn # A robust and highly flexible tunneling application
     pciutils # lspci and other utils
     pcmanfm # File manager witth GTK+ interface
-    pidgin-with-plugins # Multi-protocol instant messaging client
-    pidginwindowmerge # merge contacts and message window
+    pidgin # Multi-protocol instant messaging client
+    pidgin-window-merge # merge contacts and message window
     pinentry # gnupg interface to passphrase input
     polkit # A dbus session bus service that is used to bring up authentication dialogs
     powertop # Analyze power consumption on Intel-based laptops
@@ -36,7 +36,7 @@
     purple-plugin-pack # Plugin pack for Pidgin 2.x
     qalculate-gtk # The ultimate desktop calculator
     scrot # screen capturing
-    slic3r-prusa3d # G-code generator for 3D printer
+    prusa-slicer # G-code generator for 3D printer
     st # Simple Terminal for X from Suckless.org Community
     surf # suckless browser
     sxiv # image viewer

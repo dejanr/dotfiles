@@ -51,14 +51,14 @@ in
     gtk-engine-murrine
     lxappearance # configure theme
 
-    xlibs.libX11
-    xlibs.libXinerama
-    xlibs.xev
-    xlibs.xkill
-    xlibs.xmessage
+    xorg.libX11
+    xorg.libXinerama
+    xorg.xev
+    xorg.xkill
+    xorg.xmessage
 
     networkmanagerapplet # NetworkManager control applet for GNOME
-    networkmanager_openvpn # NetworkManager's OpenVPN plugin
+    networkmanager-openvpn # NetworkManager's OpenVPN plugin
 
     pragmatapro
 

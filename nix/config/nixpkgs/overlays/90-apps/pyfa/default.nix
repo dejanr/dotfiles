@@ -62,9 +62,9 @@ in stdenv.mkDerivation rec {
         desktopName = name;
         comment = meta.description;
         exec = "@out@/bin/pyfa";
-        terminal = "false";
+        terminal = false;
         type = "Application";
-        categories = "Application;Game";
+        categories = ["Application" "Game"];
       }
     }/* $out/
 

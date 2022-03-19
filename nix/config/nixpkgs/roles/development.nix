@@ -26,7 +26,7 @@
     curl
     dpkg
     docker
-    docker_compose
+    docker-compose
     exercism # A Go based command line tool for exercism.io
     file # show file type
     fish
@@ -79,7 +79,7 @@
     ruby
     smartmontools # tools for monitoring hard drives
     tcpdump # network sniffer
-    telnet
+    inetutils
     tmux
     tree
     tldr # Simplified and community-driven man pages
