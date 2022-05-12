@@ -6,7 +6,7 @@ API_URL="https://api.github.com/repos/pulumi"
 
 # Version of Pulumi from
 # https://www.pulumi.com/docs/get-started/install/versions/
-VERSION="3.21.1"
+VERSION="3.32.1"
 
 # A hashmap containing a plugin's name and it's respective repository inside
 # Pulumi's Github organization
@@ -91,21 +91,6 @@ EOF
   echo "    x86_64-linux = ["
   genMainSrc "linux" "x64"
   genSrcs "linux" "amd64"
-  echo "    ];"
-
-  echo "    x86_64-darwin = ["
-  genMainSrc "darwin" "x64"
-  genSrcs "darwin" "amd64"
-  echo "    ];"
-
-  echo "    aarch64-linux = ["
-  genMainSrc "linux" "arm64"
-  genSrcs "linux" "arm64"
-  echo "    ];"
-
-  echo "    aarch64-darwin = ["
-  genMainSrc "darwin" "arm64"
-  genSrcs "darwin" "arm64"
   echo "    ];"
 
   echo "  };"
