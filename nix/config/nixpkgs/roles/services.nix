@@ -6,6 +6,8 @@
   services = {
     localtime.enable = true;
 
+    flatpak.enable = true;
+
     printing.enable = true;
     printing.drivers = [ pkgs.mfc9332cdwlpr ];
     printing.browsing = true;

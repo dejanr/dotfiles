@@ -161,6 +161,7 @@
   assign [title="Gmail"] $workspace9
   assign [title="EVE Launcher"] $workspace4
   assign [title="Steam"] $workspace4
+  assign [class="Albion-Online"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -170,6 +171,8 @@
   for_window [window_role="bubble"] floating enable
   for_window [window_role="task_dialog"] floating enable
   for_window [window_role="Preferences"] floating enable
+  for_window [class="Albion-Online"] border normal 0
+  for_window [class="Albion-Online"] border pixel 0
 
   for_window [class="Lxappearance"] floating enable
   for_window [class="Seahorse"] floating enable
@@ -204,6 +207,9 @@
   for_window [title="EVE - Brqa"] floating enable
   for_window [title="EVE - Brqa"] resize set 1490 1420
   for_window [title="EVE - Brqa"] move window to position 1950 20
+  for_window [class="Albion-Online"] floating enable
+  for_window [class="Albion-Online"] resize set 3440 1440
+  for_window [class="Albion-Online"] move window to position 0 -20
 
   for_window [title="Google Meet"] floating disable
   for_window [title="Google Calendar"] floating disable
