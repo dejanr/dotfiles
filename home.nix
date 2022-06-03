@@ -53,7 +53,6 @@ in
     kustomize
     niv
     nixfmt
-    nodejs
     opam
     pgformatter
     ripgrep
@@ -75,6 +74,7 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
+    allowUnsupportedSystem = true;
   };
 
   programs.direnv.enableZshIntegration = true;
