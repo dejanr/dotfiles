@@ -16,7 +16,7 @@ in
   '';
   nix.settings.substituters = [ https://cache.nixos.org ];
   nix.trusted-users = [ "${username}" "root" ];
-  nix.package = pkgs.unstable.nixVersions.nix_2_7
+  nix.package = pkgs.unstable.nixVersions.nix_2_7;
 
   nixpkgs = {
     config = {
@@ -43,7 +43,7 @@ in
     htop # An interactive process viewer for Linux
     fd # A simple, fast and user-friendly alternative to find
     niv # dependency manager for nix projects
-    nodejs-16_x
+    nodejs-18_x
     ripgrep
     rsync #  A fast incremental file transfer utility
     tmux # Terminal multiplexer
