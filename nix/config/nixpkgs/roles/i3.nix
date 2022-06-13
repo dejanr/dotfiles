@@ -37,12 +37,12 @@ in
     i3lock-fancy
     xscreensaver # screensaver
     xfce.thunar # file amanger
-    xfce.thunar_volman
+    xfce.thunar-volman
     xfce.thunar-archive-plugin
     xfce.xfce4-screenshooter
     xfce.ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
     xfce.tumbler # A D-Bus thumbnailer service
-    xfce.xfce4icontheme # Icons for Xfce
+    xfce.xfce4-icon-theme # Icons for Xfce
     xfce.xfconf # Simple client-server configuration storage and query system for Xfce
     vte
     gnome3.gnome-themes-extra
