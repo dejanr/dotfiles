@@ -4,7 +4,7 @@
   services.mullvad-vpn.enable = true;
 
   services = {
-    localtime.enable = true;
+    localtimed.enable = true;
 
     flatpak.enable = true;
 

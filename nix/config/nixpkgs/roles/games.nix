@@ -6,7 +6,7 @@
     winetricks
     cabextract
     dxvk
-    #vkd3d
+    vkd3d
     pyfa
     libstrangle
     vulkan-loader
@@ -14,7 +14,7 @@
     vulkan-tools
     legendary-gl # A free and open-source Epic Games Launcher alternative
     teamspeak_client # voip client
-    cemu
+    #cemu
     jstest-gtk
     linuxConsoleTools
   ];
