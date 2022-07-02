@@ -1,7 +1,7 @@
 { boot, lib, pkgs, ... }:
 
 let
-  kernelPackages = pkgs.linuxPackages_5_17;
+  kernelPackages = pkgs.linuxPackages_5_18;
 in {
   boot = {
     initrd.kernelModules = [ "amdgpu" ];

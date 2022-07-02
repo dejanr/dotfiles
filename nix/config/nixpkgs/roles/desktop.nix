@@ -57,7 +57,6 @@
     #sweethome3d.furniture-editor # Quickly create SH3F files and edit the properties of the 3D models it contain
     #sweethome3d.application # Design and visualize your future home
     #sweethome3d.textures-editor # Easily create SH3T files and edit the properties of the texture images it contain
-    wxcam # An open-source, wxGTK-based webcam app for Linux
 
     # Themes
     arc-icon-theme

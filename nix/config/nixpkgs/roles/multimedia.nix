@@ -51,6 +51,5 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-wlr
     ];
-    gtkUsePortal = true;
   };
 }
