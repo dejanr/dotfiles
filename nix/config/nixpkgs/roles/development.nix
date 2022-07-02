@@ -74,7 +74,7 @@
     sqlite
     patchelf
     psmisc
-    python
+    python3
     ranger # file manager with minimal ncurses interface
     ruby
     smartmontools # tools for monitoring hard drives
