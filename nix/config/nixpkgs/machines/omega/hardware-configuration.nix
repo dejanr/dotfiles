@@ -1,7 +1,7 @@
 { boot, lib, pkgs, ... }:
 
 let
-  kernelPackages = pkgs.linuxPackages_5_18;
+  kernelPackages = pkgs.linuxPackages_latest;
 in {
   boot = {
     initrd.kernelModules = [ "amdgpu" ];
@@ -123,36 +123,11 @@ in {
 
     video.hidpi.enable = lib.mkDefault true;
 
-    opengl = let
-      # mesa with zink driver
-      # TODO: enable building with b_lto
-      mesaDrivers = pkgs: ((pkgs.mesa.override {
-        stdenv = pkgs.impureUseNativeOptimizations (if !pkgs.stdenv.is32bit then
-          pkgs.llvmPackages_latest.stdenv
-        else
-          # Using LLVM for 32-bit builds requires us to build GCC and LLVM, which isn't very nice
-          pkgs.stdenv);
-
-        galliumDrivers = [ "radeonsi" "virgl" "svga" "swrast" "zink" ];
-      }).overrideAttrs (oldAttrs: rec {
-        # For zink driver
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.vulkan-loader
-        ];
-
-      })).drivers;
-    in {
-      driSupport = true;
+    opengl = {
+      enable = true;
       driSupport32Bit = true;
-
-      package = mesaDrivers pkgs;
-      package32 = mesaDrivers pkgs.pkgsi686Linux;
-
-      extraPackages = with pkgs; [
-      ];
-
-      extraPackages32 = with pkgs; [
-      ];
+      package = pkgs.mesa.drivers;
+      package32 = pkgs.pkgsi686Linux.mesa.drivers;
     };
 
     firmware = [
