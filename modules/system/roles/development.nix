@@ -44,6 +44,7 @@
     gnum4 # GNU M4, a macro processor
     go
     gparted
+    gh # github cli tool
     htop
     haskellPackages.ghc # The Glasgow Haskell Compiler
     haskellPackages.cabal-install # The command-line interface for Cabal and Hackage
