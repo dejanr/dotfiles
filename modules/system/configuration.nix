@@ -25,7 +25,6 @@ in
     services = {
       xserver = {
         enable = true;
-        useGlamor = true;
         videoDrivers = [ "amdgpu" ];
 
         displayManager = {

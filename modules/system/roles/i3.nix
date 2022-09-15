@@ -71,7 +71,6 @@ in
 
   services.xserver = {
     enable = true;
-    useGlamor = true;
     autorun = true;
 
     libinput = {

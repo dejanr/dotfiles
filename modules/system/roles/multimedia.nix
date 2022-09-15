@@ -32,7 +32,9 @@
 
   services.minidlna = {
     enable = true;
-    mediaDirs = [ "/home/dejanr/downloads" ];
+    settings = {
+      media_Dir = [ "/home/dejanr/downloads" ];
+    };
   };
 
   security.rtkit.enable = true;
