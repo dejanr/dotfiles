@@ -6,6 +6,7 @@
     aspell
     aspellDicts.de
     aspellDicts.en
+    altair
     atop
     autoconf
     autojump # cd command that learns
