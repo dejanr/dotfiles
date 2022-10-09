@@ -10,7 +10,7 @@
     calf
     ffmpeg
     handbrake
-    jack2Full
+    jack2
     ladspaPlugins
     libdvdcss
     libdvdnav

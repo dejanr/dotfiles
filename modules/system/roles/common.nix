@@ -16,7 +16,7 @@ in
   '';
   nix.settings.substituters = [ https://cache.nixos.org ];
   nix.settings.trusted-users = [ "${username}" "root" ];
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
 
   nixpkgs = {
     config = {
@@ -65,10 +65,10 @@ in
     rsync #  A fast incremental file transfer utility
     tmux # Terminal multiplexer
     unzip # An extraction utility for archives compressed in .zip format
-    urxvt_font_size
-    urxvt_perl
-    urxvt_perls
-    urxvt_vtwheel
+    rxvt-unicode-plugins.font-size
+    rxvt-unicode-plugins.perl
+    rxvt-unicode-plugins.perls
+    rxvt-unicode-plugins.vtwheel
     x2goclient # x2go client for remote desktop
     vimHugeX # vim with clipboard and x support
     wget # Tool for retrieving files

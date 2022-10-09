@@ -11,7 +11,7 @@
   environment.systemPackages = with pkgs; [
     looking-glass-client
     qemu # A generic and open source machine emulator and virtualizer
-    virtmanager # Desktop user interface for managing virtual machines
+    virt-manager # Desktop user interface for managing virtual machines
     vde2 # Virtual Distributed Ethernet, an Ethernet compliant virtual network
     pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     OVMF # Sample UEFI firmware for QEMU and KVM

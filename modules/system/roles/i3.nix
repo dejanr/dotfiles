@@ -45,8 +45,8 @@ in
     xfce.xfce4-icon-theme # Icons for Xfce
     xfce.xfconf # Simple client-server configuration storage and query system for Xfce
     vte
-    gnome3.gnome-themes-extra
-    gnome3.gnome-settings-daemon # makes DPI scaling, fonts and GTK settings come active.
+    gnome.gnome-themes-extra
+    gnome.gnome-settings-daemon # makes DPI scaling, fonts and GTK settings come active.
     dconf
     gtk-engine-murrine
     lxappearance # configure theme
