@@ -12,6 +12,7 @@ in {
             userEmail = "dejan@ranisavljevic.com";
             extraConfig = {
                 init = { defaultBranch = "main"; };
+                github = { user = "dejanr"; };
             };
         };
     };
