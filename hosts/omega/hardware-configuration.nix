@@ -74,33 +74,26 @@ in {
     supportedFilesystems = [ ];
 
     loader = {
-      grub.enable = true;
+      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-      grub.device = "/dev/nvme0n1";
-      grub.useOSProber = true;
-      grub.extraEntries = ''
-        menuentry "Firmware" {
-          fwsetup
-        }
-        menuentry "Reboot" {
-          reboot
-        }
-        menuentry "Poweroff" {
-          halt
-        }
-      '';
+      efi.efiSysMountPoint = "/boot/efi";
     };
 
     cleanTmpDir = true;
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/0a75cccd-258e-4fbb-a4f0-fb37d259bea5";
+    { device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
       fsType = "ext4";
     };
 
+  fileSystems."/boot/efi" =
+    { device = "/dev/disk/by-uuid/B53C-141D";
+      fsType = "vfat";
+    };
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/a4c9c619-2088-46dd-ab1b-c22aba495cdc"; }
+    [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
     ];
 
   hardware = {
