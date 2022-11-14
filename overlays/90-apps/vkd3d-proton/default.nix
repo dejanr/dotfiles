@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
   src = fetchgit {
     url = "https://github.com/HansKristian-Work/vkd3d-proton.git";
     rev = version;
-    sha256 = "sha256-X3JHo868Fz2LLlXA35Fw/VLWiNlfZdAWJw+F3Ci7FhQ=";
+    sha256 = "sha256-Qc689hoDxM8YJ6ZuIJiqbWZ54zD501wEEph6AhR1Ahc=";
   };
 
   phases = "unpackPhase patchPhase postPatchPhase buildPhase installPhase";
