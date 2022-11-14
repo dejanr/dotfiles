@@ -262,4 +262,9 @@
 
   bindsym $mod+a workspace back_and_forth
   bindsym Mod1+Tab focus right
+
+  focus_follows_mouse yes
+  mouse_warping output
+  focus_wrapping no
+  focus_on_window_activation focus
 ''
