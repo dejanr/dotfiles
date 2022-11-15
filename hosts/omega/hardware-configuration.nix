@@ -169,13 +169,6 @@ in {
     };
   };
 
-  systemd.sleep.extraConfig = ''
-    SuspendMode=suspend
-    SuspendState=disk
-    HibernateMode=suspend
-    HibernateState=disk
-  '';
-
   environment = {
     etc."X11/Xresources".text = ''
         Xft.dpi: 109
