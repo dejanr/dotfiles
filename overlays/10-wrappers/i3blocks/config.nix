@@ -1,13 +1,11 @@
 { writeScript, colors, xorg, libnotify, maim, xclip }:
 let
-  audio = writeScript "audio" (import ./scripts/audio.nix {});
   brightness = writeScript "brightness" (
     import ./scripts/brightness.nix {
       inherit xorg;
     }
   );
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix {});
-  microphone = writeScript "audio" (import ./scripts/microphone.nix {});
   language = writeScript "audio" (import ./scripts/language.nix {});
 in
 ''
@@ -22,22 +20,6 @@ in
   interval=5
   command=${bluetooth-headset} "14:3F:A6:A3:47:F3"
   label=
-  color=${colors.foreground}
-
-  [seperator]
-
-  [audio]
-  command=${audio}
-  interval=5
-  label=
-  color=${colors.foreground}
-
-  [seperator]
-
-  [microphone]
-  command=${microphone}
-  interval=5
-  label=
   color=${colors.foreground}
 
   [seperator]

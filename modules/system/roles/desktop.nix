@@ -11,7 +11,7 @@
     gimp # Image Manipulation Program
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
-    google-chrome
+    google-chrome-beta
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
     inkscape # vector graphics editor
