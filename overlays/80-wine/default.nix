@@ -49,7 +49,6 @@ self: super:
     nativeBuildInputs = drv.nativeBuildInputs ++ [
       super.git
       super.perl
-      super.utillinux
       super.autoconf
       super.python3
       super.perl

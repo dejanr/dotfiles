@@ -65,9 +65,6 @@
       setSendmail = true;
     };
 
-    zerotierone.enable = true;
-    zerotierone.joinNetworks = [ "17d709436c300cfe" ];
-
     accounts-daemon.enable = true;
   };
 }
