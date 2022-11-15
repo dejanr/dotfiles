@@ -2,7 +2,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxPackages_latest;
+  kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
