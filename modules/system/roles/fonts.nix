@@ -10,7 +10,6 @@
       font-awesome
       freefont_ttf
       freefont_ttf
-      google-fonts
       hasklig
       inconsolata
       ipafont

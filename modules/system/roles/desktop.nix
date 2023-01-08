@@ -23,7 +23,7 @@
     magic-wormhole # Securely transfer data between computers
     mutt # A small but very powerful text-based mail client
     newsboat # RSS reader
-    openscad # 3D parametric model compiler
+    # openscad # 3D parametric model compiler
     openvpn # A robust and highly flexible tunneling application
     pciutils # lspci and other utils
     pcmanfm # File manager witth GTK+ interface
@@ -36,7 +36,7 @@
     purple-plugin-pack # Plugin pack for Pidgin 2.x
     qalculate-gtk # The ultimate desktop calculator
     scrot # screen capturing
-    prusa-slicer # G-code generator for 3D printer
+    # prusa-slicer # G-code generator for 3D printer
     st # Simple Terminal for X from Suckless.org Community
     surf # suckless browser
     sxiv # image viewer

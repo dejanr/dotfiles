@@ -66,5 +66,8 @@
     };
 
     accounts-daemon.enable = true;
+
+    zerotierone.enable = true;
+    zerotierone.joinNetworks = ["1c33c1ced070f7fe"];
   };
 }
