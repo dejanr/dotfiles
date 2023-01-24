@@ -68,6 +68,8 @@ in {
       options it87 force_id=0x8628
       options k10temp force=1
       options v4l2loopback exclusive_caps=1 video_nr=9 card_label=v4l2
+      options kvm-amd nested=1
+      options kvm xignore_msrs=1
     '';
 
     initrd.supportedFilesystems = [ ];

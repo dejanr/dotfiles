@@ -164,10 +164,7 @@ in
         8200 # minidlna xbox
         56789 # kam server
       ];
-      allowedTCPPortRanges = [
-        # castnow
-        { from = 4100; to = 4105; }
-      ];
+      allowedTCPPortRanges = [];
       allowedUDPPorts = [
         631 # CUPS ports
         5353

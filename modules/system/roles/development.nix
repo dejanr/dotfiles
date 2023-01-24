@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  programs.java = { enable = true; package = pkgs.jdk11; };
+
   environment.systemPackages = with pkgs; [
     ack
     aspell
