@@ -62,6 +62,8 @@
     arc-icon-theme
     arc-theme
     gnome.adwaita-icon-theme
+
+    obsidian # A powerful knowledge base that works on top of a local folder of plain text Markdown files
   ];
 
   services.blueman.enable = true;
