@@ -195,6 +195,9 @@
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
 
+  for_window [title="EVE"] floating enable
+  for_window [title="EVE"] resize set 1490 1420
+  for_window [title="EVE"] move window to position 975 20
   for_window [title="EVE - D' Zwer"] floating enable
   for_window [title="EVE - D' Zwer"] resize set 1490 1420
   for_window [title="EVE - D' Zwer"] move window to position 0 20
@@ -214,6 +217,9 @@
   for_window [class="steam_app_1063730"] floating enable
   for_window [class="steam_app_1063730"] resize set 3440 1420
   for_window [class="steam_app_1063730"] move window to position 0 20
+  for_window [title="EVE Launcher"] floating enable
+  for_window [title="EVE Launcher"] resize set 1490 1420
+  for_window [title="EVE Launcher"] move window to position 975 20
 
   for_window [title="Google Meet"] floating disable
   for_window [title="Google Calendar"] floating disable
