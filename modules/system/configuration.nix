@@ -25,7 +25,7 @@ in
     services = {
       xserver = {
         enable = true;
-        videoDrivers = [ "amdgpu" ];
+        videoDrivers = [ "nvidia" ];
 
         displayManager = {
           xserverArgs = [ "-dpi 109" ];

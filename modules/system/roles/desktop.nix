@@ -8,6 +8,7 @@
     caffeine-ng # Status bar application to temporarily inhibit screensaver and sleep mode
     imv # A command line image viewer for tiling window managers
     evince # gnome document viewer
+    freecad # General purpose Open Source 3D CAD/MCAD/CAx/CAE/PLM modeler
     gimp # Image Manipulation Program
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive

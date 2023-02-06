@@ -9,16 +9,15 @@ in {
   ];
 
   boot = {
-    initrd.kernelModules = [ "amdgpu" ];
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.preDeviceCommands = ''
       # 0000:04:00.0 nvidia
       # 0000:04:00.1 nvidia audio
-      DEVS="0000:04:00.0 0000:04:00.1"
-      for DEV in $DEVS; do
-        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
-      done
-      modprobe -i vfio-pci
+      #DEVS="0000:04:00.0 0000:04:00.1"
+      #for DEV in $DEVS; do
+      #  echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+      #done
+      #modprobe -i vfio-pci
     '';
 
     kernelModules = [
@@ -52,7 +51,6 @@ in {
       "amd_iommu=on"
       "iommu=pt"
       "iommu=1"
-      "video=efifb:off"
       "quiet"
       "splash"
       "hugepagesz=1GB"
@@ -109,9 +107,6 @@ in {
       driSupport = lib.mkDefault true;
       driSupport32Bit = lib.mkDefault true;
       extraPackages = with pkgs; [
-        rocm-opencl-icd
-        rocm-opencl-runtime
-        amdvlk
       ];
     };
 
@@ -132,7 +127,7 @@ in {
   services = {
     xserver = {
       enable = true;
-      videoDrivers = [ "amdgpu" ];
+      videoDrivers = [ "nvidia" ];
 
       displayManager = {
         xserverArgs = [ "-dpi 109" ];

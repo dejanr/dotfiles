@@ -44,7 +44,6 @@
     enableOnBoot = true;
     autoPrune.enable = true;
     autoPrune.flags = [ "--all" ];
-    storageDriver = "zfs";
   };
 
   virtualisation.lxd.zfsSupport = true;
