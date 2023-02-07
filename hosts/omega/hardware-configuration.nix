@@ -134,11 +134,17 @@ in {
       };
 
       deviceSection = ''
-          Option "AccelMethod" "glamor"
-          Option "DRI" "3"
-          Option "TearFree" "on"
-          Option "ColorTiling" "on"
-          Option "ColorTiling2D" "on"
+          Option "ForceCompositionPipeline" "On"
+          Option "ForceFullCompositionPipeline" "On"
+          Option "AllowGSYNCCompatible" "On"
+          Option "AllowIndirectGLXProtocol" "off"
+          Option "TripleBuffer" "on"
+          Option  "Stereo" "0"
+          Option  "nvidiaXineramaInfoOrder" "DFP-1"
+          Option  "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On, AllowGSYNCCompatible=On}"
+          Option  "SLI" "Off"
+          Option  "MultiGPU" "Off"
+          Option  "BaseMosaic" "off"
       '';
     };
 
