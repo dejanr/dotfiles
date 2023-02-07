@@ -74,13 +74,30 @@ in {
     supportedFilesystems = [ ];
 
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
+      grub.enable = true;
+      grub.efiSupport = true;
+      grub.version = 2;
+      grub.device = "nodev";
+      grub.useOSProber = true;
+      grub.extraEntries = ''
+        menuentry "Firmware" {
+          fwsetup
+        }
+        menuentry "Reboot" {
+          reboot
+        }
+        menuentry "Poweroff" {
+          halt
+        }
+      '';
     };
 
     cleanTmpDir = true;
   };
+
+  time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
