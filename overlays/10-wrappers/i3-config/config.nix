@@ -195,9 +195,6 @@
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
 
-  for_window [title="EVE"] floating enable
-  for_window [title="EVE"] resize set 1490 1420
-  for_window [title="EVE"] move window to position 975 20
   for_window [title="EVE - D' Zwer"] floating enable
   for_window [title="EVE - D' Zwer"] resize set 1490 1420
   for_window [title="EVE - D' Zwer"] move window to position 0 20
