@@ -58,6 +58,9 @@ in
     linuxPackages.cpupower # Tool to examine and tune power saving features
     niv # dependency manager for nix projects
     neovim
+    tree-sitter
+    lua-language-server
+    vimPlugins.mason-lspconfig-nvim
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human

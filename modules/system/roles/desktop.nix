@@ -24,6 +24,7 @@
     magic-wormhole # Securely transfer data between computers
     mutt # A small but very powerful text-based mail client
     newsboat # RSS reader
+    neovide # neovim gui
     # openscad # 3D parametric model compiler
     openvpn # A robust and highly flexible tunneling application
     pciutils # lspci and other utils

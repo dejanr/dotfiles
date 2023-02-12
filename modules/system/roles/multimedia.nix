@@ -21,7 +21,7 @@
     qjackctl
     vlc
     darktable # Virtual lighttable and darkroom for photographers
-    helvum # A GTK patchbay for pipewire
+    # helvum # A GTK patchbay for pipewire
     carla
   ];
 
