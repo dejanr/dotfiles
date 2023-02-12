@@ -34,8 +34,8 @@
 
     openssh = {
       enable = true;
-      permitRootLogin = "yes";
-      passwordAuthentication = false;
+      settings.permitRootLogin = "yes";
+      settings.passwordAuthentication = false;
     };
 
     logind.extraConfig = ''

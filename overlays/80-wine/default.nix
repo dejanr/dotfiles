@@ -11,7 +11,6 @@ self: super:
     saneSupport = false;
     openclSupport = false;
     gstreamerSupport = false;
-    vkd3dSupport = false;
     mingwSupport = true;
   }).overrideAttrs (oldAttrs: rec {
     version = "6.20";
