@@ -61,6 +61,7 @@ in
     tree-sitter
     lua-language-server
     vimPlugins.mason-lspconfig-nvim
+    neovide # neovim gui
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
