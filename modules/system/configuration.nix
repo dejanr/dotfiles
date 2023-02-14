@@ -6,7 +6,6 @@ in
   {
     imports = [
       ./roles/common.nix
-      ./roles/hosts.nix
       ./roles/fonts.nix
       ./roles/desktop.nix
       ./roles/multimedia.nix
