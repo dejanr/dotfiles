@@ -152,6 +152,7 @@
   assign [class="Cura"] $workspace5
   assign [class=".slic3r.pl-wrapped"] $workspace5
   assign [class="Slack"] $workspace10
+  assign [class="discord"] $workspace7
   assign [class="Mail"] $workspace9
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
@@ -214,13 +215,6 @@
   for_window [class="steam_app_1063730"] floating enable
   for_window [class="steam_app_1063730"] resize set 3440 1420
   for_window [class="steam_app_1063730"] move window to position 0 20
-  for_window [title="EVE Launcher"] floating enable
-  for_window [title="EVE Launcher"] resize set 1490 1420
-  for_window [title="EVE Launcher"] move window to position 975 20
-
-  for_window [title="Google Meet"] floating disable
-  for_window [title="Google Calendar"] floating disable
-  for_window [title="Gmail"] floating disable
 
   # Widow Colours
   #                         border  background text    indicator

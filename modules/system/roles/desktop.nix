@@ -53,6 +53,8 @@
     weechat # A fast, light and extensible chat client
     xclip # clipboard
     xdg-utils # Set of cli tools that assist applications integration
+    xdg-desktop-portal # Desktop integration portals for sandboxed apps
+    xdg-desktop-portal-gtk # Desktop integration portals for sandboxed apps
     xsel # Command-line program for getting and setting the contents of the X selection
     xsettingsd # Provides settings to X11 applications via the XSETTINGS specification
     zathura # pdf viewer
