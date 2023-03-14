@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   programs.java = { enable = true; package = pkgs.jdk11; };
@@ -96,6 +96,7 @@
     wget
     which
     wireshark # network protocol analyzer
+    inputs.mach-nix.packages.${pkgs.system}.mach-nix # python env management
   ];
 
   programs.adb.enable = true;

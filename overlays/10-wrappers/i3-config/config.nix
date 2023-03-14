@@ -215,6 +215,7 @@
   for_window [class="steam_app_1063730"] floating enable
   for_window [class="steam_app_1063730"] resize set 3440 1420
   for_window [class="steam_app_1063730"] move window to position 0 20
+  for_window [title="EVE"] floating disable
 
   # Widow Colours
   #                         border  background text    indicator

@@ -14,9 +14,10 @@
     };
 
     nix-gaming.url = "github:fufexan/nix-gaming";
+    mach-nix.url = "github:DavHau/mach-nix";
   };
 
-  outputs = { home-manager, nixpkgs, nur, nix-gaming, ... }@inputs:
+  outputs = { home-manager, nixpkgs, nur, nix-gaming, mach-nix, ... }@inputs:
     let
       system = "x86_64-linux"; # current system
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
