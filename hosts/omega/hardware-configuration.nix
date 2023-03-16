@@ -133,6 +133,8 @@ in {
 
     enableRedistributableFirmware = true;
     enableAllFirmware = true;
+
+    nvidia.powerManagement.enable = true;
   };
 
   networking = {
@@ -149,6 +151,12 @@ in {
       displayManager = {
         xserverArgs = [ "-dpi 109" ];
       };
+
+      screenSection = ''
+        Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+        Option         "AllowIndirectGLXProtocol" "off"
+        Option         "TripleBuffer" "on"
+      '';
 
       deviceSection = ''
           Option "ForceCompositionPipeline" "On"
