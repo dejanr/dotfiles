@@ -27,6 +27,7 @@
     coreutils
     ctags
     curl
+    conda # python package managment
     dpkg
     docker
     docker-compose
