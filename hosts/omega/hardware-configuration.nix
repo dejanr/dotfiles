@@ -109,6 +109,16 @@ in {
       fsType = "vfat";
     };
 
+  fileSystems."/mnt/synology/inbox" = {
+    device = "192.168.1.168:/volume1/inbox";
+    fsType = "nfs";
+  };
+
+  fileSystems."/mnt/synology/storage" = {
+    device = "192.168.1.168:/volume1/storage";
+    fsType = "nfs";
+  };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
     ];
