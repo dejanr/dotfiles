@@ -3,7 +3,7 @@
 
   create_music_session() {
     ${tmux} new-session -s music -d
-    ${tmux} send-keys "${pipe-viewer} --use-colors --player=mpv --novideo" Enter
+    ${tmux} send-keys "${pipe-viewer} --use-colors --player=mpv --novideo --invidious" Enter
 
     if [ -z "$TMUX" ]; then
       ${tmux} attach -t music
