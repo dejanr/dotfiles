@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.mullvad-vpn.enable = true;
-
   services = {
     flatpak.enable = true;
 
