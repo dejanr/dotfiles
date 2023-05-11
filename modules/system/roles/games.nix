@@ -19,6 +19,9 @@
     #cemu
     jstest-gtk
     linuxConsoleTools
+
+    # scripts
+    fish-throw
   ];
 
   programs.steam.enable = true;

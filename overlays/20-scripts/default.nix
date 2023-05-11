@@ -45,4 +45,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  fish-throw = import ./fish-throw {
+    inherit (super);
+    pkgs = super;
+  };
 }
