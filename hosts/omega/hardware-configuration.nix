@@ -11,13 +11,19 @@ in {
   boot = {
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.preDeviceCommands = ''
-      # 0000:04:00.0 nvidia
-      # 0000:04:00.1 nvidia audio
-      #DEVS="0000:04:00.0 0000:04:00.1"
-      #for DEV in $DEVS; do
-      #  echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
-      #done
-      #modprobe -i vfio-pci
+      # 0c:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+      # 0d:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+      # 0d:01.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+      # 0d:02.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+      # 0d:04.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+      # 0e:00.0 System peripheral: Intel Corporation JHL7540 Thunderbolt 3 NHI [Titan Ridge 4C 2018] (rev 06)
+      # 10:00.0 USB controller: Intel Corporation JHL7540 Thunderbolt 3 USB Controller [Titan Ridge 4C 2018] (rev 06)
+
+      DEVS="0000:0c:00.0 0000:0d:00.0 0000:0d:01.0 0000:0d:02.0 0000:0d:04.0 0000:0e:00.0 0000:10:00.0"
+      for DEV in $DEVS; do
+        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+      done
+      modprobe -i vfio-pci
     '';
 
     kernelModules = [
@@ -67,7 +73,8 @@ in {
       options k10temp force=1
       options v4l2loopback exclusive_caps=1 video_nr=9 card_label=v4l2
       options kvm-amd nested=1
-      options kvm xignore_msrs=1
+      options kvm ignore_msrs=1
+      options kvm report_ignored_msrs=0
     '';
 
     initrd.supportedFilesystems = [ ];
