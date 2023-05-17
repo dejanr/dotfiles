@@ -12,13 +12,8 @@ let
   hostName = "omega";
   kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
   deviceIDs = [
-    "0c:00.0"
-    "0d:00.0"
-    "0d:01.0"
-    "0d:02.0"
-    "0d:04.0"
-    "0e:00.0"
-    "10:00.0"
+    "13:00.0"
+    "13:00.1"
   ];
 in {
   imports = [
@@ -164,6 +159,11 @@ in {
   };
 
   services = {
+    udev.extraRules = ''
+      # Always authorize thunderbolt connections when they are plugged in.
+      ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{authorized}=="0", ATTR{authorized}="1"
+    '';
+
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
