@@ -60,4 +60,6 @@
   };
 
   virtualisation.lxd.zfsSupport = true;
+
+  virtualisation.spiceUSBRedirection.enable = true;
 }

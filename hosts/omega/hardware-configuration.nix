@@ -1,8 +1,25 @@
 { boot, lib, pkgs, modulesPath, ... }:
 
+# 0c:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+# 0d:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+# 0d:01.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+# 0d:02.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+# 0d:04.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
+# 0e:00.0 System peripheral: Intel Corporation JHL7540 Thunderbolt 3 NHI [Titan Ridge 4C 2018] (rev 06)
+# 10:00.0 USB controller: Intel Corporation JHL7540 Thunderbolt 3 USB Controller [Titan Ridge 4C 2018] (rev 06)
+
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+  deviceIDs = [
+    "0c:00.0"
+    "0d:00.0"
+    "0d:01.0"
+    "0d:02.0"
+    "0d:04.0"
+    "0e:00.0"
+    "10:00.0"
+  ];
 in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -10,21 +27,6 @@ in {
 
   boot = {
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-    initrd.preDeviceCommands = ''
-      # 0c:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-      # 0d:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-      # 0d:01.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-      # 0d:02.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-      # 0d:04.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-      # 0e:00.0 System peripheral: Intel Corporation JHL7540 Thunderbolt 3 NHI [Titan Ridge 4C 2018] (rev 06)
-      # 10:00.0 USB controller: Intel Corporation JHL7540 Thunderbolt 3 USB Controller [Titan Ridge 4C 2018] (rev 06)
-
-      DEVS="0000:0c:00.0 0000:0d:00.0 0000:0d:01.0 0000:0d:02.0 0000:0d:04.0 0000:0e:00.0 0000:10:00.0"
-      for DEV in $DEVS; do
-        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
-      done
-      modprobe -i vfio-pci
-    '';
 
     kernelModules = [
       "kvm-amd"
@@ -61,6 +63,7 @@ in {
       "splash"
       "hugepagesz=1GB"
       "loglevel=3"
+      ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
     ];
 
     blacklistedKernelModules = [
