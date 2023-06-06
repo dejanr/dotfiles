@@ -17,7 +17,6 @@
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
     inkscape # vector graphics editor
     kazam # A screencasting program created with design in mind
-    keepassx2 # password managment
     keychain # Keychain management tool
     libnotify # send notifications to a notification daemon
     lm_sensors # Tools for reading hardware sensors

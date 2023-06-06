@@ -8,8 +8,8 @@
     winetricks
     cabextract
     dxvk
-    vkd3d
-    pyfa
+    #vkd3d
+    #pyfa
     libstrangle
     vulkan-loader
     vulkan-validation-layers
@@ -22,6 +22,8 @@
 
     # scripts
     fish-throw
+
+    discord-canary
   ];
 
   programs.steam.enable = true;

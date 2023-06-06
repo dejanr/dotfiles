@@ -10,7 +10,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+  kernelPackage = pkgs.linuxPackages_latest;
   deviceIDs = [
     "13:00.0"
     "13:00.1"
@@ -38,9 +38,9 @@ in {
       "virtio" # paravirtual 3D graphics driver based on virgl
     ];
 
-    kernelPackages = kernelPackages;
+    kernelPackages = kernelPackage;
 
-    extraModulePackages = with kernelPackages; [
+    extraModulePackages = with kernelPackage; [
       v4l2loopback
     ];
 
@@ -83,7 +83,6 @@ in {
       efi.efiSysMountPoint = "/boot/efi";
       grub.enable = true;
       grub.efiSupport = true;
-      grub.version = 2;
       grub.device = "nodev";
       grub.useOSProber = true;
       grub.extraEntries = ''
@@ -99,7 +98,7 @@ in {
       '';
     };
 
-    cleanTmpDir = true;
+    tmp.cleanOnBoot = true;
   };
 
   time.hardwareClockInLocalTime = true;
@@ -132,8 +131,6 @@ in {
     cpu = {
       amd.updateMicrocode = true;
     };
-
-    video.hidpi.enable = lib.mkDefault true;
 
     opengl = {
       driSupport = lib.mkDefault true;

@@ -15,6 +15,7 @@
     automake
     awscli
     alacritty
+    android-studio
     edgetx # taranis 9xd+ firmware
     s3cmd
     s3fs
