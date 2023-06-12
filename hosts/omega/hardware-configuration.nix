@@ -80,7 +80,6 @@ in {
 
     loader = {
       efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot/efi";
       grub.enable = true;
       grub.efiSupport = true;
       grub.device = "nodev";
@@ -104,12 +103,12 @@ in {
   time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
+    { device = "/dev/nvme0n1p2";
       fsType = "ext4";
     };
 
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/B53C-141D";
+  fileSystems."/boot" =
+    { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 
@@ -124,7 +123,7 @@ in {
   };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
+    [ { device = "/dev/nvme0n1p3"; }
     ];
 
   hardware = {
