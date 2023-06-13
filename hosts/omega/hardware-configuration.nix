@@ -79,6 +79,8 @@ in {
     supportedFilesystems = [ ];
 
     loader = {
+      grub.configurationLimit = 19;
+      systemd-boot.configurationLimit = 19;
       efi.canTouchEfiVariables = true;
       grub.enable = true;
       grub.efiSupport = true;
@@ -96,6 +98,9 @@ in {
         }
       '';
     };
+
+    # Show nixos logo on boot/shutdown
+    plymouth = { enable = true; };
 
     tmp.cleanOnBoot = true;
   };
