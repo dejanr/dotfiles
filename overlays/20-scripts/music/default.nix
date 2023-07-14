@@ -3,6 +3,7 @@
 let
   name = "music";
   source = import ./script.nix {
+    mpv = "${pkgs.pipe-viewer}/bin/mpv";
     pipe-viewer = "${pkgs.pipe-viewer}/bin/pipe-viewer";
     tmux = "${pkgs.tmux}/bin/tmux";
   };

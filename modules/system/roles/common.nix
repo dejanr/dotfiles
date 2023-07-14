@@ -37,8 +37,6 @@ in
     t
     wm-lock
     wm-wallpaper
-    mpv
-    music
     youtube-dl
 
     # nixpkgs

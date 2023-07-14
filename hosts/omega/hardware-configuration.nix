@@ -10,7 +10,7 @@
 
 let
   hostName = "omega";
-  kernelPackage = pkgs.linuxPackages_latest;
+  kernelPackage = pkgs.linuxPackages;
   deviceIDs = [
     "13:00.0"
     "13:00.1"
@@ -99,9 +99,6 @@ in {
       '';
     };
 
-    # Show nixos logo on boot/shutdown
-    plymouth = { enable = true; };
-
     tmp.cleanOnBoot = true;
   };
 
@@ -127,9 +124,9 @@ in {
     fsType = "nfs";
   };
 
-  swapDevices =
-    [ { device = "/dev/nvme0n1p3"; }
-    ];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
+  ];
 
   hardware = {
     cpu = {
