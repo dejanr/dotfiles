@@ -73,6 +73,8 @@ in {
       options kvm-amd nested=1
       options kvm ignore_msrs=1
       options kvm report_ignored_msrs=0
+
+      options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
     '';
 
     initrd.supportedFilesystems = [ ];
@@ -137,6 +139,8 @@ in {
       driSupport = lib.mkDefault true;
       driSupport32Bit = lib.mkDefault true;
       extraPackages = with pkgs; [
+        vaapiVdpau
+        libvdpau-va-gl
       ];
     };
 
@@ -148,6 +152,7 @@ in {
     enableAllFirmware = true;
 
     nvidia.powerManagement.enable = true;
+    nvidia.modesetting.enable = true;
   };
 
   networking = {
