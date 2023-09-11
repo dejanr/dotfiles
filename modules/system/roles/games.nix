@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     #inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
 
+    gamemode # Optimise Linux system performance on demand
     wine # overlay wine
     winetricks
     cabextract
