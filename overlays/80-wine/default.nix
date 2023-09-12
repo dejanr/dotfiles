@@ -50,7 +50,6 @@ self: super:
       super.perl
       super.autoconf
       super.python3
-      super.perl
     ];
 
     protonPatches = [

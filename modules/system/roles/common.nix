@@ -50,7 +50,6 @@ in
     #gnvim # GUI for neovim, without any web bloat
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     fzf # fuzzy finder
-    haskellPackages.gitHUD # command-line HUD for git repos
     htop # An interactive process viewer for Linux
     keychain
     fd # A simple, fast and user-friendly alternative to find

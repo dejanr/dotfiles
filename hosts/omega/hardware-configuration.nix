@@ -224,16 +224,6 @@ in {
     etc."X11/Xresources".text = ''
         Xft.dpi: 109
     '';
-
-    systemPackages = with pkgs; [
-      (pkgs.python310.withPackages (ps: with ps;
-        let
-          mypytorch = pytorch.override {
-            cudaSupport = true;
-            MPISupport = true;
-          };
-        in [ mypytorch ]))
-    ];
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
