@@ -52,14 +52,5 @@
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    autoPrune.enable = true;
-    autoPrune.flags = [ "--all" ];
-  };
-
-  virtualisation.lxd.zfsSupport = true;
-
   virtualisation.spiceUSBRedirection.enable = true;
 }
