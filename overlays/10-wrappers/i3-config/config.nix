@@ -163,6 +163,7 @@
   assign [title="EVE Launcher"] $workspace4
   assign [title="Steam"] $workspace4
   assign [class="Albion-Online"] $workspace5
+  assign [class="Qemu-kvm"] $workspace3
 
   # fix graphics glitch
   new_window none

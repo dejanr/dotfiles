@@ -55,6 +55,7 @@
     in {
       nixosConfigurations = {
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega";
+        vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
       devShells.x86_64-linux.default = pkgs.callPackage ./shell.nix { };
