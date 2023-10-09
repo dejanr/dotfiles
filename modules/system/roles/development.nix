@@ -13,7 +13,7 @@
     autoconf
     autojump # cd command that learns
     automake
-    awscli
+    awscli2
     alacritty
     android-studio
     edgetx # taranis 9xd+ firmware

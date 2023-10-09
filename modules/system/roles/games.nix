@@ -11,6 +11,7 @@
     dxvk
     #vkd3d
     #pyfa
+    gamemode
     libstrangle
     vulkan-loader
     vulkan-validation-layers
