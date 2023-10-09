@@ -74,8 +74,6 @@ in {
       options kvm-amd nested=1
       options kvm ignore_msrs=1
       options kvm report_ignored_msrs=0
-
-      options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
     '';
 
     initrd.supportedFilesystems = [ ];
@@ -172,7 +170,7 @@ in {
       # accessible via `nvidia-settings`.
       nvidiaSettings = true;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 

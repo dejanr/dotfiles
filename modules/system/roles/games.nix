@@ -9,6 +9,8 @@
     winetricks
     cabextract
     dxvk
+    vkd3d-proton
+    protontricks
     #vkd3d
     #pyfa
     gamemode

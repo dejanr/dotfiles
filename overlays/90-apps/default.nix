@@ -46,11 +46,11 @@ in
 
   pragmatapro = super.callPackage ./pragmatapro/default.nix {};
 
-  dxvk = super.callPackage ./dxvk {};
+  # dxvk = super.callPackage ./dxvk {};
 
-  vkd3d = withNativeAndFlags (super.callPackage ./vkd3d-proton {
-    wine = self.wine;
-  }) [ "-O3" ];
+  # vkd3d = withNativeAndFlags (super.callPackage ./vkd3d-proton {
+  #   wine = self.wine;
+  # }) [ "-O3" ];
 
   scream-receivers = super.callPackage ./scream-receivers {
     inherit (super) stdenv lib fetchFromGitHub alsaLib;
