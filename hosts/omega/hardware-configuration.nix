@@ -10,7 +10,7 @@
 
 let
   hostName = "omega";
-  kernelPackage = pkgs.linuxPackages;
+  kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [
     "13:00.0"
     "13:00.1"
@@ -39,10 +39,10 @@ in {
       "virtio" # paravirtual 3D graphics driver based on virgl
     ];
 
-    kernelPackages = kernelPackage;
+    kernelPackages = kernelPackages;
 
-    extraModulePackages = with kernelPackage; [
-      v4l2loopback
+    extraModulePackages = [
+      kernelPackages.v4l2loopback
     ];
 
     kernel.sysctl = {
@@ -170,7 +170,7 @@ in {
       # accessible via `nvidia-settings`.
       nvidiaSettings = true;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = kernelPackages.nvidiaPackages.beta;
     };
   };
 
