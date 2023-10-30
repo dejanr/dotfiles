@@ -12,7 +12,8 @@
     gimp # Image Manipulation Program
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
-    google-chrome-beta
+    google-chrome-beta # A freeware web browser developed by Google
+    firefox # A web browser built from Firefox source tree
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
     inkscape # vector graphics editor

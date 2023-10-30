@@ -5,6 +5,7 @@
     #inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
 
     gamemode # Optimise Linux system performance on demand
+    mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
     wine # overlay wine
     winetricks
     cabextract

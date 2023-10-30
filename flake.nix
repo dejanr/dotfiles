@@ -36,7 +36,7 @@
           modules = [
             { networking.hostName = hostname; }
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
-            ./modules/system/configuration.nix
+            (./. + "/hosts/${hostname}/configuration.nix")
             home-manager.nixosModules.home-manager
             {
               home-manager = {

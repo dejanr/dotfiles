@@ -1,7 +1,7 @@
 { inputs, pkgs, config, ... }:
 
 {
-  home.stateVersion = "21.05";
+  home.stateVersion = "23.05";
 
   imports = [
     # gui

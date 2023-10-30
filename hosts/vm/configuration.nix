@@ -1,19 +1,19 @@
 { pkgs , lib , ... }:
 
 let
-  hostName = "omega";
+  hostName = "vm";
 in
   {
     imports = [
-      ./roles/common.nix
-      ./roles/fonts.nix
-      ./roles/desktop.nix
-      ./roles/multimedia.nix
-      ./roles/i3.nix
-      ./roles/services.nix
-      ./roles/development.nix
-      ./roles/games.nix
-      ./roles/virtualisation.nix
+      ../../modules/system/roles/common.nix
+      ../../modules/system/roles/fonts.nix
+      ../../modules/system/roles/desktop.nix
+      ../../modules/system/roles/multimedia.nix
+      ../../modules/system/roles/i3.nix
+      ../../modules/system/roles/services.nix
+      ../../modules/system/roles/development.nix
+      ../../modules/system/roles/games.nix
+      ../../modules/system/roles/virtualisation.nix
     ];
 
     networking = {
@@ -70,5 +70,5 @@ in
       systemPackages = [ ];
     };
 
-    system.stateVersion = "21.05";
+    system.stateVersion = "23.05";
   }

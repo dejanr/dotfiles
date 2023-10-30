@@ -17,6 +17,7 @@
     alacritty
     android-studio
     edgetx # taranis 9xd+ firmware
+    bruno # Open-source IDE For exploring and testing APIs.
     s3cmd
     s3fs
     s3fs
