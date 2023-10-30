@@ -52,7 +52,7 @@
       enable = true;
       setSendmail = true;
     };
-  }
+  };
 
   system.stateVersion = "23.05";
 }
