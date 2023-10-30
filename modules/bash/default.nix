@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ lib, config, ... }:
 
 with lib;
 let cfg = config.modules.git;
@@ -128,8 +128,8 @@ in {
 				function restore_prompt_after_nix_shell() {
 					if [ "$PS1" != "$PROMPT" ]; then
 						PS1=$PROMPT
-							PROMPT_COMMAND=""
-							fi
+						PROMPT_COMMAND=""
+					fi
 				}
 
 			PROMPT_COMMAND=restore_prompt_after_nix_shell
