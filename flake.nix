@@ -54,6 +54,7 @@
 
     in {
       nixosConfigurations = {
+        alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha";
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
