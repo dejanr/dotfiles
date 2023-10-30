@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/system/roles/common.nix
-    ../../modules/system/roles/services.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -14,7 +13,7 @@
     seabios # Open source implementation of a 16bit X86 BIOS
     libguestfs # Tools for accessing and modifying virtual machine disk images
     libvirt # A toolkit to interact with the virtualization capabilities of recent versions of Linux (and other OSes)
-    bridge-utils
+    bridge-utils # An userspace tool to configure linux bridges (deprecated in favour or iproute2).
   ];
 
   virtualisation.libvirtd = {
@@ -26,16 +25,34 @@
     allowedBridges = [ "br0" ];
   };
 
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/scream 0660 dejanr qemu-libvirtd -"
-    "f /dev/shm/looking-glass 0660 dejanr qemu-libvirtd -"
-  ];
-
   users.groups.libvirtd.members = [ "root" "dejanr" ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  services = {
+    fail2ban = {
+      enable = true;
+      jails = {
+        # this is predefined
+        ssh-iptables = ''
+          enabled  = true
+        '';
+      };
+    };
+
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "yes";
+      settings.PasswordAuthentication = false;
+    };
+
+    postfix = {
+      enable = true;
+      setSendmail = true;
+    };
+  }
 
   system.stateVersion = "23.05";
 }
