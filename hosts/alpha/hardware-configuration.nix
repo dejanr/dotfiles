@@ -4,8 +4,8 @@ let
   hostName = "alpha";
   kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [
-    #"13:00.0"
-    #"13:00.1"
+    "02:00.0" # Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
+    "05:00.0" # Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
   ];
 in {
   imports = [
