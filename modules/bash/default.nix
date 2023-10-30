@@ -134,9 +134,9 @@ in {
 
 			PROMPT_COMMAND=restore_prompt_after_nix_shell
 				if [[ $IN_NIX_SHELL != "" ]] || [[ $IN_NIX_RUN != "" ]]; then
-					PROMPT="\w\[\033[0;32m\] nix-shell \$(gitHUD)\[\033[0m\] \nλ "
+					PROMPT="\w\[\033[0;32m\] nix-shell \[\033[0m\] \nλ "
 				else
-					PROMPT="\w\[\033[0;32m\] \$(gitHUD)\[\033[0m\] \nλ "
+					PROMPT="\w\[\033[0;32m\] \[\033[0m\] \nλ "
 						fi
 
 						export PS1=$PROMPT
