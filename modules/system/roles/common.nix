@@ -35,8 +35,6 @@ in
   environment.systemPackages = with pkgs; [
     # scripts
     t
-    wm-lock
-    wm-wallpaper
     youtube-dl
 
     # nixpkgs
@@ -47,11 +45,9 @@ in
     gitAndTools.diff-so-fancy # Good looking diffs
     gitAndTools.gitFull # Distributed version control system
     delta # A syntax-highlighting pager for git
-    #gnvim # GUI for neovim, without any web bloat
-    grobi # Automatically configure monitors/outputs for Xorg via RANDR
     fzf # fuzzy finder
     htop # An interactive process viewer for Linux
-    keychain
+    keychain # Keychain management tool
     fd # A simple, fast and user-friendly alternative to find
     linuxPackages.cpupower # Tool to examine and tune power saving features
     niv # dependency manager for nix projects
@@ -59,11 +55,10 @@ in
     tree-sitter
     lua-language-server
     vimPlugins.mason-lspconfig-nvim
-    neovide # neovim gui
     pixz # A parallel compressor/decompressor for xz format
     psmisc # A set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
     pwgen # Password generator which creates passwords which can be easily memorized by a human
-    ripgrep
+    ripgrep # A utility that combines the usability of The Silver Searcher with the raw speed of grep
     rsync #  A fast incremental file transfer utility
     tmux # Terminal multiplexer
     unzip # An extraction utility for archives compressed in .zip format
@@ -71,7 +66,6 @@ in
     rxvt-unicode-plugins.perl
     rxvt-unicode-plugins.perls
     rxvt-unicode-plugins.vtwheel
-    x2goclient # x2go client for remote desktop
     vimHugeX # vim with clipboard and x support
     wget # Tool for retrieving files
     zip # Compressor/archiver for creating and modifying zipfiles
@@ -204,8 +198,7 @@ in
   ];
 
   security.pki = {
-    caCertificateBlacklist = [
-    ];
+    caCertificateBlacklist = [];
 
     certificateFiles = let
       p = "/home/${username}/.mitmproxy/mitmproxy-ca.pem";

@@ -10,6 +10,7 @@
     evince # gnome document viewer
     freecad # General purpose Open Source 3D CAD/MCAD/CAx/CAE/PLM modeler
     gimp # Image Manipulation Program
+    grobi # Automatically configure monitors/outputs for Xorg via RANDR
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
     google-chrome-beta # A freeware web browser developed by Google
@@ -23,8 +24,10 @@
     lm_sensors # Tools for reading hardware sensors
     magic-wormhole # Securely transfer data between computers
     mutt # A small but very powerful text-based mail client
+    neovide # neovim gui
     newsboat # RSS reader
     neovide # neovim gui
+    #gnvim # GUI for neovim, without any web bloat
     # openscad # 3D parametric model compiler
     openvpn # A robust and highly flexible tunneling application
     pciutils # lspci and other utils

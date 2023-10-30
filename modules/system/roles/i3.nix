@@ -18,6 +18,9 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
+    wm-lock
+    wm-wallpaper
+
     rofi # for app launcher
     rofi-menugen # Generates menu based applications using rofi
     feh # for background image
