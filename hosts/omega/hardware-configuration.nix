@@ -106,14 +106,18 @@ in {
   time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
-    { device = "/dev/nvme0n1p2";
+    { device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/nvme0n1p1";
+    { device = "/dev/disk/by-uuid/0CC7-A2E4";
       fsType = "vfat";
     };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
+  ];
 
   # fileSystems."/mnt/synology/inbox" = {
   #   device = "192.168.1.168:/volume1/inbox";
@@ -124,10 +128,6 @@ in {
   #   device = "192.168.1.168:/volume1/storage";
   #   fsType = "nfs";
   # };
-
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
-  ];
 
   hardware = {
     cpu = {
