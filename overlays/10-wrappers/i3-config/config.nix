@@ -221,6 +221,9 @@
   for_window [class="steam_app_327070"] floating enable
   for_window [class="steam_app_327070"] resize set 3440 1400
   for_window [class="steam_app_327070"] move window to position 0 20
+  for_window [class="Embers Adrift"] floating enable
+  for_window [class="Embers Adrift"] resize set 3440 1440
+  for_window [class="Embers Adrift"] move window to position 0 -20
 
   # Widow Colours
   #                         border  background text    indicator
