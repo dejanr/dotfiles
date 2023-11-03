@@ -61,6 +61,12 @@ in
           DEVICES_TO_DISABLE_ON_STARTUP = "";
         };
       };
+
+      tailscale = {
+        enable = true;
+        useRoutingFeatures = "both";
+        openFirewall = true;
+      };
     };
 
     environment = {
