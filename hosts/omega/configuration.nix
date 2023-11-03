@@ -65,7 +65,7 @@ in
       tailscale = {
         enable = true;
         useRoutingFeatures = "both";
-        openFirewall = true;
+        extraUpFlags = ["--ssh"];
       };
     };
 
