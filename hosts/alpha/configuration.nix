@@ -48,6 +48,12 @@
       settings.PasswordAuthentication = false;
     };
 
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "both";
+      extraUpFlags = ["--ssh"];
+    };
+
     postfix = {
       enable = true;
       setSendmail = true;
