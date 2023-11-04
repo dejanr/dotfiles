@@ -8,12 +8,11 @@
     caffeine-ng # Status bar application to temporarily inhibit screensaver and sleep mode
     imv # A command line image viewer for tiling window managers
     evince # gnome document viewer
-    freecad # General purpose Open Source 3D CAD/MCAD/CAx/CAE/PLM modeler
     gimp # Image Manipulation Program
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
-    google-chrome-beta # A freeware web browser developed by Google
+    google-chrome # A freeware web browser developed by Google
     firefox # A web browser built from Firefox source tree
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions
