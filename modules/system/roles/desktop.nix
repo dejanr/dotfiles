@@ -74,6 +74,7 @@
     samba
 
     soundux # great audio tool to play sounds via mic input
+    xorg.xmodmap
   ];
 
   services.blueman.enable = true;

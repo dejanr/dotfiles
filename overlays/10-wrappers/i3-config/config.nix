@@ -50,8 +50,8 @@
 
   # change container layout (stacked, tabbed, default)
   bindsym $mod+Shift+i layout stacking
-  bindsym $mod+Shift+u layout tabbed
-  bindsym $mod+Shift+y layout default
+  # bindsym $mod+Shift+u layout tabbed
+  # bindsym $mod+Shift+y layout default
 
   # Window-Related Bindings
   bindsym $mod+q kill
@@ -134,6 +134,10 @@
   bindsym $mod+Shift+9 move container to workspace $workspace9; workspace $workspace9
   bindsym $mod+Shift+0 move container to workspace $workspace10; workspace $workspace10
 
+  # L2
+  bindsym $mod+Shift+y exec --no-startup-id input-remapper-control --command start --device "Keyboardio Atreus" --preset lineage
+  bindsym $mod+Shift+u exec --no-startup-id input-remapper-control --command stop --device "Keyboardio Atreus"
+
   # Workspace Monitors
   workspace $workspace1 output $monitor1
   workspace $workspace2 output $monitor1
@@ -164,6 +168,7 @@
   assign [title="Steam"] $workspace4
   assign [class="Albion-Online"] $workspace5
   assign [class="Qemu-kvm"] $workspace3
+  assign [class="l2.exe"] $workspace4
 
   # fix graphics glitch
   new_window none
@@ -224,6 +229,9 @@
   for_window [class="Embers Adrift"] floating enable
   for_window [class="Embers Adrift"] resize set 3440 1440
   for_window [class="Embers Adrift"] move window to position 0 -20
+  for_window [class="l2.exe"] floating enable
+  for_window [class="l2.exe"] resize set 1920 1400
+  for_window [class="l2.exe"] move window to position 0 -20
 
   # Widow Colours
   #                         border  background text    indicator

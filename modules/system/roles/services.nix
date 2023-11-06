@@ -64,5 +64,7 @@
     };
 
     accounts-daemon.enable = true;
+
+    input-remapper.enable = true;
   };
 }
