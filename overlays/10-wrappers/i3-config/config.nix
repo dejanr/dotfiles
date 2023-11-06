@@ -230,8 +230,7 @@
   for_window [class="Embers Adrift"] resize set 3440 1440
   for_window [class="Embers Adrift"] move window to position 0 -20
   for_window [class="l2.exe"] floating enable
-  for_window [class="l2.exe"] resize set 1920 1400
-  for_window [class="l2.exe"] move window to position 0 -20
+  for_window [class="l2.exe"] resize set 1920 1440
 
   # Widow Colours
   #                         border  background text    indicator
