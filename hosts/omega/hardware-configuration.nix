@@ -1,19 +1,15 @@
 { config, boot, lib, pkgs, modulesPath, ... }:
 
-# 0c:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-# 0d:00.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-# 0d:01.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-# 0d:02.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-# 0d:04.0 PCI bridge: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 4C 2018] (rev 06)
-# 0e:00.0 System peripheral: Intel Corporation JHL7540 Thunderbolt 3 NHI [Titan Ridge 4C 2018] (rev 06)
-# 10:00.0 USB controller: Intel Corporation JHL7540 Thunderbolt 3 USB Controller [Titan Ridge 4C 2018] (rev 06)
+# IOMMU Group 42:
+# 	35:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] [10de:1c03] (rev a1)
+# 	35:00.1 Audio device [0403]: NVIDIA Corporation GP106 High Definition Audio Controller [10de:10f1] (rev a1)
 
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [
-    "13:00.0"
-    "13:00.1"
+    "0000:34:00.0"
+    "0000:34:00.1"
   ];
 in {
   imports = [
@@ -21,8 +17,15 @@ in {
   ];
 
   boot = {
-    initrd.kernelModules = [ "nvidia" ];
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.kernelModules = ["nvidia"];
+    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
+    initrd.preDeviceCommands = ''
+      DEVS="0000:34:00.0 0000:34:00.1"
+      for DEV in $DEVS; do
+        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+      done
+      modprobe -i vfio-pci
+    '';
 
     kernelModules = [
       "kvm-amd"
@@ -130,6 +133,8 @@ in {
   # };
 
   hardware = {
+    openrazer.enable = true;
+
     cpu = {
       amd.updateMicrocode = true;
     };
@@ -181,6 +186,8 @@ in {
   };
 
   services = {
+    hardware.bolt.enable = true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
+
     udev.extraRules = ''
       # Always authorize thunderbolt connections when they are plugged in.
       ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{authorized}=="0", ATTR{authorized}="1"

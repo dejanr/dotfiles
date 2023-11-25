@@ -19,14 +19,6 @@
     ];
   };
 
-  # A default user able to use sudo
-  users.users.dejanr = {
-    isNormalUser = true;
-    home = "/home/dejanr";
-    extraGroups = [ "wheel" ];
-    initialPassword = "nixos";
-  };
-
   security.sudo.wheelNeedsPassword = false;
 
   # X configuration

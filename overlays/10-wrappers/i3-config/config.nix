@@ -267,7 +267,6 @@
   bindsym $mod+w exec --no-startup-id google-chrome-stable
   bindsym $mod+Alt+w exec i3-msg split toggle && exec --no-startup-id google-chrome-stable && i3-msg split toggle
   bindsym $mod+r exec --no-startup-id termite -e ranger
-  bindsym $mod+m exec fish-throw
 
   # Windows switching
 
