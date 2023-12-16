@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 
+# Add shared memory device for kvm machine
 #
 #<shmem name='looking-glass'>
 #  <model type='ivshmem-plain'/>

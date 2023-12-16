@@ -169,6 +169,7 @@
   assign [class="Albion-Online"] $workspace5
   assign [class="Qemu-kvm"] $workspace3
   assign [class="l2.exe"] $workspace4
+  assign [class="steam_app_1426050"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -231,6 +232,9 @@
   for_window [class="Embers Adrift"] move window to position 0 -20
   for_window [class="l2.exe"] floating enable
   for_window [class="l2.exe"] resize set 1920 1440
+  for_window [class="steam_app_1426050"] floating disable
+  for_window [class="steam_app_1426050"] resize set 3440 1420
+  for_window [class="steam_app_1426050"] move window to position 0 -20
 
   # Widow Colours
   #                         border  background text    indicator
