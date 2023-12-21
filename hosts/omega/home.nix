@@ -1,4 +1,4 @@
-{ config, lib, inputs, ... }:
+{ ... }:
 
 {
   imports = [ ../../modules/default.nix ];
@@ -7,10 +7,12 @@
     # gui
 
     # cli
-    git.enable = true;
-    bash.enable = true;
-    tmux.enable = true;
+    git.enable = true; 
+    nvim.enable = true;
+    tmux.enable = true; 
+    zsh.enable = true; 
 
     # system
+    packages.enable = true;
   };
 }
