@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 with lib;
-let cfg = config.modules.git;
+let cfg = config.modules.bash;
 
 in {
 	options.modules.bash = { enable = mkEnableOption "bash"; };

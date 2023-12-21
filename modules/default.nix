@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ... }:
+{ ... }:
 
 {
   home.stateVersion = "23.05";
@@ -8,10 +8,13 @@
 
     # cli
     ./bash
-    ./tmux
-    #./vim
+    ./direnv
     ./git
+    ./nvim
+    ./tmux
+    ./zsh
 
     # system
+    ./packages
   ];
 }
