@@ -45,6 +45,4 @@ in
          { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
        ];
      };
-
-    system.stateVersion = "23.05";
   }
