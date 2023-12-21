@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../modules/system/roles/common.nix
   ];
 
   environment.systemPackages = with pkgs; [

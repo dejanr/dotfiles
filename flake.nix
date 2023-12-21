@@ -35,6 +35,7 @@
           system = system;
           modules = [
             { networking.hostName = hostname; }
+            ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
             (./. + "/hosts/${hostname}/configuration.nix")
             home-manager.nixosModules.home-manager
@@ -45,7 +46,7 @@
                 extraSpecialArgs = { inherit inputs; };
                 users.dejanr = (./. + "/hosts/${hostname}/home.nix");
               };
-              nixpkgs.overlays = overlays;
+              nixpkgs.overlays = [nur.overlay] ++ overlays;
             }
 
           ];
@@ -56,6 +57,7 @@
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha";
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega";
+        theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
