@@ -12,7 +12,7 @@
     avahi.enable = true;
     avahi.publish.enable = true;
     avahi.publish.userServices = true;
-    avahi.nssmdns4 = true;
+    avahi.nssmdns = true;
     urxvtd.enable = true;
 
     mpd.enable = true;

@@ -5,7 +5,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1w3l1nvw2rsd86la5gb01dw3169cgnpwxm68pvcnx2y65jw4q1a9";
+    sha256 = "1lhd49s085f2ny4lmpnr4cff7ad3l86slqgsmnyinl9q33h0rwfl";
   };
 in
   {
@@ -181,5 +181,5 @@ in
     services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
 
     # Do not touch
-    system.stateVersion = "23.05";
+    system.stateVersion = "23.11";
   }
