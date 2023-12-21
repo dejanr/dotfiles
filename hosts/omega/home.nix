@@ -7,6 +7,7 @@
     # gui
 
     # cli
+    direnv.enable = true; 
     git.enable = true; 
     nvim.enable = true;
     tmux.enable = true; 

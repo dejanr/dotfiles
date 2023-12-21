@@ -48,7 +48,6 @@
               };
               nixpkgs.overlays = [nur.overlay] ++ overlays;
             }
-
           ];
           specialArgs = { inherit inputs; };
         };

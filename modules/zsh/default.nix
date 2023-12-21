@@ -7,7 +7,7 @@ in {
     config = mkIf cfg.enable {
     	home.packages = [
           pkgs.zsh
-      ];
+        ];
 
         programs.zsh = {
             enable = true;
@@ -26,7 +26,7 @@ in {
                 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store";
                 export ZK_NOTEBOOK_DIR="~/stuff/notes";
                 export DIRENV_LOG_FORMAT="";
-                bindkey -v
+                bindkey -e
                 bindkey '^ ' autosuggest-accept
                 bindkey '^R' history-incremental-search-backward
 
@@ -58,22 +58,39 @@ in {
                 mv = "mv -iv";
                 cp = "cp -riv";
                 cat = "bat --paging=never --style=plain";
-                ls = "eza -a";
                 tree = "eza --tree";
                 nd = "nix develop -c $SHELL";
+
+				e = "nvim -i NONE";
+				vi = "nvim -i NONE";
+				vim = "nvim -i NONE";
+				nvim = "nvim -i NONE";
+
+				l = "eza -a";
+				ll = "eza -la";
+                ls = "eza -a";
+
+				du = "du -hc";
+
+				gd = "git diff";
+				gp = "git push";
+				gc = "git commit";
+				gca = "git commit -a";
+				gco = "git checkout";
+				gb = "git branch";
+				gs = "clear; git status -sb";
+				grm = "git status | grep deleted | awk '{print $3}' | xargs git rm";
+
+				timestamp = "date +%s";
+
+				passgen = "date +%s | shasum | base64 | head -c 8 | pbcopy | echo 'Password saved in clipboard'";
+
+				lmk = "notify-send 'Something happened!'";
+				open = "xdg-open &>/dev/null";
             };
 
             # Source all plugins, nix-style
             plugins = [
-            {
-                name = "auto-ls";
-                src = pkgs.fetchFromGitHub {
-                    owner = "notusknot";
-                    repo = "auto-ls";
-                    rev = "62a176120b9deb81a8efec992d8d6ed99c2bd1a1";
-                    sha256 = "08wgs3sj7hy30x03m8j6lxns8r2kpjahb9wr0s0zyzrmr4xwccj0";
-                };
-            }
         ];
     };
 };

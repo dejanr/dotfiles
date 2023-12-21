@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 let
   username = "dejanr";
@@ -9,14 +9,20 @@ let
   };
 in
   {
+    environment = {
+      defaultPackages = [ ];
+    };
 
-    # Remove unecessary preinstalled packages
-    environment.defaultPackages = [ ];
-    services.xserver.desktopManager.xterm.enable = false;
+    services = {
+      xserver.desktopManager.xterm.enable = false;
 
-    programs.zsh.enable = true;
+      tailscale = {
+        enable = true;
+        useRoutingFeatures = "both";
+        extraUpFlags = ["--ssh"];
+      };
+    };
 
-    # Laptop-specific packages (the other ones are installed in `packages.nix`)
     environment.systemPackages = with pkgs; [
       acpi tlp git t
     ];
@@ -28,30 +34,32 @@ in
         roboto
         openmoji-color
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-        ];
+      ];
 
-        fontconfig = {
+      fontconfig = {
+        enable = true;
+        antialias = true;
+        hinting = {
+          autohint = false;
           enable = true;
-          antialias = true;
-          hinting = {
-            autohint = false;
-            enable = true;
-          };
+        };
 
-          subpixel.lcdfilter = "default";
+        subpixel.lcdfilter = "default";
 
-          defaultFonts = {
-            emoji = [ "OpenMoji Color" ];
-          };
+        defaultFonts = {
+          emoji = [ "OpenMoji Color" ];
         };
       };
+    };
 
     # Nix settings, auto cleanup and enable flakes
     nix = {
-      settings.auto-optimise-store = true;
-      settings.allowed-users = [ "dejanr" ];
-      settings.substituters = [ https://cache.nixos.org ];
-      settings.trusted-users = [ "${username}" "root" ];
+      settings = {
+        auto-optimise-store = true;
+        allowed-users = [ "dejanr" ];
+        substituters = [ "https://cache.nixos.org" ];
+        trusted-users = [ "${username}" "root" ];
+      };
 
       gc = {
         automatic = true;
@@ -108,76 +116,69 @@ in
       DISABLE_QT5_COMPAT = "0";
     };
 
-    security.sudo.wheelNeedsPassword = false;
-    security.polkit.enable = true;
-    security.rtkit.enable = true;
-    security.pam.loginLimits = [
-      {
-        domain = "*";
-        type = "soft";
-        item = "nofile";
-        value = "4096";
+    security = {
+      sudo.wheelNeedsPassword = false;
+      polkit.enable = true;
+      rtkit.enable = true;
+      pam.loginLimits = [
+        {
+          domain = "*";
+          type = "soft";
+          item = "nofile";
+          value = "4096";
         }
+      ];
+    };
+
+    systemd.extraConfig = "DefaultLimitNOFILE=1048576";
+
+    programs.zsh.enable = true;
+
+    users = {
+      mutableUsers = true;
+
+      users."${username}" = {
+        description = "Dejan Ranisavljevic";
+        name = username;
+        group = "users";
+        extraGroups = [
+          "lp"
+          "kmem"
+          "wheel"
+          "disk"
+          "audio"
+          "video"
+          "networkmanager"
+          "systemd-journal"
+          "vboxusers"
+          "docker"
+          "utmp"
+          "adm"
+          "input"
+          "tty"
+          "floppy"
+          "uucp"
+          "cdrom"
+          "tape"
+          "dialout"
+          "transmission"
+          "plex"
+          "adbusers"
+          "libvirtd"
+          "qemu-libvirtd"
         ];
+        isNormalUser = true;
+        home = "/home/${username}";
+        createHome = true;
+        shell = pkgs.zsh;
 
-        security.pki = {
-        caCertificateBlacklist = [];
+        openssh.authorizedKeys.keys = with builtins; (
+          map (x: x.key) (fromJSON (readFile githubKeys))
+        );
+      };
+    };
 
-        certificateFiles = let
-        p = "/home/${username}/.mitmproxy/mitmproxy-ca.pem";
-        mitmCA = if builtins.pathExists p then
-        [ (builtins.toFile "mitmproxy-ca.pem" (builtins.readFile p)) ]
-        else
-        [];
-        CAs = [];
-        in mitmCA ++ CAs;
-        };
-
-        systemd.extraConfig = "DefaultLimitNOFILE=1048576";
-
-        users = {
-          mutableUsers = true;
-          users."${username}" = {
-            description = "Dejan Ranisavljevic";
-            name = username;
-            group = "users";
-            extraGroups = [
-              "lp"
-              "kmem"
-              "wheel"
-              "disk"
-              "audio"
-              "video"
-              "networkmanager"
-              "systemd-journal"
-              "vboxusers"
-              "docker"
-              "utmp"
-              "adm"
-              "input"
-              "tty"
-              "floppy"
-              "uucp"
-              "cdrom"
-              "tape"
-              "dialout"
-              "transmission"
-              "plex"
-              "adbusers"
-              "libvirtd"
-              "qemu-libvirtd"
-            ];
-            isNormalUser = true;
-            home = "/home/${username}";
-            createHome = true;
-
-            openssh.authorizedKeys.keys = with builtins; (
-              map (x: x.key) (fromJSON (readFile githubKeys))
-              );
-            };
-          };
-
-          services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
+    services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
 
     # Do not touch
     system.stateVersion = "23.05";
