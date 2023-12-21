@@ -52,7 +52,7 @@ in {
     hostName = "${hostName}";
 
     networkmanager.enable = true;
-    interfaces.enu1.useDHCP = lib.mkDefault true;
+    interfaces.wlp1s0f0.useDHCP = lib.mkDefault true;
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
