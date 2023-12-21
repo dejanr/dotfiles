@@ -67,7 +67,6 @@
     arc-theme
     gnome.adwaita-icon-theme
 
-    obsidian # A powerful knowledge base that works on top of a local folder of plain text Markdown files
     samba
 
     soundux # great audio tool to play sounds via mic input

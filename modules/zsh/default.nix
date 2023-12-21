@@ -21,7 +21,7 @@ in {
 
             # .zshrc
             initExtra = ''
-                PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}?) %f"
+                PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
 
                 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store";
                 export ZK_NOTEBOOK_DIR="~/stuff/notes";

@@ -2,8 +2,6 @@
 
 {
   services = {
-    flatpak.enable = true;
-
     printing.enable = true;
     printing.drivers = [ pkgs.mfc9332cdwlpr ];
     printing.browsing = true;
@@ -14,7 +12,7 @@
     avahi.enable = true;
     avahi.publish.enable = true;
     avahi.publish.userServices = true;
-    avahi.nssmdns = true;
+    avahi.nssmdns4 = true;
     urxvtd.enable = true;
 
     mpd.enable = true;
