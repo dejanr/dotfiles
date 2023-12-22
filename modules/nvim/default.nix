@@ -4,7 +4,15 @@ with lib;
 
 let
   cfg = config.modules.nvim;
-  python-debug = pkgs.python3.withPackages (p: with p; [ debugpy ]);
+  jabuti-nvim = pkgs.vimUtils.buildVimPlugin {
+      name = "jabuti-nvim";
+      src = pkgs.fetchFromGitHub {
+          owner = "jabuti-theme";
+          repo = "jabuti-nvim";
+          rev = "17f1b94cbf1871a89cdc264e4a8a2b3b4f7c76d2";
+          sha256 = "sha256-iPjwx/rTd98LUPK1MUfqKXZhQ5NmKx/rN8RX1PIuDFA=";
+      };
+  };
 in
 {
   options.modules.nvim = { enable = mkEnableOption "nvim"; };
@@ -17,123 +25,61 @@ in
       vimdiffAlias = true;
 
       plugins = with pkgs.vimPlugins; [
-        # Basics
-        vim-sensible
-        # Add syntax/detection/indentation for langs
-        vim-elixir
         vim-nix
-        kotlin-vim
-        dart-vim-plugin
-        vim-flutter
+        plenary-nvim
+        {
+            plugin = nightfox-nvim;
+            config = "colorscheme terafox";
+        }
+        {
+            plugin = lualine-nvim;
+            config = ''
+                lua require('lualine').setup()
+            '';
+        }
 
-        # File Tree
-        nvim-web-devicons
-        nvim-tree-lua
-        # Status line
-        feline-nvim
-        # Git info
-        gitsigns-nvim
-        # Indent lines
-        indent-blankline-nvim
-        # Auto close
-        nvim-autopairs
-        # Fuzzy finder window
+        # telescope
         telescope-nvim
-        # Diagnostics window
-        trouble-nvim
-        # Keybindings window
-        legendary-nvim
-        # Better native input/select windows
-        dressing-nvim
-        # Tabs
-        bufferline-nvim
-        # Smooth scrolling
-        vim-smoothie
-        # Peek line search
-        numb-nvim
-        # Fast navigation
-        leap-nvim
-        # Rainbow brackets
-        rainbow-delimiters-nvim
-        # Notify window
-        nvim-notify
-        # Commenting
-        comment-nvim
+        telescope-fzf-native-nvim
+        telescope-undo-nvim
+        telescope-ui-select-nvim
+        telescope-live-grep-args-nvim
 
-        # Syntax highlighting
-        nvim-treesitter.withAllGrammars
+        # lsp
+        {
+            plugin = nvim-lspconfig;
+            config = ''
+              lua << EOF
+              require('lspconfig').lua_ls.setup{
+                settings = {
+                  Lua = {
+                    diagnostics = { globals = {'vim'} }
+                  }
+                }
+              }
+              require('lspconfig').rnix.setup{}
+              EOF
+            '';
+        }
 
-        # LSP
-        nvim-lspconfig
-        nvim-lsp-ts-utils
-        # Mostly for linting
-        null-ls-nvim
-        # LSP status window
-        fidget-nvim
-        # Code actions sign
-        nvim-lightbulb
-        # Highlight selected symbol
-        vim-illuminate
-
-        # Completions
-        cmp-nvim-lsp
-        cmp-buffer
-        cmp-path
-        cmp-cmdline
-        cmp-nvim-lsp-signature-help
-        nvim-cmp
-        lspkind-nvim
-
-        # Snippets
-        luasnip
-        cmp_luasnip
-
-        # Debug adapter protocol
-        nvim-dap
-        telescope-dap-nvim
-        nvim-dap-ui
-        nvim-dap-virtual-text
-
-        # theming
-        nord-nvim
+        # clipboard
+        {
+          plugin = nvim-neoclip-lua;
+          config = "lua require('neoclip').setup()";
+        }
       ];
 
       extraPackages = with pkgs; [
-        tree-sitter
         nodejs
         # Language Servers
-        # Bash
-        nodePackages.bash-language-server
-        # Dart
-        dart
-        # Elixir
-        beam.packages.erlang.elixir-ls
-        # Erlang
-        beam.packages.erlang.erlang-ls
-        # Haskell
-        haskellPackages.haskell-language-server
-        # Lua
-        lua-language-server
-        # Nix
-        nil
-        nixpkgs-fmt
-        statix
-        # Python
-        pyright
-        python-debug
-        black
-        # Typescript
-        nodePackages.typescript-language-server
-        # Web (ESLint, HTML, CSS, JSON)
-        nodePackages.vscode-langservers-extracted
-        # Telescope tools
-        ripgrep
-        fd
+        nodePackages.bash-language-server # Bash
+        nodePackages.typescript-language-server # TS
+        nodePackages.vscode-langservers-extracted # Web (ESLint, HTML, CSS, JSON)
+        rnix-lsp nixfmt # Nix
+        lua-language-server # Lua
       ];
 
       extraConfig = ''
-        let g:elixir_ls_home = "${pkgs.beam.packages.erlang.elixir-ls}"
-        let g:python_debug_home = "${python-debug}"
         :luafile ~/.config/nvim/lua/init.lua
       '';
     };
