@@ -9,8 +9,8 @@ with fonts;
   [colors]
   foreground      = ${foreground}
   foreground_bold = ${foreground}
-  cursor          = ${foreground}
-  background      = ${background}
+  cursor          = ${cursorColor}
+  background      = #1C1C1C
 
   color0  = ${color0}
   color8  = ${color8}

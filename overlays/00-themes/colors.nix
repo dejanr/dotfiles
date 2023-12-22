@@ -2,89 +2,70 @@
 
 let themes = rec {
 
-  "dark" = themes."gotham";
-  "light" = themes."nord";
+  "dark" = themes."nightfox";
+  "light" = themes."dayfox";
 
-  # https://github.com/wasamasa/gotham-theme
-  "gotham" = rec {
+  "nightfox" = rec {
     dark = true;
-    foreground = "#98d1ce";
-    background = "#0a0f14";
-    cursorColor = "#98d1ce";
+    foreground = "#cdcecf";
+    background = "#262626";
+    cursorColor = "#cdcecf";
 
-    #black
     black = color0;
-    color0 = "#0a0f14";
-    color8 = "#10151b";
-    #red
+    color0 = "#393b44";
+    color8 = "#575860";
     red = color1;
-    color1 = "#c33027";
-    color9 = "#d26939";
-    #green
+    color1 = "#c94f6d";
+    color9 = "#d16983";
     green = color2;
-    color2 = "#26a98b";
-    color10 = "#081f2d";
-    #yellow
+    color2 = "#81b29a";
+    color10 = "#8ebaa4";
     yellow = color3;
-    color3 = "#edb54b";
-    color11 = "#245361";
-    #blue
+    color3 = "#dbc074";
+    color11 = "#e0c989";
     blue = color4;
-    color4 = "#195465";
-    color12 = "#093748";
-    #magenta
+    color4 = "#719cd6";
+    color12 = "#86abdc";
     magenta = color5;
-    color5 = "#4e5165";
-    color13 = "#888ba5";
-    #cyan
+    color5 = "#9d79d6";
+    color13 = "#baa1e2";
     cyan = color6;
-    color6 = "#33859d";
-    color14 = "#599caa";
-    #white
+    color6 = "#63cdcf";
+    color14 = "#7ad5d6";
     white = color7;
-    color7 = "#98d1ce";
-    color15 = "#d3ebe9";
+    color7 = "#dfdfe0";
+    color15 = "#e4e4e5";
   };
 
-  # https://arcticicestudio.github.io/nord/
-  "nord" = rec {
+  "dayfox" = rec {
     dark = false;
-    foreground = "#D8DEE9";
-    background = "#2E3440";
-    cursorColor = "#D8DEE9";
+    foreground = "#3d2b5a";
+    background = "#f6f2ee";
+    cursorColor = "#3d2b5a";
 
-    #black
     black = color0;
-    color0 = "#2E3440";
-    color8 = "#4C566A";
-    #red
+    color0 = "#352c24";
+    color8 = "#534c45";
     red = color1;
-    color1 = "#BF616A";
-    color9 = "#BF616A";
-    #green
+    color1 = "#a5222f";
+    color9 = "#b3434e";
     green = color2;
-    color2 = "#A3BE8C";
-    color10 = "#A3BE8C";
-    #yellow
+    color2 = "#396847";
+    color10 = "#577f63";
     yellow = color3;
-    color3 = "#EBCB8B";
-    color11 = "#EBCB8B";
-    #blue
+    color3 = "#ac5402";
+    color11 = "#b86e28";
     blue = color4;
-    color4 = "#81A1C1";
-    color12 = "#81A1C1";
-    #magenta
+    color4 = "#2848a9";
+    color12 = "#4863b6";
     magenta = color5;
-    color5 = "#B48EAD";
-    color13 = "#B48EAD";
-    #cyan
+    color5 = "#6e33ce";
+    color13 = "#8452d5";
     cyan = color6;
-    color6 = "#88C0D0";
-    color14 = "#8FBCBB";
-    #white
+    color6 = "#287980";
+    color14 = "#488d93";
     white = color7;
-    color7 = "#E5E9F0";
-    color15 = "#ECEFF4";
+    color7 = "#f2e9e1";
+    color15 = "#f4ece6";
   };
-
-}; in themes.${theme} or themes."gotham"
+}; in themes.${theme} or themes."terafox"

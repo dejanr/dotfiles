@@ -55,16 +55,3 @@ o.pumheight = 6
 o.splitright = true
 o.splitbelow = true
 o.completeopt = "menuone,noselect"
-
--- Autocmds
-
--- Show cursorline only on active buffer
-vim.cmd [[
-augroup CursorLine
-    au!
-    au VimEnter * setlocal cursorline
-    au WinEnter * setlocal cursorline
-    au BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
-augroup END
-]]

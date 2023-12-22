@@ -29,12 +29,23 @@ in
         plenary-nvim
         {
             plugin = nightfox-nvim;
-            config = "colorscheme terafox";
+            config = ''
+              lua << EOF
+                require('nightfox').setup {
+                  options = {
+                    transparent = true,
+                  },
+                }
+                vim.cmd("colorscheme nightfox")
+              EOF
+            '';
         }
         {
             plugin = lualine-nvim;
             config = ''
-                lua require('lualine').setup()
+              lua << EOF
+                require('lualine').setup()
+              EOF
             '';
         }
 
@@ -50,14 +61,14 @@ in
             plugin = nvim-lspconfig;
             config = ''
               lua << EOF
-              require('lspconfig').lua_ls.setup{
-                settings = {
-                  Lua = {
-                    diagnostics = { globals = {'vim'} }
+                require('lspconfig').lua_ls.setup{
+                  settings = {
+                    Lua = {
+                      diagnostics = { globals = {'vim'} }
+                    }
                   }
                 }
-              }
-              require('lspconfig').rnix.setup{}
+                require('lspconfig').rnix.setup{}
               EOF
             '';
         }
