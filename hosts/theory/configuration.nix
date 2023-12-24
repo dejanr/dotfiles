@@ -7,6 +7,7 @@ in
     imports = [
         ../../modules/system/roles/fonts.nix
         ../../modules/system/roles/desktop.nix
+        ../../modules/system/roles/multimedia.nix
         ../../modules/system/roles/i3.nix
     ];
 

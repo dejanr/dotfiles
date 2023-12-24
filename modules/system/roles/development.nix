@@ -11,101 +11,78 @@
     aspell
     aspellDicts.de
     aspellDicts.en
-    altair
     atop
-    autoconf
-    autojump # cd command that learns
-    automake
-    awscli2
-    alacritty
-    android-studio
-    edgetx # taranis 9xd+ firmware
-    bruno # Open-source IDE For exploring and testing APIs.
-    s3cmd
-    s3fs
-    s3fs
-    bash
     bind
     binutils
-    clang # A c, c++, objective-c, and objective-c++ frontend for the llvm compiler (wrapper script)
-    cmake
-    connect # Make network connection via SOCKS and https proxy
+    bruno # Open-source IDE For exploring and testing APIs.
+    conda # python package managment
     coreutils
     ctags
     curl
-    conda # python package managment
-    dpkg
-    docker
-    docker-compose
     exercism # A Go based command line tool for exercism.io
     file # show file type
-    fish
-    fzf
-    gist # Upload code to github gist from cli
-    gcc
-    graphicsmagick # Swiss army knife of image processing
     gdb
     gforth
-    git
+    gh # github cli tool
+    gist # Upload code to github gist from cli
+    git-lfs # Git extension for versioning large files
     gitAndTools.git-extras
     gitAndTools.gitflow
     gitFull
-    git-lfs # Git extension for versioning large files
-    gnumake
     gnum4 # GNU M4, a macro processor
+    gnumake
     go
     gparted
-    gh # github cli tool
+    graphicsmagick # Swiss army knife of image processing
     htop
-    haskellPackages.ghc # The Glasgow Haskell Compiler
-    haskellPackages.cabal-install # The command-line interface for Cabal and Hackage
     icdiff
     iftop
     imagemagickBig
+    inetutils
+    inputs.mach-nix.packages.${pkgs.system}.mach-nix # python env management
     iotop
-    llvm
+    jq # A lightweight and flexible command-line JSON processor
     lshw
     lsof
-    jq # A lightweight and flexible command-line JSON processor
     mercurial
     mosh # mobile shell, ssh replacement
     mr # multiple repository managment
-    nixfmt
-    opam # A package manager for OCaml
-    ocamlPackages.ocaml # Most popular variant of the Caml language
-    ocamlPackages.core # Jane Street Capital's standard library overlay
-    ocamlPackages.ounit # Unit test framework for OCaml
-    ocamlPackages.utop # Universal toplevel for OCaml
-    ocamlPackages.reason # Facebook's friendly syntax to OCaml
-    pulumi
     ncftp
     ngrep # network packet alalyzer
     nix-prefetch-scripts
+    nixfmt
     nmap # network discovery and security audit
-    nox # tools to make nix nicer
     nodejs_20 # nodejs
-    yarn
+    nox # tools to make nix nicer
     obs-studio # video recording and live streaming
-    sshuttle # Transparent proxy server that works as a poor man's VPN
-    silver-searcher
-    sqlite
+    ocamlPackages.core # Jane Street Capital's standard library overlay
+    ocamlPackages.ocaml # Most popular variant of the Caml language
+    ocamlPackages.ounit # Unit test framework for OCaml
+    ocamlPackages.reason # Facebook's friendly syntax to OCaml
+    ocamlPackages.utop # Universal toplevel for OCaml
+    opam # A package manager for OCaml
     patchelf
     psmisc
+    pulumi
     python3
     ranger # file manager with minimal ncurses interface
-    ruby
     ripgrep
+    ruby
+    s3cmd
+    s3fs
+    s3fs
+    silver-searcher
     smartmontools # tools for monitoring hard drives
+    sqlite
     tcpdump # network sniffer
-    inetutils
+    tldr # Simplified and community-driven man pages
     tmux
     tree
-    tldr # Simplified and community-driven man pages
     usbutils
     wget
     which
     wireshark # network protocol analyzer
-    inputs.mach-nix.packages.${pkgs.system}.mach-nix # python env management
+    yarn
   ];
 
   programs.adb.enable = true;
