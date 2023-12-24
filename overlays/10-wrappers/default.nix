@@ -28,10 +28,6 @@ self: super:
     inherit (super) stdenv makeWrapper writeTextFile notmuch;
   };
 
-  grobi = import ./grobi {
-    inherit (super) stdenv makeWrapper writeTextFile grobi;
-  };
-
   dunst = import ./dunst {
     inherit (self) colors fonts;
     inherit (super) stdenv makeWrapper writeTextFile dunst;
