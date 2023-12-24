@@ -43,8 +43,10 @@
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
-                extraSpecialArgs = { inherit inputs; };
-                users.dejanr = (./. + "/hosts/${hostname}/home.nix");
+                extraSpecialArgs = { inherit inputs system; };
+                users.dejanr.imports = [
+                    (./. + "/hosts/${hostname}/home.nix")
+                ];
               };
               nixpkgs.overlays = [nur.overlay] ++ overlays;
             }

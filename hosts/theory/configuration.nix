@@ -1,48 +1,48 @@
 { pkgs , lib , ... }:
 
 let
-  hostName = "theory";
+    hostName = "theory";
 in
-  {
+{
     imports = [
-      ../../modules/system/roles/fonts.nix
-      ../../modules/system/roles/desktop.nix
-      ../../modules/system/roles/i3.nix
+        ../../modules/system/roles/fonts.nix
+        ../../modules/system/roles/desktop.nix
+        ../../modules/system/roles/i3.nix
     ];
 
     services = {
-      openssh.enable = true;
-      openssh.settings.PasswordAuthentication = true;
+        openssh.enable = true;
+        openssh.settings.PasswordAuthentication = true;
 
-      xserver = {
-        enable = true;
+        xserver = {
+            enable = true;
+            dpi = 254;
 
-        displayManager = {
-          xserverArgs = [ "-dpi 109" ];
+            displayManager = {
+                xserverArgs = [ "-dpi 254" ];
+            };
         };
-      };
 
-      tailscale = {
-        enable = true;
-        useRoutingFeatures = "both";
-        extraUpFlags = ["--ssh"];
-      };
+        tailscale = {
+            enable = true;
+            useRoutingFeatures = "both";
+            extraUpFlags = ["--ssh"];
+        };
     };
 
     environment = {
-      etc."X11/Xresources".text = ''
-        Xft.dpi: 109
-      '';
-      systemPackages = [ ];
+    etc."X11/Xresources".text = ''
+        Xft.dpi: 254
+    '';
+    systemPackages = [ ];
     };
 
-     # backlight control
-     programs.light.enable = true;
-     services.actkbd = {
-       enable = true;
-       bindings = [
-         { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
-         { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
-       ];
-     };
-  }
+    programs.light.enable = true;
+    services.actkbd = {
+        enable = true;
+        bindings = [
+            { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+            { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+        ];
+    };
+ }
