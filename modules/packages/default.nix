@@ -7,15 +7,13 @@ in {
 
     config = mkIf cfg.enable {
     	home.packages = with pkgs; [
-            ripgrep ffmpeg tealdeer
-            eza htop fzf
+            ripgrep ffmpeg 
+            eza htop 
             pass gnupg bat
             unzip lowdown zk
-            grim slurp slop
-            imagemagick age libnotify
-            git python3 lua zig
-            mpv firefox pqiv
-            wf-recorder anki-bin
+            age libnotify
+            git python3 lua 
+            anki-bin
         ];
     };
 }
