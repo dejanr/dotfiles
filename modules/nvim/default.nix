@@ -69,6 +69,7 @@ in
                   }
                 }
                 require('lspconfig').rnix.setup{}
+                require('lspconfig').tsserver.setup {}
               EOF
             '';
         }
