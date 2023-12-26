@@ -49,6 +49,16 @@ in
             '';
         }
 
+        # nvim tree
+        {
+            plugin = nvim-tree-lua;
+            config = ''
+              lua << EOF
+                require('nvim-tree').setup{}
+              EOF
+            '';
+        }
+
         # telescope
         telescope-nvim
         telescope-fzf-native-nvim
