@@ -55,3 +55,6 @@ o.pumheight = 6
 o.splitright = true
 o.splitbelow = true
 o.completeopt = "menuone,noselect"
+
+-- Display sign column always fixed by up to 2 signs
+o.signcolumn = "yes:1";
