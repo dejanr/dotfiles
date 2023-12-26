@@ -9,71 +9,29 @@ let
   };
 in
 {
-  imports = [];
+    imports = [
+        ./homebrew.nix
+        ./system.nix
+    ];
 
-  programs.zsh.enable = true;
-              
-  system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
-  system.defaults.NSGlobalDomain.ApplePressAndHoldEnabled = false;
-  system.defaults.NSGlobalDomain.InitialKeyRepeat = 10;
-  system.defaults.NSGlobalDomain.KeyRepeat = 1;
-  system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticDashSubstitutionEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
-  system.defaults.NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
-  system.defaults.NSGlobalDomain.NSNavPanelExpandedStateForSaveMode2 = true;
-  system.defaults.NSGlobalDomain._HIHideMenuBar = true;
-
-  system.defaults.dock.autohide = true;
-  system.defaults.dock.mru-spaces = false;
-  system.defaults.dock.orientation = "left";
-  system.defaults.dock.showhidden = true;
-
-  system.defaults.finder.AppleShowAllExtensions = true;
-  system.defaults.finder.QuitMenuItem = true;
-  system.defaults.finder.FXEnableExtensionChangeWarning = false;
-
-  system.defaults.trackpad.Clicking = true;
-
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToControl = true;
-
-
-  environment.systemPackages = [
-    pkgs.t
-    
-    pkgs.awscli
-    pkgs.curl
-    pkgs.direnv
-    pkgs.gettext
-    pkgs.git
-    pkgs.gnupg
-    pkgs.htop
-    pkgs.jq
-    pkgs.mosh
-    pkgs.ripgrep
-  ];
-
-  # Set environment variables
-  environment.variables = {
-    PASSWORD_STORE_DIR = "$HOME/.local/share/password-store";
-    ZK_NOTEBOOK_DIR = "$HOME/stuff/notes/";
-    EDITOR = "nvim";
-    DIRENV_LOG_FORMAT = "";
-  };
+  #fonts.fontDir.enable = true;
+  #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
 
   nix.nrBuildUsers = 32;
   nix.configureBuildUsers = true;
+
+  time.timeZone = "Europe/London";
+
+  services.activate-system.enable = true;
+  services.nix-daemon.enable = true;
 
   # Nix settings, auto cleanup and enable flakes
   nix = {
     settings = {
       auto-optimise-store = true;
-      allowed-users = [ "dejanr" ];
+      allowed-users = [ username ];
       substituters = [ "https://cache.nixos.org" ];
-      trusted-users = [ "${username}" "root" ];
+      trusted-users = [ username "root" ];
     };
 
     gc = {
@@ -87,7 +45,7 @@ in
           keep-derivations = true
     '';
 
-    package = pkgs.nixVersions.stable;
+    package = pkgs.nixUnstable;
   };
 
   nixpkgs = {
@@ -101,7 +59,43 @@ in
     };
   };
 
-  environment.darwinConfig = "$HOME/.dotfiles/mbp-work/configuration.nix";
+  users = {
+    users = {
+      "dejan.ranisavljevic" = {
+        home = "/Users/dejan.ranisavljevic";
+        shell = pkgs.zsh;
+      };
+    };
+  };
 
-  services.nix-daemon.enable = true;
+  programs.zsh.enable = true;
+
+  environment.systemPackages = [
+    pkgs.t
+    
+    pkgs.awscli
+    pkgs.gettext
+    pkgs.gnupg
+    pkgs.mosh
+    pkgs.ripgrep
+  ];
+  environment.shells = [ pkgs.zsh ];
+  environment.etc = {
+    "sudoers.d/10-nix-commands".text = ''
+      %admin ALL=(ALL:ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild, \
+                                     /run/current-system/sw/bin/nix*, \
+                                     /run/current-system/sw/bin/ln, \
+                                     /nix/store/*/activate, \
+                                     /bin/launchctl
+    '';
+  };
+  environment.variables = {
+    PASSWORD_STORE_DIR = "$HOME/.local/share/password-store";
+    ZK_NOTEBOOK_DIR = "$HOME/stuff/notes/";
+    EDITOR = "nvim";
+    DIRENV_LOG_FORMAT = "";
+  };
+  environment.darwinConfig = "$HOME/.dotfiles/mbp-work/configuration.nix";
+  environment.variables.LANG = "en_GB.UTF-8";
+  environment.loginShell = "${pkgs.zsh}/bin/zsh -l";
 }

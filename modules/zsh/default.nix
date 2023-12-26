@@ -23,6 +23,10 @@ in {
             initExtra = ''
                 PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
 
+                if [ -f /opt/homebrew/bin/brew ]; then
+                    eval "$(/opt/homebrew/bin/brew shellenv)"
+                fi
+
                 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store";
                 export ZK_NOTEBOOK_DIR="~/stuff/notes";
                 export DIRENV_LOG_FORMAT="";
