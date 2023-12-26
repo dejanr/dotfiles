@@ -75,6 +75,10 @@ in
                   settings = {
                     Lua = {
                       diagnostics = { globals = {'vim'} }
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                      telemetry = {
+                        enable = false,
+                      },
                     }
                   }
                 }
