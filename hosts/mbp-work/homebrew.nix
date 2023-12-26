@@ -56,7 +56,6 @@
                 "Numbers" = 409203825;
                 Alfred = 405843582;
                 Keynote = 409183694;
-                OmniGraffle = 1142578753;
                 Pages = 409201541;
                 Tailscale = 1475387142;
             };
