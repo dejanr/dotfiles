@@ -13,7 +13,7 @@ in
         enable = true;
         settings = {
             window = {
-                opacity = 0.90;
+                opacity = 1.00;
                 padding = {x = 0; y = 0;};
                 startup_mode = "Maximized";
                 decorations = "None";
