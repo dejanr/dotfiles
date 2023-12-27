@@ -1,0 +1,56 @@
+#!/usr/bin/env zsh
+
+SKETCHYBAR_CONFIG="$HOME/.config/sketchybar"
+
+FONT_FACE="PragmataPro Mono"
+
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+/opt/homebrew/opt/sketchybar/bin/sketchybar --bar \
+    height=32 \
+    color=0xff1c1c1c \
+    margin=0 \
+    padding_left=5 \
+    padding_right=5 \
+    display=main
+
+/opt/homebrew/opt/sketchybar/bin/sketchybar --default \
+    background.color=0xff1c1c1c \
+    background.corner_radius=5 \
+    background.padding_right=5 \
+    background.height=26 \
+    icon.font="$FONT_FACE:Regular:15.0" \
+    icon.padding_left=5 \
+    icon.padding_right=5 \
+    label.font="$FONT_FACE:Regular:12.0" \
+    label.color=0xffcad3f5 \
+    label.y_offset=0 \
+    label.padding_left=0 \
+    label.padding_right=5
+
+/opt/homebrew/opt/sketchybar/bin/sketchybar --add item space left \
+    --set space \
+    background.color=0xff1c1c1c \
+    icon.color=0xffffffff \
+    label.drawing=off \
+    script="$PLUGIN_DIR/space.sh" \
+    --subscribe space space_change
+
+/opt/homebrew/opt/sketchybar/bin/sketchybar --add item clock right \
+    --set clock \
+    icon=󰃰 \
+    icon.color=0xffed8796 \
+    update_freq=10 \
+    script="$PLUGIN_DIR/clock.sh"
+
+/opt/homebrew/opt/sketchybar/bin/sketchybar --add item battery right \
+    --set battery \
+    update_freq=20 \
+    script="$PLUGIN_DIR/battery.sh"
+
+# osascript -e 'quit app "Rectangle"'
+# open -a Rectangle
+
+##### Finalizing Setup #####
+/opt/homebrew/opt/sketchybar/bin/sketchybar --update
+/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger space_change

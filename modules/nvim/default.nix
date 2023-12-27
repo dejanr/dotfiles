@@ -18,6 +18,7 @@ in
   options.modules.nvim = { enable = mkEnableOption "nvim"; };
 
   config = mkIf cfg.enable {
+
     programs.neovim = {
       enable = true;
       viAlias = true;
@@ -74,11 +75,11 @@ in
                 require('lspconfig').lua_ls.setup{
                   settings = {
                     Lua = {
-                      diagnostics = { globals = {'vim'} }
+                      diagnostics = { globals = {'vim'} },
                         -- Do not send telemetry data containing a randomized but unique identifier
                       telemetry = {
-                        enable = false,
-                      },
+                        enable = false
+                      }
                     }
                   }
                 }

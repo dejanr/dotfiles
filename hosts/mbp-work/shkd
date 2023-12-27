@@ -1,0 +1,2 @@
+# open terminal, blazingly fast compared to iTerm/Hyper
+cmd - return : open -na /Applications/Alacritty.app

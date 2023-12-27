@@ -1,10 +1,11 @@
-{ ... }:
+{ lib, stdenv, ... }:
 
 {
   home.stateVersion = "23.11";
 
   imports = [
     # gui
+    ./alacritty
 
     # cli
     ./bash
@@ -16,5 +17,8 @@
 
     # system
     ./packages
-  ];
+
+    #
+    ./darwin 
+];
 }

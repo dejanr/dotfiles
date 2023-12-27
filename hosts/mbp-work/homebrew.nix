@@ -30,10 +30,11 @@
                 cask "firefox", args: { language: "en-GB" }
             '';
 
-            taps = [ "homebrew/core" "homebrew/cask" ];
+            taps = [ "homebrew/core" "homebrew/services" "homebrew/cask" "FelixKratz/formulae"];
 
             brews = [ 
                 "qemu" 
+                "sketchybar" 
                 "mas" 
                 "asciinema" 
                 "fwup" 
@@ -41,6 +42,7 @@
             ];
 
             casks = [
+                "alacritty"
                 "1password"
                 "firefox"
                 "google-chrome"

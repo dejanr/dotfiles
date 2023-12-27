@@ -25,6 +25,12 @@ in
   services.activate-system.enable = true;
   services.nix-daemon.enable = true;
 
+  services.skhd = {
+    enable = true;
+    package = pkgs.skhd;
+    skhdConfig = builtins.readFile ./shkd;
+  };
+
   # Nix settings, auto cleanup and enable flakes
   nix = {
     settings = {

@@ -90,7 +90,6 @@ in {
 				passgen = "date +%s | shasum | base64 | head -c 8 | pbcopy | echo 'Password saved in clipboard'";
 
 				lmk = "notify-send 'Something happened!'";
-				open = "xdg-open &>/dev/null";
             };
 
             # Source all plugins, nix-style

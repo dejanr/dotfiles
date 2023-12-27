@@ -5,6 +5,7 @@
 
   config.modules = {
     # gui
+    alacritty.enable = true;
 
     # cli
     direnv.enable = true;
@@ -12,6 +13,9 @@
     nvim.enable = true;
     tmux.enable = true;
     zsh.enable = true;
+
+    # darwin
+    darwin.sketchybar.enable = true;
 
     # system
     packages.enable = true;

@@ -1,0 +1,8 @@
+{ ... }:
+
+{
+  imports = [
+    # gui
+    ./sketchybar
+  ];
+}
