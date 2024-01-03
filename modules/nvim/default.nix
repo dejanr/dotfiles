@@ -28,6 +28,7 @@ in
       plugins = with pkgs.vimPlugins; [
         vim-nix
         plenary-nvim
+
         {
             plugin = nightfox-nvim;
             config = ''
@@ -51,11 +52,32 @@ in
         }
 
         # nvim tree
+        nvim-web-devicons
+        circles-nvim
         {
             plugin = nvim-tree-lua;
             config = ''
               lua << EOF
-                require('nvim-tree').setup{}
+                local circles = require('circles')
+
+                circles.setup({ 
+                    icons = { empty = '◯', filled = '●', lsp_prefix = '●' }, 
+                    lsp = true
+                })
+
+                require('nvim-tree').setup{
+                    renderer = {
+                        icons = {
+                            glyphs = circles.get_nvimtree_glyphs(),
+                            show = {
+                                file = true,
+                                folder = true,
+                                folder_arrow = false,
+                                git = false
+                            }
+                        },
+                    },
+                }
               EOF
             '';
         }

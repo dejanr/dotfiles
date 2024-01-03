@@ -36,6 +36,9 @@ in {
 
                 edir() { tar -cz $1 | age -p > $1.tar.gz.age && rm -rf $1 &>/dev/null && echo "$1 encrypted" }
                 ddir() { age -d $1 | tar -xz && rm -rf $1 &>/dev/null && echo "$1 decrypted" }
+
+                ## case-insensitive (uppercase from lowercase) completion
+                zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
             '';
 
             # basically aliases for directories:

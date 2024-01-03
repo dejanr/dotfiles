@@ -9,6 +9,12 @@ in
   options.modules.alacritty = { enable = mkEnableOption "alacritty"; };
 
   config = mkIf cfg.enable {
+    fonts.fontconfig.enable = true;
+
+    home.packages = [
+        pkgs.pragmatapro
+    ];
+
     programs.alacritty = {
         enable = true;
         settings = {
