@@ -16,7 +16,3 @@ autocmd FileType nix setlocal shiftwidth=4
 require('globals')
 require('options')
 require('keymaps')
-
-if vim.g.neovide then
-    require('neovide')
-end
