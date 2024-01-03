@@ -131,6 +131,7 @@ in
       ];
 
       extraPackages = with pkgs; [
+        ripgrep
         nodejs
         # Language Servers
         nodePackages.bash-language-server # Bash

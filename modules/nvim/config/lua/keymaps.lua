@@ -1,24 +1,53 @@
+local utils = require('utils');
+local default_opt = { noremap = true, silent = true }
+
+local lsp_format_async = function()
+    vim.lsp.buf.format({ async = true })
+end
+
 -- Keybinds
 
 -- File
-vim.keymap.set("n", "<leader>fs", ":w!<CR>", { desc = "Save File" })
+vim.keymap.set("n", "<leader>fs", ":w!<cr>", { desc = "Save File" })
+vim.keymap.set("n", "<leader>p", lsp_format_async, { desc = "Format File", noremap = true, silent = true })
+
+-- Previous and Next: Buffer
+vim.keymap.set("n", "[b", ":bprevious<cr>", default_opt)
+vim.keymap.set("n", "]b", ":bnext<cr>", default_opt)
+
+-- Goto
+vim.keymap.set("n", "<leader>gf", "gf", default_opt)
+vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, default_opt)
+vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, default_opt)
+vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, default_opt)
+vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, default_opt)
+vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help, default_opt)
+vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, default_opt)
 
 -- Winwow movement
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("n", "<leader>q", ":q! <CR>")
-vim.keymap.set("n", "<leader>op", ":NvimTreeFocus <CR>")
+vim.keymap.set("n", "<leader>q", ":q! <cr>")
+vim.keymap.set("n", "<leader>op", ":NvimTreeFocus <cr>")
 
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", ";", ":")
 
+-- Previous and Next: Location List
+vim.keymap.set("", "<C-n>", ":lnext<cr>")
+vim.keymap.set("", "<C-p>", ":lprevious<cr>")
+
 -- Turn off highlight search
-vim.keymap.set("n", "<leader>n", ":set invhls<CR>:set hls?<CR>", { desc = "Turn off highlight" })
+vim.keymap.set("n", "<leader>n", ":set invhls<cr>:set hls?<cr>", { desc = "Turn off highlight" })
 
 -- Vimux
+vim.keymap.set("n", "t", ":call VimuxRunLastCommand()<cr>")
+vim.keymap.set("n", "T", ":call VimuxRunCommand(\" run-last-history-in-vimux\")<cr>")
 
-vim.keymap.set("n", "t", ":call VimuxRunLastCommand()<CR>")
-vim.keymap.set("n", "T", ":call VimuxRunCommand(\" run-last-history-in-vimux\")<CR>")
+-- Toggle
+vim.keymap.set("n", "<leader>tl", ":ToggleLocList<cr>", { desc = "Toggle location list" })
+vim.keymap.set("n", "<leader>tp", ":set invpaste<CR>:set paste?<cr>", default_opt)
+vim.keymap.set("n", "<leader>ts", ":nohlsearch<cr>", default_opt)
