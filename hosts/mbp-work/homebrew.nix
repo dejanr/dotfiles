@@ -42,15 +42,16 @@
             ];
 
             casks = [
-                "alacritty"
                 "1password"
+                "alacritty"
                 "firefox"
                 "google-chrome"
+                "neovide" # gui neovim client
+                "mimestream" # Gmail client
                 "slack"
                 "spotify"
                 "vlc"
                 "zoom"
-                "mimestream" # Gmail client
             ];
 
             masApps = {
