@@ -2,7 +2,7 @@ local utils = require('utils');
 local default_opt = { noremap = true, silent = true }
 
 local lsp_format_async = function()
-    vim.lsp.buf.format({ async = true })
+  vim.lsp.buf.format({ async = true })
 end
 
 -- Keybinds
@@ -48,6 +48,9 @@ vim.keymap.set("n", "t", ":call VimuxRunLastCommand()<cr>")
 vim.keymap.set("n", "T", ":call VimuxRunCommand(\" run-last-history-in-vimux\")<cr>")
 
 -- Toggle
+vim.cmd([[command! -nargs=0 -bar ToggleLocList lua require('utils').ToggleLocList()]])
+vim.cmd([[command! -nargs=0 -bar ToggleQF lua require('utils').ToggleQF()]])
 vim.keymap.set("n", "<leader>tl", ":ToggleLocList<cr>", { desc = "Toggle location list" })
+vim.keymap.set("n", "<leader>tq", ":ToggleQF<cr>", { desc = "Toggle quickfix list" })
 vim.keymap.set("n", "<leader>tp", ":set invpaste<CR>:set paste?<cr>", default_opt)
 vim.keymap.set("n", "<leader>ts", ":nohlsearch<cr>", default_opt)
