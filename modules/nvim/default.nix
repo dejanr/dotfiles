@@ -26,28 +26,41 @@ in
       vimdiffAlias = true;
 
       plugins = with pkgs.vimPlugins; [
-        vim-nix
-        plenary-nvim
-
+        {
+            plugin = vim-nix;
+            type = "lua";
+            config = '''';
+        }
+        {
+            plugin = plenary-nvim;
+            type = "lua";
+            config = '''';
+        }
         {
             plugin = nightfox-nvim;
+            type = "lua";
             config = ''
-              lua << EOF
                 require('nightfox').setup {
                   options = {
                     transparent = true,
                   },
                 }
                 vim.cmd("colorscheme nightfox")
-              EOF
             '';
         }
         {
             plugin = lualine-nvim;
+            type = "lua";
             config = ''
-              lua << EOF
                 require('lualine').setup()
-              EOF
+            '';
+        }
+        {
+            plugin = vimux;
+            type = "lua";
+            config = ''
+                vim.g.VimuxOrientation = "h"
+                vim.g.VimuxUseNearestPane = 1
             '';
         }
 
@@ -56,8 +69,8 @@ in
         circles-nvim
         {
             plugin = nvim-tree-lua;
+            type = "lua";
             config = ''
-              lua << EOF
                 local circles = require('circles')
 
                 circles.setup({ 
@@ -78,7 +91,6 @@ in
                         },
                     },
                 }
-              EOF
             '';
         }
 
@@ -92,8 +104,8 @@ in
         # lsp
         {
             plugin = nvim-lspconfig;
+            type = "lua";
             config = ''
-              lua << EOF
                 require('lspconfig').lua_ls.setup{
                   settings = {
                     Lua = {
@@ -107,14 +119,14 @@ in
                 }
                 require('lspconfig').rnix.setup{}
                 require('lspconfig').tsserver.setup {}
-              EOF
             '';
         }
 
         # clipboard
         {
-          plugin = nvim-neoclip-lua;
-          config = "lua require('neoclip').setup()";
+            plugin = nvim-neoclip-lua;
+            type = "lua";
+            config = "require('neoclip').setup()";
         }
       ];
 

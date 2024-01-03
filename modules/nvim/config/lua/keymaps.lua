@@ -17,3 +17,8 @@ vim.keymap.set("n", ";", ":")
 
 -- Turn off highlight search
 vim.keymap.set("n", "<leader>n", ":set invhls<CR>:set hls?<CR>", { desc = "Turn off highlight" })
+
+-- Vimux
+
+vim.keymap.set("n", "t", ":call VimuxRunLastCommand()<CR>")
+vim.keymap.set("n", "T", ":call VimuxRunCommand(\" run-last-history-in-vimux\")<CR>")
