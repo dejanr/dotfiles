@@ -42,8 +42,6 @@
             ];
 
             casks = [
-                "alacritty"
-                "kitty"
                 "1password"
                 "firefox"
                 "google-chrome"

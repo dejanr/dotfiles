@@ -5,7 +5,6 @@
 
   config.modules = {
     # gui
-    alacritty.enable = true;
     kitty.enable = true;
 
     # cli

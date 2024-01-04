@@ -12,6 +12,7 @@ in
     fonts.fontconfig.enable = true;
 
     home.packages = [
+        pkgs.kitty
         pkgs.pragmatapro
     ];
 

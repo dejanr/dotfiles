@@ -78,12 +78,13 @@ in
 
   environment.systemPackages = [
     pkgs.t
-    
+
     pkgs.awscli
     pkgs.gettext
     pkgs.gnupg
     pkgs.mosh
     pkgs.ripgrep
+    pkgs.kitty
   ];
   environment.shells = [ pkgs.zsh ];
   environment.etc = {
