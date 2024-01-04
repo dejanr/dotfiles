@@ -6,6 +6,7 @@
   imports = [
     # gui
     ./alacritty
+    ./kitty
 
     # cli
     ./bash
@@ -19,6 +20,6 @@
     ./packages
 
     #
-    ./darwin 
+    ./darwin
 ];
 }
