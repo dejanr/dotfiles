@@ -1,4 +1,6 @@
 local builtin = require('telescope.builtin')
+local telescope = require("telescope")
+local actions = require "telescope.actions"
 
 vim.keymap.set('n', '<leader><space>', builtin.find_files, { desc = "Find Files" })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Find Grep" })
@@ -9,9 +11,6 @@ vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = "Find Old Files" })
 vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = "Find Word under Cursor" })
 vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = "Search Git Commits" })
 vim.keymap.set('n', '<leader>gb', builtin.git_bcommits, { desc = "Search Git Commits for Buffer" })
-
-local telescope = require("telescope")
-local actions = require "telescope.actions"
 
 local select_one_or_multi = function(prompt_bufnr)
   local picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
@@ -30,6 +29,7 @@ end
 
 telescope.setup({
   defaults = {
+    previewer = true,
     -- `hidden = true` is not supported in text grep commands.
     find_command = {
       "rg",
@@ -78,12 +78,17 @@ telescope.setup({
         },
       },
     },
+    media_files = {
+      filetypes = {"png", "webp", "jpg", "jpeg", "pdf"},
+      find_cmd = "rg"
+    }
   }
 })
 
-require("telescope").load_extension "neoclip"
-require("telescope").load_extension "live_grep_args"
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('ui-select')
-require("telescope").load_extension("undo")
-require("telescope").load_extension("live_grep_args")
+telescope.load_extension "neoclip"
+telescope.load_extension "live_grep_args"
+telescope.load_extension('fzf')
+telescope.load_extension('ui-select')
+telescope.load_extension("undo")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("media_files")

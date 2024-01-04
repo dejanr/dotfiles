@@ -60,3 +60,11 @@ o.completeopt = "menuone,noselect"
 
 -- Display sign column always fixed by up to 2 signs
 o.signcolumn = "yes:1";
+
+-- Remove trailing whitespaces on save
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  callback = function()
+    require("whitespace-nvim").trim()
+  end,
+})

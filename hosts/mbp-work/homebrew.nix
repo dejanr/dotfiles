@@ -11,7 +11,7 @@
             $DRY_RUN_CMD /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             fi
         '';
-        
+
         homebrew = {
             enable = true;
             onActivation = {
@@ -32,17 +32,18 @@
 
             taps = [ "homebrew/core" "homebrew/services" "homebrew/cask" "FelixKratz/formulae"];
 
-            brews = [ 
-                "qemu" 
-                "sketchybar" 
-                "mas" 
-                "asciinema" 
-                "fwup" 
-                "coreutils" 
+            brews = [
+                "qemu"
+                "sketchybar"
+                "mas"
+                "asciinema"
+                "fwup"
+                "coreutils"
             ];
 
             casks = [
                 "alacritty"
+                "kitty"
                 "1password"
                 "firefox"
                 "google-chrome"
