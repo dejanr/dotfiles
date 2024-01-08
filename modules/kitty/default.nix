@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, writeTextFile, colors, ... }:
 
 with lib;
 
@@ -6,7 +6,18 @@ let
   cfg = config.modules.kitty;
 in
 {
-  options.modules.kitty = { enable = mkEnableOption "kitty"; };
+    options.modules.kitty = {
+        enable = mkEnableOption "kitty";
+
+        fontSize = mkOption {
+            type = types.str;
+            default = "18.0";
+            description = ''
+                Custom font size.
+            '';
+            example = "18.0";
+        };
+    };
 
   config = mkIf cfg.enable {
     fonts.fontconfig.enable = true;
@@ -18,7 +29,11 @@ in
 
     programs.kitty = {
         enable = true;
-        extraConfig = builtins.readFile ./kitty;
+        extraConfig = import ./config.nix {
+            inherit colors;
+
+            fontSize = cfg.fontSize;
+        };
     };
   };
 }
