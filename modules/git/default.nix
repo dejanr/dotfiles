@@ -11,13 +11,8 @@ in {
             userName = "dejanr";
             userEmail = "dejan@ranisavljevic.com";
             extraConfig = {
-                branch.autosetuprebase = "always";
-                color.ui = true;
-                core.askPass = ""; # needs to be empty to use terminal for ask pass
-                credential.helper = "store"; # want to make this more secure
-                github.user = "dejanr";
-                push.default = "tracking";
-                init.defaultBranch = "main";
+                init = { defaultBranch = "main"; };
+                github = { user = "dejanr"; };
             };
         };
     };

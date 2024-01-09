@@ -61,6 +61,9 @@ o.completeopt = "menuone,noselect"
 -- Display sign column always fixed by up to 2 signs
 o.signcolumn = "yes:1";
 
+-- auto reload files changed outside of vim
+o.autoread = true
+
 -- Remove trailing whitespaces on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },

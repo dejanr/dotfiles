@@ -65,6 +65,8 @@ in {
 
                 ## case-insensitive (uppercase from lowercase) completion
                 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+                export PATH=node_modules/.bin:$PATH
             '';
 
             # basically aliases for directories:
