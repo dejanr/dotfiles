@@ -12,17 +12,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur = {
-      url = "github:nix-community/NUR";
-    };
+    nur = { url = "github:nix-community/NUR"; };
 
-    nix-gaming.url = "github:fufexan/nix-gaming";
+    nix-gaming.url = "github:LunNova/nix-gaming/vkd3d-dxvk-fix";
+
     mach-nix.url = "github:DavHau/mach-nix";
 
     vim-plugins = { url = "path:./modules/nvim/plugins"; };
   };
 
-  outputs = { home-manager, nix-darwin, nixpkgs, nur, nix-gaming, mach-nix, vim-plugins, ... }@inputs:
+  outputs = { home-manager, nix-darwin, nixpkgs, nur, nix-gaming, mach-nix
+    , vim-plugins, ... }@inputs:
     let
       system = "x86_64-linux"; # current system
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
@@ -49,11 +49,11 @@
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs system; };
-                users.dejanr.imports = [
-                    (./. + "/hosts/${hostname}/home.nix")
-                ];
+                users.dejanr.imports =
+                  [ (./. + "/hosts/${hostname}/home.nix") ];
               };
-              nixpkgs.overlays = [nur.overlay vim-plugins.overlay] ++ overlays;
+              nixpkgs.overlays = [ nur.overlay vim-plugins.overlay ]
+                ++ overlays;
             }
           ];
           specialArgs = { inherit inputs; };
@@ -67,14 +67,14 @@
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
       darwinConfigurations = let
-	username = "dejan.ranisavljevic";
-	system = "aarch64-darwin";
-	in {
+        username = "dejan.ranisavljevic";
+        system = "aarch64-darwin";
+      in {
         "mbp-work" = nix-darwin.lib.darwinSystem {
           inherit system;
-	      specialArgs = { inherit inputs system; };
+          specialArgs = { inherit inputs system; };
           modules = [
-	        ./hosts/mbp-work/configuration.nix
+            ./hosts/mbp-work/configuration.nix
             home-manager.darwinModules.home-manager
             {
               users.users.${username}.home = "/Users/${username}";
@@ -82,11 +82,11 @@
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs system; };
-                users.${username}.imports = [
-                    (./. + "/hosts/mbp-work/home.nix")
-                ];
+                users.${username}.imports =
+                  [ (./. + "/hosts/mbp-work/home.nix") ];
               };
-              nixpkgs.overlays = [nur.overlay vim-plugins.overlay] ++ overlays;
+              nixpkgs.overlays = [ nur.overlay vim-plugins.overlay ]
+                ++ overlays;
             }
           ];
         };

@@ -99,15 +99,16 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1698973934,
-        "narHash": "sha256-Q3bgQkd1m2LV23xCqMALB09UC0ek6cedNV2ZfwRWDCE=",
-        "owner": "fufexan",
+        "lastModified": 1698840676,
+        "narHash": "sha256-zR6Fd88dyb4Va+Bbu4GOjQmnFYyxHEn4NE94qniRc4k=",
+        "owner": "LunNova",
         "repo": "nix-gaming",
-        "rev": "d4c46060dd31f5b529a3f0023f48103d04fe3c34",
+        "rev": "0bdbef60f855ee53091772deec3f14bba049ff2b",
         "type": "github"
       },
       "original": {
-        "owner": "fufexan",
+        "owner": "LunNova",
+        "ref": "vkd3d-dxvk-fix",
         "repo": "nix-gaming",
         "type": "github"
       }
