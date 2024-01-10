@@ -18,9 +18,11 @@
 
     nix-gaming.url = "github:fufexan/nix-gaming";
     mach-nix.url = "github:DavHau/mach-nix";
+
+    vim-plugins = { url = "path:./modules/nvim/plugins"; };
   };
 
-  outputs = { home-manager, nix-darwin, nixpkgs, nur, nix-gaming, mach-nix, ... }@inputs:
+  outputs = { home-manager, nix-darwin, nixpkgs, nur, nix-gaming, mach-nix, vim-plugins, ... }@inputs:
     let
       system = "x86_64-linux"; # current system
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
@@ -51,7 +53,7 @@
                     (./. + "/hosts/${hostname}/home.nix")
                 ];
               };
-              nixpkgs.overlays = [nur.overlay] ++ overlays;
+              nixpkgs.overlays = [nur.overlay vim-plugins.overlay] ++ overlays;
             }
           ];
           specialArgs = { inherit inputs; };
@@ -64,15 +66,15 @@
         theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
-      darwinConfigurations = let 
+      darwinConfigurations = let
 	username = "dejan.ranisavljevic";
 	system = "aarch64-darwin";
 	in {
         "mbp-work" = nix-darwin.lib.darwinSystem {
           inherit system;
 	      specialArgs = { inherit inputs system; };
-          modules = [ 
-	        ./hosts/mbp-work/configuration.nix 
+          modules = [
+	        ./hosts/mbp-work/configuration.nix
             home-manager.darwinModules.home-manager
             {
               users.users.${username}.home = "/Users/${username}";
@@ -84,7 +86,7 @@
                     (./. + "/hosts/mbp-work/home.nix")
                 ];
               };
-              nixpkgs.overlays = [nur.overlay] ++ overlays;
+              nixpkgs.overlays = [nur.overlay vim-plugins.overlay] ++ overlays;
             }
           ];
         };

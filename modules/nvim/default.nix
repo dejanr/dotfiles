@@ -2,10 +2,8 @@
 
 with lib;
 
-let
-  cfg = config.modules.nvim;
-in
-{
+let cfg = config.modules.nvim;
+in {
   options.modules.nvim = { enable = mkEnableOption "nvim"; };
 
   config = mkIf cfg.enable {
@@ -20,12 +18,12 @@ in
         {
           plugin = vim-nix;
           type = "lua";
-          config = '''';
+          config = "";
         }
         {
           plugin = plenary-nvim;
           type = "lua";
-          config = '''';
+          config = "";
         }
         {
           plugin = nightfox-nvim;
@@ -112,6 +110,35 @@ in
             }
             require('lspconfig').rnix.setup{}
             require('lspconfig').tsserver.setup {}
+          '';
+        }
+
+        # conform
+        {
+          plugin = nvim-conform;
+          type = "lua";
+          config = ''
+            require("conform").setup({
+                formatters_by_ft = {
+                    css = { "prettier" },
+                    go = { "gofmt" },
+                    html = { "prettier" },
+                    javascript = { "prettier" },
+                    typescript = { "prettier" },
+                    json = { "prettier" },
+                    lua = { "stylua" },
+                    markdown = { "prettier", "markdownlint" },
+                    nix = { "nixfmt" },
+                    python = { "isort", "black" },
+                    terraform = { "terraform_fmt" },
+                    yaml = { "prettier" }
+                },
+                format_on_save = {
+                    lsp_fallback = true,
+                    timeout_ms = 1000,
+                },
+            })
+
           '';
         }
 
