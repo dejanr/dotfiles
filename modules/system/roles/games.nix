@@ -44,7 +44,7 @@ let
     };
 in {
   environment.systemPackages = [
-    wine
+    # wine
     inputs.nix-gaming.packages.${pkgs.system}.dxvk
     inputs.nix-gaming.packages.${pkgs.system}.vkd3d-proton
     inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer
@@ -53,7 +53,7 @@ in {
 
     pkgs.gamemode # Optimise Linux system performance on demand
     pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
-    #wine # overlay wine
+    pkgs.wine # overlay wine
     #winetricks
     pkgs.cabextract
     #dxvk
