@@ -125,6 +125,7 @@ in {
                     html = { "prettier" },
                     javascript = { "prettier" },
                     typescript = { "prettier" },
+                    typescriptreact = { "prettier" },
                     json = { "prettier" },
                     lua = { "stylua" },
                     markdown = { "prettier", "markdownlint" },
