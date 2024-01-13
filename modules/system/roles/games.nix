@@ -48,6 +48,7 @@ in {
     inputs.nix-gaming.packages.${pkgs.system}.dxvk
     inputs.nix-gaming.packages.${pkgs.system}.vkd3d-proton
     inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer
+    inputs.nix-gaming.packages.${pkgs.system}.star-citizen
 
     pkgs.entropia
 

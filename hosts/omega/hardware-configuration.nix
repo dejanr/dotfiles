@@ -7,18 +7,14 @@
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxPackages_latest;
-  deviceIDs = [
-    "0000:34:00.0"
-    "0000:34:00.1"
-  ];
+  deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
 in {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    initrd.kernelModules = ["nvidia"];
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
+    initrd.kernelModules = [ "nvidia" ];
+    initrd.availableKernelModules =
+      [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.preDeviceCommands = ''
       DEVS="0000:34:00.0 0000:34:00.1"
       for DEV in $DEVS; do
@@ -44,9 +40,7 @@ in {
 
     kernelPackages = kernelPackages;
 
-    extraModulePackages = [
-      kernelPackages.v4l2loopback
-    ];
+    extraModulePackages = [ kernelPackages.v4l2loopback ];
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
@@ -65,10 +59,7 @@ in {
       ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
     ];
 
-    blacklistedKernelModules = [
-      "fbcon"
-      "nouveau"
-    ];
+    blacklistedKernelModules = [ "fbcon" "nouveau" ];
 
     extraModprobeConfig = ''
       options it87 force_id=0x8628
@@ -108,19 +99,18 @@ in {
 
   time.hardwareClockInLocalTime = true;
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0CC7-A2E4";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/0CC7-A2E4";
+    fsType = "vfat";
+  };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }
-  ];
+  swapDevices =
+    [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
 
   # fileSystems."/mnt/synology/inbox" = {
   #   device = "192.168.1.168:/volume1/inbox";
@@ -135,22 +125,15 @@ in {
   hardware = {
     openrazer.enable = true;
 
-    cpu = {
-      amd.updateMicrocode = true;
-    };
+    cpu = { amd.updateMicrocode = true; };
 
     opengl = {
       driSupport = lib.mkDefault true;
       driSupport32Bit = lib.mkDefault true;
-      extraPackages = with pkgs; [
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
     };
 
-    firmware = [
-      pkgs.firmwareLinuxNonfree
-    ];
+    firmware = [ pkgs.firmwareLinuxNonfree ];
 
     enableRedistributableFirmware = true;
     enableAllFirmware = true;
@@ -186,7 +169,8 @@ in {
   };
 
   services = {
-    hardware.bolt.enable = true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
+    hardware.bolt.enable =
+      true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
 
     udev.extraRules = ''
       # Always authorize thunderbolt connections when they are plugged in.
@@ -197,9 +181,7 @@ in {
       enable = true;
       videoDrivers = [ "nvidia" ];
 
-      displayManager = {
-        xserverArgs = [ "-dpi 109" ];
-      };
+      displayManager = { xserverArgs = [ "-dpi 109" ]; };
 
       screenSection = ''
         Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
@@ -208,17 +190,17 @@ in {
       '';
 
       deviceSection = ''
-          Option "ForceCompositionPipeline" "On"
-          Option "ForceFullCompositionPipeline" "On"
-          Option "AllowGSYNCCompatible" "On"
-          Option "AllowIndirectGLXProtocol" "off"
-          Option "TripleBuffer" "on"
-          Option  "Stereo" "0"
-          Option  "nvidiaXineramaInfoOrder" "DFP-1"
-          Option  "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On, AllowGSYNCCompatible=On}"
-          Option  "SLI" "Off"
-          Option  "MultiGPU" "Off"
-          Option  "BaseMosaic" "off"
+        Option "ForceCompositionPipeline" "On"
+        Option "ForceFullCompositionPipeline" "On"
+        Option "AllowGSYNCCompatible" "On"
+        Option "AllowIndirectGLXProtocol" "off"
+        Option "TripleBuffer" "on"
+        Option  "Stereo" "0"
+        Option  "nvidiaXineramaInfoOrder" "DFP-1"
+        Option  "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On, AllowGSYNCCompatible=On}"
+        Option  "SLI" "Off"
+        Option  "MultiGPU" "Off"
+        Option  "BaseMosaic" "off"
       '';
     };
 
@@ -248,7 +230,7 @@ in {
 
   environment = {
     etc."X11/Xresources".text = ''
-        Xft.dpi: 109
+      Xft.dpi: 109
     '';
   };
 
