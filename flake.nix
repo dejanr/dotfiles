@@ -40,6 +40,7 @@
           system = system;
           modules = [
             { networking.hostName = hostname; }
+            nur.nixosModules.nur
             ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
             (./. + "/hosts/${hostname}/configuration.nix")
@@ -74,6 +75,7 @@
           inherit system;
           specialArgs = { inherit inputs system; };
           modules = [
+            nur.nixosModules.nur
             ./hosts/mbp-work/configuration.nix
             home-manager.darwinModules.home-manager
             {
