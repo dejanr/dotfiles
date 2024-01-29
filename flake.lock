@@ -196,11 +196,11 @@
     "nvim-conform-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1704781474,
-        "narHash": "sha256-I+TfrO23cGp5Ja+id8nembFllzsbTpYLr4A8PPVARLY=",
+        "lastModified": 1706493792,
+        "narHash": "sha256-fn68rzgauu/BaK6H9IudivGpgr8MGPAtiQY6SeP6Uy4=",
         "owner": "stevearc",
         "repo": "conform.nvim",
-        "rev": "75e7c5c7eb5fbd53f8b12dc420b31ec70770b231",
+        "rev": "4588008a7c5b57fbff97fdfb529c059235cdc7ee",
         "type": "github"
       },
       "original": {
@@ -276,7 +276,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-1jvyquxCGbAh/LwFoexx3e12kYe1qpSf3kIYKuQE354=",
+        "narHash": "sha256-HyAoLvxtYEitRMJyzoCXDFeuDmgv6/B7lVVvJfPlPM0=",
         "path": "./modules/nvim/plugins",
         "type": "path"
       },
