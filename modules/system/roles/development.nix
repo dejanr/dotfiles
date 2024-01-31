@@ -1,7 +1,10 @@
 { inputs, config, pkgs, ... }:
 
 {
-  programs.java = { enable = true; package = pkgs.jdk11; };
+  programs.java = {
+    enable = true;
+    package = pkgs.jdk11;
+  };
 
   environment.systemPackages = with pkgs; [
     ack
@@ -47,6 +50,7 @@
     gitAndTools.git-extras
     gitAndTools.gitflow
     gitFull
+    git-lfs # Git extension for versioning large files
     gnumake
     gnum4 # GNU M4, a macro processor
     go
