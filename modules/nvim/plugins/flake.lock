@@ -1,0 +1,61 @@
+{
+  "nodes": {
+    "nvim-conform-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706493792,
+        "narHash": "sha256-fn68rzgauu/BaK6H9IudivGpgr8MGPAtiQY6SeP6Uy4=",
+        "owner": "stevearc",
+        "repo": "conform.nvim",
+        "rev": "4588008a7c5b57fbff97fdfb529c059235cdc7ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stevearc",
+        "repo": "conform.nvim",
+        "type": "github"
+      }
+    },
+    "nvim-regexplainer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1700214808,
+        "narHash": "sha256-B65k8i2gBPaXvZS1HiI3Mk4UuHbW0QQyYci7HLaPN6I=",
+        "owner": "bennypowers",
+        "repo": "nvim-regexplainer",
+        "rev": "78fff711edcb986a05a03253c28a90e32c4ce31f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bennypowers",
+        "repo": "nvim-regexplainer",
+        "type": "github"
+      }
+    },
+    "nvim-sqls-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684697500,
+        "narHash": "sha256-jKFut6NZAf/eIeIkY7/2EsjsIhvZQKCKAJzeQ6XSr0s=",
+        "owner": "nanotee",
+        "repo": "sqls.nvim",
+        "rev": "4b1274b5b44c48ce784aac23747192f5d9d26207",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nanotee",
+        "repo": "sqls.nvim",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nvim-conform-src": "nvim-conform-src",
+        "nvim-regexplainer-src": "nvim-regexplainer-src",
+        "nvim-sqls-src": "nvim-sqls-src"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
