@@ -112,7 +112,6 @@ in {
             require('lspconfig').tsserver.setup {}
           '';
         }
-
         # conform
         {
           plugin = nvim-conform;

@@ -30,7 +30,7 @@
                 cask "firefox", args: { language: "en-GB" }
             '';
 
-            taps = [ "homebrew/core" "homebrew/services" "homebrew/cask" "FelixKratz/formulae"];
+            taps = [ "homebrew/services" "FelixKratz/formulae"];
 
             brews = [
                 "qemu"
@@ -52,7 +52,6 @@
             ];
 
             masApps = {
-                "1Password for Safari" = 1569813296;
                 "Numbers" = 409203825;
                 Alfred = 405843582;
                 Keynote = 409183694;
