@@ -64,7 +64,7 @@ in stdenv.mkDerivation rec {
         exec = "@out@/bin/pyfa";
         terminal = false;
         type = "Application";
-        categories = ["Application" "Game"];
+        categories = [ "Application" "Game" ];
       }
     }/* $out/
 

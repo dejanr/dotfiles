@@ -52,6 +52,7 @@ in {
     inputs.nix-gaming.packages.${pkgs.system}.star-citizen
 
     pkgs.entropia
+    pkgs.jeveassets
 
     pkgs.gamemode # Optimise Linux system performance on demand
     pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
