@@ -18,7 +18,7 @@
 
     mach-nix.url = "github:DavHau/mach-nix";
 
-    vim-plugins = { url = "path:./modules/nvim/plugins"; };
+    vim-plugins = { url = "path:modules/nvim/plugins"; };
   };
 
   outputs = { home-manager, nix-darwin, nixpkgs, nur, nix-gaming, mach-nix
