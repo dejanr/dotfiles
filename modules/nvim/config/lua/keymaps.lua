@@ -1,4 +1,3 @@
-local utils = require('utils');
 local default_opt = { noremap = true, silent = true }
 
 local lsp_format_async = function()
@@ -10,6 +9,9 @@ end
 -- File
 vim.keymap.set("n", "<leader>fs", ":w!<cr>", { desc = "Save File" })
 vim.keymap.set("n", "<leader>p", lsp_format_async, { desc = "Format File", noremap = true, silent = true })
+
+-- Show diagnostics in float
+vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', default_opt)
 
 -- Previous and Next: Buffer
 vim.keymap.set("n", "[b", ":bprevious<cr>", default_opt)
@@ -23,6 +25,7 @@ vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, default_opt)
 vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, default_opt)
 vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help, default_opt)
 vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, default_opt)
+
 
 -- Winwow movement
 vim.keymap.set("n", "<C-h>", "<C-w>h")

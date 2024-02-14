@@ -248,6 +248,18 @@ in {
             }
           '';
         }
+        # git
+        {
+          plugin = git-blame-nvim;
+          type = "lua";
+          config = ''
+            require('gitblame').setup {
+              enabled = true,
+              delay = 3000,
+              use_blame_commit_file_urls = true,
+            }
+          '';
+        }
       ];
 
       extraPackages = with pkgs; [
