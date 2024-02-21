@@ -260,7 +260,9 @@
   for_window [class="steam_app_1170950"] resize set 3440 1440
   for_window [class="steam_app_1170950"] move window to position 0 20
   for_window [class="entropia.exe"] floating enable
-  for_window [class="entropia.exe"] move window to position 760 20
+  for_window [class="entropia.exe"] move window to position 760 0
+  for_window [class="entropia.exe"] border normal 0
+  for_window [class="entropia.exe"] border pixel 0
   for_window [class="clientloader.exe"] floating enable
   for_window [class="clientloader.exe"] move window to position 1300 400
 
@@ -297,6 +299,7 @@
 
   # applications
   bindsym $mod+w exec --no-startup-id firefox -p Personal
+  bindsym $mod+Shift+w exec --no-startup-id firefox -p Personal --kiosk --browser
   bindsym $mod+e exec --no-startup-id firefox -p Work
   bindsym $mod+r exec --no-startup-id kitty ranger
 
