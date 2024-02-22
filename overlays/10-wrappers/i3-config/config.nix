@@ -8,6 +8,7 @@
 
   # Constants
   set $mod Mod4
+  set $alt Mod1
 
   set $base00 #181818
   set $base01 #10151b
@@ -299,7 +300,6 @@
 
   # applications
   bindsym $mod+w exec --no-startup-id firefox -p Personal
-  bindsym $mod+Shift+w exec --no-startup-id firefox -p Personal --kiosk --browser
   bindsym $mod+e exec --no-startup-id firefox -p Work
   bindsym $mod+r exec --no-startup-id kitty ranger
 
