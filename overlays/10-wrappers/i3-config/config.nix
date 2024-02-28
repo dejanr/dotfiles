@@ -173,6 +173,7 @@
   assign [class="steam_app_1170950"] $workspace5
   assign [class="clientloader.exe"] $workspace6
   assign [class="entropia.exe"] $workspace6
+  assign [class="steam_app_1371580"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -266,6 +267,9 @@
   for_window [class="entropia.exe"] border pixel 0
   for_window [class="clientloader.exe"] floating enable
   for_window [class="clientloader.exe"] move window to position 1300 400
+  for_window [class="steam_app_1371580"] floating disable
+  for_window [class="steam_app_1371580"] border normal 0
+  for_window [class="steam_app_1371580"] border pixel 0
 
   # Widow Colours
   #                         border  background text    indicator
