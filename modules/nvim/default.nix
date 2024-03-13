@@ -110,6 +110,7 @@ in {
             }
             require('lspconfig').rnix.setup{}
             require('lspconfig').tsserver.setup {}
+            require('lspconfig').gleam.setup {}
           '';
         }
         # conform
@@ -172,6 +173,7 @@ in {
         nvim-treesitter-parsers.json
         nvim-treesitter-parsers.latex
         nvim-treesitter-parsers.lua
+        nvim-treesitter-parsers.gleam
         nvim-treesitter-parsers.markdown
         nvim-treesitter-parsers.markdown_inline
         nvim-treesitter-parsers.nix
@@ -192,7 +194,6 @@ in {
         nvim-treesitter-textobjects
         nvim-treesitter-textsubjects
         nvim-treesitter-refactor
-        nvim-ts-context-commentstring
         {
           plugin = nvim-treesitter;
           type = "lua";
@@ -210,10 +211,6 @@ in {
                     enable = true,
                 },
                 indent = { enable = true, disable = { "" } },
-                context_commentstring = {
-                    enable = true,
-                    enable_autocmd = false,
-                },
                 autotag = {
                     enable = true,
                 },

@@ -262,7 +262,7 @@
   for_window [class="steam_app_1170950"] resize set 3440 1440
   for_window [class="steam_app_1170950"] move window to position 0 20
   for_window [class="entropia.exe"] floating enable
-  for_window [class="entropia.exe"] move window to position 760 0
+  for_window [class="entropia.exe"] move window to position 760 20
   for_window [class="entropia.exe"] border normal 0
   for_window [class="entropia.exe"] border pixel 0
   for_window [class="clientloader.exe"] floating enable

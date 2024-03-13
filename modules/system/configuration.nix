@@ -75,7 +75,7 @@ in {
       allowBroken = true;
       allowUnsupportedSystem = true;
       android_sdk.accept_license = true;
-      permittedInsecurePackages = [ ];
+      permittedInsecurePackages = [ "nix-2.15.3" ];
     };
   };
 

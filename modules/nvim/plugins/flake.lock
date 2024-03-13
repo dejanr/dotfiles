@@ -3,11 +3,11 @@
     "nvim-conform-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1709395987,
-        "narHash": "sha256-95ha+ObpxiJGm7sx3/esmZrlSccwWulyWDKW4c19ld0=",
+        "lastModified": 1710172721,
+        "narHash": "sha256-Sx2jQAjuj1F8rHQzgcNSU/2jhGiIWPlArd3NsSC+9+g=",
         "owner": "stevearc",
         "repo": "conform.nvim",
-        "rev": "34b81e70da83e26c048290204de44268eb59814e",
+        "rev": "db2c697fe8302f0328b50b480204be1b577a1e2f",
         "type": "github"
       },
       "original": {
