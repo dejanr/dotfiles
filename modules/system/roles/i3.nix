@@ -11,11 +11,8 @@ let
       name = "Materia";
     };
   };
-in
-{
-  imports = [
-    gtk2-theme
-  ];
+in {
+  imports = [ gtk2-theme ];
 
   environment.systemPackages = with pkgs; [
     wm-lock
@@ -66,8 +63,12 @@ in
     pragmatapro
 
     # theme
-    arc-icon-theme arc-theme capitaine-cursors
-    numix-icon-theme papirus-icon-theme arc-icon-theme
+    arc-icon-theme
+    arc-theme
+    capitaine-cursors
+    numix-icon-theme
+    papirus-icon-theme
+    arc-icon-theme
 
     screenshot
   ];
@@ -102,9 +103,7 @@ in
       };
     };
 
-    desktopManager = {
-      xterm.enable = false;
-    };
+    desktopManager = { xterm.enable = false; };
 
     displayManager = {
       defaultSession = "none+i3";
@@ -132,6 +131,6 @@ in
       };
     };
 
-    xkbOptions = "terminate:ctrl_alt_bksp, ctrl:nocaps";
+    xkb.options = "terminate:ctrl_alt_bksp, ctrl:nocaps";
   };
 }
