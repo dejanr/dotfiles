@@ -59,6 +59,7 @@
     htop
     haskellPackages.ghc # The Glasgow Haskell Compiler
     haskellPackages.cabal-install # The command-line interface for Cabal and Hackage
+    icdiff
     iftop
     imagemagickBig
     iotop

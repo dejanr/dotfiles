@@ -108,7 +108,6 @@ in {
                 }
               }
             }
-            require('lspconfig').rnix.setup{}
             require('lspconfig').tsserver.setup {}
             require('lspconfig').gleam.setup {}
           '';
@@ -266,7 +265,6 @@ in {
         nodePackages.bash-language-server # Bash
         nodePackages.typescript-language-server # TS
         nodePackages.vscode-langservers-extracted # Web (ESLint, HTML, CSS, JSON)
-        rnix-lsp
         nixfmt # Nix
         lua-language-server # Lua
       ];

@@ -47,15 +47,9 @@ in {
 
   pragmatapro = super.callPackage ./pragmatapro/default.nix { };
 
-  # dxvk = super.callPackage ./dxvk {};
-
-  # vkd3d = withNativeAndFlags (super.callPackage ./vkd3d-proton {
-  #   wine = self.wine;
-  # }) [ "-O3" ];
-
-  #scream-receivers = super.callPackage ./scream-receivers {
-  #  inherit (super) stdenv lib fetchFromGitHub alsaLib;
-  #};
+  scream-receivers = super.callPackage ./scream-receivers {
+    inherit (super) stdenv lib fetchFromGitHub alsaLib;
+  };
 
   pyfa = super.callPackage ./pyfa {
     inherit (super) python3 fetchurl makeDesktopItem writeScriptBin;

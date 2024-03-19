@@ -37,7 +37,7 @@ in {
             bindkey "''${terminfo[khome]}" beginning-of-line                # [Home] - Go to beginning of line
         fi
         bindkey '^[[8~' end-of-line                                     # End key
-        bindkey '^[[F' end-of-line                                     # End key
+        bindkey '^[[F' end-of-line                                      # End key
         if [[ "''${terminfo[kend]}" != "" ]]; then
             bindkey "''${terminfo[kend]}" end-of-line                       # [End] - Go to end of line
         fi
@@ -96,6 +96,7 @@ in {
         rm = "rm -rifv";
         mv = "mv -iv";
         cp = "cp -riv";
+        diff = "icdiff -N";
         cat = "bat --paging=never --style=plain";
         tree = "eza --tree";
         nd = "nix develop -c $SHELL";

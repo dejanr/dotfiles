@@ -1,56 +1,12 @@
 { config, pkgs, inputs, ... }:
 
-let
-  wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs
-    (old: {
-      dontStrip = true;
-      debug = true;
-    })).override {
-      supportFlags = {
-        gettextSupport = true;
-        fontconfigSupport = true;
-        alsaSupport = true;
-        openglSupport = true;
-        vulkanSupport = true;
-        tlsSupport = true;
-        cupsSupport = true;
-        dbusSupport = true;
-        cairoSupport = true;
-        cursesSupport = true;
-        saneSupport = true;
-        pulseaudioSupport = true;
-        udevSupport = true;
-        xineramaSupport = true;
-        sdlSupport = true;
-        mingwSupport = true;
-        gtkSupport = true;
-        gstreamerSupport = false;
-        openalSupport = false;
-        openclSupport = false;
-        odbcSupport = false;
-        netapiSupport = false;
-        vaSupport = false;
-        pcapSupport = false;
-        v4lSupport = false;
-        gphoto2Support = false;
-        krb5Support = false;
-        ldapSupport = false;
-        vkd3dSupport = true;
-        embedInstallers = false;
-        waylandSupport = false;
-        usbSupport = true;
-        x11Support = true;
-      };
-    };
-in {
+{
   environment.systemPackages = [
     pkgs.appimage-run
-    # wine
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
     inputs.nix-gaming.packages.${pkgs.system}.dxvk
     inputs.nix-gaming.packages.${pkgs.system}.vkd3d-proton
     inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer
-    inputs.nix-gaming.packages.${pkgs.system}.star-citizen
 
     pkgs.entropia
     pkgs.jeveassets
@@ -60,10 +16,7 @@ in {
     # pkgs.wine # overlay wine
     pkgs.winetricks
     pkgs.cabextract
-    #dxvk
-    #vkd3d-proton
     #protontricks
-    #vkd3d
     #pyfa
     pkgs.gamemode
     pkgs.libstrangle
