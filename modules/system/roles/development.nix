@@ -83,7 +83,7 @@
     nix-prefetch-scripts
     nmap # network discovery and security audit
     nox # tools to make nix nicer
-    nodejs-18_x # nodejs
+    nodejs_20 # nodejs
     yarn
     obs-studio # video recording and live streaming
     sshuttle # Transparent proxy server that works as a poor man's VPN
