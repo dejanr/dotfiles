@@ -6,7 +6,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
 in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -130,7 +130,11 @@ in {
     opengl = {
       driSupport = lib.mkDefault true;
       driSupport32Bit = lib.mkDefault true;
-      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
+      extraPackages = with pkgs; [
+        nvidia-vaapi-driver
+        vaapiVdpau
+        libvdpau-va-gl
+      ];
     };
 
     firmware = [ pkgs.firmwareLinuxNonfree ];
@@ -139,25 +143,11 @@ in {
     enableAllFirmware = true;
 
     nvidia = {
-      # Modesetting is required.
       modesetting.enable = true;
-      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-      powerManagement.enable = false;
-      # Fine-grained power management. Turns off GPU when not in use.
-      # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+      powerManagement.enable = true;
       powerManagement.finegrained = false;
-      # Use the NVidia open source kernel module (not to be confused with the
-      # independent third-party "nouveau" open source driver).
-      # Support is limited to the Turing and later architectures. Full list of
-      # supported GPUs is at:
-      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-      # Only available from driver 515.43.04+
-      # Do not disable this unless your GPU is unsupported or if you have a good reason to.
       open = false;
-      # Enable the Nvidia settings menu,
-      # accessible via `nvidia-settings`.
       nvidiaSettings = true;
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = kernelPackages.nvidiaPackages.beta;
     };
   };
@@ -233,6 +223,13 @@ in {
       Xft.dpi: 109
     '';
   };
+
+  environment.systemPackages = with pkgs; [
+    vulkan-loader
+    vulkan-validation-layers
+    vulkan-tools
+    libglvnd
+  ];
 
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
