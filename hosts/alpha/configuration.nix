@@ -1,4 +1,4 @@
-{ pkgs , lib , ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -50,7 +50,7 @@
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
-      extraUpFlags = ["--ssh"];
+      extraUpFlags = [ "--ssh" ];
     };
 
     postfix = {

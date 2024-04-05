@@ -1,6 +1,7 @@
 { lib
 , fetchFromGitLab
-, mesa }:
+, mesa
+}:
 
 (mesa.override {
   galliumDrivers = [ "swrast" "asahi" ];
@@ -36,6 +37,7 @@
 
   # replace disk cache path patch with one tweaked slightly to apply to this version
   patches = lib.forEach oldAttrs.patches
-    (p: if lib.hasSuffix "disk_cache-include-dri-driver-path-in-cache-key.patch" p
+    (p:
+      if lib.hasSuffix "disk_cache-include-dri-driver-path-in-cache-key.patch" p
       then ./disk_cache-include-dri-driver-path-in-cache-key.patch else p);
 })

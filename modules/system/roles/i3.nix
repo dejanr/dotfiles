@@ -11,7 +11,8 @@ let
       name = "Materia";
     };
   };
-in {
+in
+{
   imports = [ gtk2-theme ];
 
   environment.systemPackages = with pkgs; [

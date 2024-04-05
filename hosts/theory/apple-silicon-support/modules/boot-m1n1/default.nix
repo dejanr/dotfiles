@@ -13,7 +13,7 @@ let
   };
 
   bootFiles = {
-    "m1n1/boot.bin" = pkgs.runCommand "boot.bin" {} ''
+    "m1n1/boot.bin" = pkgs.runCommand "boot.bin" { } ''
       cat ${bootM1n1}/build/m1n1.bin > $out
       cat ${config.boot.kernelPackages.kernel}/dtbs/apple/*.dtb >> $out
       cat ${bootUBoot}/u-boot-nodtb.bin.gz >> $out
@@ -22,7 +22,8 @@ let
       fi
     '';
   };
-in {
+in
+{
   config = {
     # install m1n1 with the boot loader
     boot.loader.grub.extraFiles = bootFiles;

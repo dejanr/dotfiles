@@ -7,7 +7,8 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "1xccj8ijgjr3dfx532xl9ari0x66mxd1pg7si7vxgmf0w9cz7z7c";
   };
-in {
+in
+{
   environment = { defaultPackages = [ ]; };
 
   services = {

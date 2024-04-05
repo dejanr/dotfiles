@@ -1,6 +1,6 @@
 { stdenv, makeWrapper, writeTextFile, notmuch }:
 let
-  config = import ./config.nix {};
+  config = import ./config.nix { };
   configFile = writeTextFile {
     name = "config";
     text = config;

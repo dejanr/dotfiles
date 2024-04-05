@@ -5,8 +5,8 @@ let
   shotgun = "${pkgs.shotgun}/bin/shotgun";
 in
 ''
-#!/usr/bin/env sh
+  #!/usr/bin/env sh
 
-selection=$(${hacksaw} -f "-i %i -g %g")
-${shotgun} $selection - | xclip -t 'image/png' -selection clipboard
+  selection=$(${hacksaw} -f "-i %i -g %g")
+  ${shotgun} $selection - | xclip -t 'image/png' -selection clipboard
 ''

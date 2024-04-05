@@ -2,7 +2,8 @@
 {
   config = {
     assertions = lib.mkIf config.hardware.asahi.extractPeripheralFirmware [
-      { assertion = config.hardware.asahi.peripheralFirmwareDirectory != null;
+      {
+        assertion = config.hardware.asahi.peripheralFirmwareDirectory != null;
         message = ''
           Asahi peripheral firmware extraction is enabled but the firmware
           location appears incorrect.
@@ -10,10 +11,12 @@
       }
     ];
 
-    hardware.firmware = let
-      pkgs' = config.hardware.asahi.pkgs;
-    in
-      lib.mkIf ((config.hardware.asahi.peripheralFirmwareDirectory != null)
+    hardware.firmware =
+      let
+        pkgs' = config.hardware.asahi.pkgs;
+      in
+      lib.mkIf
+        ((config.hardware.asahi.peripheralFirmwareDirectory != null)
           && config.hardware.asahi.extractPeripheralFirmware) [
         (pkgs.stdenv.mkDerivation {
           name = "asahi-peripheral-firmware";

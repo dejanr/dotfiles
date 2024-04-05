@@ -11,17 +11,19 @@
   config =
     let
       cfg = config.hardware.asahi;
-    in {
+    in
+    {
       nixpkgs.overlays = lib.mkBefore [ cfg.overlay ];
 
       hardware.asahi.pkgs =
         if cfg.pkgsSystem != "aarch64-linux"
         then
-          import (pkgs.path) {
-            crossSystem.system = "aarch64-linux";
-            localSystem.system = cfg.pkgsSystem;
-            overlays = [ cfg.overlay ];
-          }
+          import (pkgs.path)
+            {
+              crossSystem.system = "aarch64-linux";
+              localSystem.system = cfg.pkgsSystem;
+              overlays = [ cfg.overlay ];
+            }
         else pkgs;
     };
 

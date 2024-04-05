@@ -22,7 +22,7 @@ in {
       git
       python3
       lua
-      anki-bin
+      # anki-bin
 
       # gleam
       gleam

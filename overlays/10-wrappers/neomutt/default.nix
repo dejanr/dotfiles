@@ -1,6 +1,6 @@
 { stdenv, makeWrapper, writeTextFile, fonts, colors, neomutt, msmtp, isync, notmuch }:
 let
-  mailcap = import ./config/mailcap.nix {};
+  mailcap = import ./config/mailcap.nix { };
   mailcapFile = writeTextFile {
     name = "mailcap";
     text = mailcap;

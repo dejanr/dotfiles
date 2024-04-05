@@ -3,9 +3,10 @@
 { config, pkgs, lib, ... }:
 {
   config = {
-    boot.kernelPackages = let
-      pkgs' = config.hardware.asahi.pkgs;
-    in
+    boot.kernelPackages =
+      let
+        pkgs' = config.hardware.asahi.pkgs;
+      in
       pkgs'.linux-asahi.override {
         _kernelPatches = config.boot.kernelPatches;
         _4KBuild = config.hardware.asahi.use4KPages;

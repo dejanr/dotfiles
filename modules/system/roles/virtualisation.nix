@@ -44,10 +44,10 @@
     serviceConfig = {
       ExecStart =
         "${pkgs.scream}/bin/scream-ivshmem-pulse /dev/shm/scream";
-        Restart = "always";
-      };
-      wantedBy = [ "multi-user.target" ];
-      requires = [ "pulseaudio.service" ];
+      Restart = "always";
+    };
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "pulseaudio.service" ];
   };
 
   users.groups.libvirtd.members = [ "root" "dejanr" ];

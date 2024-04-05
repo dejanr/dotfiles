@@ -1,37 +1,40 @@
 { config, pkgs, lib, ... }:
 {
-  config = let
-    isMode = mode: (config.hardware.asahi.useExperimentalGPUDriver
+  config =
+    let
+      isMode = mode: (config.hardware.asahi.useExperimentalGPUDriver
         && config.hardware.asahi.experimentalGPUInstallMode == mode);
-  in lib.mkMerge [
-    (lib.mkIf config.hardware.asahi.useExperimentalGPUDriver {
+    in
+    lib.mkMerge [
+      (lib.mkIf config.hardware.asahi.useExperimentalGPUDriver {
 
-      # install the drivers
-      hardware.opengl.package = config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
+        # install the drivers
+        hardware.opengl.package = config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
 
-      # required for GPU kernel driver
-      hardware.asahi.addEdgeKernelConfig = true;
-    })
-    (lib.mkIf (isMode "replace") {
-      # replace the Mesa linked into system packages with the Asahi version
-      # without rebuilding them to avoid rebuilding the world.
-      system.replaceRuntimeDependencies = [
-        { original = pkgs.mesa;
-          replacement = config.hardware.asahi.pkgs.mesa-asahi-edge;
-        }
-      ];
-    })
-    (lib.mkIf (isMode "overlay") {
-      # replace the Mesa used in Nixpkgs with the Asahi version using an overlay,
-      # which requires rebuilding the world but ensures it is done faithfully
-      # (and in a way compatible with pure evaluation)
-      nixpkgs.overlays = [
-        (final: prev: {
-          mesa = final.mesa-asahi-edge;
-        })
-      ];
-    })
-  ];
+        # required for GPU kernel driver
+        hardware.asahi.addEdgeKernelConfig = true;
+      })
+      (lib.mkIf (isMode "replace") {
+        # replace the Mesa linked into system packages with the Asahi version
+        # without rebuilding them to avoid rebuilding the world.
+        system.replaceRuntimeDependencies = [
+          {
+            original = pkgs.mesa;
+            replacement = config.hardware.asahi.pkgs.mesa-asahi-edge;
+          }
+        ];
+      })
+      (lib.mkIf (isMode "overlay") {
+        # replace the Mesa used in Nixpkgs with the Asahi version using an overlay,
+        # which requires rebuilding the world but ensures it is done faithfully
+        # (and in a way compatible with pure evaluation)
+        nixpkgs.overlays = [
+          (final: prev: {
+            mesa = final.mesa-asahi-edge;
+          })
+        ];
+      })
+    ];
 
   options.hardware.asahi.useExperimentalGPUDriver = lib.mkOption {
     type = lib.types.bool;

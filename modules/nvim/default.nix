@@ -128,7 +128,7 @@ in {
                     json = { "prettier" },
                     lua = { "stylua" },
                     markdown = { "prettier", "markdownlint" },
-                    nix = { "nixfmt" },
+                    nix = { "nixpkgs-fmt" },
                     python = { "isort", "black" },
                     terraform = { "terraform_fmt" },
                     yaml = { "prettier" }
@@ -265,7 +265,7 @@ in {
         nodePackages.bash-language-server # Bash
         nodePackages.typescript-language-server # TS
         nodePackages.vscode-langservers-extracted # Web (ESLint, HTML, CSS, JSON)
-        nixfmt # Nix
+        nixpkgs-fmt # Nix
         lua-language-server # Lua
       ];
 

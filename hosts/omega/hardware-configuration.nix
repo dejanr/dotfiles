@@ -8,7 +8,8 @@ let
   hostName = "omega";
   kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
-in {
+in
+{
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {

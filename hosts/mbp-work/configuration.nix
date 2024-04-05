@@ -9,10 +9,10 @@ let
   };
 in
 {
-    imports = [
-        ./homebrew.nix
-        ./system.nix
-    ];
+  imports = [
+    ./homebrew.nix
+    ./system.nix
+  ];
 
   #fonts.fontDir.enable = true;
   #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
@@ -46,9 +46,9 @@ in
     };
 
     extraOptions = ''
-          experimental-features = nix-command flakes
-          keep-outputs = true
-          keep-derivations = true
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
     '';
 
     package = pkgs.nixUnstable;

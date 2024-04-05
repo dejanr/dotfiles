@@ -30,8 +30,9 @@ let
 
   withRustNativeAndPatches = pkg: patches:
     withRustNative
-    (pkg.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; }));
-in {
+      (pkg.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; }));
+in
+{
   arc-theme = super.arc-theme.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags or [ ] ++ [
       "--disable-light"

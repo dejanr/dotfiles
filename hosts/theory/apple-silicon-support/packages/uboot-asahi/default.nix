@@ -29,7 +29,7 @@
   '';
 }).overrideAttrs (o: {
   # nixos's downstream patches are not applicable
-  patches = [ 
+  patches = [
   ];
 
   # flag somehow breaks DTC compilation so we remove it

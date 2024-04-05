@@ -7,7 +7,8 @@ let
     desktopName = "Eve Assets";
     categories = [ "System" ];
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "jeveassets";
   version = "7.8.1";
   src = fetchzip {

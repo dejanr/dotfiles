@@ -40,7 +40,7 @@
     signal-desktop # signal desktop client
     # prusa-slicer # G-code generator for 3D printer
     st # Simple Terminal for X from Suckless.org Community
-    surf # suckless browser
+    # surf # suckless browser
     sxiv # image viewer
     termite # A simple VTE-based terminal
     termite.terminfo # terminfo for termite

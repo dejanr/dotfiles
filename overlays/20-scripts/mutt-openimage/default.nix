@@ -3,7 +3,7 @@
 with pkgs;
 let
   name = "mutt-openimage";
-  source = import ./script.nix {};
+  source = import ./script.nix { };
 in
 stdenv.mkDerivation {
   name = name;

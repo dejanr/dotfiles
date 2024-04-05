@@ -19,7 +19,8 @@ let
       python-jose
       requests-cache
     ]);
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "pyfa";
   version = "2.40.0";
 
@@ -32,48 +33,50 @@ in stdenv.mkDerivation rec {
     ${env}/bin/python3 ./db_update.py
   '';
 
-  installPhase = let
-    script = writeScriptBin "pyfa" ''
-      #!${stdenv.shell}
-      ${env}/bin/python3 @out@/pyfa.py "$@"
+  installPhase =
+    let
+      script = writeScriptBin "pyfa" ''
+        #!${stdenv.shell}
+        ${env}/bin/python3 @out@/pyfa.py "$@"
+      '';
+    in
+    ''
+      runHook preInstall
+
+      install -dm755 $out
+      install -dm755 $out/usr/share/licenses/pyfa
+
+      install -Dm644 ./config.py $out
+      install -Dm644 ./db_update.py $out
+      install -Dm644 ./eve.db $out
+      install -Dm755 ./pyfa.py $out
+      install -Dm644 ./README.md $out
+      install -Dm644 ./version.yml $out
+
+      cp -a ./eos $out
+      cp -a ./graphs $out
+      cp -a ./gui $out
+      cp -a ./imgs $out
+      cp -a ./service $out
+      cp -a ./utils $out
+      cp -r ${
+        makeDesktopItem {
+          inherit name;
+          desktopName = name;
+          comment = meta.description;
+          exec = "@out@/bin/pyfa";
+          terminal = false;
+          type = "Application";
+          categories = [ "Application" "Game" ];
+        }
+      }/* $out/
+
+      install -Dm755 ${script}/bin/pyfa $out/bin/pyfa
+      substituteAllInPlace $out/share/applications/*
+      substituteAllInPlace $out/bin/pyfa
+
+      runHook postInstall
     '';
-  in ''
-    runHook preInstall
-
-    install -dm755 $out
-    install -dm755 $out/usr/share/licenses/pyfa
-
-    install -Dm644 ./config.py $out
-    install -Dm644 ./db_update.py $out
-    install -Dm644 ./eve.db $out
-    install -Dm755 ./pyfa.py $out
-    install -Dm644 ./README.md $out
-    install -Dm644 ./version.yml $out
-
-    cp -a ./eos $out
-    cp -a ./graphs $out
-    cp -a ./gui $out
-    cp -a ./imgs $out
-    cp -a ./service $out
-    cp -a ./utils $out
-    cp -r ${
-      makeDesktopItem {
-        inherit name;
-        desktopName = name;
-        comment = meta.description;
-        exec = "@out@/bin/pyfa";
-        terminal = false;
-        type = "Application";
-        categories = [ "Application" "Game" ];
-      }
-    }/* $out/
-
-    install -Dm755 ${script}/bin/pyfa $out/bin/pyfa
-    substituteAllInPlace $out/share/applications/*
-    substituteAllInPlace $out/bin/pyfa
-
-    runHook postInstall
-  '';
 
   dontSetup = true;
 

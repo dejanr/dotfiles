@@ -3,7 +3,7 @@
 with pkgs;
 let
   name = "t";
-  source = import ./script.nix {};
+  source = import ./script.nix { };
 in
 stdenv.mkDerivation {
   name = name;

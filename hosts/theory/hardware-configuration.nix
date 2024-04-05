@@ -1,15 +1,16 @@
-{ config, boot, lib, pkgs, modulesPath, ... }:
+{ config, boot, lib, pkgs, modulesPath, inputs, ... }:
 
 let
   hostName = "theory";
-in {
+in
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./apple-silicon-support
+    inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
   ];
 
   boot = {
-    initrd.availableKernelModules = ["usb_storage" "sdhci_pci"];
+    initrd.availableKernelModules = [ "usb_storage" "sdhci_pci" ];
     initrd.supportedFilesystems = [ ];
     initrd.kernelModules = [ ];
 
@@ -25,19 +26,19 @@ in {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = false;
     };
-
-    tmp.cleanOnBoot = true;
   };
 
   time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/173035b7-060a-4f39-8d31-2dab13be081e";
+    {
+      device = "/dev/disk/by-uuid/173035b7-060a-4f39-8d31-2dab13be081e";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/33F9-19E8";
+    {
+      device = "/dev/disk/by-uuid/33F9-19E8";
       fsType = "vfat";
     };
 

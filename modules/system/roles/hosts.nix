@@ -8,7 +8,8 @@ let
     sha256 = "GXjL6WFOrMi+Y0wQkkQffs7OLqa00QBfgkCH0LZ86hw=";
   };
   hostsContent = lib.readFile hostsFile;
-in {
+in
+{
   networking.extraHosts = hostsContent + ''
   '';
 }

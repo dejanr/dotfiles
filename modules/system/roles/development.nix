@@ -50,7 +50,6 @@
     ncftp
     ngrep # network packet alalyzer
     nix-prefetch-scripts
-    nixfmt
     nmap # network discovery and security audit
     nodejs_20 # nodejs
     nox # tools to make nix nicer

@@ -7,7 +7,8 @@ let
     "02:00.0" # Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
     "05:00.0" # Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
   ];
-in {
+in
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -32,7 +33,7 @@ in {
 
     kernelPackages = kernelPackages;
 
-    extraModulePackages = [];
+    extraModulePackages = [ ];
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
@@ -48,7 +49,7 @@ in {
       ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
     ];
 
-    blacklistedKernelModules = [];
+    blacklistedKernelModules = [ ];
 
     extraModprobeConfig = '''';
 
@@ -68,12 +69,14 @@ in {
   time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/6c39fcc8-a117-4378-a197-68481b09f37a";
+    {
+      device = "/dev/disk/by-uuid/6c39fcc8-a117-4378-a197-68481b09f37a";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/5C82-BCBF";
+    {
+      device = "/dev/disk/by-uuid/5C82-BCBF";
       fsType = "vfat";
     };
 
