@@ -29,19 +29,34 @@
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
   };
 
-  outputs = { self, home-manager, nix-darwin, nixos-apple-silicon, nixpkgs, nur
-    , nix-gaming, mach-nix, vim-plugins, rust-overlay, ... }@inputs:
+  outputs =
+    { self
+    , home-manager
+    , nix-darwin
+    , nixos-apple-silicon
+    , nixpkgs
+    , nur
+    , nix-gaming
+    , mach-nix
+    , vim-plugins
+    , rust-overlay
+    , ...
+    }@inputs:
 
     let
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-      overlays = let paths = [ ./overlays ];
-      in builtins.concatMap (path:
-        (map (n: import (path + ("/" + n))) (builtins.filter (n:
-          builtins.match ".*\\.nix" n != null
-          || builtins.pathExists (path + ("/" + n + "/default.nix")))
-          (builtins.attrNames (builtins.readDir path))))) paths;
+      overlays =
+        let paths = [ ./overlays ];
+        in builtins.concatMap
+          (path:
+            (map (n: import (path + ("/" + n))) (builtins.filter
+              (n:
+                builtins.match ".*\\.nix" n != null
+                || builtins.pathExists (path + ("/" + n + "/default.nix")))
+              (builtins.attrNames (builtins.readDir path)))))
+          paths;
       mkSystem = pkgs: system: hostname:
         pkgs.lib.nixosSystem {
           system = system;
@@ -71,7 +86,8 @@
           specialArgs = { inherit inputs; };
         };
 
-    in {
+    in
+    {
       formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
       nixosConfigurations = {
@@ -80,31 +96,33 @@
         theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
       };
-      darwinConfigurations = let
-        username = "dejan.ranisavljevic";
-        system = "aarch64-darwin";
-      in {
-        "mbp-work" = nix-darwin.lib.darwinSystem {
-          inherit system;
-          specialArgs = { inherit inputs system; };
-          modules = [
-            nur.nixosModules.nur
-            ./hosts/mbp-work/configuration.nix
-            home-manager.darwinModules.home-manager
-            {
-              users.users.${username}.home = "/Users/${username}";
-              home-manager = {
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                extraSpecialArgs = { inherit inputs system; };
-                users.${username}.imports =
-                  [ (./. + "/hosts/mbp-work/home.nix") ];
-              };
-              nixpkgs.overlays = [ nur.overlay vim-plugins.overlay ]
-                ++ overlays;
-            }
-          ];
+      darwinConfigurations =
+        let
+          username = "dejan.ranisavljevic";
+          system = "aarch64-darwin";
+        in
+        {
+          "mbp-work" = nix-darwin.lib.darwinSystem {
+            inherit system;
+            specialArgs = { inherit inputs system; };
+            modules = [
+              nur.nixosModules.nur
+              ./hosts/mbp-work/configuration.nix
+              home-manager.darwinModules.home-manager
+              {
+                users.users.${username}.home = "/Users/${username}";
+                home-manager = {
+                  useUserPackages = true;
+                  useGlobalPkgs = true;
+                  extraSpecialArgs = { inherit inputs system; };
+                  users.${username}.imports =
+                    [ (./. + "/hosts/mbp-work/home.nix") ];
+                };
+                nixpkgs.overlays = [ nur.overlay vim-plugins.overlay ]
+                  ++ overlays;
+              }
+            ];
+          };
         };
-      };
     };
 }
