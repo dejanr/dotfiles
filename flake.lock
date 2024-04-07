@@ -335,11 +335,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-juRwKnBNuTFqMS1hjIOB5V/n8eWDQFSi/1EqSBdHyik=",
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       },
       "original": {
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       }
     }
