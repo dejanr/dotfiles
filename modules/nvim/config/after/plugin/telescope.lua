@@ -3,7 +3,8 @@ local telescope = require("telescope")
 local actions = require "telescope.actions"
 
 vim.keymap.set('n', '<leader><space>', builtin.find_files, { desc = "Find Files" })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Find Grep" })
+vim.keymap.set('n', '<leader>fg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+  { desc = "Find Grep" })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "Find Buffers" })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "Find Help Tags" })
 vim.keymap.set('n', '<leader>ft', builtin.lsp_document_symbols, { desc = "Find Symbols" })
@@ -79,7 +80,7 @@ telescope.setup({
       },
     },
     media_files = {
-      filetypes = {"png", "webp", "jpg", "jpeg", "pdf"},
+      filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
       find_cmd = "rg"
     }
   }
