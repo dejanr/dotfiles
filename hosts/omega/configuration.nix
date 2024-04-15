@@ -11,4 +11,10 @@
     ../../modules/system/roles/games.nix
     ../../modules/system/roles/virtualisation.nix
   ];
+
+
+  services.ollama = {
+      enable = true;
+      acceleration = "cuda";
+  };
 }
