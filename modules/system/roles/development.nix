@@ -59,6 +59,7 @@
     ocamlPackages.reason # Facebook's friendly syntax to OCaml
     ocamlPackages.utop # Universal toplevel for OCaml
     opam # A package manager for OCaml
+    python312Packages.huggingface-hub # Download and publish models and other files on the huggingface.co hub
     patchelf
     psmisc
     pulumi
