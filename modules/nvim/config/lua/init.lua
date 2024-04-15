@@ -1,4 +1,3 @@
-
 -- Autocmds
 
 vim.cmd [[
@@ -16,3 +15,4 @@ autocmd FileType nix setlocal shiftwidth=4
 require('globals')
 require('options')
 require('keymaps')
+require('prompts')

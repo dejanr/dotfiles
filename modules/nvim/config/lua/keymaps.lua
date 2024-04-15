@@ -57,3 +57,7 @@ vim.keymap.set("n", "<leader>tl", ":ToggleLocList<cr>", { desc = "Toggle locatio
 vim.keymap.set("n", "<leader>tq", ":ToggleQF<cr>", { desc = "Toggle quickfix list" })
 vim.keymap.set("n", "<leader>tp", ":set invpaste<CR>:set paste?<cr>", default_opt)
 vim.keymap.set("n", "<leader>ts", ":nohlsearch<cr>", default_opt)
+
+-- Gen (Ollama)
+vim.keymap.set("v", "<leader>g", ":Gen<cr>")
+vim.keymap.set("n", "<leader>g", ":Gen<cr>")

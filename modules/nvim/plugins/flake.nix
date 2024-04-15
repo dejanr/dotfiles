@@ -12,6 +12,10 @@
       url = "github:stevearc/conform.nvim";
       flake = false;
     };
+    nvim-gen-src = {
+      url = "github:David-Kunz/gen.nvim";
+      flake = false;
+    };
   };
   outputs = inputs:
     let
@@ -27,6 +31,10 @@
         nvim-conform = pkgs.vimUtils.buildVimPlugin {
           name = "nvim-conform";
           src = inputs.nvim-conform-src;
+        };
+        nvim-gen = pkgs.vimUtils.buildVimPlugin {
+          name = "nvim-gen";
+          src = inputs.nvim-gen-src;
         };
       };
     in

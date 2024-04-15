@@ -232,6 +232,22 @@
         "type": "github"
       }
     },
+    "nvim-gen-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1712049871,
+        "narHash": "sha256-Bt7yJxToUnPv3JqBwWQeywIbVRqzHBqnu3NUaIxFx/M=",
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
+        "rev": "87fbe811155b90eea58622614809705b966009ad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
+        "type": "github"
+      }
+    },
     "nvim-regexplainer-src": {
       "flake": false,
       "locked": {
@@ -328,17 +344,18 @@
     "vim-plugins": {
       "inputs": {
         "nvim-conform-src": "nvim-conform-src",
+        "nvim-gen-src": "nvim-gen-src",
         "nvim-regexplainer-src": "nvim-regexplainer-src",
         "nvim-sqls-src": "nvim-sqls-src"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-juRwKnBNuTFqMS1hjIOB5V/n8eWDQFSi/1EqSBdHyik=",
-        "path": "./modules/nvim/plugins",
+        "narHash": "sha256-725MpxdPGHQ8DwENEd3LpMjSmV/BJ4eRE/p1M9nu8PE=",
+        "path": "modules/nvim/plugins",
         "type": "path"
       },
       "original": {
-        "path": "./modules/nvim/plugins",
+        "path": "modules/nvim/plugins",
         "type": "path"
       }
     }
