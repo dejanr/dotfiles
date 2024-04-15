@@ -160,11 +160,11 @@
   assign [class="Mail"] $workspace9
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
+  assign [class="eve-online.exe"] $workspace4
   assign [class="exefile.exe"] $workspace5
   assign [title="Google Meet"] $workspace11
   assign [title="Google Calendar"] $workspace9
   assign [title="Gmail"] $workspace9
-  assign [title="EVE Launcher"] $workspace4
   assign [title="Steam"] $workspace4
   assign [class="Albion-Online"] $workspace5
   assign [class="Qemu-kvm"] $workspace3
@@ -207,6 +207,12 @@
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
 
+  for_window [class="exefile.exe"] floating enable
+  for_window [class="exefile.exe"] resize set 1490 1420
+  for_window [class="exefile.exe"] move window to position 0 20
+  for_window [class="eve-online.exe"] floating enable
+  for_window [class="eve-online.exe"] resize set 1490 1420
+  for_window [class="eve-online.exe"] move window to position 0 20
   for_window [title="EVE - D' Zwer"] floating enable
   for_window [title="EVE - D' Zwer"] resize set 1490 1420
   for_window [title="EVE - D' Zwer"] move window to position 0 20
@@ -262,6 +268,7 @@
   for_window [class="steam_app_1170950"] resize set 3440 1440
   for_window [class="steam_app_1170950"] move window to position 0 20
   for_window [class="entropia.exe"] floating enable
+  for_window [class="entropia.exe"] resize set 1920 1420
   for_window [class="entropia.exe"] move window to position 760 20
   for_window [class="entropia.exe"] border normal 0
   for_window [class="entropia.exe"] border pixel 0

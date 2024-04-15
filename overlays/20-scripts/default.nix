@@ -50,4 +50,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  wine-prefix = import ./wine-prefix {
+    inherit (super);
+    pkgs = super;
+  };
 }

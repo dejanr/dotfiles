@@ -39,7 +39,6 @@
     iftop
     imagemagickBig
     inetutils
-    inputs.mach-nix.packages.${pkgs.system}.mach-nix # python env management
     iotop
     jq # A lightweight and flexible command-line JSON processor
     lshw

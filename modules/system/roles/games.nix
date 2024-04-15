@@ -1,16 +1,56 @@
 { config, pkgs, inputs, ... }:
 
+let
+    wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
+      dontStrip = true;
+      debug = true;
+    })).override {
+      supportFlags = {
+        gettextSupport = true;
+        fontconfigSupport = true;
+        alsaSupport = true;
+        openglSupport = true;
+        vulkanSupport = true;
+        tlsSupport = true;
+        cupsSupport = true;
+        dbusSupport = true;
+        cairoSupport = true;
+        cursesSupport = true;
+        saneSupport = true;
+        pulseaudioSupport = true;
+        udevSupport = true;
+        xineramaSupport = true;
+        sdlSupport = true;
+        mingwSupport = true;
+        gtkSupport = false;
+        gstreamerSupport = false;
+        openalSupport = false;
+        openclSupport = false;
+        odbcSupport = false;
+        netapiSupport = false;
+        vaSupport = false;
+        pcapSupport = false;
+        v4lSupport = false;
+        gphoto2Support = false;
+        krb5Support = false;
+        ldapSupport = false;
+        vkd3dSupport = false;
+        embedInstallers = false;
+        waylandSupport = true;
+        usbSupport = true;
+        x11Support = true;
+      };
+    };
+in
 {
   environment.systemPackages = [
     pkgs.appimage-run
-    inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
-    inputs.nix-gaming.packages.${pkgs.system}.dxvk
-    inputs.nix-gaming.packages.${pkgs.system}.vkd3d-proton
-    inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer
+    wine
+    pkgs.dxvk
+    pkgs.vkd3d-proton
+    pkgs.wine-prefix
 
-    pkgs.entropia
     pkgs.jeveassets
-
     pkgs.gamemode # Optimise Linux system performance on demand
     pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
     # pkgs.wine # overlay wine

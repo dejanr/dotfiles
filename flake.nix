@@ -14,7 +14,7 @@
 
     nur = { url = "github:nix-community/NUR"; };
 
-    nix-gaming.url = "github:LunNova/nix-gaming/vkd3d-dxvk-fix";
+    nix-gaming.url = "github:fufexan/nix-gaming";
     nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
 
     mach-nix.url = "github:DavHau/mach-nix";
@@ -26,6 +26,7 @@
       url = "github:oxalica/rust-overlay";
       flake = false;
     };
+
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
   };
 
