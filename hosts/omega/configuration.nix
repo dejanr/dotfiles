@@ -17,4 +17,9 @@
       enable = true;
       acceleration = "cuda";
   };
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 }
