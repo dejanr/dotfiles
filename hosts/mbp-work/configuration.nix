@@ -46,8 +46,6 @@ in {
       keep-outputs = true
       keep-derivations = true
     '';
-
-    package = pkgs.nixUnstable;
   };
 
   nixpkgs = {

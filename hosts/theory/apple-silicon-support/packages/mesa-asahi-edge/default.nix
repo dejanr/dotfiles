@@ -1,7 +1,4 @@
-{ lib
-, fetchFromGitLab
-, mesa
-}:
+{ lib, fetchFromGitLab, mesa }:
 
 (mesa.override {
   galliumDrivers = [ "swrast" "asahi" ];
@@ -23,7 +20,8 @@
   mesonFlags =
     # remove flag to configure xvmc functionality as having it
     # breaks the build because that no longer exists in Mesa 23
-    (lib.filter (x: !(lib.hasPrefix "-Dxvmc-libs-path=" x)) oldAttrs.mesonFlags) ++ [
+    (lib.filter (x: !(lib.hasPrefix "-Dxvmc-libs-path=" x)) oldAttrs.mesonFlags)
+    ++ [
       # we do not build any graphics drivers these features can be enabled for
       "-Dgallium-va=disabled"
       "-Dgallium-vdpau=disabled"
@@ -36,8 +34,10 @@
     ];
 
   # replace disk cache path patch with one tweaked slightly to apply to this version
-  patches = lib.forEach oldAttrs.patches
-    (p:
-      if lib.hasSuffix "disk_cache-include-dri-driver-path-in-cache-key.patch" p
-      then ./disk_cache-include-dri-driver-path-in-cache-key.patch else p);
+  patches = lib.forEach oldAttrs.patches (p:
+    if lib.hasSuffix "disk_cache-include-dri-driver-path-in-cache-key.patch"
+    p then
+      ./disk_cache-include-dri-driver-path-in-cache-key.patch
+    else
+      p);
 })

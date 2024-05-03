@@ -3,16 +3,32 @@
     "nvim-conform-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1711596350,
-        "narHash": "sha256-FS8xUCbznyi87T7u/nj5Eip8MYSlgocNMg4DgpW873Y=",
+        "lastModified": 1714328458,
+        "narHash": "sha256-L8A+rALD+dJoZE1+Argg4irE44+glp5eRS7jcghz7LM=",
         "owner": "stevearc",
         "repo": "conform.nvim",
-        "rev": "9d5ba06d6ee7418c674f498634617416d15b6239",
+        "rev": "12b3995537f52ba2810a9857e8ca256881febbda",
         "type": "github"
       },
       "original": {
         "owner": "stevearc",
         "repo": "conform.nvim",
+        "type": "github"
+      }
+    },
+    "nvim-gen-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1712049871,
+        "narHash": "sha256-Bt7yJxToUnPv3JqBwWQeywIbVRqzHBqnu3NUaIxFx/M=",
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
+        "rev": "87fbe811155b90eea58622614809705b966009ad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "David-Kunz",
+        "repo": "gen.nvim",
         "type": "github"
       }
     },
@@ -51,6 +67,7 @@
     "root": {
       "inputs": {
         "nvim-conform-src": "nvim-conform-src",
+        "nvim-gen-src": "nvim-gen-src",
         "nvim-regexplainer-src": "nvim-regexplainer-src",
         "nvim-sqls-src": "nvim-sqls-src"
       }
