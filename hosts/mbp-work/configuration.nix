@@ -7,12 +7,8 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "15a0vmngmp3453nk7a6jd8kyph4qhcfzljdsrank3h9fgbf12xng";
   };
-in
-{
-  imports = [
-    ./homebrew.nix
-    ./system.nix
-  ];
+in {
+  imports = [ ./homebrew.nix ./system.nix ];
 
   #fonts.fontDir.enable = true;
   #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
@@ -60,8 +56,7 @@ in
       allowBroken = true;
       allowUnsupportedSystem = true;
       android_sdk.accept_license = true;
-      permittedInsecurePackages = [
-      ];
+      permittedInsecurePackages = [ ];
     };
   };
 

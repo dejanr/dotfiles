@@ -142,6 +142,8 @@ in {
             lspconfig.gleam.setup {}
           '';
         }
+        trouble-nvim
+
         # conform
         {
           plugin = nvim-conform;
