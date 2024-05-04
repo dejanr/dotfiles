@@ -147,9 +147,9 @@ in
       modesetting.enable = true;
       powerManagement.enable = true;
       powerManagement.finegrained = false;
-      open = true;
-      nvidiaSettings = false;
-      package = kernelPackages.nvidiaPackages.vulkan_beta;
+      open = false;
+      nvidiaSettings = true;
+      package = kernelPackages.nvidiaPackages.beta;
     };
   };
 
