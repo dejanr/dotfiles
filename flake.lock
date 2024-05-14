@@ -351,11 +351,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-GuRYNFw1HgFmkm74SDsz4rjWrTCkicvuz1jOWeGYPUA=",
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       },
       "original": {
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       }
     }

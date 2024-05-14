@@ -20,7 +20,7 @@
     mach-nix.url = "github:DavHau/mach-nix";
     mach-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    vim-plugins = { url = "path:modules/nvim/plugins"; };
+    vim-plugins = { url = "path:./modules/nvim/plugins"; };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -77,6 +77,7 @@
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha";
+        atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas";
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega";
         theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";

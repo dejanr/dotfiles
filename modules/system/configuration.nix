@@ -21,7 +21,13 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; [ acpi tlp git t ];
+  environment.systemPackages = with pkgs; [
+      acpi
+      tlp
+      git
+      t
+      ddcutil # Query and change Linux monitor settings using DDC/CI and USB
+  ];
 
   # Install fonts
   fonts = {
@@ -129,11 +135,17 @@ in
   users = {
     mutableUsers = true;
 
+    groups.i2c = {
+        name = "i2c";
+        members = [username];
+    };
+
     users."${username}" = {
       description = "Dejan Ranisavljevic";
       name = username;
       group = "users";
       extraGroups = [
+        "i2c"
         "lp"
         "kmem"
         "wheel"
@@ -171,6 +183,10 @@ in
 
   services.openssh.authorizedKeysFiles =
     [ "/home/${username}/.ssh/authorized_keys" ];
+
+  services.udev.extraRules = ''
+    KERNEL=="i2c-[0-9]*", GROUP="i2c"
+  '';
 
   # Do not touch
   system.stateVersion = "23.11";
