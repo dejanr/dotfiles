@@ -80,7 +80,11 @@ in
 
     libinput = {
       enable = true;
+      mouse = {
+          tapping = false;
+      };
       touchpad = {
+        tapping = false;
         disableWhileTyping = true;
         naturalScrolling = true;
         middleEmulation = true;

@@ -108,7 +108,7 @@
       primary = true;
       atomic = true;
       execute_after = [
-        "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.4x1.4"
+        "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1x1 --mode 3456x2160"
         "${pkgs.wm-wallpaper}/bin/wm-wallpaper"
       ];
     }

@@ -17,10 +17,10 @@ in
 
     xserver = {
       enable = true;
-      dpi = 254;
+      dpi = 200;
 
       displayManager = {
-        xserverArgs = [ "-dpi 254" ];
+        xserverArgs = [ "-dpi 200" ];
       };
     };
 
@@ -31,11 +31,16 @@ in
     };
   };
 
+
   environment = {
     etc."X11/Xresources".text = ''
-      Xft.dpi: 254
+      Xft.dpi: 200
     '';
     systemPackages = [ ];
+    variables = {
+        GDK_SCALE = "2";
+        GDK_DPI_SCALE = "0.5";
+    };
   };
 
   programs.light.enable = true;
