@@ -74,22 +74,26 @@ in
     screenshot
   ];
 
+  services.libinput = {
+    enable = true;
+    mouse = {
+      tapping = false;
+    };
+    touchpad = {
+      tapping = false;
+      disableWhileTyping = true;
+      naturalScrolling = true;
+      middleEmulation = true;
+    };
+  };
+
+  services.displayManager = {
+      defaultSession = "none+i3";
+  };
+
   services.xserver = {
     enable = true;
     autorun = true;
-
-    libinput = {
-      enable = true;
-      mouse = {
-          tapping = false;
-      };
-      touchpad = {
-        tapping = false;
-        disableWhileTyping = true;
-        naturalScrolling = true;
-        middleEmulation = true;
-      };
-    };
 
     windowManager = {
       i3 = {
@@ -111,8 +115,6 @@ in
     desktopManager = { xterm.enable = false; };
 
     displayManager = {
-      defaultSession = "none+i3";
-
       lightdm = {
         enable = true;
         greeters.gtk.theme.package = pkgs.arc-theme;
