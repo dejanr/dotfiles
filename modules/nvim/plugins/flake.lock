@@ -3,11 +3,11 @@
     "nvim-conform-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1714328458,
-        "narHash": "sha256-L8A+rALD+dJoZE1+Argg4irE44+glp5eRS7jcghz7LM=",
+        "lastModified": 1715888090,
+        "narHash": "sha256-O0qZNvZAu5vdN1EIwG54xfffWumsLEhAHPr+I9uarHk=",
         "owner": "stevearc",
         "repo": "conform.nvim",
-        "rev": "12b3995537f52ba2810a9857e8ca256881febbda",
+        "rev": "00f9d91391b04b1935e2f15948bd96cc111e7d3a",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "nvim-gen-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1712049871,
-        "narHash": "sha256-Bt7yJxToUnPv3JqBwWQeywIbVRqzHBqnu3NUaIxFx/M=",
+        "lastModified": 1714746280,
+        "narHash": "sha256-0AEB6im8Jz5foYzmL6KEGSAYo48g1bkFpjlCSWT6JeE=",
         "owner": "David-Kunz",
         "repo": "gen.nvim",
-        "rev": "87fbe811155b90eea58622614809705b966009ad",
+        "rev": "bd19cf584b5b82123de977b44105e855e61e5f39",
         "type": "github"
       },
       "original": {

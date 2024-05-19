@@ -14,8 +14,8 @@
 
 
   services.ollama = {
-      enable = true;
-      acceleration = "cuda";
+    enable = true;
+    acceleration = "cuda";
   };
 
   virtualisation.docker.rootless = {

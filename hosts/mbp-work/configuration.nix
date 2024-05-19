@@ -7,7 +7,8 @@ let
     url = "https://api.github.com/users/${username}/keys";
     sha256 = "15a0vmngmp3453nk7a6jd8kyph4qhcfzljdsrank3h9fgbf12xng";
   };
-in {
+in
+{
   imports = [ ./homebrew.nix ./system.nix ];
 
   #fonts.fontDir.enable = true;

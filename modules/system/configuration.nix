@@ -22,11 +22,11 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-      acpi
-      tlp
-      git
-      t
-      ddcutil # Query and change Linux monitor settings using DDC/CI and USB
+    acpi
+    tlp
+    git
+    t
+    ddcutil # Query and change Linux monitor settings using DDC/CI and USB
   ];
 
   # Install fonts
@@ -136,8 +136,8 @@ in
     mutableUsers = true;
 
     groups.i2c = {
-        name = "i2c";
-        members = [username];
+      name = "i2c";
+      members = [ username ];
     };
 
     users."${username}" = {

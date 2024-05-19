@@ -1,46 +1,46 @@
 { config, pkgs, inputs, ... }:
 
 let
-    wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
-      dontStrip = true;
-      debug = true;
-    })).override {
-      supportFlags = {
-        gettextSupport = true;
-        fontconfigSupport = true;
-        alsaSupport = true;
-        openglSupport = true;
-        vulkanSupport = true;
-        tlsSupport = true;
-        cupsSupport = true;
-        dbusSupport = true;
-        cairoSupport = true;
-        cursesSupport = true;
-        saneSupport = true;
-        pulseaudioSupport = true;
-        udevSupport = true;
-        xineramaSupport = true;
-        sdlSupport = true;
-        mingwSupport = true;
-        gtkSupport = false;
-        gstreamerSupport = false;
-        openalSupport = false;
-        openclSupport = false;
-        odbcSupport = false;
-        netapiSupport = false;
-        vaSupport = false;
-        pcapSupport = false;
-        v4lSupport = false;
-        gphoto2Support = false;
-        krb5Support = false;
-        ldapSupport = false;
-        vkd3dSupport = false;
-        embedInstallers = false;
-        waylandSupport = true;
-        usbSupport = true;
-        x11Support = true;
-      };
+  wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
+    dontStrip = true;
+    debug = true;
+  })).override {
+    supportFlags = {
+      gettextSupport = true;
+      fontconfigSupport = true;
+      alsaSupport = true;
+      openglSupport = true;
+      vulkanSupport = true;
+      tlsSupport = true;
+      cupsSupport = true;
+      dbusSupport = true;
+      cairoSupport = true;
+      cursesSupport = true;
+      saneSupport = true;
+      pulseaudioSupport = true;
+      udevSupport = true;
+      xineramaSupport = true;
+      sdlSupport = true;
+      mingwSupport = true;
+      gtkSupport = false;
+      gstreamerSupport = false;
+      openalSupport = false;
+      openclSupport = false;
+      odbcSupport = false;
+      netapiSupport = false;
+      vaSupport = false;
+      pcapSupport = false;
+      v4lSupport = false;
+      gphoto2Support = false;
+      krb5Support = false;
+      ldapSupport = false;
+      vkd3dSupport = false;
+      embedInstallers = false;
+      waylandSupport = true;
+      usbSupport = true;
+      x11Support = true;
     };
+  };
 in
 {
   environment.systemPackages = [

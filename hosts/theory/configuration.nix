@@ -35,8 +35,7 @@ in
     etc."X11/Xresources".text = ''
       Xft.dpi: 254
     '';
-    systemPackages = [
-    ];
+    systemPackages = [ ];
   };
 
   programs.light.enable = true;

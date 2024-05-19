@@ -15,7 +15,7 @@ in
     initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
 
     kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" "i2c-dev" ];
-    blacklistedKernelModules = ["sp5100-tco"];
+    blacklistedKernelModules = [ "sp5100-tco" ];
 
     kernelPackages = kernelPackages;
 
@@ -58,18 +58,19 @@ in
   time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2fc0d291-ddf1-44d3-8454-cb5249de58e7";
+    {
+      device = "/dev/disk/by-uuid/2fc0d291-ddf1-44d3-8454-cb5249de58e7";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/A5A3-834C";
+    {
+      device = "/dev/disk/by-uuid/A5A3-834C";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/3f310f54-2430-483f-be2b-d86895de7875"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/3f310f54-2430-483f-be2b-d86895de7875"; }];
 
   # fileSystems."/mnt/synology/inbox" = {
   #   device = "192.168.1.168:/volume1/inbox";
