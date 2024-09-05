@@ -38,6 +38,8 @@
     qalculate-gtk # The ultimate desktop calculator
     scrot # screen capturing
     signal-desktop # signal desktop client
+    ifwifi
+    wpa_supplicant # networking
     # prusa-slicer # G-code generator for 3D printer
     st # Simple Terminal for X from Suckless.org Community
     # surf # suckless browser
