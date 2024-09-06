@@ -155,7 +155,6 @@ in
     useDHCP = lib.mkDefault true;
     hostId = "8425e349";
     hostName = "${hostName}";
-    networkmanager.enable = true;
   };
 
   services = {
