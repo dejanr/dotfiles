@@ -48,15 +48,13 @@
     termite.terminfo # terminfo for termite
     tesseract # OCR engine
     thunderbird # email client
-    transmission-gtk
+    transmission_4-gtk
     usbutils # Tools for working with USB devices, such as lsusb
     unrar # Utility for RAR archives
     update-resolv-conf # Script to update your /etc/resolv.conf with DNS settings that come from the received push dhcp-options pciutils # A collection of programs for inspecting and manipulating configuration of PCI devices
     weechat # A fast, light and extensible chat client
     xclip # clipboard
     xdg-utils # Set of cli tools that assist applications integration
-    xdg-desktop-portal # Desktop integration portals for sandboxed apps
-    xdg-desktop-portal-gtk # Desktop integration portals for sandboxed apps
     xsel # Command-line program for getting and setting the contents of the X selection
     xsettingsd # Provides settings to X11 applications via the XSETTINGS specification
     zathura # pdf viewer
@@ -67,7 +65,7 @@
     # Themes
     arc-icon-theme
     arc-theme
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
 
     samba
 

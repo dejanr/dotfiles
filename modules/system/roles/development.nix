@@ -20,6 +20,7 @@
     ctags
     curl
     exercism # A Go based command line tool for exercism.io
+    zed-editor
     file # show file type
     gdb
     gforth

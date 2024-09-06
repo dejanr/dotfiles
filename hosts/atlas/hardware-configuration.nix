@@ -86,8 +86,6 @@ in
     cpu = { amd.updateMicrocode = true; };
 
     opengl = {
-      driSupport = lib.mkDefault true;
-      driSupport32Bit = lib.mkDefault true;
       extraPackages = with pkgs; [
       ];
     };

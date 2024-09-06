@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+
   services = {
     printing.enable = true;
     printing.drivers = [ pkgs.mfc9332cdwlpr ];
@@ -15,8 +16,12 @@
     avahi.nssmdns4 = true;
     urxvtd.enable = true;
 
+    passSecretService.enable = true;
+
     mpd.enable = true;
     udisks2.enable = true;
+
+    dbus.enable = true;
 
     fail2ban = {
       enable = true;

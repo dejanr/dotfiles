@@ -128,9 +128,7 @@ in
 
     cpu = { amd.updateMicrocode = true; };
 
-    opengl = {
-      driSupport = lib.mkDefault true;
-      driSupport32Bit = lib.mkDefault true;
+    graphics = {
       extraPackages = with pkgs; [
         nvidia-vaapi-driver
         vaapiVdpau
