@@ -174,6 +174,7 @@
   assign [class="clientloader.exe"] $workspace6
   assign [class="entropia.exe"] $workspace6
   assign [class="steam_app_1371580"] $workspace5
+  assign [class="jetbrains-studio"] $workspace4
 
   # fix graphics glitch
   new_window none
