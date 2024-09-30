@@ -45,7 +45,7 @@ in
 {
   environment.systemPackages = [
     pkgs.appimage-run
-    wine
+        #wine
     pkgs.dxvk
     pkgs.vkd3d-proton
     pkgs.wine-prefix

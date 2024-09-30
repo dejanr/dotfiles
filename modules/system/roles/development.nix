@@ -19,6 +19,7 @@
     coreutils
     ctags
     curl
+    code-cursor # AI-powered code editor built on vscode
     exercism # A Go based command line tool for exercism.io
     zed-editor
     file # show file type
