@@ -42,6 +42,7 @@ in
     };
 
     kernelParams = [
+      "intel_iommu=on"
       "quiet"
       "splash"
       "hugepagesz=1GB"
