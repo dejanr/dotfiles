@@ -113,15 +113,17 @@ in
   swapDevices =
     [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
 
-  # fileSystems."/mnt/synology/inbox" = {
-  #   device = "192.168.1.168:/volume1/inbox";
-  #   fsType = "nfs";
-  # };
+  fileSystems."/mnt/synology/inbox" = {
+    device = "storage.cat-vimba.ts.net:/volume1/inbox";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" ];
+  };
 
-  # fileSystems."/mnt/synology/storage" = {
-  #   device = "192.168.1.168:/volume1/storage";
-  #   fsType = "nfs";
-  # };
+  fileSystems."/mnt/synology/storage" = {
+    device = "storage.cat-vimba.ts.net:/volume1/storage";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" ];
+  };
 
   hardware = {
     openrazer.enable = true;

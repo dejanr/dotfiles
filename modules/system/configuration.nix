@@ -9,7 +9,7 @@ let
   };
 in
 {
-  environment = { defaultPackages = [ pkgs.tailscale-systray ]; };
+  environment = { defaultPackages = []; };
 
   services = {
     xserver.desktopManager.xterm.enable = false;
