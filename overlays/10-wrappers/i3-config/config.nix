@@ -169,13 +169,14 @@
   assign [class="Albion-Online"] $workspace5
   assign [class="Qemu-kvm"] $workspace3
   assign [class="l2.exe"] $workspace4
+  assign [class="entropia.exe"] $workspace6
+  assign [class="jetbrains-studio"] $workspace4
   assign [class="steam_app_1426050"] $workspace5
   assign [class="steam_app_1170950"] $workspace5
-  assign [class="clientloader.exe"] $workspace6
-  assign [class="entropia.exe"] $workspace6
   assign [class="steam_app_1371580"] $workspace5
-  assign [class="jetbrains-studio"] $workspace4
   assign [class="steam_app_1284210"] $workspace5
+  assign [class="steam_app_2429640"] $workspace5
+  assign [class="clientloader.exe"] $workspace6
 
   # fix graphics glitch
   new_window none
@@ -279,6 +280,11 @@
   for_window [class="steam_app_1371580"] floating enable
   for_window [class="steam_app_1371580"] border normal 0
   for_window [class="steam_app_1371580"] border pixel 0
+  for_window [class="steam_app_2429640"] floating enable
+  for_window [class="steam_app_2429640"] border normal 0
+  for_window [class="steam_app_2429640"] border pixel 0
+  for_window [class="steam_app_2429640"] resize set 3440 1420
+  for_window [class="steam_app_2429640"] move window to position 0 20
 
   # Widow Colours
   #                         border  background text    indicator

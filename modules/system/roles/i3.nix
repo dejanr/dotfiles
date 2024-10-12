@@ -112,10 +112,11 @@ in
         configFile = "${pkgs.i3-config}/config";
 
         extraSessionCommands = ''
-          ${pkgs.wm-wallpaper}/bin/wm-wallpaper
-          ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
-          ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources
+          ${pkgs.wm-wallpaper}/bin/wm-wallpaper &
+          ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources &
+          ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources &
           ${pkgs.dunst}/bin/dunst &
+          ${pkgs.tailscale-systray}/bin/tailscale-systray &
           ${pkgs.networkmanager_dmenu}/bin/nm-applet &
           ${pkgs.dunst}/bin/nm-applet &
         '';
