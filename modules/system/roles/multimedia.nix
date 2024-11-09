@@ -9,7 +9,9 @@
     libgphoto2 # A library for accessing digital cameras
     blueman
     calf
-    ffmpeg
+    ffmpeg_7-full
+    gpu-screen-recorder # screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
+    gpu-screen-recorder-gtk # GTK for screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
     handbrake
     jack2
     ladspaPlugins
