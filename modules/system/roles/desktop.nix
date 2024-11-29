@@ -19,6 +19,7 @@
     inkscape # vector graphics editor
     kazam # A screencasting program created with design in mind
     keychain # Keychain management tool
+    kdePackages.kdenlive
     libnotify # send notifications to a notification daemon
     lm_sensors # Tools for reading hardware sensors
     magic-wormhole # Securely transfer data between computers
