@@ -176,6 +176,7 @@
   assign [class="steam_app_1371580"] $workspace5
   assign [class="steam_app_1284210"] $workspace5
   assign [class="steam_app_2429640"] $workspace5
+  assign [class="steam_app_0"] $workspace5
   assign [class="clientloader.exe"] $workspace6
 
   # fix graphics glitch
@@ -285,6 +286,11 @@
   for_window [class="steam_app_2429640"] border pixel 0
   for_window [class="steam_app_2429640"] resize set 3440 1420
   for_window [class="steam_app_2429640"] move window to position 0 20
+  for_window [class="steam_app_0"] floating enable
+  for_window [class="steam_app_0"] border normal 0
+  for_window [class="steam_app_0"] border pixel 0
+  for_window [class="steam_app_0"] resize set 3440 1420
+  for_window [class="steam_app_0"] move window to position 0 20
 
   # Widow Colours
   #                         border  background text    indicator

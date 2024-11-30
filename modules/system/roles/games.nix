@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }:
 
 let
+  dxvk =  inputs.nix-gaming.packages.${pkgs.system}.dxvk;
+  wineprefix-preparer = inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer;
   wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
     dontStrip = true;
     debug = true;
@@ -44,11 +46,11 @@ let
 in
 {
   environment.systemPackages = [
+    wine
     pkgs.appimage-run
-        #wine
-    pkgs.dxvk
     pkgs.vkd3d-proton
     pkgs.wine-prefix
+    pkgs.dxvk
 
     pkgs.jeveassets
     pkgs.gamemode # Optimise Linux system performance on demand
