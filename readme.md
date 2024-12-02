@@ -31,3 +31,9 @@ Now we can ssh to the vm:
 ```bash
 ssh -p 2222 nixos@localhost
 ```
+
+## Darwin Rebuild
+
+```bash
+nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .#
+```
