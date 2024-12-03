@@ -371,11 +371,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-GQmUwahYG6UDdAVQ+b0dX/mIIBz8VFV6YhVUDQnL57o=",
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       },
       "original": {
-        "path": "modules/nvim/plugins",
+        "path": "./modules/nvim/plugins",
         "type": "path"
       }
     }

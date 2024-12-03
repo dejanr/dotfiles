@@ -20,7 +20,7 @@
     mach-nix.url = "github:DavHau/mach-nix";
     mach-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    vim-plugins = { url = "path:modules/nvim/plugins"; };
+    vim-plugins = { url = "path:./modules/nvim/plugins"; };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
