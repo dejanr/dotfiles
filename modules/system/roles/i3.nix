@@ -18,8 +18,8 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = [
-        pkgs.xdg-desktop-portal-gnome
-        pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
     ];
     xdgOpenUsePortal = true;
     config.common.default = "*";
@@ -98,7 +98,7 @@ in
   };
 
   services.displayManager = {
-      defaultSession = "none+i3";
+    defaultSession = "none+i3";
   };
 
   services.xserver = {

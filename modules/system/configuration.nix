@@ -5,11 +5,11 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1hmzfc0hhl3w5fx4xpqrhl707jhiam7mif85jdirc9rh61kd25bc";
+    sha256 = "100g2bckwqiaamwynd1k8hjw5vgi83lc5bf10blpnci6p1cr6i8z";
   };
 in
 {
-  environment = { defaultPackages = []; };
+  environment = { defaultPackages = [ ]; };
 
   services = {
     xserver.desktopManager.xterm.enable = false;
@@ -35,7 +35,6 @@ in
       jetbrains-mono
       roboto
       openmoji-color
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ];
 
     fontconfig = {

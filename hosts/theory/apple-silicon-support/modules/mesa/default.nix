@@ -1,23 +1,40 @@
-{ config, pkgs, lib, ... }:
+{ options, config, pkgs, lib, ... }:
 {
   config =
     let
       isMode = mode: (config.hardware.asahi.useExperimentalGPUDriver
         && config.hardware.asahi.experimentalGPUInstallMode == mode);
     in
-    lib.mkMerge [
-      (lib.mkIf config.hardware.asahi.useExperimentalGPUDriver {
-
+    lib.mkIf config.hardware.asahi.enable (lib.mkMerge [
+      {
+        # required for proper DRM setup even without GPU driver
+        services.xserver.config = ''
+          Section "OutputClass"
+              Identifier "appledrm"
+              MatchDriver "apple"
+              Driver "modesetting"
+              Option "PrimaryGPU" "true"
+          EndSection
+        '';
+      }
+      (lib.mkIf config.hardware.asahi.useExperimentalGPUDriver (
         # install the drivers
-        hardware.opengl.package = config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
-
-        # required for GPU kernel driver
-        hardware.asahi.addEdgeKernelConfig = true;
+        if builtins.hasAttr "graphics" options.hardware then {
+          hardware.graphics.package = config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
+        } else {
+          # for 24.05
+          hardware.opengl.package = config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
+        }
+      )
+      )
+      (lib.mkIf config.hardware.asahi.useExperimentalGPUDriver {
+        # required for in-kernel GPU driver
+        hardware.asahi.withRust = true;
       })
       (lib.mkIf (isMode "replace") {
         # replace the Mesa linked into system packages with the Asahi version
         # without rebuilding them to avoid rebuilding the world.
-        system.replaceRuntimeDependencies = [
+        system.replaceDependencies.replacements = [
           {
             original = pkgs.mesa;
             replacement = config.hardware.asahi.pkgs.mesa-asahi-edge;
@@ -30,11 +47,12 @@
         # (and in a way compatible with pure evaluation)
         nixpkgs.overlays = [
           (final: prev: {
-            mesa = final.mesa-asahi-edge;
+            # prevent cross-built Mesas that might be evaluated using this config (e.g. Steam emulation via box64) from using the special Asahi Mesa
+            mesa = if prev.targetPlatform.isAarch64 then final.mesa-asahi-edge else prev.mesa;
           })
         ];
       })
-    ];
+    ]);
 
   options.hardware.asahi.useExperimentalGPUDriver = lib.mkOption {
     type = lib.types.bool;

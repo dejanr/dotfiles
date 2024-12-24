@@ -48,6 +48,8 @@ in
   environment.systemPackages = [
     wine
     pkgs.appimage-run
+    wine
+    pkgs.dxvk
     pkgs.vkd3d-proton
     pkgs.wine-prefix
     pkgs.dxvk

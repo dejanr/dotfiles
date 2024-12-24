@@ -3,9 +3,7 @@
 , callPackage
 , writeShellScriptBin
 , writeText
-, removeReferencesTo
 , linuxPackagesFor
-, _4KBuild ? false
 , withRust ? false
 , _kernelPatches ? [ ]
 }:
@@ -91,7 +89,7 @@ let
         ${lib.strings.concatStringsSep "\n" extraConfigText}
       '';
       # final config as an attrset
-      config =
+      configAttrs =
         let
           makePair = t: lib.nameValuePair (i t 0) (i t 1);
           configList = (parseConfig origConfigText) ++ extraConfig;
@@ -110,64 +108,36 @@ let
       rec {
         inherit stdenv lib;
 
-        version = "6.5.0-asahi";
+        version = "6.12.1-asahi";
         modDirVersion = version;
-        extraMeta.branch = "6.5";
+        extraMeta.branch = "6.12";
 
         src = fetchFromGitHub {
-          # tracking: https://github.com/AsahiLinux/PKGBUILDs/blob/main/linux-asahi/PKGBUILD
+          # tracking: https://github.com/AsahiLinux/linux/tree/asahi-wip (w/ fedora verification)
           owner = "AsahiLinux";
           repo = "linux";
-          rev = "asahi-6.5-15";
-          hash = "sha256-Rruk/Nrw425XerZjgDJ4PJ3c63CCycch1qz7vFxHPCE=";
+          rev = "asahi-6.12.1-8";
+          hash = "sha256-t0OeRcc56+d5EwvAtXSiAlZaIPl60RDMeGNZJVA81gw=";
         };
 
         kernelPatches = [
           {
-            name = "rust-bindgen-version";
-            patch = ./rust-bindgen-version.patch;
-          }
-        ] ++ lib.optionals (rustAtLeast "1.73.0") [
-          {
-            name = "rustc-1.73.0";
-            patch = ./rustc-1.73.0-fix.patch;
-          }
-        ] ++ lib.optionals _4KBuild [
-          # thanks to Sven Peter
-          # https://lore.kernel.org/linux-iommu/20211019163737.46269-1-sven@svenpeter.dev/
-          {
-            name = "sven-iommu-4k";
-            patch = ./sven-iommu-4k.patch;
-          }
-          (builtins.throw "The Asahi 4K kernel patch is currently broken. Contributions to fix are welcome.")
-        ] ++ lib.optionals (!_4KBuild) [
-          # patch the kernel to set the default size to 16k instead of modifying
-          # the config so we don't need to convert our config to the nixos
-          # infrastructure or patch it and thus introduce a dependency on the host
-          # system architecture
-          {
-            name = "default-pagesize-16k";
-            patch = ./default-pagesize-16k.patch;
+            name = "coreutils-fix";
+            patch = ./0001-fs-fcntl-accept-more-values-as-F_DUPFD_CLOEXEC-args.patch;
           }
         ] ++ _kernelPatches;
 
-        inherit configfile config;
+        inherit configfile;
+        # hide Rust support from the nixpkgs infra to avoid it re-adding the rust packages.
+        # we can't use it until it's in stable and until we've evaluated the cross-compilation impact.
+        config = configAttrs // { "CONFIG_RUST" = "n"; };
       } // (args.argsOverride or { })).overrideAttrs (old:
     if withRust then {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
         rust-bindgen
         rustfmt
         rustc
-        removeReferencesTo
       ];
-      # HACK: references shouldn't have been there in the first place
-      # TODO: remove once 23.05 is obsolete
-      postFixup = (old.postFixup or "") + ''
-        if [ -f $dev/lib/modules/${old.version}/build/vmlinux ]; then
-          remove-references-to -t $out $dev/lib/modules/${old.version}/build/vmlinux
-        fi
-        remove-references-to -t $dev $out/Image
-      '';
       RUST_LIB_SRC = rustPlatform.rustLibSrc;
     } else { });
 

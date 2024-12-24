@@ -1,34 +1,33 @@
-{
-  lib,
-  rustPlatform,
-  fetchFromGitHub,
-  clang,
-  copyDesktopItems,
-  curl,
-  perl,
-  pkg-config,
-  protobuf,
-  xcbuild,
-  fontconfig,
-  freetype,
-  libgit2,
-  openssl,
-  sqlite,
-  zlib,
-  zstd,
-  alsa-lib,
-  libxkbcommon,
-  wayland,
-  libglvnd,
-  xorg,
-  stdenv,
-  darwin,
-  makeFontsConf,
-  vulkan-loader,
-  envsubst,
-  nix-update-script,
-
-  withGLES ? false,
+{ lib
+, rustPlatform
+, fetchFromGitHub
+, clang
+, copyDesktopItems
+, curl
+, perl
+, pkg-config
+, protobuf
+, xcbuild
+, fontconfig
+, freetype
+, libgit2
+, openssl
+, sqlite
+, zlib
+, zstd
+, alsa-lib
+, libxkbcommon
+, wayland
+, libglvnd
+, xorg
+, stdenv
+, darwin
+, makeFontsConf
+, vulkan-loader
+, envsubst
+, nix-update-script
+, withGLES ? false
+,
 }:
 
 assert withGLES -> stdenv.isLinux;

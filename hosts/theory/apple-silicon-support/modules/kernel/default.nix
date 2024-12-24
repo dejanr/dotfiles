@@ -2,14 +2,13 @@
 
 { config, pkgs, lib, ... }:
 {
-  config = {
+  config = lib.mkIf config.hardware.asahi.enable {
     boot.kernelPackages =
       let
         pkgs' = config.hardware.asahi.pkgs;
       in
       pkgs'.linux-asahi.override {
         _kernelPatches = config.boot.kernelPatches;
-        _4KBuild = config.hardware.asahi.use4KPages;
         withRust = config.hardware.asahi.withRust;
       };
 
@@ -27,7 +26,7 @@
       "pinctrl-apple-gpio"
       "macsmc"
       "macsmc-rtkit"
-      "i2c-apple"
+      "i2c-pasemi-platform"
       "tps6598x"
       "apple-dart"
       "dwc3"
@@ -58,7 +57,7 @@
 
     boot.kernelParams = [
       "earlycon"
-      "console=ttySAC0,1500000"
+      "console=ttySAC0,115200n8"
       "console=tty0"
       "boot.shell_on_fail"
       # Apple's SSDs are slow (~dozens of ms) at processing flush requests which
@@ -83,20 +82,21 @@
       efiInstallAsRemovable = true;
       device = "nodev";
     };
+
+    # autosuspend was enabled as safe for the PCI SD card reader
+    # "Genesys Logic, Inc GL9755 SD Host Controller [17a0:9755] (rev 01)"
+    # by recent systemd versions, but this has a "negative interaction"
+    # with our kernel/SoC and causes random boot hangs. disable it!
+    services.udev.extraHwdb = ''
+      pci:v000017A0d00009755*
+        ID_AUTOSUSPEND=0
+    '';
   };
 
   imports = [
-    ./edge.nix
+    (lib.mkRemovedOptionModule [ "hardware" "asahi" "addEdgeKernelConfig" ]
+      "All edge kernel config options are now the default.")
   ];
-
-  options.hardware.asahi.use4KPages = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = ''
-      Build the Asahi Linux kernel with 4K pages to improve compatibility in
-      some cases at the cost of performance in others.
-    '';
-  };
 
   options.hardware.asahi.withRust = lib.mkOption {
     type = lib.types.bool;

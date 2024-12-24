@@ -6,13 +6,13 @@
 
 (buildUBoot rec {
   src = fetchFromGitHub {
-    # tracking: https://github.com/AsahiLinux/PKGBUILDs/blob/main/uboot-asahi/PKGBUILD
+    # tracking: https://pagure.io/fedora-asahi/uboot-tools/commits/main
     owner = "AsahiLinux";
     repo = "u-boot";
-    rev = "asahi-v2023.07.02-3";
-    hash = "sha256-a7iNawyq7K6jhiVzu5x8mllF3olTP+jQRXGGSsoKINI=";
+    rev = "asahi-v2024.10-1";
+    hash = "sha256-gtXt+BglBdEKW7j3U2x2QeKGeDH1FdmAMPXk+ntkROo=";
   };
-  version = "2023.07.02.asahi3-1";
+  version = "2024.10-1-asahi";
 
   defconfig = "apple_m1_defconfig";
   extraMeta.platforms = [ "aarch64-linux" ];
@@ -26,14 +26,15 @@
     CONFIG_VIDEO_FONT_8X16=n
     CONFIG_VIDEO_FONT_SUN12X22=n
     CONFIG_VIDEO_FONT_16X32=y
+    CONFIG_CMD_BOOTMENU=y
   '';
 }).overrideAttrs (o: {
   # nixos's downstream patches are not applicable
   patches = [
   ];
 
-  # flag somehow breaks DTC compilation so we remove it
-  makeFlags = builtins.filter (s: s != "DTC=dtc") o.makeFlags;
+  # DTC= flag somehow breaks DTC compilation so we remove it
+  makeFlags = builtins.filter (s: (!(lib.strings.hasPrefix "DTC=" s))) o.makeFlags;
 
   preInstall = ''
     # compress so that m1n1 knows U-Boot's size and can find things after it

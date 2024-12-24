@@ -26,14 +26,14 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "m1n1";
-  version = "1.4.2";
+  version = "1.4.17";
 
   src = fetchFromGitHub {
-    # tracking: https://github.com/AsahiLinux/PKGBUILDs/blob/main/m1n1/PKGBUILD
+    # tracking: https://src.fedoraproject.org/rpms/m1n1
     owner = "AsahiLinux";
     repo = "m1n1";
     rev = "v${version}";
-    hash = "sha256-zPHLlhXUIX6MV2pnDkuSg4Pz8gB4YOZiaa8MuLasgPY=";
+    hash = "sha256-p79TshQ/C4Uwmxga3GdzJR9Ku62ObrXEv5uVVpWncdY=";
     fetchSubmodules = true;
   };
 

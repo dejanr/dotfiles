@@ -1,4 +1,4 @@
-{ config, boot, lib, pkgs, modulesPath, inputs, ... }:
+{ config, boot, lib, pkgs, modulesPath, ... }:
 
 let
   hostName = "theory";
@@ -6,7 +6,7 @@ in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
+    ./apple-silicon-support
   ];
 
   boot = {
