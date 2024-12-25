@@ -49,7 +49,7 @@ in {
           touchpad = {
             natural_scroll = true;
             disable_while_typing = true;
-            tap-to-clicbind = , mouse:274, exec, k = false;
+            tap-to-click = false;
             middle_button_emulation = false;
           };
           sensitivity = 0;
