@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 let
-  dxvk =  inputs.nix-gaming.packages.${pkgs.system}.dxvk;
+  dxvk = inputs.nix-gaming.packages.${pkgs.system}.dxvk;
   wineprefix-preparer = inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer;
   wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
     dontStrip = true;

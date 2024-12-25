@@ -29,6 +29,13 @@
 
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
+
+    stylix.url = "github:danth/stylix";
+
+    nightfox = {
+      url = "github:EdenEast/nightfox.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -42,6 +49,7 @@
     , mach-nix
     , vim-plugins
     , rust-overlay
+    , stylix
     , ...
     }@inputs:
 
@@ -64,6 +72,7 @@
           system = system;
           modules = [
             { networking.hostName = hostname; }
+            stylix.nixosModules.stylix
             nur.nixosModules.nur
             ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
@@ -108,6 +117,7 @@
             inherit system;
             specialArgs = { inherit inputs system; };
             modules = [
+              stylix.nixosModules.stylix
               nur.nixosModules.nur
               ./hosts/mbp-work/configuration.nix
               home-manager.darwinModules.home-manager

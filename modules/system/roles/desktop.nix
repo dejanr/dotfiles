@@ -48,6 +48,7 @@
     termite # A simple VTE-based terminal
     termite.terminfo # terminfo for termite
     tesseract # OCR engine
+    telegram-desktop # desktop telegram client
     thunderbird # email client
     transmission_4-gtk
     usbutils # Tools for working with USB devices, such as lsusb

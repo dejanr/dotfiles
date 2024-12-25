@@ -1,6 +1,8 @@
 { fontSize, colors }:
 
 ''
+    enable_audio_bell no
+
     font_family PragmataPro Mono
     font_size ${fontSize}
 

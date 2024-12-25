@@ -88,39 +88,17 @@
     kitty.enable = true;
     kitty.fontSize = "14.0";
 
-
     # cli
     direnv.enable = true;
     git.enable = true;
-    nvim.enable = true;
+    nvim2.enable = true;
     tmux.enable = true;
     zsh.enable = true;
 
+    # graphical
+    hyprland.enable = true;
+
     # system
     packages.enable = true;
-  };
-
-  config.services.grobi = {
-    enable = true;
-    rules = [{
-      name = "mobile";
-      configure_single = "eDP-1";
-      primary = true;
-      atomic = true;
-      execute_after = [
-        "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1x1 --mode 3456x2160"
-        "${pkgs.wm-wallpaper}/bin/wm-wallpaper"
-      ];
-    }
-      {
-        name = "fallback";
-        configure_single = "eDP-1";
-      }];
-  };
-
-  config.home.pointerCursor = {
-    package = pkgs.vanilla-dmz;
-    name = "Vanilla-DMZ";
-    size = 128;
   };
 }

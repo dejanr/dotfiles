@@ -75,24 +75,6 @@
   bind -r K resize-pane -U 5
   bind -r L resize-pane -R 5
 
-  # Bad Wolf
-  set -g status-style fg=white,bg=colour8
-  set -g pane-border-style fg=#5a93aa,bg=#0f1c1e
-  set -g pane-active-border-style fg=colour180
-  set -g message-style bg=colour221,fg=colour16
-
-  # Custom status bar
-  set -g status-left-length 32
-  set -g status-right-length 150
-  set -g status-interval 5
-
-  set -g status-left '#[fg=colour00,bg=colour254] #S '
-
-  set -g status-right '#[fg=colour254] %R  %d %b #[fg=colour08,bg=colour04] #h '
-
-  set -g window-status-format "#[fg=white,bg=colour234] #I #W "
-  set -g window-status-current-format '#[fg=colour07,bg=colour04,noreverse] #I #W '
-
   # Activity
   setw -g monitor-activity on
   set -g visual-activity off
@@ -134,7 +116,6 @@
   set -g default-shell $SHELL
 
   # statusline - nightfox
-  set -g mode-style "fg=#131a24,bg=#aeafb0"
   set -g message-style "fg=#131a24,bg=#aeafb0"
   set -g message-command-style "fg=#131a24,bg=#aeafb0"
   set -g pane-border-style "fg=#aeafb0"
@@ -146,13 +127,13 @@
   set -g status-right-length "100"
   set -g status-left-style NONE
   set -g status-right-style NONE
-  set -g status-left "#[fg=#131a24,bg=#719cd6,bold] #S #[fg=#719cd6,bg=#131a24,nobold,nounderscore,noitalics]"
-  set -g status-right "#[fg=#131a24,bg=#131a24,nobold,nounderscore,noitalics]#[fg=#719cd6,bg=#131a24] #{prefix_highlight} #[fg=#aeafb0,bg=#131a24,nobold,nounderscore,noitalics]#[fg=#131a24,bg=#aeafb0] %Y-%m-%d  %I:%M %p #[fg=#719cd6,bg=#aeafb0,nobold,nounderscore,noitalics]#[fg=#131a24,bg=#719cd6,bold] #h "
+  set -g status-left "#[fg=#131a24,bg=#719cd6,bold] #S "
+  set -g status-right ""
   setw -g window-status-activity-style "underscore,fg=#71839b,bg=#131a24"
   setw -g window-status-separator ""
   setw -g window-status-style "NONE,fg=#71839b,bg=#131a24"
-  setw -g window-status-format "#[fg=#131a24,bg=#131a24,nobold,nounderscore,noitalics]#[default] #I  #W #F #[fg=#131a24,bg=#131a24,nobold,nounderscore,noitalics]"
-  setw -g window-status-current-format "#[fg=#131a24,bg=#aeafb0,nobold,nounderscore,noitalics]#[fg=#131a24,bg=#aeafb0,bold] #I  #W #F #[fg=#aeafb0,bg=#131a24,nobold,nounderscore,noitalics]"
+  setw -g window-status-format "#[default] #I | #W #F "
+  setw -g window-status-current-format "#[fg=#131a24,bg=#aeafb0,bold] #I | #W #F "
 
   # direnv cleanup and setup of environment
   set-option -g update-environment "DIRENV_DIFF DIRENV_DIR DIRENV_WATCHES"

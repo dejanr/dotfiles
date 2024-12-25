@@ -28,6 +28,7 @@ in {
         {
           plugin = nightfox-nvim;
           type = "lua";
+          lazy = true;
           config = ''
             require('nightfox').setup {
               options = {

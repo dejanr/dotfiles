@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, theme, lib, inputs, ... }:
 
 let
   hostName = "theory";
@@ -8,47 +8,64 @@ in
     ../../modules/system/roles/fonts.nix
     ../../modules/system/roles/desktop.nix
     ../../modules/system/roles/multimedia.nix
-    ../../modules/system/roles/i3.nix
   ];
 
   services = {
     openssh.enable = true;
     openssh.settings.PasswordAuthentication = true;
 
-    xserver = {
-      enable = true;
-      dpi = 200;
-
-      displayManager = {
-        xserverArgs = [ "-dpi 200" ];
-      };
-    };
-
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
       extraUpFlags = [ "--ssh" ];
     };
-  };
 
+    greetd.enable = true;
 
-  environment = {
-    etc."X11/Xresources".text = ''
-      Xft.dpi: 200
-    '';
-    systemPackages = [ ];
-    variables = {
-      GDK_SCALE = "2";
-      GDK_DPI_SCALE = "0.5";
+    actkbd = {
+      enable = true;
+      bindings = [
+        { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+        { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+      ];
     };
   };
 
-  programs.light.enable = true;
-  services.actkbd = {
+  programs = {
+    hyprland.enable = true;
+    regreet.enable = true;
+  };
+
+  stylix = {
     enable = true;
-    bindings = [
-      { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
-      { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
-    ];
+    polarity = "dark";
+
+    base16Scheme = "${inputs.nightfox}/extra/nightfox/base16.yaml";
+
+    targets.gtk.enable = true;
+
+    image = ../../wallpapers/nightfox.jpg;
+
+    fonts = {
+      serif = {
+        package = pkgs.pragmatapro;
+        name = "PragmataPro";
+      };
+
+      sansSerif = {
+        package = pkgs.pragmatapro;
+        name = "PragmataPro";
+      };
+
+      monospace = {
+        package = pkgs.pragmatapro;
+        name = "PragmataPro Mono";
+      };
+
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
   };
 }

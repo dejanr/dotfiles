@@ -13,13 +13,17 @@
     ./direnv
     ./git
     ./nvim
+    ./nvim2
     ./tmux
     ./zsh
 
     # system
     ./packages
 
-    #
+    # graphical
+    ./hyprland
+
+    # darwin
     ./darwin
   ];
 }
