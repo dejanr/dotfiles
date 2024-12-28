@@ -55,4 +55,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  cht-sh = import ./cht-sh {
+    inherit (super);
+    pkgs = super;
+  };
 }
