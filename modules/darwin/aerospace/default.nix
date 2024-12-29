@@ -14,15 +14,15 @@
       outer.right      = 5
 
       [mode.main.binding]
-      cmd-j = 'focus down'
-      cmd-k = 'focus up'
-      cmd-l = 'focus right'
-      cmd-h = 'focus left'
+      cmd-shift-j = 'focus down'
+      cmd-shift-k = 'focus up'
+      cmd-shift-l = 'focus right'
+      cmd-shift-h = 'focus left'
 
-      cmd-shift-j = 'move down'
-      cmd-shift-k = 'move up'
-      cmd-shift-l = 'move right'
-      cmd-shift-h = 'move left'
+      cmd-alt-j = 'move down'
+      cmd-alt-k = 'move up'
+      cmd-alt-l = 'move right'
+      cmd-alt-h = 'move left'
 
       cmd-shift-f = 'fullscreen'
       cmd-shift-m = 'layout floating tiling'
