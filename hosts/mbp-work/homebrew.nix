@@ -30,7 +30,11 @@
         cask "firefox", args: { language: "en-GB" }
       '';
 
-      taps = [ "homebrew/services" "FelixKratz/formulae" ];
+        taps = [
+            "homebrew/services"
+            "FelixKratz/formulae"
+            "nikitabobko/tap" # aerospace
+        ];
 
       brews = [
         "qemu"
@@ -51,6 +55,7 @@
         "vlc"
         "zoom"
         "mimestream" # Gmail client
+        "nikitabobko/tap/aerospace" # tiling window manager
       ];
 
       masApps = {

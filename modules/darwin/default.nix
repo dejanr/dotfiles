@@ -4,5 +4,6 @@
   imports = [
     # gui
     ./sketchybar
+    ./aerospace
   ];
 }

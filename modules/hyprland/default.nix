@@ -5,9 +5,25 @@ in {
   options.modules.hyprland = { enable = mkEnableOption "hyprland"; };
 
   config = mkIf cfg.enable {
-    imports = [
-      ./icons
-    ];
+  gtk.iconTheme = {
+    name = "Gruvbox Plus Dark";
+    package = pkgs.callPackage ./icons/gruvbox-plus-dark.nix { };
+  };
+
+  xdg.desktopEntries = {
+    Helix = {
+      name = "Helix";
+      noDisplay = true;
+    };
+    nvim = {
+      name = "NeoVim";
+      noDisplay = true;
+    };
+    cups = {
+      name = "Printing";
+      noDisplay = true;
+    };
+  };
 
     home.packages = [ pkgs.wofi pkgs.dolphin pkgs.kitty ];
 
