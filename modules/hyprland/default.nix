@@ -4,11 +4,11 @@ let cfg = config.modules.hyprland;
 in {
   options.modules.hyprland = { enable = mkEnableOption "hyprland"; };
 
-  imports = [
-    ./icons
-  ];
-
   config = mkIf cfg.enable {
+    imports = [
+      ./icons
+    ];
+
     home.packages = [ pkgs.wofi pkgs.dolphin pkgs.kitty ];
 
     home.sessionVariables = {

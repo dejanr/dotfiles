@@ -19,7 +19,6 @@ in
 
   time.timeZone = "Europe/Berlin";
 
-  services.activate-system.enable = true;
   services.nix-daemon.enable = true;
 
   services.skhd = {
@@ -32,7 +31,6 @@ in
   nix = {
     gc.user = username;
     settings = {
-      auto-optimise-store = true;
       allowed-users = [ username ];
       substituters = [ "https://cache.nixos.org" ];
       trusted-users = [ username "root" ];
@@ -102,7 +100,6 @@ in
   };
   environment.darwinConfig = "$HOME/.dotfiles/mbp-work/configuration.nix";
   environment.variables.LANG = "en_GB.UTF-8";
-  environment.loginShell = "${pkgs.zsh}/bin/zsh -l";
 
   system.stateVersion = 5;
 }
