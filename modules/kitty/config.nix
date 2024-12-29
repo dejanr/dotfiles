@@ -28,13 +28,19 @@
 
   # Window
 
-    hide_window_decorations titlebar-and-corners
+    hide_window_decorations titlebar-only
     confirm_os_window_close 0
     macos_quit_when_last_window_closed yes
 
     enabled_layouts stack
     layout stack
-    placement_strategy top-left
+    placement_strategy center
+    remember_window_size yes
+    draw_minimal_borders yes
+    window_margin_width 0
+    single_window_margin_width -1
+    window_padding_width 0
+    single_window_padding_width -1
 
   #--------------------------------------------------------------------
   # Theme

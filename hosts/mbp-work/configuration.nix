@@ -17,7 +17,7 @@ in
   nix.nrBuildUsers = 32;
   nix.configureBuildUsers = true;
 
-  time.timeZone = "Europe/London";
+  time.timeZone = "Europe/Berlin";
 
   services.activate-system.enable = true;
   services.nix-daemon.enable = true;
@@ -25,7 +25,7 @@ in
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
-    skhdConfig = builtins.readFile ./shkd;
+    skhdConfig = "cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
   };
 
   # Nix settings, auto cleanup and enable flakes
@@ -73,6 +73,8 @@ in
 
   environment.systemPackages = [
     pkgs.t
+    pkgs.cht-sh
+    pkgs.fzf
 
     pkgs.awscli
     pkgs.gettext
@@ -80,6 +82,7 @@ in
     pkgs.mosh
     pkgs.ripgrep
     pkgs.kitty
+    pkgs.skhd
   ];
   environment.shells = [ pkgs.zsh ];
   environment.etc = {

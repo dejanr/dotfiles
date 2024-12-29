@@ -84,6 +84,9 @@
     which
     wireshark # network protocol analyzer
     yarn
+
+    fzf
+    cht-sh
   ];
 
   programs.adb.enable = true;

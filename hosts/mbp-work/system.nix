@@ -1,114 +1,109 @@
 { pkgs, lib, ... }: {
 
-  config = lib.mkIf pkgs.stdenv.isDarwin {
+    config = lib.mkIf pkgs.stdenv.isDarwin {
 
-    #services.skhd = {
-    #  enable = true;
-    #  skhdConfig = builtins.readFile ./conf.d/skhdrc;
-    #};
+        system = {
+            keyboard = {
+                remapCapsLockToControl = true;
+                enableKeyMapping = true;
+            };
 
-    system = {
-      keyboard = {
-        remapCapsLockToControl = true;
-        enableKeyMapping = true;
-      };
+            defaults = {
+                NSGlobalDomain = {
 
-      defaults = {
-        NSGlobalDomain = {
+                    # Set to dark mode
+                    AppleInterfaceStyle = "Dark";
 
-          # Set to dark mode
-          AppleInterfaceStyle = "Dark";
+                    # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+                    AppleKeyboardUIMode = 3;
 
-          # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
-          AppleKeyboardUIMode = 3;
+                    # Automatically show and hide the menu bar
+                    _HIHideMenuBar = true;
 
-          # Automatically show and hide the menu bar
-          _HIHideMenuBar = true;
+                    # Expand save panel by default
+                    NSNavPanelExpandedStateForSaveMode = true;
 
-          # Expand save panel by default
-          NSNavPanelExpandedStateForSaveMode = true;
+                    # Expand print panel by default
+                    PMPrintingExpandedStateForPrint = true;
 
-          # Expand print panel by default
-          PMPrintingExpandedStateForPrint = true;
+                    # Replace press-and-hold with key repeat
+                    ApplePressAndHoldEnabled = false;
 
-          # Replace press-and-hold with key repeat
-          ApplePressAndHoldEnabled = false;
+                    # Set a fast key repeat rate
+                    KeyRepeat = 2;
 
-          # Set a fast key repeat rate
-          KeyRepeat = 2;
+                    # Shorten delay before key repeat begins
+                    InitialKeyRepeat = 12;
 
-          # Shorten delay before key repeat begins
-          InitialKeyRepeat = 12;
+                    # Save to local disk by default, not iCloud
+                    NSDocumentSaveNewDocumentsToCloud = false;
 
-          # Save to local disk by default, not iCloud
-          NSDocumentSaveNewDocumentsToCloud = false;
+                    # Disable autocorrect capitalization
+                    NSAutomaticCapitalizationEnabled = false;
 
-          # Disable autocorrect capitalization
-          NSAutomaticCapitalizationEnabled = false;
+                    # Disable autocorrect smart dashes
+                    NSAutomaticDashSubstitutionEnabled = false;
 
-          # Disable autocorrect smart dashes
-          NSAutomaticDashSubstitutionEnabled = false;
+                    # Disable autocorrect adding periods
+                    NSAutomaticPeriodSubstitutionEnabled = false;
 
-          # Disable autocorrect adding periods
-          NSAutomaticPeriodSubstitutionEnabled = false;
+                    # Disable autocorrect smart quotation marks
+                    NSAutomaticQuoteSubstitutionEnabled = false;
 
-          # Disable autocorrect smart quotation marks
-          NSAutomaticQuoteSubstitutionEnabled = false;
+                    # Disable autocorrect spellcheck
+                    NSAutomaticSpellingCorrectionEnabled = false;
+                };
 
-          # Disable autocorrect spellcheck
-          NSAutomaticSpellingCorrectionEnabled = false;
-        };
+                dock = {
+                    autohide = true;
+                    mouse-over-hilite-stack = true;
+                    mru-spaces = false;
+                    orientation = "left";
+                    show-recents = false;
+                    showhidden = true;
+                    static-only = true;
+                    tilesize = 84;
+                };
 
-        dock = {
-          autohide = true;
-          mouse-over-hilite-stack = true;
-          mru-spaces = false;
-          orientation = "left";
-          show-recents = false;
-          showhidden = true;
-          static-only = true;
-          tilesize = 84;
-        };
+                finder = {
+                    # Default Finder window set to column view
+                    FXPreferredViewStyle = "clmv";
 
-        finder = {
-          # Default Finder window set to column view
-          FXPreferredViewStyle = "clmv";
+                    # Finder search in current folder by default
+                    FXDefaultSearchScope = "SCcf";
 
-          # Finder search in current folder by default
-          FXDefaultSearchScope = "SCcf";
+                    # Disable warning when changing file extension
+                    FXEnableExtensionChangeWarning = false;
 
-          # Disable warning when changing file extension
-          FXEnableExtensionChangeWarning = false;
+                    # Allow quitting of Finder application
+                    QuitMenuItem = true;
 
-          # Allow quitting of Finder application
-          QuitMenuItem = true;
+                    AppleShowAllFiles = true;
+                    AppleShowAllExtensions = true;
+                };
 
-          AppleShowAllFiles = true;
-          AppleShowAllExtensions = true;
-        };
+                trackpad = {
+                    Clicking = false;
+                    TrackpadThreeFingerDrag = false;
+                };
 
-        trackpad = {
-          Clicking = false;
-          TrackpadThreeFingerDrag = false;
-        };
+                # Disable "Are you sure you want to open" dialog
+                LaunchServices.LSQuarantine = false;
 
-        # Disable "Are you sure you want to open" dialog
-        LaunchServices.LSQuarantine = false;
+                # universalaccess = {
 
-        # universalaccess = {
+                #   # Zoom in with Control + Scroll Wheel
+                #   closeViewScrollWheelToggle = true;
+                #   closeViewZoomFollowsFocus = true;
+                # };
 
-        #   # Zoom in with Control + Scroll Wheel
-        #   closeViewScrollWheelToggle = true;
-        #   closeViewZoomFollowsFocus = true;
-        # };
+                # Where to save screenshots
+                screencapture.location = "~/Downloads";
 
-        # Where to save screenshots
-        screencapture.location = "~/Downloads";
+            };
 
-      };
-
-      # Settings that don't have an option in nix-darwin
-      activationScripts.postActivation.text = ''
+            # Settings that don't have an option in nix-darwin
+            activationScripts.postActivation.text = ''
           ###############################################################################
           # Finder                                                                      #
           ###############################################################################
@@ -150,9 +145,9 @@
           # Expand the following File Info panes:
           # “General”, “Open with”, and “Sharing & Permissions”
           defaults write com.apple.finder FXInfoPanesExpanded -dict \
-              General -bool true \
-              OpenWith -bool true \
-              Privileges -bool true
+          General -bool true \
+          OpenWith -bool true \
+          Privileges -bool true
           ###############################################################################
           # Dock, Dashboard, and hot corners                                            #
           ###############################################################################
@@ -271,7 +266,7 @@
           echo "Allow apps from anywhere"
           SPCTL=$(spctl --status)
           if ! [ "$SPCTL" = "assessments disabled" ]; then
-              sudo spctl --master-disable
+          sudo spctl --master-disable
           fi
 
           #################
@@ -309,7 +304,7 @@
           defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=GBP"
           defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
           defaults write NSGlobalDomain AppleMetricUnits -bool true
-        
+
           # Stop iTunes from responding to the keyboard media keys
           launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2>/dev/null
 
@@ -345,26 +340,26 @@
           defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
           defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
 
-        ###############################################################################
-        # Mail                                                                        #
-        ###############################################################################
-        # Disable send and reply animations in Mail.app
-        defaults write com.apple.mail DisableReplyAnimations -bool true
-        defaults write com.apple.mail DisableSendAnimations -bool true
-        # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-        defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-        # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
-        defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
-        # Display emails in threaded mode, sorted by date (oldest at the top)
-        defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-        defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-        defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
-        # Disable inline attachments (just show the icons)
-        defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
-        # Disable automatic spell checking
-        defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
-      '';
-    };
+          ###############################################################################
+          # Mail                                                                        #
+          ###############################################################################
+          # Disable send and reply animations in Mail.app
+          defaults write com.apple.mail DisableReplyAnimations -bool true
+          defaults write com.apple.mail DisableSendAnimations -bool true
+          # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
+          defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
+          # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
+          defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
+          # Display emails in threaded mode, sorted by date (oldest at the top)
+          defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
+          defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
+          defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
+          # Disable inline attachments (just show the icons)
+          defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
+          # Disable automatic spell checking
+          defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
+          '';
+        };
 
-  };
+    };
 }

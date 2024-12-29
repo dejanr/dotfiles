@@ -1,2 +1,0 @@
-# open terminal, blazingly fast compared to iTerm/Hyper
-cmd - return : /etc/profiles/per-user/dejan.ranisavljevic/bin/kitty --start-as maximized --single-instance -d ~ &> /dev/null

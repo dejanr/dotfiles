@@ -45,6 +45,8 @@
         "firefox"
         "google-chrome"
         "slack"
+        "kitty"
+        "rectangle"
         "spotify"
         "vlc"
         "zoom"
