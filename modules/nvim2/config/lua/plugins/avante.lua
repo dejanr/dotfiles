@@ -1,48 +1,77 @@
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
-  lazy = false,
-  version = false, -- set this if you want to always pull the latest change
+  version = false,
   opts = {
-    provider = "groq",
+    provider = "deepseek",
+    -- UI configuration
+    ui = {
+      border = "rounded",
+      width = 0.8,
+      height = 0.8,
+    },
+    -- Key mappings
+    keys = {
+      submit = "<C-s>",
+      interrupt = "<C-c>",
+      new_chat = "<C-n>",
+    },
+    -- Vendor configuration
     vendors = {
-      groq = {
+      deepseek = {
         __inherited_from = "openai",
-        api_key_name = "GROQ_API_KEY",
-        endpoint = "https://api.groq.com/openai/v1/",
-        model = "llama-3.3-70b-versatile",
+        api_key_name = "DEEPSEEK_API_KEY",
+        endpoint = "https://api.deepseek.com",
+        model = "deepseek-chat",
+        -- Add timeout and retry settings
+        timeout = 30,
+        max_retries = 3,
       },
     },
+    -- Error handling
+    on_error = function(err)
+      vim.notify("Avante Error: " .. err, vim.log.levels.ERROR)
+    end,
   },
   build = "make",
   dependencies = {
+    -- Core dependencies
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
+
+    -- Completion
     "hrsh7th/nvim-cmp",
+
+    -- Icons
     "echasnovski/mini.icons",
+
+    -- Image handling
     {
-      -- support for image pasting
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
       opts = {
-        -- recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
           use_absolute_path = true,
         },
       },
     },
+
+    -- Markdown rendering
     {
-      -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { "markdown", "Avante" },
+        renderer_options = {
+          highlight = {
+            enable = true,
+          },
+        },
       },
       ft = { "markdown", "Avante" },
     },
