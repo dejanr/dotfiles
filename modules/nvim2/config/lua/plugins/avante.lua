@@ -14,7 +14,10 @@ return {
     keys = {
       submit = "<C-s>",
       interrupt = "<C-c>",
-      new_chat = "<C-n>",
+      ask = "<leader>aa",     -- ask
+      edit = "<leader>ae",    -- edit
+      refresh = "<leader>ar", -- refresh
+      new_chat = "<leader>an",
     },
     -- Vendor configuration
     vendors = {
