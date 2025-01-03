@@ -43,6 +43,7 @@
         "asciinema"
         "fwup"
         "coreutils"
+        "ollama"
       ];
 
       casks = [

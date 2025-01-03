@@ -15,7 +15,6 @@
     zsh.enable = true;
 
     # darwin
-    darwin.sketchybar.enable = true;
 
     # system
     packages.enable = true;

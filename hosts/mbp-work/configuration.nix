@@ -81,25 +81,9 @@ in
     pkgs.ripgrep
     pkgs.kitty
     pkgs.skhd
-    pkgs.ollama
   ];
   environment.shells = [ pkgs.zsh ];
-  environment.etc = {
-    "sudoers.d/10-nix-commands".text =
-      let
-        commands = [
-          "/run/current-system/sw/bin/darwin-rebuild"
-          "/run/current-system/sw/bin/nix*"
-          "/run/current-system/sw/bin/ln"
-          "/nix/store/*/activate"
-          "/bin/launchctl"
-        ];
-        commandsString = builtins.concatStringsSep ", " commands;
-      in
-      ''
-        %admin ALL=(ALL:ALL) NOPASSWD: ${commandsString}
-      '';
-  };
+
   environment.variables = {
     PASSWORD_STORE_DIR = "$HOME/.local/share/password-store";
     ZK_NOTEBOOK_DIR = "$HOME/stuff/notes/";
@@ -107,7 +91,7 @@ in
     DIRENV_LOG_FORMAT = "";
   };
   environment.darwinConfig = "$HOME/.dotfiles/mbp-work/configuration.nix";
-  environment.variables.LANG = "en_GB.UTF-8";
+  environment.variables.LANG = "en_US.UTF-8";
 
   system.stateVersion = 5;
 }

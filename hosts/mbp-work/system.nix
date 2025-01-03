@@ -18,7 +18,7 @@
           AppleKeyboardUIMode = 3;
 
           # Automatically show and hide the menu bar
-          _HIHideMenuBar = true;
+          _HIHideMenuBar = false;
 
           # Expand save panel by default
           NSNavPanelExpandedStateForSaveMode = true;
@@ -299,10 +299,10 @@
 
         # Set language and text formats
         # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
-        # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
+        # `Inches`, `en_US` with `en_US`, and `true` with `false`.
         defaults write NSGlobalDomain AppleLanguages -array "en"
-        defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=GBP"
-        defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
+        defaults write NSGlobalDomain AppleLocale -string "en_US@currency=EUR"
+        defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
         defaults write NSGlobalDomain AppleMetricUnits -bool true
 
         # Stop iTunes from responding to the keyboard media keys
