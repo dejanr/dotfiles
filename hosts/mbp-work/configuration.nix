@@ -81,6 +81,7 @@ in
     pkgs.ripgrep
     pkgs.kitty
     pkgs.skhd
+    pkgs.ollama
   ];
   environment.shells = [ pkgs.zsh ];
   environment.etc = {
