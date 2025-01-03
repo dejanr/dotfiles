@@ -30,11 +30,11 @@
         cask "firefox", args: { language: "en-GB" }
       '';
 
-        taps = [
-            "homebrew/services"
-            "FelixKratz/formulae"
-            "nikitabobko/tap" # aerospace
-        ];
+      taps = [
+        "homebrew/services"
+        "FelixKratz/formulae"
+        "nikitabobko/tap" # aerospace
+      ];
 
       brews = [
         "qemu"

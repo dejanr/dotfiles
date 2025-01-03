@@ -55,7 +55,7 @@
 
     let
       inherit (self) outputs;
-      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
+      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
       overlays =
         let paths = [ ./overlays ];
