@@ -12,6 +12,7 @@ in
 
     home.packages = with pkgs; [
       ripgrep
+      tree-sitter
       lua-language-server
       rust-analyzer-unwrapped
       black # python code formatter
@@ -85,7 +86,6 @@ in
       require('dejanr.globals')
       require('dejanr.options')
       require('dejanr.keymaps')
-      -- require('dejanr.prompts')
     '';
   };
 }
