@@ -137,7 +137,7 @@ in {
         gca = "git commit -a";
         gco = "git checkout";
         gb = "git branch";
-        gs = "clear; git status -sb";
+        gs = "clear; git rev-parse --git-dir >/dev/null 2>&1 && git status -sb";
         grm = "git status | grep deleted | awk '{print $3}' | xargs git rm";
 
         timestamp = "date +%s";
