@@ -13,7 +13,6 @@
     ./direnv
     ./git
     ./nvim
-    ./nvim2
     ./tmux
     ./zsh
 

@@ -20,8 +20,6 @@
     mach-nix.url = "github:DavHau/mach-nix";
     mach-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    vim-plugins = { url = "path:./modules/nvim/plugins"; };
-
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       flake = false;
@@ -47,7 +45,6 @@
     , nur
     , nix-gaming
     , mach-nix
-    , vim-plugins
     , rust-overlay
     , stylix
     , ...
@@ -89,7 +86,6 @@
               nixpkgs.overlays = [
                 nixos-apple-silicon.overlays.apple-silicon-overlay
                 nur.overlay
-                vim-plugins.overlay
               ] ++ overlays;
             }
           ];
@@ -129,7 +125,7 @@
                   users.${username}.imports =
                     [ (./. + "/hosts/mbp-work/home.nix") ];
                 };
-                nixpkgs.overlays = [ nur.overlay vim-plugins.overlay ]
+                nixpkgs.overlays = [ nur.overlay ]
                   ++ overlays;
               }
             ];

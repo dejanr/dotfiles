@@ -33,11 +33,11 @@
       cmd-4 = 'workspace 4'
       cmd-5 = 'workspace 5'
 
-      cmd-shift-1 = 'move-node-to-workspace 1'
-      cmd-shift-2 = 'move-node-to-workspace 2'
-      cmd-shift-3 = 'move-node-to-workspace 3'
-      cmd-shift-4 = 'move-node-to-workspace 4'
-      cmd-shift-5 = 'move-node-to-workspace 5'
+      cmd-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+      cmd-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+      cmd-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+      cmd-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+      cmd-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
 
       cmd-alt-x = 'reload-config'
 

@@ -391,70 +391,6 @@
         "type": "github"
       }
     },
-    "nvim-conform-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715888090,
-        "narHash": "sha256-O0qZNvZAu5vdN1EIwG54xfffWumsLEhAHPr+I9uarHk=",
-        "owner": "stevearc",
-        "repo": "conform.nvim",
-        "rev": "00f9d91391b04b1935e2f15948bd96cc111e7d3a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "stevearc",
-        "repo": "conform.nvim",
-        "type": "github"
-      }
-    },
-    "nvim-gen-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1714746280,
-        "narHash": "sha256-0AEB6im8Jz5foYzmL6KEGSAYo48g1bkFpjlCSWT6JeE=",
-        "owner": "David-Kunz",
-        "repo": "gen.nvim",
-        "rev": "bd19cf584b5b82123de977b44105e855e61e5f39",
-        "type": "github"
-      },
-      "original": {
-        "owner": "David-Kunz",
-        "repo": "gen.nvim",
-        "type": "github"
-      }
-    },
-    "nvim-regexplainer-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1700214808,
-        "narHash": "sha256-B65k8i2gBPaXvZS1HiI3Mk4UuHbW0QQyYci7HLaPN6I=",
-        "owner": "bennypowers",
-        "repo": "nvim-regexplainer",
-        "rev": "78fff711edcb986a05a03253c28a90e32c4ce31f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bennypowers",
-        "repo": "nvim-regexplainer",
-        "type": "github"
-      }
-    },
-    "nvim-sqls-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1684697500,
-        "narHash": "sha256-jKFut6NZAf/eIeIkY7/2EsjsIhvZQKCKAJzeQ6XSr0s=",
-        "owner": "nanotee",
-        "repo": "sqls.nvim",
-        "rev": "4b1274b5b44c48ce784aac23747192f5d9d26207",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nanotee",
-        "repo": "sqls.nvim",
-        "type": "github"
-      }
-    },
     "pypi-deps-db": {
       "flake": false,
       "locked": {
@@ -482,8 +418,7 @@
         "nixpkgs": "nixpkgs",
         "nur": "nur",
         "rust-overlay": "rust-overlay_2",
-        "stylix": "stylix",
-        "vim-plugins": "vim-plugins"
+        "stylix": "stylix"
       }
     },
     "rust-overlay": {
@@ -611,24 +546,6 @@
         "owner": "tinted-theming",
         "repo": "tinted-tmux",
         "type": "github"
-      }
-    },
-    "vim-plugins": {
-      "inputs": {
-        "nvim-conform-src": "nvim-conform-src",
-        "nvim-gen-src": "nvim-gen-src",
-        "nvim-regexplainer-src": "nvim-regexplainer-src",
-        "nvim-sqls-src": "nvim-sqls-src"
-      },
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-GQmUwahYG6UDdAVQ+b0dX/mIIBz8VFV6YhVUDQnL57o=",
-        "path": "./modules/nvim/plugins",
-        "type": "path"
-      },
-      "original": {
-        "path": "./modules/nvim/plugins",
-        "type": "path"
       }
     }
   },
