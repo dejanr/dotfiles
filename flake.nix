@@ -68,9 +68,12 @@
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
-            { networking.hostName = hostname; }
+            {
+              networking.hostName = hostname;
+              networking.timeServers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
+            }
             stylix.nixosModules.stylix
-            nur.nixosModules.nur
+            nur.modules.nixos.default
             ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
             (./. + "/hosts/${hostname}/configuration.nix")
@@ -84,8 +87,10 @@
                   [ (./. + "/hosts/${hostname}/home.nix") ];
               };
               nixpkgs.overlays = [
+                (import rust-overlay)
                 nixos-apple-silicon.overlays.apple-silicon-overlay
-                nur.overlay
+                nixos-apple-silicon.overlays.default
+                nur.overlays.default
               ] ++ overlays;
             }
           ];
@@ -113,7 +118,7 @@
             inherit system;
             specialArgs = { inherit inputs system; };
             modules = [
-              nur.nixosModules.nur
+              nur.modules.nixos.default
               ./hosts/mbp-work/configuration.nix
               home-manager.darwinModules.home-manager
               {
@@ -125,8 +130,7 @@
                   users.${username}.imports =
                     [ (./. + "/hosts/mbp-work/home.nix") ];
                 };
-                nixpkgs.overlays = [ nur.overlay ]
-                  ++ overlays;
+                nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
               }
             ];
           };

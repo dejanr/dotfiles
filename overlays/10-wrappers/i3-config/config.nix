@@ -178,6 +178,7 @@
   assign [class="steam_app_2429640"] $workspace5
   assign [class="steam_app_0"] $workspace5
   assign [class="clientloader.exe"] $workspace6
+  assign [class="rn_fusebox.html"] $workspace3
 
   # fix graphics glitch
   new_window none
@@ -291,6 +292,7 @@
   for_window [class="steam_app_0"] border pixel 0
   for_window [class="steam_app_0"] resize set 3440 1420
   for_window [class="steam_app_0"] move window to position 0 20
+  for_window [title="React Native DevTools"] floating disable
 
   # Widow Colours
   #                         border  background text    indicator

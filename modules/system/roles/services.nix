@@ -59,7 +59,7 @@
 
     upower.enable = true;
 
-    chrony.enable = true;
+    ntpd-rs.enable = true;
 
     postfix = {
       enable = true;

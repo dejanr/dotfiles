@@ -47,6 +47,7 @@ in
       "fs.inotify.max_user_watches" = 524288;
       "vm.swappiness" = 10;
       "vm.max_map_count" = 16777216;
+      "fs.file-max" = 524288;
     };
 
     kernelParams = [
@@ -98,8 +99,6 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  time.hardwareClockInLocalTime = true;
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
     fsType = "ext4";
@@ -126,8 +125,6 @@ in
   };
 
   hardware = {
-    openrazer.enable = true;
-
     cpu = { amd.updateMicrocode = true; };
 
     graphics = {

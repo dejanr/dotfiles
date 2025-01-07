@@ -74,6 +74,8 @@ in
     pkgs.linuxConsoleTools
 
     pkgs.discord-canary
+
+    inputs.nix-gaming.packages.${pkgs.system}.star-citizen
   ];
 
   programs.steam.enable = true;

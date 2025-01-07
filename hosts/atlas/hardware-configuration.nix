@@ -25,6 +25,7 @@ in
       "fs.inotify.max_user_watches" = 524288;
       "vm.swappiness" = 10;
       "vm.max_map_count" = 16777216;
+      "fs.file-max" = 524288;
     };
 
     kernelParams = [
@@ -54,8 +55,6 @@ in
 
     tmp.cleanOnBoot = true;
   };
-
-  time.hardwareClockInLocalTime = true;
 
   fileSystems."/" =
     {
