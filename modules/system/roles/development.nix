@@ -62,7 +62,7 @@
     ocamlPackages.utop # Universal toplevel for OCaml
     opam # A package manager for OCaml
     python3Packages.huggingface-hub # Download and publish models and other files on the huggingface.co hub
-        #python3Packages.vllm
+    python3Packages.vllm
     patchelf
     psmisc
     pulumi

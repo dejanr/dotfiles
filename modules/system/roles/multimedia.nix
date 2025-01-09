@@ -25,7 +25,7 @@
     vlc
     darktable # Virtual lighttable and darkroom for photographers
     # helvum # A GTK patchbay for pipewire
-        # carla
+    # carla
     yt-dlp # Command-line tool to download videos from YouTube.com and other sites (youtube-dl fork)
     mpv
   ];
@@ -45,24 +45,24 @@
   security.rtkit.enable = true;
 
   services.pipewire = {
-      enable = true;
-      wireplumber.enable = true;
+    enable = true;
+    wireplumber.enable = true;
 
-      # Disable everything that causes pipewire to interact with alsa devices
-      alsa.enable = false;
-      pulse.enable = true;
-      jack.enable = false;
+    # Disable everything that causes pipewire to interact with alsa devices
+    alsa.enable = false;
+    pulse.enable = true;
+    jack.enable = false;
 
-      extraConfig.pipewire = {
-          "10-clock-rate" = {
-              "context.properties" = {
-                "default.clock.rate" = 44100;
-                "default.clock.allowed-rates" = [ 44100 48000 96000 ];
-                "default.clock.quantum" = 32;
-                "default.clock.min-quantum" = 32;
-                "default.clock.max-quantum" = 1024;
-              };
-          };
+    extraConfig.pipewire = {
+      "10-clock-rate" = {
+        "context.properties" = {
+          "default.clock.rate" = 44100;
+          "default.clock.allowed-rates" = [ 44100 48000 96000 ];
+          "default.clock.quantum" = 32;
+          "default.clock.min-quantum" = 32;
+          "default.clock.max-quantum" = 1024;
+        };
       };
+    };
   };
 }
