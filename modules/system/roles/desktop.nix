@@ -5,6 +5,7 @@
     acpi # Show battery status and other ACPI information
     arandr # manage dispays
     axel # Console downloading program with some features for parallel connections for faster downloading
+    blender # 3D Creation/Animation/Publishing System
     caffeine-ng # Status bar application to temporarily inhibit screensaver and sleep mode
     imv # A command line image viewer for tiling window managers
     evince # gnome document viewer
