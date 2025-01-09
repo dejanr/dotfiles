@@ -18,14 +18,16 @@ vim.keymap.set("n", "[b", ":bprevious<cr>", default_opt)
 vim.keymap.set("n", "]b", ":bnext<cr>", default_opt)
 
 -- Goto
-vim.keymap.set("n", "<leader>gf", "gf", default_opt)
-vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, default_opt)
-vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, default_opt)
-vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, default_opt)
-vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, default_opt)
-vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help, default_opt)
-vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, default_opt)
-
+vim.keymap.set("n", "<leader>gf", "gf", { noremap = true, silent = true, desc = "Go to file" })
+vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
+vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "Go to hover" })
+vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation,
+  { noremap = true, silent = true, desc = "Go to implementation" })
+vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, { noremap = true, silent = true, desc = "Go to references" })
+vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help,
+  { noremap = true, silent = true, desc = "Go to signature help" })
+vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition,
+  { noremap = true, silent = true, desc = "Go to type definition" })
 
 -- Winwow movement
 vim.keymap.set("n", "<C-h>", "<C-w>h")
@@ -57,12 +59,6 @@ vim.keymap.set("n", "<leader>tl", ":ToggleLocList<cr>", { desc = "Toggle locatio
 vim.keymap.set("n", "<leader>tq", ":ToggleQF<cr>", { desc = "Toggle quickfix list" })
 vim.keymap.set("n", "<leader>tp", ":set invpaste<CR>:set paste?<cr>", default_opt)
 vim.keymap.set("n", "<leader>ts", ":nohlsearch<cr>", default_opt)
-
--- Gen (Ollama)
-vim.keymap.set("v", "<leader>g", ":Gen<cr>")
-vim.keymap.set("v", "<leader>gr", ":Gen Refactor<cr>")
-vim.keymap.set("v", "<leader>gs", ":Gen ImproveGrammar<cr>")
-vim.keymap.set("n", "<leader>g", ":Gen<cr>")
 
 -- Trouble
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)

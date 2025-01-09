@@ -25,7 +25,7 @@
     vlc
     darktable # Virtual lighttable and darkroom for photographers
     # helvum # A GTK patchbay for pipewire
-    carla
+        # carla
     yt-dlp # Command-line tool to download videos from YouTube.com and other sites (youtube-dl fork)
     mpv
   ];

@@ -51,7 +51,6 @@ in
     pkgs.dxvk
     pkgs.vkd3d-proton
     pkgs.wine-prefix
-    pkgs.dxvk
 
     pkgs.jeveassets
     pkgs.gamemode # Optimise Linux system performance on demand
@@ -78,5 +77,5 @@ in
   programs.steam.remotePlay.openFirewall = true;
   programs.steam.dedicatedServer.openFirewall = true;
 
-  services.joycond.enable = true;
+  services.flatpak.enable = true;
 }
