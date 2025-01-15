@@ -358,6 +358,12 @@
         defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
         # Disable automatic spell checking
         defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
+
+        ###############################################################################
+        # Aerospace tiling window manager                                             #
+        ###############################################################################
+        defaults write com.apple.dock expose-group-apps -bool true
+        defaults write com.apple.spaces spans-displays -bool true
       '';
     };
 

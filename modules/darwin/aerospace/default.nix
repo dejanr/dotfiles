@@ -49,20 +49,20 @@
       5 = 'main'
 
       [[on-window-detected]]
-      if.app-name-regex-substring = 'mail'
-      run = 'move-node-to-workspace 1'
+      if.app-name-regex-substring = 'calendar'
+      run = ['layout floating', 'move-node-to-workspace 4']
 
       [[on-window-detected]]
-      if.app-name-regex-substring = 'calendar'
-      run = 'move-node-to-workspace 1'
+      if.app-name-regex-substring = 'simulator'
+      run = ['layout floating']
 
       [[on-window-detected]]
       if.app-name-regex-substring = 'messages'
-      run = 'move-node-to-workspace 3'
+      run = ['layout floating', 'move-node-to-workspace 5']
 
       [[on-window-detected]]
       if.app-name-regex-substring = 'slack'
-      run = 'move-node-to-workspace 5'
+      run = ['layout floating', 'move-node-to-workspace 5']
     '';
   };
 }
