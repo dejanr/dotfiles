@@ -118,7 +118,6 @@
             inherit system;
             specialArgs = { inherit inputs system; };
             modules = [
-              nur.modules.nixos.default
               ./hosts/mbp-work/configuration.nix
               home-manager.darwinModules.home-manager
               {
