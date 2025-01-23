@@ -68,8 +68,11 @@ in
     pkgs.linuxConsoleTools
 
     pkgs.discord-canary
+    pkgs.pyfa
 
     inputs.nix-gaming.packages.${pkgs.system}.star-citizen
+
+    pkgs.mumble # Low-latency, high quality voice chat software
   ];
 
   programs.steam.enable = true;

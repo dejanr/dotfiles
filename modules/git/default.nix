@@ -8,6 +8,7 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
+      lfs.enable = true;
       userName = "dejanr";
       userEmail = "dejan@ranisavljevic.com";
       extraConfig = {
