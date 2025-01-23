@@ -212,12 +212,12 @@
   for_window [class="Corebird"] resize set 450 1060
   for_window [class="Corebird"] move window to position 1470 18
 
-  for_window [class="exefile.exe"] floating enable
-  for_window [class="exefile.exe"] resize set 1490 1420
-  for_window [class="exefile.exe"] move window to position 0 20
-  for_window [class="eve-online.exe"] floating enable
-  for_window [class="eve-online.exe"] resize set 1490 1420
-  for_window [class="eve-online.exe"] move window to position 0 20
+  for_window [title="EVE"] floating enable
+  for_window [title="EVE"] resize set 1490 1420
+  for_window [title="EVE"] move window to position 0 20
+  for_window [class="EVE Launcher"] floating enable
+  for_window [class="EVE Launcher"] resize set 1490 1420
+  for_window [class="EVE Launcher"] move window to position 0 20
   for_window [title="EVE - D' Zwer"] floating enable
   for_window [title="EVE - D' Zwer"] resize set 1490 1420
   for_window [title="EVE - D' Zwer"] move window to position 0 20

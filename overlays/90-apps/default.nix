@@ -52,10 +52,6 @@ in
     inherit (super) stdenv lib fetchFromGitHub alsaLib;
   };
 
-  pyfa = super.callPackage ./pyfa {
-    inherit (super) python3 fetchurl makeDesktopItem writeScriptBin;
-  };
-
   parsecgaming = super.callPackage ./parsecgaming/default.nix { };
 
   dotemacs = super.callPackage ./dotemacs {
