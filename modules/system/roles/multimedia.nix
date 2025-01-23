@@ -48,10 +48,9 @@
     enable = true;
     wireplumber.enable = true;
 
-    # Disable everything that causes pipewire to interact with alsa devices
     alsa.enable = false;
     pulse.enable = true;
-    jack.enable = false;
+    jack.enable = true;
 
     extraConfig.pipewire = {
       "10-clock-rate" = {

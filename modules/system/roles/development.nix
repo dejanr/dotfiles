@@ -54,7 +54,20 @@
     nmap # network discovery and security audit
     nodejs_20 # nodejs
     nox # tools to make nix nicer
-    obs-studio # video recording and live streaming
+    (wrapOBS {
+      plugins = [
+        obs-studio-plugins.obs-vintage-filter
+        obs-studio-plugins.obs-vertical-canvas
+        obs-studio-plugins.obs-pipewire-audio-capture
+        obs-studio-plugins.obs-nvfbc
+        obs-studio-plugins.obs-gradient-source
+        obs-studio-plugins.obs-freeze-filter
+        obs-studio-plugins.obs-composite-blur
+        obs-studio-plugins.obs-backgroundremoval
+        obs-studio-plugins.obs-3d-effect
+        obs-studio-plugins.input-overlay
+      ];
+    })
     ocamlPackages.core # Jane Street Capital's standard library overlay
     ocamlPackages.ocaml # Most popular variant of the Caml language
     ocamlPackages.ounit # Unit test framework for OCaml
