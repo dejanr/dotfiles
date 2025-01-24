@@ -41,7 +41,12 @@ self: super:
     pkgs = super;
   };
 
-  screenshot = import ./screenshot {
+  dejli-gif = import ./dejli-gif {
+    inherit (super);
+    pkgs = super;
+  };
+
+  dejli-screenshot = import ./dejli-screenshot {
     inherit (super);
     pkgs = super;
   };

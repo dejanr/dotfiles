@@ -80,7 +80,9 @@ in
     papirus-icon-theme
     arc-icon-theme
 
-    screenshot
+    # dejli
+    dejli-gif
+    dejli-screenshot
   ];
 
   services.libinput = {

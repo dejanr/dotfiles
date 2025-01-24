@@ -2,7 +2,7 @@
 
 with pkgs;
 let
-  name = "screenshot";
+  name = "dejli-screenshot";
   source = import ./script.nix {
     inherit pkgs;
   };

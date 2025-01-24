@@ -99,7 +99,8 @@
   bindsym $mod+Return exec kitty --start-as maximized --single-instance -d ~ &> /dev/null &
   bindsym $mod+Shift+Return exec i3-msg split toggle && kitty --start-as maximized --single-instance -d ~ &> /dev/null & && i3-msg split toggle
   bindsym $mod+d exec "rofi -show drun -modi drun,run -show-icons"
-  bindsym $mod+p exec screenshot
+  bindsym $mod+p exec dejli-screenshot
+  bindsym $mod+Shift+p exec dejli-gif
   bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
   # Volume & Media Bindings
