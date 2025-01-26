@@ -113,15 +113,15 @@ in
     [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
 
   fileSystems."/mnt/synology/inbox" = {
-    device = "storage.cat-vimba.ts.net:/volume1/inbox";
+    device = "100.69.35.105:/volume1/inbox";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" ];
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "nfsvers=4.1" ];
   };
 
   fileSystems."/mnt/synology/storage" = {
-    device = "storage.cat-vimba.ts.net:/volume1/storage";
+    device = "100.69.35.105:/volume1/storage";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" ];
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "nfsvers=4.1" ];
   };
 
   hardware = {
