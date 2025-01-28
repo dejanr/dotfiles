@@ -1,4 +1,4 @@
-{ writeScript, colors, xorg, libnotify, maim, xclip}:
+{ writeScript, colors, xorg, libnotify, maim, xclip }:
 let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
