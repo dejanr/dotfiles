@@ -11,7 +11,7 @@
   if [[ "$BLOCK_BUTTON" == "1" ]]; then
       if [[ -f "$PID_FILE" ]] then
           # Stop the script by killing the process
-          rm -rf $PID_FILE
+          rm -f $PID_FILE
           echo "$LABEL"
           echo "$LABEL"
           echo "$DEFAULT_COLOR"

@@ -134,7 +134,7 @@ in
 
   function cleanup() {
     rm -rf "$TEMP_DIRECTORY"
-    rm -rf "$PID_FILE"
+    rm -f "$PID_FILE"
     log "INFO" "Deleted temporary directory $TEMP_DIRECTORY"
   }
 
