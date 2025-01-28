@@ -81,6 +81,7 @@ in
     arc-icon-theme
 
     # dejli
+    dejli-audio
     dejli-gif
     dejli-screenshot
   ];

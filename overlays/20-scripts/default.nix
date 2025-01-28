@@ -41,6 +41,11 @@ self: super:
     pkgs = super;
   };
 
+  dejli-audio = import ./dejli-audio {
+    inherit (super);
+    pkgs = super;
+  };
+
   dejli-gif = import ./dejli-gif {
     inherit (super);
     pkgs = super;

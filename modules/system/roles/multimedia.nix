@@ -33,6 +33,7 @@
     yt-dlp # Command-line tool to download videos from YouTube.com and other sites (youtube-dl fork)
     mpv
     strawberry # Music player and music collection organizer
+    pulseaudioFull
   ];
 
   hardware.bluetooth = {
