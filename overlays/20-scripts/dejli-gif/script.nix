@@ -96,11 +96,6 @@ function record() {
 
   log "INFO" "Started recording (PID: $FFMPEG_PID). Press Esc to stop."
 
-  (
-    sleep 30
-    log "INFO" "30 seconds elapsed. Stopping recording."
-    stop_recording
-  ) &
   TIMER_PID="$!"
 
   trap stop_recording INT
