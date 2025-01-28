@@ -12,7 +12,7 @@
     hacksaw # Lightweight selection tool for usage in screenshot scripts etc
     slop # Queries a selection from the user and prints to stdout
     (ffmpeg-full.override {
-     withXcb = true;
+      withXcb = true;
     })
     gpu-screen-recorder # screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
     gpu-screen-recorder-gtk # GTK for screen recorder that has minimal impact on system performance by recording your monitor using the GPU only

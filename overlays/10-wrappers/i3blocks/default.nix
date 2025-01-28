@@ -1,4 +1,14 @@
-{ stdenv, makeWrapper, writeTextFile, writeScript, colors, i3blocks, xorg, libnotify, maim, xclip }:
+{ stdenv
+, makeWrapper
+, writeTextFile
+, writeScript
+, colors
+, i3blocks
+, xorg
+, libnotify
+, maim
+, xclip
+}:
 let
   config = import ./config.nix {
     inherit writeScript colors xorg libnotify maim xclip;
