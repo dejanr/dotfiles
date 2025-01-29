@@ -15,6 +15,8 @@
     bind
     binutils
     bruno # Open-source IDE For exploring and testing APIs.
+    cargo # Downloads your Rust project's dependencies and builds your project
+    rustup # rust toolchain
     conda # python package managment
     coreutils
     ctags
@@ -33,7 +35,11 @@
     gitFull
     gnum4 # GNU M4, a macro processor
     gnumake
+    gcc
     go
+    gopls # Official language server for the Go language
+    gofumpt # Stricter gofmt
+    gotools # Additional tools for Go development
     gparted
     graphicsmagick # Swiss army knife of image processing
     htop
@@ -45,12 +51,16 @@
     jq # A lightweight and flexible command-line JSON processor
     lshw
     lsof
+    lua
+    lua54Packages.lua
+    lua54Packages.luarocks
     mercurial
     mosh # mobile shell, ssh replacement
     mr # multiple repository managment
     ncftp
     ngrep # network packet alalyzer
     nix-prefetch-scripts
+    nixpkgs-fmt # Nix code formatter for nixpkgs
     nmap # network discovery and security audit
     nodejs_20 # nodejs
     nox # tools to make nix nicer

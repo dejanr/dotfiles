@@ -3,7 +3,7 @@ with colors;
 
 ''
   env:
-    TERM: xterm-256color
+    TERM: tmux-256color
 
   window:
     dimensions:

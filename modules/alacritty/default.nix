@@ -25,7 +25,7 @@ in
           decorations = "None";
         };
 
-        env.TERM = "xterm-256color";
+        env.TERM = "tmux-256color";
 
         scrolling = {
           history = 10000;

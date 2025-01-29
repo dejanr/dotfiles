@@ -1,10 +1,7 @@
---  ╭──────────────────────────────────────────────────────────╮
---  │                    LSP CONFIGURATION                     │
---  ╰──────────────────────────────────────────────────────────╯
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufReadPost', 'BufNewFile' },
-  -- depedencies = { 'saghen/blink.cmp' },
+  depedencies = { 'saghen/blink.cmp' },
   config = function()
     -- ╭───────╮
     -- │ MASON │
@@ -29,7 +26,6 @@ return {
         'bashls',
         'cssls',
         'emmet_ls',
-        'gleam',
         'html',
         'intelephense',
         'jdtls',
@@ -83,7 +79,7 @@ return {
     vim.keymap.set('n', '<space><right>', function()
       vim.diagnostic.jump({ count = vim.v.count1 })
     end, opts('Next Diagnostic'))
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts('Send Diagnostic to Locallist'))
+    vim.keymap.set('n', '<leader><ctrl>q', vim.diagnostic.setloclist, opts('Send Diagnostic to Locallist'))
 
     -- ╭───────────────────────╮
     -- │ LSPATTACH AUTOCOMMAND │
@@ -291,13 +287,6 @@ return {
       handlers = handlers,
     })
 
-    -- ╭───────╮
-    -- │ Gleam │
-    -- ╰───────╯
-    lspconfig.gleam.setup({
-      handlers = handlers,
-    })
-
     -- ╭────╮
     -- │ Go │
     -- ╰────╯
@@ -305,6 +294,11 @@ return {
       handlers = handlers,
       settings = {
         gofumpt = true,
+        gopls = {
+          env = {
+            GOFLAGS = "-tags=windows,linux,darwin,test,unittest"
+          },
+        },
         codelenses = {
           gc_details = false,
           generate = true,

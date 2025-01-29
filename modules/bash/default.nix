@@ -150,7 +150,7 @@ in {
         # FZF default command
         						export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
-        						export TERM=xterm-256color
+        						export TERM=tmux-256color
         						export LC_ALL=en_US.UTF-8
         						export LC_CTYPE=en_US.UTF-8
         						export LANG=en_US.UTF-8

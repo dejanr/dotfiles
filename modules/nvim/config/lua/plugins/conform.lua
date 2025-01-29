@@ -4,7 +4,7 @@ return {
     require("conform").setup({
       formatters_by_ft = {
         css = { "prettier" },
-        go = { "goimports", "gofmt" },
+        go = {"gofumpt", "goimports"},
         html = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
@@ -12,7 +12,7 @@ return {
         json = { "prettier" },
         lua = { "stylua" },
         markdown = { "prettier", "markdownlint" },
-        nix = { "nixpkgs-fmt" },
+        nix = { "nixpkgs_fmt" },
         python = { "isort", "black" },
         terraform = { "terraform_fmt" },
         yaml = { "prettier" }

@@ -59,11 +59,3 @@ o.signcolumn = "yes:1";
 
 -- auto reload files changed outside of vim
 o.autoread = true
-
--- Remove trailing whitespaces on save
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  callback = function()
-    require("whitespace-nvim").trim()
-  end,
-})
