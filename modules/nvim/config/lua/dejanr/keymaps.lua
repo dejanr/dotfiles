@@ -48,10 +48,6 @@ vim.keymap.set("", "<C-p>", ":lprevious<cr>")
 -- Turn off highlight search
 vim.keymap.set("n", "<leader>n", ":set invhls<cr>:set hls?<cr>", { desc = "Turn off highlight" })
 
--- Vimux
-vim.keymap.set("n", "t", ":call VimuxRunLastCommand()<cr>")
-vim.keymap.set("n", "T", ":call VimuxRunCommand(\" run-last-history-in-vimux\")<cr>")
-
 -- Toggle
 vim.cmd([[command! -nargs=0 -bar ToggleLocList lua require('utils').ToggleLocList()]])
 vim.cmd([[command! -nargs=0 -bar ToggleQF lua require('utils').ToggleQF()]])

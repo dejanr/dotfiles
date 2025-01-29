@@ -148,7 +148,7 @@ in {
         lmk = "notify-send 'Something happened!'";
 
         run-last-history-in-vimux =
-          "history | grep 'clear;' | grep -v 'grep clear;' | sort -n -r | head -n 1 | cut -d';' -f2- | xargs -i tmux send-keys -t 0 Escape :VimuxPromptCommand Enter 'clear; {}' Enter";
+          "history | grep 'clear;' | grep -v 'grep clear;' | sort -n -r | head -n 1 | cut -d';' -f2- | xargs -I {} tmux send-keys -t 0 Escape \":lua require('nvimux').prompt_command()\" Enter \"clear; {}\" Enter ";
       };
 
       # Source all plugins, nix-style
