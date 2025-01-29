@@ -64,7 +64,7 @@ in {
         ## case-insensitive (uppercase from lowercase) completion
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-        export PATH=node_modules/.bin:$PATH
+        export PATH=node_modules/.bin:$GOPATH/bin:$PATH
 
         HISTFILE="$HOME/.history"
         HISTSIZE=10000000

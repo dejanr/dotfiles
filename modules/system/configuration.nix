@@ -101,6 +101,7 @@ in
 
   # Set environment variables
   environment.variables = {
+    GOPATH = "$HOME/go";
     NIXOS_CONFIG = "$HOME/.config/nixos/configuration.nix";
     NIXOS_CONFIG_DIR = "$HOME/.config/nixos/";
     XDG_DATA_HOME = "$HOME/.local/share";
