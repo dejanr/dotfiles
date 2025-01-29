@@ -2,6 +2,8 @@
 
 {
   environment.systemPackages = with pkgs; [
+    teams # temp, since they broke browser app, what a bunch of incompetents
+
     acpi # Show battery status and other ACPI information
     arandr # manage dispays
     axel # Console downloading program with some features for parallel connections for faster downloading
