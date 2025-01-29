@@ -4,7 +4,7 @@ return {
     require("conform").setup({
       formatters_by_ft = {
         css = { "prettier" },
-        go = { "gofmt" },
+        go = { "goimports", "gofmt" },
         html = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },

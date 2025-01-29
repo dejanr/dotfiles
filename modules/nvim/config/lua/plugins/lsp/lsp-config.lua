@@ -247,53 +247,6 @@ return {
       settings = {
         Lua = {},
       },
-
-      -- OLD CONFIGURATION FOR ON_ATTACH FUNCTION
-      -- settings = {
-      --     Lua = {
-      --         runtime = {
-      --             version = 'LuaJIT',
-      --             path = runtime_path,
-      --         },
-      --         diagnostics = {
-      --             -- enable = true,
-      --             globals = { 'vim', 'use', 'winid' },
-      --             disable = { 'undefined-field', 'undefined-doc-name' },
-      --         },
-      --         workspace = {
-      --             library = {
-      --                 vim.env.VIMRUNTIME,
-      --                 -- [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-      --                 -- [vim.fn.stdpath('config') .. '/lua'] = true,
-      --                 -- [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-      --                 '${3rd}/luv/library',
-      --                 -- [vim.fn.stdpath('data') .. '/mason/packages/lua-language-server/libexec/meta/3rd/luv/library'] = true,
-      --                 [vim.fn.expand('%:p:h')] = true,
-      --             },
-      --             -- library = vim.api.nvim_get_runtime_file('', true),
-      --             -- library = ${workspace}/**/init.lua,
-      --         },
-      --         completion = {
-      --             enable = true,
-      --             callSnippet = 'Both',
-      --         },
-      --         format = {
-      --             enable = true,
-      --             defaultConfig = {
-      --                 indent_style = 'space',
-      --                 indent_size = '4',
-      --                 quote_style = 'single',
-      --             },
-      --         },
-      --         hint = {
-      --             enable = true,
-      --             arrayIndex = 'Disable',
-      --         },
-      --         telemetry = {
-      --             enable = false,
-      --         },
-      --     },
-      -- },
     })
 
     -- ╭─────────────╮
@@ -343,6 +296,47 @@ return {
     -- ╰───────╯
     lspconfig.gleam.setup({
       handlers = handlers,
+    })
+
+    -- ╭────╮
+    -- │ Go │
+    -- ╰────╯
+    lspconfig.gopls.setup({
+      handlers = handlers,
+      settings = {
+        gofumpt = true,
+        codelenses = {
+          gc_details = false,
+          generate = true,
+          regenerate_cgo = true,
+          run_govulncheck = true,
+          test = true,
+          tidy = true,
+          upgrade_dependency = true,
+          vendor = true,
+        },
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+        analyses = {
+          fieldalignment = true,
+          nilness = true,
+          unusedparams = true,
+          unusedwrite = true,
+          useany = true,
+        },
+        usePlaceholders = true,
+        completeUnimported = true,
+        staticcheck = true,
+        directoryFilters = { "-.git", "-node_modules" },
+        semanticTokens = true,
+      },
     })
 
     -- ╭────────────╮
