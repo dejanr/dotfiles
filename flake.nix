@@ -17,9 +17,6 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
 
-    mach-nix.url = "github:DavHau/mach-nix";
-    mach-nix.inputs.nixpkgs.follows = "nixpkgs";
-
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       flake = false;
@@ -34,6 +31,11 @@
       url = "github:EdenEast/nightfox.nvim";
       flake = false;
     };
+
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -44,7 +46,6 @@
     , nixpkgs
     , nur
     , nix-gaming
-    , mach-nix
     , rust-overlay
     , stylix
     , ...

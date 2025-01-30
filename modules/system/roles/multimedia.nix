@@ -9,7 +9,6 @@
     libgphoto2 # A library for accessing digital cameras
     blueman
     calf
-    hacksaw # Lightweight selection tool for usage in screenshot scripts etc
     slop # Queries a selection from the user and prints to stdout
     (ffmpeg-full.override {
       withXcb = true;

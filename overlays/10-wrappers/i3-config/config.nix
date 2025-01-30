@@ -327,8 +327,8 @@
   bindsym $mod+s split toggle
 
   # applications
-  bindsym $mod+w exec --no-startup-id google-chrome-stable --args --profile-directory=Personal
-  bindsym $mod+e exec --no-startup-id google-chrome-stable --args --profile-directory=Work
+  bindsym $mod+w exec --no-startup-id google-chrome-beta --args --profile-directory=Personal
+  bindsym $mod+e exec --no-startup-id google-chrome-beta --args --profile-directory=Work
   bindsym $mod+r exec --no-startup-id kitty ranger
 
   # Windows switching
