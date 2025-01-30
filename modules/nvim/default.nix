@@ -72,6 +72,8 @@ in
         nodePackages.vscode-langservers-extracted # Web (ESLint, HTML, CSS, JSON)
         nixpkgs-fmt # Nix
         lua-language-server # Lua
+        tailwindcss-language-server # Tailwind CSS Language Server
+        gopls # Official language server for the Go language
       ];
     };
 

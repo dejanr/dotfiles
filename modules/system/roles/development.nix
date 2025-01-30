@@ -37,7 +37,6 @@
     gnumake
     gcc
     go
-    gopls # Official language server for the Go language
     gofumpt # Stricter gofmt
     gotools # Additional tools for Go development
     gparted
@@ -109,6 +108,7 @@
     which
     wireshark # network protocol analyzer
     yarn
+    pnpm
 
     fzf
     cht-sh
