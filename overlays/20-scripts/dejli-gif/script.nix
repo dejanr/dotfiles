@@ -1,7 +1,7 @@
 { pkgs }:
 
 let
-  hacksaw = "${pkgs.hacksaw}/bin/hacksaw";
+  slop = "${pkgs.slop}/bin/slop";
   ffmpeg = "${(pkgs.ffmpeg-full.override { withXcb = true; })}/bin/ffmpeg";
 in
 ''
@@ -76,7 +76,7 @@ in
   function get_geometry() {
     log "INFO" "Select the area to record using your mouse..."
     local raw_geometry
-    raw_geometry=$(${hacksaw}) || log "ERROR" "No area selected. Exiting." true
+    raw_geometry=$(${slop}) || log "ERROR" "No area selected. Exiting." true
     log "INFO" "Raw geometry: $raw_geometry"
 
     IFS=+x read -r w h x y <<< "$raw_geometry"

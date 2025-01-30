@@ -1,7 +1,6 @@
 { pkgs }:
 
 let
-  hacksaw = "${pkgs.hacksaw}/bin/hacksaw";
   ffmpeg = "${(pkgs.ffmpeg-full.override { withXcb = true; })}/bin/ffmpeg";
 in
 ''

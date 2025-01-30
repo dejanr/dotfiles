@@ -1,16 +1,16 @@
 { pkgs }:
 
 let
-  hacksaw = "${pkgs.hacksaw}/bin/hacksaw";
+  slop = "${pkgs.slop}/bin/slop";
   shotgun = "${pkgs.shotgun}/bin/shotgun";
 in
 ''
   #!/usr/bin/env sh
 
   OUTPUT_FILE=$(eval echo "~/archive/dejli-screenshots/$(date +%Y%m%d_%H%M%S).png")
-  SELECTION=$(${hacksaw} -f "-i %i -g %g")
+  SELECTION=$(${slop})
 
   mkdir -p $(dirname "$OUTPUT_FILE")
 
-  ${shotgun} $SELECTION - | tee "$OUTPUT_FILE" | xclip -t 'image/png' -selection clipboard
+  ${shotgun} -f png -g $SELECTION - | tee "$OUTPUT_FILE" | xclip -t 'image/png' -selection clipboard
 ''
