@@ -6,7 +6,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxPackages_latest;
+  kernelPackages = pkgs.linuxPackages_zen;
   deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
 in
 {
@@ -55,6 +55,7 @@ in
       "iommu=pt"
       "iommu=1"
       "quiet"
+      "udev.log_level=3"
       "splash"
       "hugepagesz=1GB"
       "loglevel=3"
