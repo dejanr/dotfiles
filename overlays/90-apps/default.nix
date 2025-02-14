@@ -59,7 +59,6 @@ in
   };
 
   pulumi = super.callPackage ./pulumi { };
-  zed-editor = super.callPackage ./zed-editor { };
 
   jeveassets = super.callPackage ./jeveassets/default.nix {
     inherit (super) stdenv fetchzip unzip jre8 makeDesktopItem;
