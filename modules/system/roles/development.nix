@@ -12,6 +12,7 @@
     aspellDicts.de
     aspellDicts.en
     atop
+    awscli2
     bind
     binutils
     bruno # Open-source IDE For exploring and testing APIs.

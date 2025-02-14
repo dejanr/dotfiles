@@ -5,7 +5,7 @@ let
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
-    sha256 = "1jk1bg15vyqipcc1sxj674nz77p6j48is34r00frz6kddd6yk83a";
+    sha256 = "00p6mx8rkkq5qa5i7c762zvv8habyh3kg52iyf0n4dkfk64wkvjp";
   };
 in
 {
