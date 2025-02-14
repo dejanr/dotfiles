@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -19,4 +19,10 @@
   };
 
   virtualisation.podman.enable = true;
+
+  # sst.dev
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    bun
+  ];
 }
