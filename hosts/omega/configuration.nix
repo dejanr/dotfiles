@@ -18,8 +18,5 @@
     acceleration = "cuda";
   };
 
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
+  virtualisation.podman.enable = true;
 }
