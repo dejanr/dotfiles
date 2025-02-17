@@ -83,6 +83,22 @@
       [ "firefox.desktop" "chromium.desktop" ];
   };
 
+  config.xdg.desktopEntries.eve-online = {
+    name = "Eve";
+    exec = "env WINEPREFIX=/home/dejanr/games/eve-online WINEARCH=win64 wine64 /home/dejanr/games/eve-online/drive_c/users/dejanr/AppData/Local/eve-online/eve-online.exe";
+    icon = "wine";
+    terminal = false;
+    categories = [ "Game" ];
+  };
+
+  config.xdg.desktopEntries.workspace-eve = {
+    name = "Workspace For Eve";
+    exec = "${pkgs.wm-workspace}/bin/wm-workspace \"6: \" \"GeLaTe\" \"Hachi\" \"Vorah\"";
+    icon = "utilities-terminal";
+    terminal = true;
+    categories = [ "Utility" ];
+  };
+
   config.modules = {
     # gui
     kitty.enable = true;

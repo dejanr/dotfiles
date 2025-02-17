@@ -27,6 +27,7 @@ in
   environment.systemPackages = with pkgs; [
     wm-lock
     wm-wallpaper
+    wm-workspace
 
     rofi # for app launcher
     rofi-menugen # Generates menu based applications using rofi

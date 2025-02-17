@@ -70,4 +70,9 @@ self: super:
     inherit (super);
     pkgs = super;
   };
+
+  wm-workspace = import ./wm-workspace {
+    inherit (super);
+    pkgs = super;
+  };
 }

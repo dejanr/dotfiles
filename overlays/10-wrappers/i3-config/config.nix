@@ -180,6 +180,9 @@
   assign [class="steam_app_0"] $workspace5
   assign [class="clientloader.exe"] $workspace6
   assign [class="rn_fusebox.html"] $workspace3
+  assign [class="EVE - GeLaTe"] $workspace6
+  assign [class="EVE - Hachi Onna"] $workspace6
+  assign [class="EVE - D' Vorah"] $workspace6
 
   # fix graphics glitch
   new_window none
@@ -249,6 +252,33 @@
   for_window [title="EVE - Brqa"] floating enable
   for_window [title="EVE - Brqa"] resize set 1490 1420
   for_window [title="EVE - Brqa"] move window to position 1950 20
+  for_window [title="EVE - GeLaTe"] floating enable
+  for_window [title="EVE - GeLaTe"] resize set 1490 1420
+  for_window [title="EVE - GeLaTe"] move window to position 0 20
+  for_window [title="EVE - R' GeLaTe"] floating enable
+  for_window [title="EVE - R' GeLaTe"] resize set 1490 1420
+  for_window [title="EVE - R' GeLaTe"] move window to position 0 20
+  for_window [title="EVE - P' GeLaTe"] floating enable
+  for_window [title="EVE - P' GeLaTe"] resize set 1490 1420
+  for_window [title="EVE - P' GeLaTe"] move window to position 0 20
+  for_window [title="EVE - Hachi Onna"] floating enable
+  for_window [title="EVE - Hachi Onna"] resize set 1490 1420
+  for_window [title="EVE - Hachi Onna"] move window to position 975 20
+  for_window [title="EVE - R' Hachi Onna"] floating enable
+  for_window [title="EVE - R' Hachi Onna"] resize set 1490 1420
+  for_window [title="EVE - R' Hachi Onna"] move window to position 975 20
+  for_window [title="EVE - P' Hachi Onna"] floating enable
+  for_window [title="EVE - P' Hachi Onna"] resize set 1490 1420
+  for_window [title="EVE - P' Hachi Onna"] move window to position 975 20
+  for_window [title="EVE - D' Vorah"] floating enable
+  for_window [title="EVE - D' Vorah"] resize set 1490 1420
+  for_window [title="EVE - D' Vorah"] move window to position 1950 20
+  for_window [title="EVE - R' Vorah"] floating enable
+  for_window [title="EVE - R' Vorah"] resize set 1490 1420
+  for_window [title="EVE - R' Vorah"] move window to position 1950 20
+  for_window [title="EVE - P' Vorah"] floating enable
+  for_window [title="EVE - P' Vorah"] resize set 1490 1420
+  for_window [title="EVE - P' Vorah"] move window to position 1950 20
   for_window [class="Albion-Online"] floating enable
   for_window [class="Albion-Online"] resize set 3440 1440
   for_window [class="Albion-Online"] move window to position 0 -20
