@@ -58,6 +58,4 @@
       setSendmail = true;
     };
   };
-
-  system.stateVersion = "23.05";
 }

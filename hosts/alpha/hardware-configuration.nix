@@ -98,8 +98,19 @@ in
   };
 
   networking = {
-    useDHCP = lib.mkDefault true;
+    networkmanager.enable = false;
+    useDHCP = lib.mkDefault false;
     hostName = "${hostName}";
+
+    bridges = {
+      "br0" = {
+        interfaces = [ "enp6s0f0" ];
+      };
+    };
+
+    interfaces.br0.useDHCP = true;
+    interfaces.enp6s0f0.useDHCP = true;
+    interfaces.enp2s0.useDHCP = true;
   };
 
   nix.settings.max-jobs = lib.mkDefault 4;
