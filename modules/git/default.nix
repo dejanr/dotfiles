@@ -14,7 +14,16 @@ in {
       extraConfig = {
         init = { defaultBranch = "main"; };
         github = { user = "dejanr"; };
+  "filter \"lfs\"" = {
+     clean = "${pkgs.git-lfs}/bin/git-lfs clean -- %f";
+     smudge = "${pkgs.git-lfs}/bin/git-lfs smudge --skip -- %f";
+     process = "${pkgs.git-lfs}/bin/git-lfs filter-process --skip";
+     required = true;
+  };
       };
+    };
+    programs.lazygit = {
+      enable = true;
     };
   };
 }

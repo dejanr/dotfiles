@@ -34,6 +34,7 @@
     gitAndTools.git-extras
     gitAndTools.gitflow
     gitFull
+    lazygit
     gnum4 # GNU M4, a macro processor
     gnumake
     gcc
