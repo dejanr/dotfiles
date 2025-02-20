@@ -75,6 +75,8 @@
     xorg.xmodmap
 
     rmview # Fast live viewer for reMarkable 1 and 2
+
+    slack
   ];
 
   services.blueman.enable = true;
