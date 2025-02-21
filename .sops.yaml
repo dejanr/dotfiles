@@ -1,0 +1,7 @@
+keys:
+  - &omega age18znyg2d4fx7fn05f9m077aqxwkv8z2f7ry7z34vycr8vsnvelp3sxg7dwh
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+          - *omega

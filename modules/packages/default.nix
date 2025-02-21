@@ -22,11 +22,8 @@ in {
       python3
       lua
       # anki-bin
-
-      # gleam
-      gleam
-      erlang
-      rebar3
+      fd # Simple, fast and user-friendly alternative to find
+      fzf # Command-line fuzzy finder written in Go
     ];
   };
 }

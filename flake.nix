@@ -2,7 +2,11 @@
   description = "NixOS configuration";
 
   inputs = {
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -48,6 +52,7 @@
     , nix-gaming
     , rust-overlay
     , stylix
+    , sops-nix
     , ...
     }@inputs:
 
@@ -75,6 +80,7 @@
             }
             stylix.nixosModules.stylix
             nur.modules.nixos.default
+            sops-nix.nixosModules.sops
             ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
             (./. + "/hosts/${hostname}/configuration.nix")
@@ -86,6 +92,9 @@
                 extraSpecialArgs = { inherit inputs system; };
                 users.dejanr.imports =
                   [ (./. + "/hosts/${hostname}/home.nix") ];
+                sharedModules = [
+                  sops-nix.homeManagerModules.sops
+                ];
               };
               nixpkgs.overlays = [
                 (import rust-overlay)

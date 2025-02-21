@@ -1,5 +1,23 @@
 # Dotfiles
 
+## Secrets
+
+Secrets are managed with sops-nix.
+Create age secret key from ssh machine private key:
+
+```bash
+mkdir -p ~/.config/sops/age
+nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+```
+
+To see age public use:
+
+```bash
+nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
+```
+
+## Rebuild
+
 To rebuild and switch to new build:
 
 ```bash

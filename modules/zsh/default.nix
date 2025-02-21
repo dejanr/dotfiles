@@ -21,6 +21,10 @@ in {
       initExtra = ''
         PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
 
+        export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})
+        export DEEPSEEK_API_KEY=$(cat ${config.sops.secrets.DEEPSEEK_API_KEY.path})
+        export GROQ_API_KEY=$(cat ${config.sops.secrets.GROQ_API_KEY.path})
+
         if [ -f /opt/homebrew/bin/brew ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
         fi

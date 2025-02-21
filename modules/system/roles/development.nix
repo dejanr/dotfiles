@@ -112,8 +112,12 @@
     yarn
     pnpm
 
-    fzf
     cht-sh
+
+    # gleam
+    gleam
+    erlang
+    rebar3
   ];
 
   programs.adb.enable = true;

@@ -25,4 +25,11 @@
   programs.nix-ld.libraries = with pkgs; [
     bun
   ];
+
+  #services.openvpn.servers = {
+  #  officeVPN = {
+  #    config = '' config /var/lib/openvpn/officeVPN.conf '';
+  #    updateResolvConf = true;
+  #  };
+  #};
 }
