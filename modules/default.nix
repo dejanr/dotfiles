@@ -4,7 +4,9 @@
   home.stateVersion = "23.11";
 
   imports = [
+    # common
     ./common/secrets.nix
+    ./common/xdg.nix
 
     # gui
     ./alacritty
