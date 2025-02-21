@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
@@ -26,10 +26,29 @@
     bun
   ];
 
-  #services.openvpn.servers = {
-  #  officeVPN = {
-  #    config = '' config /var/lib/openvpn/officeVPN.conf '';
-  #    updateResolvConf = true;
-  #  };
-  #};
+  # Office VPN
+
+  services.openvpn.servers = {
+    office = {
+      config = '' 
+        config ${config.sops.secrets.openvpn_office_conf.path}
+        auth-user-pass  ${config.sops.secrets.openvpn_office_pass.path}
+      '';
+      updateResolvConf = false;
+      # When using resolv conf uncomment this:
+      # up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+      # down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+    };
+  };
+
+  security.sudo.extraRules = [
+    {
+      users = [ "dejanr" ];
+      commands = [
+        { command = "/run/current-system/sw/bin/systemctl start openvpn-office.service"; options = [ "NOPASSWD" ]; }
+        { command = "/run/current-system/sw/bin/systemctl stop openvpn-office.service"; options = [ "NOPASSWD" ]; }
+        { command = "/run/current-system/sw/bin/systemctl restart openvpn-office.service"; options = [ "NOPASSWD" ]; }
+      ];
+    }
+  ];
 }

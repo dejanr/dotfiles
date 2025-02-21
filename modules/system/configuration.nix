@@ -9,7 +9,13 @@ let
   };
 in
 {
-  environment = { defaultPackages = [ ]; };
+  imports = [
+    ./secrets.nix
+  ];
+
+  environment = {
+    defaultPackages = [ ];
+  };
 
   services = {
     xserver.desktopManager.xterm.enable = false;

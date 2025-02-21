@@ -3,12 +3,19 @@ let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
+  systemd = writeScript "systemd" (import ./scripts/systemd.nix { });
 in
 ''
   full_text=|
   align=center
   separator=false
   separator_block_width=5
+
+  [seperator]
+
+  [office-vpn]
+  interval=5
+  command=${systemd} "openvpn-office.service" "󰖂 office"
 
   [seperator]
 
