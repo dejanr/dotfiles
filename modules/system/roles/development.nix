@@ -92,7 +92,6 @@
     psmisc
     pulumi
     python3
-    ranger # file manager with minimal ncurses interface
     ripgrep
     ruby
     s3cmd

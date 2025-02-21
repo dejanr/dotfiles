@@ -2,7 +2,7 @@
 with lib;
 
 let
-  cfg = config.yazi;
+  cfg = config.modules.yazi;
 
   yaziFlavors = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
@@ -20,9 +20,9 @@ let
     };
 in
 {
-  options.yazi = with types;
+  options.modules.yazi = with types;
     {
-      enable = mkEnableOption "yazi" // { default = true; };
+      enable = mkEnableOption "yazi" // { default = false; };
     };
 
   config = mkIf cfg.enable {
@@ -42,8 +42,8 @@ in
           enabled = false;
         };
         manager = {
-          show_hidden = true;
-          sort_by = "mtime";
+          show_hidden = false;
+          sort_by = "natural";
           sort_dir_first = true;
           sort_reverse = true;
         };
