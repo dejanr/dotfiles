@@ -27,16 +27,20 @@
 
   # Office VPN
 
-  services.openvpn.servers = {
-    office = {
-      config = '' 
+  services.openvpn = {
+    restartAfterSleep = false;
+
+    servers = {
+      office = {
+        config = '' 
         config ${config.sops.secrets.openvpn_office_conf.path}
         auth-user-pass  ${config.sops.secrets.openvpn_office_pass.path}
       '';
-      updateResolvConf = false;
-      # When using resolv conf uncomment this:
-      # up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
-      # down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+        updateResolvConf = false;
+        # When using resolv conf uncomment this:
+        # up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+        # down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+      };
     };
   };
 
