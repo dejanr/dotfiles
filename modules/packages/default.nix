@@ -23,7 +23,6 @@ in {
       lua
       # anki-bin
       fd # Simple, fast and user-friendly alternative to find
-      fzf # Command-line fuzzy finder written in Go
     ];
   };
 }

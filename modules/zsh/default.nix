@@ -5,7 +5,32 @@ in {
   options.modules.zsh = { enable = mkEnableOption "zsh"; };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.zsh ];
+    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza ];
+
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [ ];
+    };
+
+    programs.fd = {
+      enable = true;
+    };
+
+    programs.fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      # The command that gets executed as the default source for fzf when running.
+      defaultCommand = "fd --hidden --strip-cwd-prefix --exclude .git";
+      # Extra command line options given to fzf by default.
+      defaultOptions = [ "--height 50%" "--layout=default" "--border" "--color=hl:#2dd4bf" ];
+      # The command that gets executed as the source for fzf for the CTRL-T keybinding.
+      fileWidgetCommand = "$FZF_DEFAULT_COMMAND";
+      fileWidgetOptions = [ "--preview 'bat --color=always -n --line-range :500 {}'" ];
+      # The command that gets executed as the source for fzf for the ALT-C keybinding.
+      changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
+      changeDirWidgetOptions = [ "--preview 'eza --icons=always --tree --color=always {} | head -200'" ];
+    };
 
     programs.zsh = {
       enable = true;

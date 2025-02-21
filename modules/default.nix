@@ -17,6 +17,7 @@
     ./nvim
     ./tmux
     ./zsh
+    ./yazi
 
     # system
     ./packages

@@ -12,7 +12,6 @@
     #../../modules/system/roles/virtualisation.nix
   ];
 
-
   services.ollama = {
     enable = true;
     acceleration = "cuda";
