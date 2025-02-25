@@ -138,6 +138,9 @@
                   extraSpecialArgs = { inherit inputs system; };
                   users.${username}.imports =
                     [ (./. + "/hosts/mbp-work/home.nix") ];
+                  sharedModules = [
+                    sops-nix.homeManagerModules.sops
+                  ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
               }

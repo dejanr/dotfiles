@@ -5,7 +5,7 @@ in {
   options.modules.zsh = { enable = mkEnableOption "zsh"; };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza ];
+    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza pkgs.sops ];
 
     programs.zoxide = {
       enable = true;
