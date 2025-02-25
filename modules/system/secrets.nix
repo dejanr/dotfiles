@@ -9,7 +9,6 @@
   sops.defaultSopsFormat = "yaml";
   sops.age.sshKeyPaths = [
     "/home/dejanr/.ssh/id_ed25519"
-    "/Users/dejan.ranisavljevic/.ssh/id_ed25519"
   ];
   sops.age.keyFile = "~/.config/sops/age/keys.txt";
   sops.secrets.openvpn_office_pass = { };
