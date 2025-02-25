@@ -25,7 +25,7 @@ in {
       # Extra command line options given to fzf by default.
       defaultOptions = [ "--height 50%" "--layout=default" "--border" "--color=hl:#2dd4bf" ];
       # The command that gets executed as the source for fzf for the CTRL-T keybinding.
-      fileWidgetCommand = "$FZF_DEFAULT_COMMAND";
+      fileWidgetCommand = "rg --files --no-ignore --hidden --follow --glob '!.git/*'";
       fileWidgetOptions = [ "--preview 'bat --color=always -n --line-range :500 {}'" ];
       # The command that gets executed as the source for fzf for the ALT-C keybinding.
       changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
