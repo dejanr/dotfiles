@@ -1,14 +1,14 @@
-{ pkgs }:
+{ pkgs, lib }:
 
 let
   versionNumber = "4.23.0";
 in
-stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation {
   pname = "rift";
 
   version = versionNumber;
 
-  src = fetchurl {
+  src = pkgs.fetchurl {
     url = "https://riftforeve.online/download/debian/rift_${versionNumber}_amd64.deb";
     sha256 = "sha256-sZMhkTNfiScf1NoIf5Qqzzl07lV6lW90dY2xznhWb3M=";
   };
@@ -64,8 +64,8 @@ stdenv.mkDerivation {
   meta = with lib; {
     description = "Rift";
     homepage = "https://rift";
-    license = licenses.unfree;
-    maintainers = with maintainers; [ jcouyang ];
+    license = licenses.free;
+    maintainers = with maintainers; [ dejanr ];
     platforms = [ "x86_64-linux" ];
   };
 }

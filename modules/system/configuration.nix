@@ -107,6 +107,7 @@ in
 
   # Set environment variables
   environment.variables = {
+    PATH = "/run/current-system/sw/bin:$PATH";
     GOPATH = "$HOME/go";
     NIXOS_CONFIG = "$HOME/.config/nixos/configuration.nix";
     NIXOS_CONFIG_DIR = "$HOME/.config/nixos/";

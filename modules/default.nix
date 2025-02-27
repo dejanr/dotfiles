@@ -11,6 +11,7 @@
     # gui
     ./alacritty
     ./kitty
+    ./ghostty
 
     # cli
     ./bash

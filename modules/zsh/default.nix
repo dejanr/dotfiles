@@ -1,7 +1,12 @@
 { pkgs, lib, config, ... }:
 with lib;
-let cfg = config.modules.zsh;
-in {
+let
+  cfg = config.modules.zsh;
+  isDarwin = pkgs.stdenv.isDarwin;
+  darwinPath = "export PATH=node_modules/.bin:$GOPATH/bin:$PATH";
+  nixosPath = "export PATH=node_modules/.bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
+in
+{
   options.modules.zsh = { enable = mkEnableOption "zsh"; };
 
   config = mkIf cfg.enable {
@@ -93,7 +98,7 @@ in {
         ## case-insensitive (uppercase from lowercase) completion
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-        export PATH=node_modules/.bin:$GOPATH/bin:$PATH
+        ${if isDarwin then darwinPath else nixosPath}
 
         HISTFILE="$HOME/.history"
         HISTSIZE=10000000
