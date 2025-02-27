@@ -183,6 +183,7 @@
   assign [class="EVE - GeLaTe"] $workspace6
   assign [class="EVE - Hachi Onna"] $workspace6
   assign [class="EVE - D' Vorah"] $workspace6
+  assign [class="dev-nohus-rift-MainKt"] $workspace7
 
   # fix graphics glitch
   new_window none

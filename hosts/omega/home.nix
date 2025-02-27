@@ -103,7 +103,6 @@
     name = "Rift";
     exec = "${pkgs.steam-run}/bin/steam-run ${pkgs.rift}/usr/lib/nohus/rift/bin/rift";
     icon = "utilities-terminal";
-    terminal = true;
     categories = [ "Utility" ];
   };
 

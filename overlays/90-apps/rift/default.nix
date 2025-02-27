@@ -1,5 +1,5 @@
 { pkgs }:
-with pkgs;
+
 let
   versionNumber = "4.23.0";
 in
@@ -14,35 +14,35 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [
-    autoPatchelfHook
-    dpkg
-    makeWrapper
+    pkgs.autoPatchelfHook
+    pkgs.dpkg
+    pkgs.makeWrapper
   ];
 
   buildInputs = [
-    alsa-lib
-    xorg.libX11
-    glib
-    freetype
-    libxkbcommon
-    xorg.libICE
-    xorg.libXrender
-    xorg.libSM
-    fontconfig
-    pango
-    gtk3
-    pulseaudio
-    qt5.qtbase
-    qt5.qtx11extras
-    libsecret
-    libdrm
-    mesa
-    nss
-    nspr
-    xorg.libXdamage
-    xorg.libxshmfence
-    xorg.libXtst
-    libGL
+    pkgs.alsa-lib
+    pkgs.xorg.libX11
+    pkgs.glib
+    pkgs.freetype
+    pkgs.libxkbcommon
+    pkgs.xorg.libICE
+    pkgs.xorg.libXrender
+    pkgs.xorg.libSM
+    pkgs.fontconfig
+    pkgs.pango
+    pkgs.gtk3
+    pkgs.pulseaudio
+    pkgs.qt5.qtbase
+    pkgs.qt5.qtx11extras
+    pkgs.libsecret
+    pkgs.libdrm
+    pkgs.mesa
+    pkgs.nss
+    pkgs.nspr
+    pkgs.xorg.libXdamage
+    pkgs.xorg.libxshmfence
+    pkgs.xorg.libXtst
+    pkgs.libGL
   ];
 
   unpackPhase = ''
