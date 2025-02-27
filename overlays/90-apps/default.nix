@@ -59,6 +59,7 @@ in
   };
 
   pulumi = super.callPackage ./pulumi { };
+  rift = super.callPackage ./rift { };
 
   jeveassets = super.callPackage ./jeveassets/default.nix {
     inherit (super) stdenv fetchzip unzip jre8 makeDesktopItem;
