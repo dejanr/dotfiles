@@ -96,8 +96,8 @@
   bindsym $mod+Shift+x restart
 
   # Program-Related Bindings
-  bindsym $mod+Return exec kitty --start-as maximized --single-instance -d ~ &> /dev/null &
-  bindsym $mod+Shift+Return exec i3-msg split toggle && kitty --start-as maximized --single-instance -d ~ &> /dev/null & && i3-msg split toggle
+  bindsym $mod+Return exec ghostty
+  bindsym $mod+Shift+Return exec i3-msg split toggle && ghostty & && i3-msg split toggle
   bindsym $mod+d exec "rofi -show drun -modi drun,run -show-icons"
   bindsym $mod+p exec dejli-screenshot
   bindsym $mod+Shift+p exec dejli-gif
@@ -360,7 +360,7 @@
   # applications
   bindsym $mod+w exec --no-startup-id google-chrome-beta --args --profile-directory=Personal
   bindsym $mod+e exec --no-startup-id google-chrome-beta --args --profile-directory=Work
-  bindsym $mod+r exec --no-startup-id kitty yazi
+  bindsym $mod+r exec --no-startup-id ghostty yazi
 
   # Windows switching
 

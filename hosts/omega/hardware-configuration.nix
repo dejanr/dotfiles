@@ -145,6 +145,7 @@ in
       modesetting.enable = true;
       powerManagement.enable = true;
       powerManagement.finegrained = false;
+      powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
       open = false;
       nvidiaSettings = true;
       package = kernelPackages.nvidiaPackages.beta;

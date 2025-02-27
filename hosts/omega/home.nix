@@ -108,9 +108,7 @@
 
   config.modules = {
     # gui
-    kitty.enable = true;
     ghostty.enable = true;
-    kitty.fontSize = "14.0";
 
     # cli
     direnv.enable = true;
