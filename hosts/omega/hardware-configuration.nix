@@ -145,12 +145,13 @@ in
       modesetting.enable = true;
       powerManagement.enable = true;
       powerManagement.finegrained = false;
-      powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
       open = false;
       nvidiaSettings = true;
       package = kernelPackages.nvidiaPackages.beta;
     };
   };
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
     useDHCP = lib.mkDefault true;

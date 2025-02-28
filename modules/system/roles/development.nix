@@ -13,6 +13,7 @@
     aspellDicts.en
     atop
     awscli2
+    aider-chat # AI pair programming in your terminal
     bind
     binutils
     bruno # Open-source IDE For exploring and testing APIs.

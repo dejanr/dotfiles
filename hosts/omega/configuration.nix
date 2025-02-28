@@ -32,6 +32,7 @@
 
     servers = {
       office = {
+        autoStart = false;
         config = '' 
         config ${config.sops.secrets.openvpn_office_conf.path}
         auth-user-pass  ${config.sops.secrets.openvpn_office_pass.path}

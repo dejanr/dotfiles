@@ -13,4 +13,5 @@
   sops.secrets.ANTHROPIC_API_KEY = { };
   sops.secrets.DEEPSEEK_API_KEY = { };
   sops.secrets.GROQ_API_KEY = { };
+  sops.secrets.GEMINI_API_KEY = { };
 }

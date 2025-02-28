@@ -51,6 +51,7 @@ in
       initExtra = ''
         PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
 
+        export GEMINI_API_KEY=$(cat ${config.sops.secrets.GEMINI_API_KEY.path})
         export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})
         export DEEPSEEK_API_KEY=$(cat ${config.sops.secrets.DEEPSEEK_API_KEY.path})
         export GROQ_API_KEY=$(cat ${config.sops.secrets.GROQ_API_KEY.path})
