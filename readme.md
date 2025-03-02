@@ -16,6 +16,12 @@ To see age public use:
 nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
 ```
 
+When adding a new key to .sops.yaml, update secerts with:
+
+```bash
+sops updatekeys secrets/secrets.yaml
+```
+
 ## Rebuild
 
 To rebuild and switch to new build:
