@@ -37,10 +37,10 @@
         config ${config.sops.secrets.openvpn_office_conf.path}
         auth-user-pass  ${config.sops.secrets.openvpn_office_pass.path}
       '';
-        updateResolvConf = false;
+        updateResolvConf = true;
         # When using resolv conf uncomment this:
-        # up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
-        # down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+        up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
+        down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
       };
     };
   };
