@@ -62,7 +62,17 @@ in
     settings = {
       auto-optimise-store = true;
       allowed-users = [ "dejanr" ];
-      substituters = [ "https://cache.nixos.org" ];
+      substituters = [
+        "ssh://nix-cache?priority=1&compress=1"
+        "ssh://eu.nixbuild.net?priority=2&compress=1" # ssh-ng is super slow
+        "https://cuda-maintainers.cachix.org?priority=5"
+        "https://cache.nixos.org"
+      ];
+      trusted-public-keys = [
+        "ot-nix-cache:C6ZY7QNJHk8tAcyi00y0n3UhbnZvBxJE993/J61omU4="
+        "nixbuild.net/ororatech-swuerl-1:pIlkdwXcQ4rhAhyI17SLno25zgfeWFbBPBnA0jvIXyM="
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      ];
       trusted-users = [ "${username}" "root" ];
     };
 
