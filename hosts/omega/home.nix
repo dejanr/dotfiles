@@ -107,6 +107,12 @@
   };
 
   config.modules = {
+    #common
+    xdg.enable = true;
+
+    # secrets
+    sops.enable = true;
+
     # gui
     ghostty.enable = true;
 
