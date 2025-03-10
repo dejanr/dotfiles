@@ -3,6 +3,12 @@
 {
   imports = [ ../../modules/default.nix ];
 
+  # TODO: move this, reorganize
+  config.home.file."npmrc".text = ''
+    prefix = ~/.npm-packages
+  '';
+  config.home.file."npmrc".target = ".npmrc";
+
   config.programs.firefox = {
     enable = true;
 

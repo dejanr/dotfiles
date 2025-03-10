@@ -3,8 +3,8 @@ with lib;
 let
   cfg = config.modules.zsh;
   isDarwin = pkgs.stdenv.isDarwin;
-  darwinPath = "export PATH=node_modules/.bin:$GOPATH/bin:$PATH";
-  nixosPath = "export PATH=node_modules/.bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
+  darwinPath = "export PATH=node_modules/.bin:~/.npm-packages/bin:$GOPATH/bin:$PATH";
+  nixosPath = "export PATH=node_modules/.bin:~/.npm-packages/bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
 in
 {
   options.modules.zsh = { enable = mkEnableOption "zsh"; };
