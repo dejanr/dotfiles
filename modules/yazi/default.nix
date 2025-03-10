@@ -43,7 +43,7 @@ in
         };
         manager = {
           show_hidden = false;
-          sort_by = "natural";
+          sort_by = "mtime";
           sort_dir_first = true;
           sort_reverse = true;
         };
@@ -57,6 +57,7 @@ in
             { id = "git"; name = "*/"; run = "git"; }
           ];
         };
+        show_hidden = false;
       };
       initLua = ''
         require("git"):setup()

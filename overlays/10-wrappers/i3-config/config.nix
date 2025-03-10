@@ -1,4 +1,6 @@
 { colors, fonts }: ''
+  set $term ghostty
+
   smart_gaps on
   smart_borders on
   gaps inner 2
@@ -96,8 +98,8 @@
   bindsym $mod+Shift+x restart
 
   # Program-Related Bindings
-  bindsym $mod+Return exec ghostty
-  bindsym $mod+Shift+Return exec i3-msg split toggle && ghostty & && i3-msg split toggle
+  bindsym $mod+Return exec $term
+  bindsym $mod+Shift+Return exec i3-msg split toggle && $term & && i3-msg split toggle
   bindsym $mod+d exec "rofi -show drun -modi drun,run -show-icons"
   bindsym $mod+p exec dejli-screenshot
   bindsym $mod+Shift+p exec dejli-gif
@@ -360,7 +362,8 @@
   # applications
   bindsym $mod+w exec --no-startup-id google-chrome-beta --args --profile-directory=Personal
   bindsym $mod+e exec --no-startup-id google-chrome-beta --args --profile-directory=Work
-  bindsym $mod+r exec --no-startup-id ghostty yazi
+  bindsym $mod+r exec $term -e zsh -ic yazi
+  bindsym $mod+m exec $term -e btop
 
   # Windows switching
 
