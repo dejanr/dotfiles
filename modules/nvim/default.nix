@@ -45,7 +45,6 @@ in
         pkgs.vimPlugins.nvim-treesitter-parsers.python
         pkgs.vimPlugins.nvim-treesitter-parsers.terraform
         pkgs.vimPlugins.nvim-treesitter-parsers.toml
-        pkgs.vimPlugins.nvim-treesitter-parsers.org
         pkgs.vimPlugins.nvim-treesitter-parsers.regex
         pkgs.vimPlugins.nvim-treesitter-parsers.rust
         pkgs.vimPlugins.nvim-treesitter-parsers.vim

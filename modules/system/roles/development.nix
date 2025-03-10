@@ -71,7 +71,7 @@
         obs-studio-plugins.obs-vintage-filter
         obs-studio-plugins.obs-vertical-canvas
         obs-studio-plugins.obs-pipewire-audio-capture
-        obs-studio-plugins.obs-nvfbc
+        # obs-studio-plugins.obs-nvfbc
         obs-studio-plugins.obs-gradient-source
         obs-studio-plugins.obs-freeze-filter
         obs-studio-plugins.obs-composite-blur
