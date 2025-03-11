@@ -45,7 +45,7 @@
       1 = 'main'
       2 = 'main'
       3 = 'main'
-      4 = 'main'
+      4 = 'secondary'
       5 = 'main'
 
       [[on-window-detected]]
