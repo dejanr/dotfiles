@@ -15,11 +15,8 @@ in
   #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
 
   nix.nrBuildUsers = 32;
-  nix.configureBuildUsers = true;
 
   time.timeZone = "Europe/Berlin";
-
-  services.nix-daemon.enable = true;
 
   services.skhd = {
     enable = true;
@@ -29,7 +26,6 @@ in
 
   # Nix settings, auto cleanup and enable flakes
   nix = {
-    gc.user = username;
     settings = {
       allowed-users = [ username ];
       substituters = [ "https://cache.nixos.org" ];
