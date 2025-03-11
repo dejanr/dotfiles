@@ -5,10 +5,10 @@
 
   imports = [
     # common
-    ./xdg.nix
+    ./xdg
 
     # secrets
-    ./sops.nix
+    ./sops
 
     # gui
     ./alacritty
