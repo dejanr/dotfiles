@@ -7,6 +7,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      devenv # Fast, Declarative, Reproducible, and Composable Developer Environments
       btop
       ripgrep
       eza
@@ -21,6 +22,7 @@ in {
       libnotify
       git
       python3
+      podman
       lua
       # anki-bin
       fd # Simple, fast and user-friendly alternative to find
