@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "deepseek",
+    provider = "claude",
     -- UI configuration
     ui = {
       border = "rounded",
@@ -12,24 +12,20 @@ return {
     },
     -- Key mappings
     keys = {
-      submit = "<C-s>",
+      submit = "<C-CR>",
       interrupt = "<C-c>",
       ask = "<leader>aa",     -- ask
       edit = "<leader>ae",    -- edit
       refresh = "<leader>ar", -- refresh
       new_chat = "<leader>an",
     },
-    -- Vendor configuration
-    vendors = {
-      deepseek = {
-        __inherited_from = "openai",
-        api_key_name = "DEEPSEEK_API_KEY",
-        endpoint = "https://api.deepseek.com",
-        model = "deepseek-chat",
-        -- Add timeout and retry settings
-        timeout = 30,
-        max_retries = 3,
-      },
+    auto_suggestions_provider = "claude",
+    cursor_applying_provider = nil, -- The provider used in the applying phase of Cursor Planning Mode, defaults to nil, when nil uses Config.provider as the provider for the applying phase
+    claude = {
+      endpoint = "https://api.anthropic.com",
+      model = "claude-3-7-sonnet-latest",
+      temperature = 0,
+      max_tokens = 8192,
     },
     -- Error handling
     on_error = function(err)
