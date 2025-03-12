@@ -9,61 +9,6 @@
   '';
   config.home.file."npmrc".target = ".npmrc";
 
-  config.programs.firefox = {
-    enable = true;
-
-    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      extraPolicies = {
-        CaptivePortal = false;
-        DisableFirefoxStudies = true;
-        DisablePocket = true;
-        DisableTelemetry = true;
-        DisableFirefoxAccounts = false;
-        NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
-        OfferToSaveLoginsDefault = false;
-        PasswordManagerEnabled = false;
-        FirefoxHome = {
-          Search = true;
-          Pocket = false;
-          Snippets = false;
-          TopSites = false;
-          Highlights = false;
-        };
-        UserMessaging = {
-          ExtensionRecommendations = false;
-          SkipOnboarding = true;
-        };
-      };
-    };
-
-    profiles."Personal" = {
-      id = 0;
-      isDefault = true;
-      name = "Personal";
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        # see: https://github.com/nix-community/nur-combined/blob/master/repos/rycee/pkgs/firefox-addons/generated-firefox-addons.nix
-        onepassword-password-manager
-        privacy-badger
-        ublock-origin
-        vimium
-      ];
-    };
-
-    profiles."Work" = {
-      id = 1;
-      isDefault = false;
-      name = "Work";
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        # see: https://github.com/nix-community/nur-combined/blob/master/repos/rycee/pkgs/firefox-addons/generated-firefox-addons.nix
-        onepassword-password-manager
-        privacy-badger
-        ublock-origin
-        vimium
-      ];
-    };
-  };
-
   config.programs.chromium = {
     enable = true;
     extensions = [
@@ -79,14 +24,14 @@
 
   config.xdg.mimeApps = {
     defaultApplications."x-scheme-handler/http" =
-      [ "firefox.desktop" "chromium.desktop" ];
+      [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/https" =
-      [ "firefox.desktop" "chromium.desktop" ];
+      [ "google-chrome-stable.desktop" ];
     defaultApplications."text/html" = [ "firefox.desktop" "chromium.desktop" ];
     defaultApplications."x-scheme-handler/about" =
-      [ "firefox.desktop" "chromium.desktop" ];
+      [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/unknown" =
-      [ "firefox.desktop" "chromium.desktop" ];
+      [ "google-chrome-stable.desktop" ];
   };
 
   config.xdg.desktopEntries.eve-online = {

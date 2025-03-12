@@ -34,7 +34,6 @@ in
       plugins = {
         jump-to-char = "${yaziPlugins}/jump-to-char.yazi";
         smart-enter = "${yaziPlugins}/smart-enter.yazi";
-        git = "${yaziPlugins}/git.yazi";
       };
       shellWrapperName = "y";
       settings = {
@@ -51,17 +50,8 @@ in
           max_width = 1000;
           max_height = 1000;
         };
-        plugin = {
-          prepend_fetchers = [
-            { id = "git"; name = "*"; run = "git"; }
-            { id = "git"; name = "*/"; run = "git"; }
-          ];
-        };
         show_hidden = false;
       };
-      initLua = ''
-        require("git"):setup()
-      '';
       keymap = {
         manager.prepend_keymap = [
           { run = "plugin jump-to-char"; on = [ "f" ]; }
