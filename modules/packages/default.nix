@@ -26,6 +26,7 @@ in {
       lua
       # anki-bin
       fd # Simple, fast and user-friendly alternative to find
+      rsync
     ];
   };
 }

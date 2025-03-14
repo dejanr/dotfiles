@@ -17,6 +17,16 @@
     acceleration = "cuda";
   };
 
+  nix = {
+    settings = {
+      trusted-public-keys = [
+        "ot-nix-cache:C6ZY7QNJHk8tAcyi00y0n3UhbnZvBxJE993/J61omU4="
+        "nixbuild.net/ororatech-swuerl-1:pIlkdwXcQ4rhAhyI17SLno25zgfeWFbBPBnA0jvIXyM="
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      ];
+    };
+  };
+
   virtualisation.podman.enable = true;
 
   # sst.dev
