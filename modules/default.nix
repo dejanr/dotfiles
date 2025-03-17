@@ -1,7 +1,16 @@
-{ lib, stdenv, ... }:
+{ lib, stdenv, inputs, pkgs, ... }:
 
 {
   home.stateVersion = "23.11";
+
+  nix.registry = {
+    nixpkgs.flake = inputs.nixpkgs;
+  };
+
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+    nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+  };
 
   imports = [
     # common

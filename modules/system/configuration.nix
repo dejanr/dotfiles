@@ -61,6 +61,12 @@ in
   nix = {
     settings = {
       auto-optimise-store = true;
+      allowed-users = [ "dejanr" ];
+      trusted-public-keys = [
+        "nixbuild.net/ororatech-swuerl-1:pIlkdwXcQ4rhAhyI17SLno25zgfeWFbBPBnA0jvIXyM="
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      ];
+      trusted-users = [ "${username}" "root" ];
     };
 
     gc = {
