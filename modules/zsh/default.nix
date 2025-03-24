@@ -155,7 +155,7 @@ in
         rm = "rm -rifv";
         mv = "mv -iv";
         cp = "cp -riv";
-        diff = "icdiff -N";
+        icdiff = "icdiff -N";
         cat = "bat --paging=never --style=plain";
         tree = "eza --tree";
         nd = "nix develop -c $SHELL";
