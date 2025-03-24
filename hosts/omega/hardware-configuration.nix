@@ -13,7 +13,7 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
+    binfmt.emulatedSystems = [ "aarch64-linux" "armv6l-linux" ];
     initrd.kernelModules = [ "nvidia" ];
     initrd.availableKernelModules =
       [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];

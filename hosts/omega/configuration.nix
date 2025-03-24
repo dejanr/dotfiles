@@ -9,8 +9,13 @@
     ../../modules/system/roles/services.nix
     ../../modules/system/roles/development.nix
     ../../modules/system/roles/games.nix
-    #../../modules/system/roles/virtualisation.nix
+    ../../modules/system/roles/virtualisation.nix
   ];
+
+  networking.extraHosts =
+    ''
+      192.168.1.227 ot-rpi-testbed
+    '';
 
   services.ollama = {
     enable = true;

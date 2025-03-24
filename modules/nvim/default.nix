@@ -59,6 +59,8 @@ in
         pkgs.vimPlugins.nvim-treesitter-textsubjects
         pkgs.vimPlugins.nvim-treesitter-refactor
         pkgs.vimPlugins.nvim-treesitter
+
+        pkgs.vimPlugins.blink-cmp-git
       ];
 
       extraPackages = with pkgs; [

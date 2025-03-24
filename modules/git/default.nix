@@ -8,6 +8,14 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
+      delta.enable = true;
+      delta.options = {
+        dark = true;
+        features = "unobtrusive-line-numbers decorations";
+        side-by-side = true;
+        line-numbers-left-format = "";
+        line-numbers-right-format = "│ ";
+      };
       lfs.enable = true;
       userName = "Dejan Ranisavljevic";
       userEmail = "dejan@ranisavljevic.com";
@@ -45,6 +53,10 @@ in {
     };
     programs.lazygit = {
       enable = true;
+      settings = {
+        git.paging.colorArg = "always";
+        git.paging.pager = "delta --dark --paging=never";
+      };
     };
   };
 }

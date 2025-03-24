@@ -93,6 +93,7 @@
     psmisc
     pulumi
     python3
+    picocom # Minimal dumb-terminal emulation program
     ripgrep
     ruby
     s3cmd

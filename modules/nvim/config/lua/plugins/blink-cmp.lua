@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   dependencies = 'rafamadriz/friendly-snippets',
-  version = '*',
+  version = 'v0.*',
   build = 'nix run .#build-plugin',
 
   opts = {
@@ -28,6 +28,11 @@ return {
 
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+    fuzzy = {
+      prebuilt_binaries = {
+        ignore_version_mismatch = true,
+      }
     },
   },
   opts_extend = { "sources.default" }
