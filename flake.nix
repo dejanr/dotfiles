@@ -2,6 +2,13 @@
   description = "NixOS configuration";
 
   inputs = {
+    ssh-keys = {
+      url = "https://github.com/dejanr.keys";
+      flake = false;
+    };
+
+    disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -53,6 +60,7 @@
     , rust-overlay
     , stylix
     , sops-nix
+    , disko
     , ...
     }@inputs:
 
@@ -70,53 +78,58 @@
                 || builtins.pathExists (path + ("/" + n + "/default.nix")))
               (builtins.attrNames (builtins.readDir path)))))
           paths;
-      mkSystem = pkgs: system: hostname:
-        pkgs.lib.nixosSystem {
-          system = system;
-          modules = [
-            {
-              networking.hostName = hostname;
-              networking.timeServers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
-            }
-            stylix.nixosModules.stylix
-            nur.modules.nixos.default
-            sops-nix.nixosModules.sops
-            ./modules/system/configuration.nix
-            (./. + "/hosts/${hostname}/hardware-configuration.nix")
-            (./. + "/hosts/${hostname}/configuration.nix")
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                extraSpecialArgs = { inherit inputs system; };
-                users.dejanr.imports =
-                  [ (./. + "/hosts/${hostname}/home.nix") ];
-                sharedModules = [
-                  sops-nix.homeManagerModules.sops
-                ];
-              };
-              nixpkgs.overlays = [
-                (import rust-overlay)
-                nixos-apple-silicon.overlays.apple-silicon-overlay
-                nixos-apple-silicon.overlays.default
-                nur.overlays.default
-              ] ++ overlays;
-            }
-          ];
-          specialArgs = { inherit inputs; };
-        };
+      mkSystem = pkgs: system: hostConfig: hostName:
+        pkgs.lib.nixosSystem
+          {
+            system = system;
+            modules = [
+              {
+                networking.hostName = hostName;
+                networking.timeServers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
+              }
+              stylix.nixosModules.stylix
+              nur.modules.nixos.default
+              sops-nix.nixosModules.sops
+              disko.nixosModules.disko
+              ./modules/system/configuration.nix
+              (./. + "/hosts/${hostConfig}/configuration.nix")
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useUserPackages = true;
+                  useGlobalPkgs = true;
+                  extraSpecialArgs = { inherit inputs system; };
+                  users.dejanr.imports =
+                    [ (./. + "/hosts/${hostConfig}/home.nix") ];
+                  sharedModules = [
+                    sops-nix.homeManagerModules.sops
+                  ];
+                };
+                nixpkgs.overlays = [
+                  (import rust-overlay)
+                  nixos-apple-silicon.overlays.apple-silicon-overlay
+                  nixos-apple-silicon.overlays.default
+                  nur.overlays.default
+                ] ++ overlays;
+              }
+            ];
+            specialArgs = { inherit inputs; };
+          };
 
     in
     {
       formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
       nixosConfigurations = {
-        alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha";
-        atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas";
-        omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega";
-        theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory";
-        vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm";
+        alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
+        atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
+        omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega" "omega";
+        m910q1 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q1";
+        m910q2 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q2";
+        m910q3 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q3";
+        m910q4 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q4";
+        theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory" "theory";
+        vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm" "vm";
       };
       darwinConfigurations =
         let

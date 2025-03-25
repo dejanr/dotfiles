@@ -1,12 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   username = "dejanr";
-  githubKeys = builtins.fetchurl {
-    name = "github-ssh-keys";
-    url = "https://api.github.com/users/${username}/keys";
-    sha256 = "00p6mx8rkkq5qa5i7c762zvv8habyh3kg52iyf0n4dkfk64wkvjp";
-  };
 in
 {
   imports = [
@@ -81,7 +76,7 @@ in
       keep-derivations = true
     '';
 
-    package = pkgs.nix.latest;
+    package = pkgs.nixVersions.latest;
   };
 
   nixpkgs = {
@@ -186,8 +181,9 @@ in
       createHome = true;
       shell = pkgs.zsh;
 
-      openssh.authorizedKeys.keys = with builtins;
-        (map (x: x.key) (fromJSON (readFile githubKeys)));
+      openssh.authorizedKeys.keyFiles = [
+        inputs.ssh-keys.outPath
+      ];
     };
   };
 

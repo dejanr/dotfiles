@@ -54,7 +54,6 @@ in
             export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})
             export DEEPSEEK_API_KEY=$(cat ${config.sops.secrets.DEEPSEEK_API_KEY.path})
             export GROQ_API_KEY=$(cat ${config.sops.secrets.GROQ_API_KEY.path})
-
           '';
           darwinExports = "";
         in

@@ -89,6 +89,27 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1736864502,
+        "narHash": "sha256-ItkIZyebGvNH2dK9jVGzJHGPtb6BSWLN8Gmef16NeY0=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "0141aabed359f063de7413f80d906e1d98c0c123",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "latest",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -548,6 +569,7 @@
     "root": {
       "inputs": {
         "browser-previews": "browser-previews",
+        "disko": "disko",
         "home-manager": "home-manager",
         "nightfox": "nightfox",
         "nix-darwin": "nix-darwin",
@@ -557,6 +579,7 @@
         "nur": "nur",
         "rust-overlay": "rust-overlay_2",
         "sops-nix": "sops-nix",
+        "ssh-keys": "ssh-keys",
         "stylix": "stylix"
       }
     },
@@ -610,6 +633,18 @@
         "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
+      }
+    },
+    "ssh-keys": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-RbOC7hcU8s44aTgaVlmfPf9Im5i9p7ypzuowre8ELP0=",
+        "type": "file",
+        "url": "https://github.com/dejanr.keys"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/dejanr.keys"
       }
     },
     "stylix": {

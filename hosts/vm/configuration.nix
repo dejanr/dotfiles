@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ./hardware-configuration.nix
     ../../modules/system/roles/common.nix
     ../../modules/system/roles/fonts.nix
     ../../modules/system/roles/desktop.nix

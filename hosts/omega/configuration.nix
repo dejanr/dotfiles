@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./hardware-configuration.nix
     ../../modules/system/roles/fonts.nix
     ../../modules/system/roles/desktop.nix
     ../../modules/system/roles/multimedia.nix
