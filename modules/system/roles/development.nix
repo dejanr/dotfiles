@@ -57,6 +57,7 @@
     lua54Packages.lua
     lua54Packages.luarocks
     mercurial
+    meshcommander # A faster, bundled version of MeshCommander that runs on localhost in a browser.
     mosh # mobile shell, ssh replacement
     mr # multiple repository managment
     ncftp

@@ -81,7 +81,7 @@ in
       keep-derivations = true
     '';
 
-    package = pkgs.nixVersions.stable;
+    package = pkgs.nix.latest;
   };
 
   nixpkgs = {
