@@ -12,6 +12,8 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nix.url = "github:nixos/nix/2.27.1";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -55,6 +57,7 @@
     , nix-darwin
     , nixos-apple-silicon
     , nixpkgs
+    , nix
     , nur
     , nix-gaming
     , rust-overlay

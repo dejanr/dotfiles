@@ -76,7 +76,7 @@ in
       keep-derivations = true
     '';
 
-    package = pkgs.nixVersions.latest;
+    package = inputs.nix.outputs.packages.${pkgs.system}.nix;
   };
 
   nixpkgs = {
