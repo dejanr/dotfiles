@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  programs.ssh.startAgent = true;
 
   services = {
     printing.enable = true;
