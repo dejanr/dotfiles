@@ -179,12 +179,10 @@
   assign [class="steam_app_1371580"] $workspace5
   assign [class="steam_app_1284210"] $workspace5
   assign [class="steam_app_2429640"] $workspace5
+  assign [class="steam_app_8500"] $workspace5
   assign [class="steam_app_0"] $workspace5
   assign [class="clientloader.exe"] $workspace6
   assign [class="rn_fusebox.html"] $workspace3
-  assign [class="EVE - GeLaTe"] $workspace6
-  assign [class="EVE - Hachi Onna"] $workspace6
-  assign [class="EVE - D' Vorah"] $workspace6
   assign [class="dev-nohus-rift-MainKt"] $workspace7
 
   # fix graphics glitch
@@ -222,9 +220,7 @@
   for_window [title="EVE"] floating enable
   for_window [title="EVE"] resize set 1490 1420
   for_window [title="EVE"] move window to position 0 20
-  for_window [class="EVE Launcher"] floating enable
-  for_window [class="EVE Launcher"] resize set 1490 1420
-  for_window [class="EVE Launcher"] move window to position 0 20
+  for_window [title="EVE Launcher"] floating enable
   for_window [title="EVE - D' Zwer"] floating enable
   for_window [title="EVE - D' Zwer"] resize set 1490 1420
   for_window [title="EVE - D' Zwer"] move window to position 0 20
@@ -289,7 +285,7 @@
   for_window [class="steam_app_1063730"] floating enable
   for_window [class="steam_app_1063730"] resize set 3440 1420
   for_window [class="steam_app_1063730"] move window to position 0 20
-  for_window [title="EVE"] floating disable
+  for_window [title="EVE"] floating enable
   for_window [class="steam_app_327070"] fullscreen disable
   for_window [class="steam_app_327070"] floating enable
   for_window [class="steam_app_327070"] resize set 3440 1400

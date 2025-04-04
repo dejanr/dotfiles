@@ -76,11 +76,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1741116359,
-        "narHash": "sha256-Ow9LPm4MkHVZ3gUEMdRZEWsJHDh/wZL2FLsJY7WdcRA=",
+        "lastModified": 1743103601,
+        "narHash": "sha256-6Ma4CVitU7tKaFKNlp26lA7bT5a+lyLTtq7c+M+TBFU=",
         "owner": "nix-community",
         "repo": "browser-previews",
-        "rev": "1ee2270afad3903e1c4fece06ab2e9aa0fc78edc",
+        "rev": "243bf8e5f9214d13e79055c9d100932d9697329c",
         "type": "github"
       },
       "original": {

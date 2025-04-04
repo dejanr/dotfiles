@@ -7,7 +7,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      devenv # Fast, Declarative, Reproducible, and Composable Developer Environments
+      devenv
       btop
       ripgrep
       eza
