@@ -13,7 +13,7 @@
     grobi # Automatically configure monitors/outputs for Xorg via RANDR
     gnupg # encryption
     google-drive-ocamlfuse # FUSE-based file system backed by Google Drive
-    inputs.browser-previews.packages.${pkgs.system}.google-chrome-beta # A freeware web browser developed by Google
+    google-chrome
     firefox # A web browser built from Firefox source tree
     gtypist # typing practice
     hfsprogs # HFS user space utils, for mounting HFS+ osx partitions

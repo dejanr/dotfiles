@@ -44,11 +44,6 @@
       url = "github:EdenEast/nightfox.nvim";
       flake = false;
     };
-
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

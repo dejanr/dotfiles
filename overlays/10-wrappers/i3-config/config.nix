@@ -352,9 +352,10 @@
   bindsym $mod+s split toggle
 
   # applications
-  bindsym $mod+w exec --no-startup-id google-chrome-beta --args --profile-directory=Personal
-  bindsym $mod+e exec --no-startup-id google-chrome-beta --args --profile-directory=Work
-  bindsym $mod+r exec $term -e zsh -ic yazi
+  bindsym $mod+w exec --no-startup-id google-chrome-stable --args --profile-directory=Personal
+  bindsym $mod+e exec --no-startup-id google-chrome-stable --args --profile-directory=Work
+  bindsym $mod+r exec --no-startup-id google-chrome-stable --args --profile-directory=Consulting
+  bindsym $mod+t exec $term -e zsh -ic yazi
   bindsym $mod+m exec $term -e btop
 
   # Windows switching
