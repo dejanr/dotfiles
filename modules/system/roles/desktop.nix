@@ -77,6 +77,7 @@
     rmview # Fast live viewer for reMarkable 1 and 2
 
     slack
+    qutebrowser
   ];
 
   services.blueman.enable = true;
