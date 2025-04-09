@@ -1,5 +1,25 @@
-{ pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
+let
+  hostConfigs = {
+    m910q1 = {
+      incus.preseed.config = {
+        core.https_address = "192.168.1.111:8443";
+      };
+    };
+    m910q2 = {
+      incus.preseed.config = { };
+    };
+    m910q3 = {
+      incus.preseed.config = { };
+    };
+    m910q4 = {
+      incus.preseed.config = { };
+    };
+  };
+
+  hostConfig = hostConfigs.${config.networking.hostName} or { };
+in
 {
   imports = [
     ./disk-config.nix
@@ -80,6 +100,7 @@
       ui.enable = true;
       package = pkgs.incus;
       preseed = {
+        config = hostConfig.incus.preseed.config;
         networks = [
           {
             name = "internalbr0";

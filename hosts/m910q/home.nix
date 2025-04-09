@@ -4,6 +4,7 @@
   imports = [ ../../modules/default.nix ];
 
   config.modules = {
+    # secrets
     sops.enable = true;
 
     # cli
