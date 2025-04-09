@@ -4,7 +4,7 @@
   imports = [ ../../modules/default.nix ];
 
   config.modules = {
-    # gui
+    sops.enable = true;
 
     # cli
     git.enable = true;
