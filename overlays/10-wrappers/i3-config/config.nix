@@ -275,6 +275,9 @@
   for_window [title="EVE - P' GeLaTe"] floating enable
   for_window [title="EVE - P' GeLaTe"] resize set 1490 1420
   for_window [title="EVE - P' GeLaTe"] move window to position 1950 20
+  for_window [class="steam_app_8500"] floating enable
+  for_window [class="steam_app_8500"] resize set 1490 1420
+  for_window [class="steam_app_8500"] move window to position 0 20
   for_window [class="Albion-Online"] floating enable
   for_window [class="Albion-Online"] resize set 3440 1440
   for_window [class="Albion-Online"] move window to position 0 -20
