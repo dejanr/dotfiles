@@ -2,6 +2,13 @@
 
 ## Secrets
 
+Create new ssh key:
+
+```bash
+
+ssh-keygen -t ed25519 -C dejan@ranisavljevic.com
+```
+
 Secrets are managed with sops-nix.
 Create age secret key from ssh machine private key:
 
@@ -16,7 +23,7 @@ To see age public use:
 nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
 ```
 
-When adding a new key to .sops.yaml, update secerts with:
+When adding a new key to .sops.yaml, update secrets with:
 
 ```bash
 sops updatekeys secrets/secrets.yaml
@@ -61,3 +68,12 @@ ssh -p 2222 nixos@localhost
 ```bash
 nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .#
 ```
+
+## Remote Host Rebuild
+
+To rebuild on remote host use --target-host, e.g:
+
+```bash
+nixos-rebuild switch --flake .#m910q1 --target-host 192.168.1.111
+```
+
