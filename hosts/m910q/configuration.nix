@@ -3,18 +3,45 @@
 let
   hostConfigs = {
     m910q1 = {
-      incus.preseed.config = {
-        core.https_address = "192.168.1.111:8443";
+      incus.preseed = {
+        config = {
+          core.https_address = "192.168.1.111:8443";
+        };
+        cluster = {
+          server_name = "m910q1";
+          enabled = true;
+        };
       };
     };
     m910q2 = {
-      incus.preseed.config = { };
+      incus.preseed = {
+        config = { };
+        cluster = {
+          enabled = true;
+          server_address = "192.168.1.111";
+          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxMiIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiODVjYjg3NzQ4YmUzOWYzOGM5ZTI5MjIyODFhNTdlYjYzZGY0ZDhkMGEzZDU0ZDcxYTM1NDM1MjEyYmQ5Njk3ZiIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIxOjQ3LjI0MzMwMDIwOCswMjowMCJ9";
+        };
+      };
     };
     m910q3 = {
-      incus.preseed.config = { };
+      incus.preseed = {
+        config = { };
+        cluster = {
+          enabled = true;
+          server_address = "192.168.1.111";
+          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxMyIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiNjdhNWE1YjU2NzA2OTA2ZTFlYzZiNTc0M2Q1OTRkZmE3YWIzMmRlZWY3ZmUzYzdiYjA0M2M4MTA4NzJjNTdkZCIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIyOjAwLjE3NzExNzQ0OCswMjowMCJ9";
+        };
+      };
     };
     m910q4 = {
-      incus.preseed.config = { };
+      incus.preseed = {
+        config = { };
+        cluster = {
+          enabled = true;
+          server_address = "192.168.1.111";
+          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxNCIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiZWMyNmRjYmVjMzNiNGM3OTFmZjNmNGZiNTFjOTIwZjdjYzIzNzIzMGI5MWZjNTI2NDgzNzgwNjMyZmIyOTE1NCIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIyOjEzLjAyMDE0NTgzNiswMjowMCJ9";
+        };
+      };
     };
   };
 
@@ -101,6 +128,7 @@ in
       package = pkgs.incus;
       preseed = {
         config = hostConfig.incus.preseed.config;
+        cluster = hostConfig.incus.preseed.cluster;
         networks = [
           {
             name = "internalbr0";
