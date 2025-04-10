@@ -18,8 +18,9 @@ let
         config = { };
         cluster = {
           enabled = true;
-          server_address = "192.168.1.111";
-          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxMiIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiODVjYjg3NzQ4YmUzOWYzOGM5ZTI5MjIyODFhNTdlYjYzZGY0ZDhkMGEzZDU0ZDcxYTM1NDM1MjEyYmQ5Njk3ZiIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIxOjQ3LjI0MzMwMDIwOCswMjowMCJ9";
+          server_name = "m910q2";
+          cluster_address = "192.168.1.111:8443";
+          server_address = "192.168.1.112:8443";
         };
       };
     };
@@ -28,8 +29,9 @@ let
         config = { };
         cluster = {
           enabled = true;
-          server_address = "192.168.1.111";
-          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxMyIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiNjdhNWE1YjU2NzA2OTA2ZTFlYzZiNTc0M2Q1OTRkZmE3YWIzMmRlZWY3ZmUzYzdiYjA0M2M4MTA4NzJjNTdkZCIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIyOjAwLjE3NzExNzQ0OCswMjowMCJ9";
+          server_name = "m910q3";
+          cluster_address = "192.168.1.111:8443";
+          server_address = "192.168.1.113:8443";
         };
       };
     };
@@ -38,8 +40,9 @@ let
         config = { };
         cluster = {
           enabled = true;
-          server_address = "192.168.1.111";
-          cluster_token = "eyJzZXJ2ZXJfbmFtZSI6Im05MTBxNCIsImZpbmdlcnByaW50IjoiNjgyYzgwMTQ4NzUxZGZkYzkxYmEzNjVhODQ2ZTM3Zjk2ODBmY2M3ZDc3YzNkNmIwYjEzZTFlYzVmYjYzMDJjOCIsImFkZHJlc3NlcyI6WyIxOTIuMTY4LjEuMTExOjg0NDMiXSwic2VjcmV0IjoiZWMyNmRjYmVjMzNiNGM3OTFmZjNmNGZiNTFjOTIwZjdjYzIzNzIzMGI5MWZjNTI2NDgzNzgwNjMyZmIyOTE1NCIsImV4cGlyZXNfYXQiOiIyMDI1LTA0LTEwVDIzOjIyOjEzLjAyMDE0NTgzNiswMjowMCJ9";
+          server_name = "m910q4";
+          cluster_address = "192.168.1.111:8443";
+          server_address = "192.168.1.114:8443";
         };
       };
     };
@@ -64,9 +67,20 @@ in
 
   # Networking
   networking = {
+    firewall = {
+      enable = false;
+      interfaces.externalbr0.allowedTCPPorts = [
+        53
+        67
+      ];
+      interfaces.externalbr0.allowedUDPPorts = [
+        53
+        67
+      ];
+      trustedInterfaces = [ "externalbr0" ];
+    };
     tempAddresses = "disabled";
     nftables.enable = true;
-    firewall.enable = false;
     useDHCP = false;
     bridges = {
       externalbr0 = {
