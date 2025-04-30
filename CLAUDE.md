@@ -1,6 +1,6 @@
 # Claude Assistant Guide for Dotfiles Repository
 
-## Commands
+## Bash Commands
 - Format code: `nix fmt`
 - Build system & home config: `nixos-rebuild switch --flake .#`
 - Darwin build: `nix run nix-darwin -- switch --flake .#`
@@ -8,14 +8,16 @@
 - Reload flake lock: `nix flake update`
 
 ## Code Style Guidelines
+- Use descriptive names for options with prefixes (e.g., `programs.neovim.enable`)
+- Group related options together
+- Include comments for complex configurations
+
+## Architectural Decisions
 - Follow module-based architecture in `modules/` directory
 - Host configurations in `hosts/<hostname>/` directory
 - Home-manager configuration in `hosts/<hostname>/home.nix`
-- Use descriptive names for options with prefixes (e.g., `programs.neovim.enable`)
-- Maintain consistent indentation (2 spaces) in .nix files
-- Group related options together
-- Include comments for complex configurations
 - Use sops-nix for secret management
+- Apply nix formatting before commiting code
 
 ## Repository Structure
 - `flake.nix`: Entry point defining inputs and outputs
