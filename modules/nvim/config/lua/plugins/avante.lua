@@ -2,8 +2,8 @@ return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   version = false,
+  lazy = false,
   opts = {
-    provider = "claude",
     -- UI configuration
     ui = {
       border = "rounded",
@@ -19,8 +19,9 @@ return {
       refresh = "<leader>ar", -- refresh
       new_chat = "<leader>an",
     },
-    auto_suggestions_provider = "claude",
     cursor_applying_provider = nil, -- The provider used in the applying phase of Cursor Planning Mode, defaults to nil, when nil uses Config.provider as the provider for the applying phase
+    auto_suggestions_provider = "claude",
+    provider = "claude",
     claude = {
       endpoint = "https://api.anthropic.com",
       model = "claude-3-7-sonnet-latest",
