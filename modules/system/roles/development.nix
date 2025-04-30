@@ -24,6 +24,7 @@
     ctags
     curl
     code-cursor # AI-powered code editor built on vscode
+    claude-code # An agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster
     exercism # A Go based command line tool for exercism.io
     zed-editor
     file # show file type
