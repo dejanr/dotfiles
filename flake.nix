@@ -44,6 +44,9 @@
       url = "github:EdenEast/nightfox.nvim";
       flake = false;
     };
+
+    devenv.url = "github:cachix/devenv";
+    devenv.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -59,6 +62,7 @@
     , stylix
     , sops-nix
     , disko
+    , devenv
     , ...
     }@inputs:
 
@@ -108,6 +112,7 @@
                   nixos-apple-silicon.overlays.apple-silicon-overlay
                   nixos-apple-silicon.overlays.default
                   nur.overlays.default
+                  devenv.overlays.default
                 ] ++ overlays;
               }
             ];
