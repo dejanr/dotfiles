@@ -4,12 +4,19 @@ let
   language = writeScript "audio" (import ./scripts/language.nix { });
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
   systemd = writeScript "systemd" (import ./scripts/systemd.nix { });
+  exit-node = writeScript "exit-node" (import ./scripts/exit-node.nix { });
 in
 ''
   full_text=|
   align=center
   separator=false
   separator_block_width=5
+
+  [seperator]
+
+  [exit-node]
+  interval=5
+  command=${exit-node} "Belgrade" "󰖂 home"
 
   [seperator]
 
