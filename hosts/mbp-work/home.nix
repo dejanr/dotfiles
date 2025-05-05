@@ -7,9 +7,6 @@
     # gui
     kitty.enable = true;
 
-    # secrets
-    sops.enable = true;
-
     # cli
     direnv.enable = true;
     git.enable = true;
