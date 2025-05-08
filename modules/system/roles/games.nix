@@ -54,7 +54,6 @@ in
 
     pkgs.jeveassets
     pkgs.gamemode # Optimise Linux system performance on demand
-    pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
     pkgs.winetricks
     pkgs.cabextract
     pkgs.gamemode
@@ -73,12 +72,35 @@ in
     inputs.nix-gaming.packages.${pkgs.system}.star-citizen
 
     pkgs.mumble # Low-latency, high quality voice chat software
+
+    pkgs.heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac
+    pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
+    pkgs.libstrangle # Frame rate limiter for Linux/OpenGL
+    pkgs.protonup-qt
   ];
 
-  programs.steam.enable = true;
-  hardware.steam-hardware.enable = true;
-  programs.steam.remotePlay.openFirewall = true;
-  programs.steam.dedicatedServer.openFirewall = true;
+  programs = {
+    steam = {
+      enable = true;
+      protontricks.enable = true;
+      gamescopeSession.enable = true;
+      extraPackages = with pkgs; [ libstrangle ];
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
+    gamemode = {
+      enable = true;
+      enableRenice = true;
+      settings = {
+        general.renice = -20;
+      };
+    };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+  };
 
+  hardware.steam-hardware.enable = true;
   services.flatpak.enable = true;
 }

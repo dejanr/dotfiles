@@ -15,7 +15,7 @@
   set -g status-keys emacs
 
   # upgrade terminal
-  set -g default-terminal "tmux-256color"
+  set -g default-terminal "xterm-256color"
 
   # base index
   set -g base-index 1
