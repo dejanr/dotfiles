@@ -48,7 +48,7 @@ in
       syntaxHighlighting.enable = true;
 
       # .zshrc
-      initExtra =
+      initContent =
         let
           linuxExports = ''
             export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})

@@ -87,6 +87,11 @@ in
       extraPackages = with pkgs; [ libstrangle ];
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
+      package = pkgs.steam.override {
+        extraPkgs = (pkgs: with pkgs; [
+          gamemode
+        ]);
+      };
     };
     gamemode = {
       enable = true;
