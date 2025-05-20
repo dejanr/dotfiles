@@ -68,7 +68,6 @@ in
 
           export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store";
           export ZK_NOTEBOOK_DIR="~/stuff/notes";
-          export DIRENV_LOG_FORMAT="";
           bindkey -e
           bindkey '^ ' autosuggest-accept
           bindkey '^R' history-incremental-search-backward

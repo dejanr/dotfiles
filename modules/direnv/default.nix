@@ -10,6 +10,9 @@ in {
       enable = true;
       nix-direnv.enable = true;
       enableZshIntegration = true;
+      config = {
+        log_format = "-";
+      };
     };
   };
 }

@@ -51,7 +51,7 @@
       ### Window Rules
       # Floating apps
       [[on-window-detected]]
-      if.app-name-regex-substring = '(Finder|1Password)'
+      if.app-name-regex-substring = '(Finder|1Password|Google Chrome)'
       run = 'layout floating'
 
       [[on-window-detected]]
