@@ -27,7 +27,7 @@
       [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/https" =
       [ "google-chrome-stable.desktop" ];
-    defaultApplications."text/html" = [ "firefox.desktop" "chromium.desktop" ];
+    defaultApplications."text/html" = [ "google-chrome-stable.desktop" "chromium.desktop" ];
     defaultApplications."x-scheme-handler/about" =
       [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/unknown" =
