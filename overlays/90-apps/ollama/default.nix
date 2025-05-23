@@ -15,7 +15,7 @@
 , rocmPackages
 , rocmGpuTargets ? rocmPackages.clr.gpuTargets or [ ]
 , cudaPackages
-, cudaArches ? cudaPackages.cudaFlags.realArches or [ ]
+, cudaArches ? cudaPackages.flags.realArches or [ ]
 , darwin
 , autoAddDriverRunpath
 , versionCheckHook
