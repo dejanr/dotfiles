@@ -18,7 +18,6 @@
     binutils
     bruno # Open-source IDE For exploring and testing APIs.
     cargo # Downloads your Rust project's dependencies and builds your project
-    rustup # rust toolchain
     conda # python package managment
     coreutils
     ctags

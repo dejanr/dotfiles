@@ -10,7 +10,7 @@
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nix.url = "github:nixos/nix/2.27.1";
 
@@ -91,6 +91,7 @@
               }
               stylix.nixosModules.stylix
               nur.modules.nixos.default
+              nix-gaming.nixosModules.pipewireLowLatency
               sops-nix.nixosModules.sops
               disko.nixosModules.disko
               ./modules/system/configuration.nix
@@ -108,6 +109,7 @@
                   ];
                 };
                 nixpkgs.overlays = [
+                  nix-gaming.overlays.default
                   (import rust-overlay)
                   nixos-apple-silicon.overlays.apple-silicon-overlay
                   nixos-apple-silicon.overlays.default

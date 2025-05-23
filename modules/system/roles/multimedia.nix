@@ -57,16 +57,10 @@
     pulse.enable = true;
     jack.enable = true;
 
-    extraConfig.pipewire = {
-      "10-clock-rate" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-          "default.clock.allowed-rates" = [ 44100 48000 96000 ];
-          "default.clock.quantum" = 32;
-          "default.clock.min-quantum" = 32;
-          "default.clock.max-quantum" = 1024;
-        };
-      };
+    lowLatency = {
+      enable = true;
+      quantum = 64;
+      rate = 48000;
     };
   };
 }

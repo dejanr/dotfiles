@@ -1,56 +1,14 @@
 { config, pkgs, inputs, ... }:
 
-let
-  dxvk = inputs.nix-gaming.packages.${pkgs.system}.dxvk;
-  wineprefix-preparer = inputs.nix-gaming.packages.${pkgs.system}.wineprefix-preparer;
-  wine = (inputs.nix-gaming.packages.${pkgs.system}.wine-ge.overrideAttrs (old: {
-    dontStrip = true;
-    debug = true;
-  })).override {
-    supportFlags = {
-      gettextSupport = true;
-      fontconfigSupport = true;
-      alsaSupport = true;
-      openglSupport = true;
-      vulkanSupport = true;
-      tlsSupport = true;
-      cupsSupport = true;
-      dbusSupport = true;
-      cairoSupport = true;
-      cursesSupport = true;
-      saneSupport = true;
-      pulseaudioSupport = true;
-      udevSupport = true;
-      xineramaSupport = true;
-      sdlSupport = true;
-      mingwSupport = true;
-      gtkSupport = false;
-      gstreamerSupport = false;
-      openalSupport = false;
-      openclSupport = false;
-      odbcSupport = false;
-      netapiSupport = false;
-      vaSupport = false;
-      pcapSupport = false;
-      v4lSupport = false;
-      gphoto2Support = false;
-      krb5Support = false;
-      ldapSupport = false;
-      vkd3dSupport = false;
-      embedInstallers = false;
-      waylandSupport = true;
-      usbSupport = true;
-      x11Support = true;
-    };
-  };
-in
 {
   environment.systemPackages = [
+    pkgs.star-citizen
+    pkgs.wine-ge
     pkgs.appimage-run
-    wine
     pkgs.dxvk
     pkgs.vkd3d-proton
-    pkgs.wine-prefix
+    pkgs.wineprefix-preparer
+    pkgs.winetricks-git
 
     pkgs.jeveassets
     pkgs.gamemode # Optimise Linux system performance on demand
@@ -68,8 +26,6 @@ in
 
     pkgs.discord-canary
     pkgs.pyfa
-
-    inputs.nix-gaming.packages.${pkgs.system}.star-citizen
 
     pkgs.mumble # Low-latency, high quality voice chat software
 
