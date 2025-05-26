@@ -31,7 +31,7 @@ self: super:
   dunst = import ./dunst {
     inherit (self) colors fonts;
     inherit (super) stdenv makeWrapper writeTextFile dunst;
-    browser = "firefox";
+    browser = "google-chrome-stable";
   };
 
   mfc9332cdwlpr = import ./mfc9332cdwlpr {

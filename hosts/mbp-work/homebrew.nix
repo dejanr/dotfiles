@@ -26,10 +26,6 @@
         lockfiles = true;
       };
 
-      extraConfig = ''
-        cask "firefox", args: { language: "en-GB" }
-      '';
-
       taps = [
         "homebrew/services"
         "FelixKratz/formulae"
@@ -47,7 +43,6 @@
       ];
 
       casks = [
-        "firefox"
         "google-chrome"
         "slack"
         "kitty"

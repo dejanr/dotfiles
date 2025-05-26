@@ -63,4 +63,7 @@
       rate = 48000;
     };
   };
+
+
+  programs.noisetorch.enable = true;
 }
