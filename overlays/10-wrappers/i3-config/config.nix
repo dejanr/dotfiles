@@ -1,5 +1,5 @@
 { colors, fonts }: ''
-  set $term ghostty
+  set $term kitty
 
   smart_gaps on
   smart_borders on

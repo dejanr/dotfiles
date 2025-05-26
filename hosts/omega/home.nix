@@ -65,7 +65,7 @@
     sops.enable = true;
 
     # gui
-    ghostty.enable = true;
+    kitty.enable = true;
 
     # cli
     direnv.enable = true;

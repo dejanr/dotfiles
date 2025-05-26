@@ -11,7 +11,7 @@ in
 
     fontSize = mkOption {
       type = types.str;
-      default = "18.0";
+      default = "14.0";
       description = ''
         Custom font size.
       '';
