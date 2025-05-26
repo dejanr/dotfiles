@@ -21,6 +21,7 @@ in {
       userEmail = "dejan@ranisavljevic.com";
       extraConfig = {
         init = { defaultBranch = "main"; };
+        submodule = { recurse = true; };
         github = { user = "dejanr"; };
         "filter \"lfs\"" = {
           clean = "${pkgs.git-lfs}/bin/git-lfs clean -- %f";
