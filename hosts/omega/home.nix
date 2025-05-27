@@ -9,25 +9,12 @@
   '';
   config.home.file."npmrc".target = ".npmrc";
 
-  config.programs.chromium = {
-    enable = true;
-    extensions = [
-      "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password – Password Manager
-      "gighmmpiobklfepjocnamgkkbiglidom" # AdBlock
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # UBlock Origin
-      "aapbdbdomjkkjkaonfhkkikfgjllcleb" # Google Translate
-      "fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
-      "okpjlejfhacmgjkmknjhadmkdbcldfcb" # User CSS Override
-      "nmgcefdhjpjefhgcpocffdlibknajbmj" # MyMind
-    ];
-  };
-
   config.xdg.mimeApps = {
     defaultApplications."x-scheme-handler/http" =
       [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/https" =
       [ "google-chrome-stable.desktop" ];
-    defaultApplications."text/html" = [ "google-chrome-stable.desktop" "chromium.desktop" ];
+    defaultApplications."text/html" = [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/about" =
       [ "google-chrome-stable.desktop" ];
     defaultApplications."x-scheme-handler/unknown" =
