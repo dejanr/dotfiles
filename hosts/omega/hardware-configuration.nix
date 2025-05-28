@@ -14,7 +14,7 @@ in
 
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" "armv6l-linux" ];
-    initrd.kernelModules = [ "nvidia" ];
+    initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_drm" ];
     initrd.availableKernelModules =
       [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.preDeviceCommands = ''
@@ -144,11 +144,11 @@ in
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = true;
+      powerManagement.enable = false;
       powerManagement.finegrained = false;
-      open = false;
+      open = true;
       nvidiaSettings = true;
-      package = kernelPackages.nvidiaPackages.beta;
+      package = kernelPackages.nvidiaPackages.vulkan_beta;
     };
   };
 
