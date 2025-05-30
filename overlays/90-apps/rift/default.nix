@@ -1,7 +1,7 @@
 { pkgs, lib }:
 
 let
-  versionNumber = "4.23.0";
+  versionNumber = "4.36.0";
 in
 pkgs.stdenv.mkDerivation {
   pname = "rift";
@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation {
 
   src = pkgs.fetchurl {
     url = "https://riftforeve.online/download/debian/rift_${versionNumber}_amd64.deb";
-    sha256 = "sha256-sZMhkTNfiScf1NoIf5Qqzzl07lV6lW90dY2xznhWb3M=";
+    sha256 = "sha256-g9ZAteLi9hB9Ynp7nx0iuAIRy6C1sDRHEA7L82B2CJY=";
   };
 
   nativeBuildInputs = [
