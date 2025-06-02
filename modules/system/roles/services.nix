@@ -72,5 +72,7 @@
     input-remapper.enable = true;
 
     resolved.enable = true;
+    resolved.fallbackDns = [ "8.8.8.8" ];
+    resolved.dnsovertls = "true";
   };
 }
