@@ -61,6 +61,7 @@ in
         pkgs.vimPlugins.nvim-treesitter
 
         pkgs.vimPlugins.blink-cmp-git
+        pkgs.vimPlugins.LazyVim
       ];
 
       extraPackages = with pkgs; [

@@ -3,7 +3,6 @@ local o = vim.opt
 -- Leader
 
 -- Performance
-o.lazyredraw = true;
 o.shell = "zsh"
 o.shadafile = "NONE"
 
@@ -55,7 +54,7 @@ o.splitbelow = true
 o.completeopt = "menuone,noselect"
 
 -- Display sign column always fixed by up to 2 signs
-o.signcolumn = "yes:1";
+o.signcolumn = "yes:1"
 
 -- auto reload files changed outside of vim
 o.autoread = true
