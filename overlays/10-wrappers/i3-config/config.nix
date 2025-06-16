@@ -179,6 +179,7 @@
   assign [class="steam_app_1371580"] $workspace5
   assign [class="steam_app_1284210"] $workspace5
   assign [class="steam_app_2429640"] $workspace5
+  assign [class="steam_app_1172710"] $workspace5
   assign [class="steam_app_8500"] $workspace5
   assign [class="steam_app_0"] $workspace5
   assign [class="clientloader.exe"] $workspace6
