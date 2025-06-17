@@ -1,4 +1,4 @@
-{}: ''
+{}: /* bash */ ''
   #!/usr/bin/env bash
 
   SERVICE="''${1:-openvpn-office.service}"
@@ -21,12 +21,15 @@
       1)  # Left click to toggle
           if systemctl is-active --quiet "$SERVICE"; then
               sudo systemctl stop "$SERVICE"
+              pkill -RTMIN+10 i3blocks  # Refresh the block
           else
               sudo systemctl start "$SERVICE"
+              pkill -RTMIN+10 i3blocks  # Refresh the block
           fi
           ;;
       3)  # Right click to restart
           sudo systemctl restart "$SERVICE"
+          pkill -RTMIN+10 i3blocks  # Refresh the block
           ;;
   esac
 ''

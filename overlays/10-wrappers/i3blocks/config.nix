@@ -4,6 +4,7 @@ let
   language = writeScript "audio" (import ./scripts/language.nix { });
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
   systemd = writeScript "systemd" (import ./scripts/systemd.nix { });
+  app-audio = writeScript "systemd" (import ./scripts/app-audio.nix { });
   exit-node = writeScript "exit-node" (import ./scripts/exit-node.nix { });
 in
 ''
@@ -35,6 +36,12 @@ in
   [dejli-audio]
   interval=5
   command=${dejli-script} "dejli-audio" "/tmp/dejli-audio.pid" "🎙️ audio"
+
+  [seperator]
+
+  [app-audio-dune]
+  interval=5
+  command=${app-audio} "Dune" "dune"
 
   [seperator]
 
