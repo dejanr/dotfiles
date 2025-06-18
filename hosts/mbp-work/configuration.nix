@@ -24,36 +24,6 @@ in
     skhdConfig = "cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
   };
 
-  # Nix settings, auto cleanup and enable flakes
-  nix = {
-    settings = {
-      allowed-users = [ username ];
-      substituters = [ "https://cache.nixos.org" ];
-      trusted-users = [ username "root" ];
-    };
-
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d";
-    };
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    '';
-  };
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowBroken = true;
-      allowUnsupportedSystem = true;
-      android_sdk.accept_license = true;
-      permittedInsecurePackages = [ ];
-    };
-  };
-
   users = {
     users = {
       "dejan.ranisavljevic" = {

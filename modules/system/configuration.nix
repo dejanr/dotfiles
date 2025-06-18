@@ -57,11 +57,23 @@ in
     settings = {
       auto-optimise-store = true;
       allowed-users = [ "dejanr" ];
-      trusted-public-keys = [
-        "nixbuild.net/ororatech-swuerl-1:pIlkdwXcQ4rhAhyI17SLno25zgfeWFbBPBnA0jvIXyM="
-        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      ];
       trusted-users = [ "${username}" "root" ];
+
+      substituters = [
+        "ssh://nix-cache"
+        "ssh://eu.nixbuild.net"
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://cache.lix.systems"
+      ];
+      trusted-public-keys = [
+        "ot-nix-cache:C6ZY7QNJHk8tAcyi00y0n3UhbnZvBxJE993/J61omU4="
+        "nixbuild.net/ororatech-swuerl-1:pIlkdwXcQ4rhAhyI17SLno25zgfeWFbBPBnA0jvIXyM="
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      ];
     };
 
     gc = {
@@ -85,7 +97,7 @@ in
       allowBroken = true;
       allowUnsupportedSystem = true;
       android_sdk.accept_license = true;
-      permittedInsecurePackages = [ "nix-2.15.3" ];
+      permittedInsecurePackages = [ ];
     };
   };
 
