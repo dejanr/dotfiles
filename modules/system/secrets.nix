@@ -12,6 +12,7 @@
     age = {
       sshKeyPaths = [
         "/home/dejanr/.ssh/id_ed25519"
+        "/home/dejanr/.ssh/id_ed25519_old"
       ];
       keyFile = "~/.config/sops/age/keys.txt";
       generateKey = true;
