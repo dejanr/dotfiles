@@ -148,7 +148,7 @@ in
       powerManagement.finegrained = false;
       open = true;
       nvidiaSettings = true;
-      package = kernelPackages.nvidiaPackages.vulkan_beta;
+      # package = kernelPackages.nvidiaPackages.vulkan_beta;
     };
   };
 

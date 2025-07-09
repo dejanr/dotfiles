@@ -48,6 +48,7 @@ in
 
   pragmatapro = super.callPackage ./pragmatapro/default.nix { };
   claude-code = super.callPackage ./claude-code/default.nix { };
+  opencode = super.callPackage ./opencode/default.nix { };
 
   scream-receivers = super.callPackage ./scream-receivers {
     inherit (super) stdenv lib fetchFromGitHub alsaLib;

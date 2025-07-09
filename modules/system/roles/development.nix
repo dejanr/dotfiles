@@ -24,6 +24,7 @@
     curl
     code-cursor # AI-powered code editor built on vscode
     claude-code # An agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster
+    opencode # AI coding agent built for the terminal
     exercism # A Go based command line tool for exercism.io
     zed-editor
     file # show file type
@@ -35,6 +36,7 @@
     gitAndTools.git-extras
     gitAndTools.gitflow
     gitFull
+    jujutsu
     lazygit
     gnum4 # GNU M4, a macro processor
     gnumake
@@ -70,9 +72,9 @@
     (wrapOBS {
       plugins = [
         obs-studio-plugins.obs-vintage-filter
-        obs-studio-plugins.obs-vertical-canvas
+        # broken: obs-studio-plugins.obs-vertical-canvas 
         obs-studio-plugins.obs-pipewire-audio-capture
-        # obs-studio-plugins.obs-nvfbc
+        # broken: obs-studio-plugins.obs-nvfbc
         obs-studio-plugins.obs-gradient-source
         obs-studio-plugins.obs-freeze-filter
         obs-studio-plugins.obs-composite-blur
