@@ -41,7 +41,7 @@ in
 
   [app-audio-dune]
   interval=5
-  command=${app-audio} "Dune" "dune"
+  command=${app-audio} "Steel" "steel"
 
   [seperator]
 
