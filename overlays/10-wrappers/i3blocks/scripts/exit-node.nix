@@ -6,12 +6,8 @@
   DEFAULT_COLOR="#FFFFFF"
   ACTIVE_COLOR="#DBC074"
 
-
-  # Get current exit node status (node ID or null)
-  CURRENT_EXIT_NODE=$(tailscale status | grep $(sudo tailscale exit-node list | grep Belgrade | awk '{ print $1 }') | grep active)
-
-  # Get desired exit node IP (matching name pattern)
-  DESIRED_EXIT_NODE=$(sudo tailscale exit-node list | grep "$EXIT_NODE_NAME_PATTERN" | awk '{ print $1 }' | head -n 1)
+  CURRENT_EXIT_NODE=$(tailscale status --json | jq -r --arg city "Belgrade" '.Peer[] | select(.Location.City == $city and .ExitNodeOption == true and .Active == true and .ExitNode == true) | .TailscaleIPs[0]')
+  DESIRED_EXIT_NODE=$(tailscale status --json | jq -r --arg city "Belgrade" '.Peer[] | select(.Location.City == $city and .ExitNodeOption == true and .Active == true and .ExitNode == false) | .TailscaleIPs[0]')
 
   # Determine color and display state
   if [[ -n "$CURRENT_EXIT_NODE" && "$CURRENT_EXIT_NODE" != "" ]]; then

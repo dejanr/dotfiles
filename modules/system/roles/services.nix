@@ -26,12 +26,6 @@
 
     fail2ban = {
       enable = true;
-      jails = {
-        # this is predefined
-        ssh-iptables = ''
-          enabled  = true
-        '';
-      };
     };
 
     openssh = {
@@ -60,7 +54,7 @@
 
     upower.enable = true;
 
-    ntpd-rs.enable = true;
+    chrony.enable = true;
 
     postfix = {
       enable = true;
@@ -74,5 +68,8 @@
     resolved.enable = true;
     resolved.fallbackDns = [ "8.8.8.8" ];
     resolved.dnsovertls = "true";
+
+    timesyncd.enable = true;
+    timesyncd.servers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
   };
 }

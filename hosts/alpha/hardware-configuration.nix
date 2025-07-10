@@ -27,7 +27,6 @@ in
       "vfio"
       "vfio_pci"
       "vfio_iommu_type1"
-      "vfio_virqfd"
       "virtio"
     ];
 

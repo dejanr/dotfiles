@@ -36,7 +36,6 @@ in
       "vfio"
       "vfio_pci"
       "vfio_iommu_type1"
-      "vfio_virqfd"
       "virtio" # paravirtual 3D graphics driver based on virgl
     ];
 
@@ -155,6 +154,7 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
+    useNetworkd = true;
     useDHCP = lib.mkDefault true;
     hostId = "8425e349";
     hostName = "${hostName}";
