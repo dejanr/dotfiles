@@ -10,7 +10,7 @@ in
   options.modules.zsh = { enable = mkEnableOption "zsh"; };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza pkgs.sops ];
+    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza ];
 
     programs.zoxide = {
       enable = true;
@@ -51,9 +51,9 @@ in
       initContent =
         let
           linuxExports = ''
-            export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})
-            export DEEPSEEK_API_KEY=$(cat ${config.sops.secrets.DEEPSEEK_API_KEY.path})
-            export GROQ_API_KEY=$(cat ${config.sops.secrets.GROQ_API_KEY.path})
+            export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
+            export DEEPSEEK_API_KEY=$(cat ${config.age.secrets.deepseek_api_key.path})
+            export GROQ_API_KEY=$(cat ${config.age.secrets.groq_api_key.path})
           '';
           darwinExports = "";
         in

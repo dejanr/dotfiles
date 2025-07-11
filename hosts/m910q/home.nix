@@ -5,7 +5,7 @@
 
   config.modules = {
     # secrets
-    sops.enable = true;
+    agenix.enable = true;
 
     # cli
     git.enable = true;

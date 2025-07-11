@@ -54,8 +54,8 @@
       office = {
         autoStart = false;
         config = '' 
-        config ${config.sops.secrets.openvpn_office_conf.path}
-        auth-user-pass  ${config.sops.secrets.openvpn_office_pass.path}
+        config /run/secrets/openvpn_office_conf
+        auth-user-pass /run/secrets/openvpn_office_pass
       '';
         updateResolvConf = true;
         # When using resolv conf uncomment this:

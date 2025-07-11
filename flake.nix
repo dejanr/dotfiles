@@ -14,8 +14,8 @@
 
     nix.url = "github:nixos/nix/2.27.1";
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +60,7 @@
     , nix-gaming
     , rust-overlay
     , stylix
-    , sops-nix
+    , agenix
     , disko
     , devenv
     , ...
@@ -92,7 +92,7 @@
               stylix.nixosModules.stylix
               nur.modules.nixos.default
               nix-gaming.nixosModules.pipewireLowLatency
-              sops-nix.nixosModules.sops
+              agenix.nixosModules.default
               disko.nixosModules.disko
               ./modules/system/configuration.nix
               (./. + "/hosts/${hostConfig}/configuration.nix")
@@ -105,7 +105,7 @@
                   users.dejanr.imports =
                     [ (./. + "/hosts/${hostConfig}/home.nix") ];
                   sharedModules = [
-                    sops-nix.homeManagerModules.sops
+                    agenix.homeManagerModules.default
                   ];
                 };
                 nixpkgs.overlays = [
@@ -124,7 +124,7 @@
     in
     {
       formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
-      devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
+      devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs agenix; });
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
@@ -157,7 +157,7 @@
                   users.${username}.imports =
                     [ (./. + "/hosts/mbp-work/home.nix") ];
                   sharedModules = [
-                    sops-nix.homeManagerModules.sops
+                    agenix.homeManagerModules.default
                   ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;

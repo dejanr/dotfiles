@@ -1,17 +1,12 @@
 { pkgs, lib, config, ... }:
 
-# Home related secrets that are exported in ~/.config/sops-nix/secrets
+# Home related secrets that are managed by agenix
 
 # Use this for not so secret secrets, that should be hidden from general public
 
 {
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.sshKeyPaths = [ "/home/dejanr/.ssh/id_ed25519" "/Users/dejan.ranisavljevic/.ssh/id_ed25519" ];
-  sops.age.keyFile = "/home/dejanr/.config/sops/age/keys.txt";
-
-  sops.secrets.ANTHROPIC_API_KEY = { };
-  sops.secrets.DEEPSEEK_API_KEY = { };
-  sops.secrets.GROQ_API_KEY = { };
-  sops.secrets.GEMINI_API_KEY = { };
+  age.secrets.anthropic_api_key.file = ../../secrets/anthropic_api_key.age;
+  age.secrets.deepseek_api_key.file = ../../secrets/deepseek_api_key.age;
+  age.secrets.groq_api_key.file = ../../secrets/groq_api_key.age;
+  age.secrets.gemini_api_key.file = ../../secrets/gemini_api_key.age;
 }

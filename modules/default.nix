@@ -17,7 +17,7 @@
     ./xdg
 
     # secrets
-    ./sops
+    ./agenix
 
     # gui
     ./alacritty

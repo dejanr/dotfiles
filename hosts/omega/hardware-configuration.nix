@@ -6,7 +6,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxPackages_zen;
+  kernelPackages = pkgs.linuxKernel.packages.linux_zen;
   deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
 in
 {
@@ -147,7 +147,7 @@ in
       powerManagement.finegrained = false;
       open = true;
       nvidiaSettings = true;
-      # package = kernelPackages.nvidiaPackages.vulkan_beta;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 

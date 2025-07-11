@@ -1,26 +1,12 @@
 { pkgs, lib, config, ... }:
 
-# System related secrets that are exported in /run/secrets/*
+# System related secrets that are managed by agenix
 
 # Use this for more secret secrets, that should be only accessible by sudo
 
 {
-  sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-
-    age = {
-      sshKeyPaths = [
-        "/home/dejanr/.ssh/id_ed25519"
-        "/home/dejanr/.ssh/id_ed25519_old"
-      ];
-      keyFile = "~/.config/sops/age/keys.txt";
-      generateKey = true;
-    };
-
-    secrets = {
-      openvpn_office_pass = { };
-      openvpn_office_conf = { };
-    };
-  };
+  age.secrets.openvpn_office_pass.file = ../../secrets/openvpn_office_pass.age;
+  age.secrets.openvpn_office_pass.symlink = true;
+  age.secrets.openvpn_office_conf.file = ../../secrets/openvpn_office_conf.age;
+  age.secrets.openvpn_office_conf.symlink = true;
 }

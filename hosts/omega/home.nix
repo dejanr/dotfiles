@@ -49,7 +49,7 @@
     xdg.enable = true;
 
     # secrets
-    sops.enable = true;
+    agenix.enable = true;
 
     # gui
     kitty.enable = true;
