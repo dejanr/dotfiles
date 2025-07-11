@@ -61,6 +61,7 @@
     tmux.enable = true;
     zsh.enable = true;
     yazi.enable = true;
+    opencode.enable = true;
 
     # system
     packages.enable = true;
