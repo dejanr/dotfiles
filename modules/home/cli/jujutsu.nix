@@ -25,6 +25,20 @@ in {
           program = "${pkgs.delta}/bin/delta";
           diff-args = [ "--color-only" ];
         };
+        merge-tools.mergiraf = {
+          program = "${pkgs.mergiraf}/bin/mergiraf";
+          merge-args = [
+            "merge"
+            "$base"
+            "$left"
+            "$right"
+            "-o"
+            "$output"
+            "--fast"
+          ];
+          merge-conflict-exit-codes = [ 1 ];
+          conflict-marker-style = "git";
+        };
         aliases = {
           l = [ "log" "--no-pager" "--limit" "10" ];
           s = [ "status" "--no-pager" ];
