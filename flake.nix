@@ -98,7 +98,7 @@
               nix-gaming.nixosModules.pipewireLowLatency
               agenix.nixosModules.default
               disko.nixosModules.disko
-              ./modules/system/default.nix
+              ./modules/nixos/default.nix
               (./. + "/hosts/${hostConfig}/configuration.nix")
               home-manager.nixosModules.home-manager
               {
@@ -150,6 +150,7 @@
             inherit system;
             specialArgs = { inherit inputs system importsFrom; };
             modules = [
+              ./modules/darwin/default.nix
               ./hosts/mbp-work/configuration.nix
               home-manager.darwinModules.home-manager
               {

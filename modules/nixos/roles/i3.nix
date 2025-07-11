@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.modules.system.roles.i3;
+  cfg = config.modules.nixos.roles.i3;
   gtk2-theme = import ../../../utils/gtk2Theme.nix {
     theme = {
       package = pkgs.arc-theme;
@@ -17,7 +17,7 @@ in
 {
   imports = [ gtk2-theme ];
 
-  options.modules.system.roles.i3 = { enable = mkEnableOption "i3 window manager system integration"; };
+  options.modules.nixos.roles.i3 = { enable = mkEnableOption "i3 window manager system integration"; };
 
   config = mkIf cfg.enable {
 

@@ -64,11 +64,11 @@ in
 
   system.stateVersion = lib.mkForce "23.05";
 
-  modules.system.roles.desktop.enable = true;
-  modules.system.roles.dev.enable = true;
-  modules.system.roles.multimedia.enable = true;
-  modules.system.roles.i3.enable = true;
-  modules.system.roles.services.enable = true;
-  modules.system.roles.games.enable = true;
-  modules.system.roles.virtualisation.enable = true;
+  modules.nixos.roles.desktop.enable = true;
+  modules.nixos.roles.dev.enable = true;
+  modules.nixos.roles.multimedia.enable = true;
+  modules.nixos.roles.i3.enable = true;
+  modules.nixos.roles.services.enable = true;
+  modules.nixos.roles.games.enable = true;
+  modules.nixos.roles.virtualisation.enable = true;
 }

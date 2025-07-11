@@ -28,9 +28,11 @@
   - `home/` - Home Manager modules (user-level configuration)
     - Organized into logical categories for related functionality
     - `default.nix` - Auto-discovery mechanism for module loading
-  - `system/` - NixOS modules (system-level configuration)
+  - `nixos/` - NixOS modules (system-level configuration)
     - System-level modules with appropriate grouping
     - Auto-import system for module management
+  - `darwin/` - Darwin modules (macOS system-level configuration)
+    - macOS-specific system configuration modules
 - **`overlays/`**: Custom Nix overlays with logical organization
   - Numerical prefixes for load order when needed
   - Categorized by purpose and functionality
@@ -67,7 +69,8 @@
 
 ### Module Namespaces
 - **Namespace mapping**: Module namespaces should reflect the directory structure
-- **NixOS modules**: System-level configuration under `modules.system.*`
+- **NixOS modules**: System-level configuration under `modules.nixos.*`
+- **Darwin modules**: macOS system-level configuration under `modules.darwin.*`
 - **Home Manager modules**: User-level configuration under `modules.home.*`
 - **Category organization**: Group related modules in logical directories
 - **File naming**: Use descriptive names that match their purpose
@@ -161,8 +164,11 @@ config.age.secrets.secret_name.path
 - **Home Manager modules**: User-level configuration organized by logical categories
   - Auto-discovery mechanism for seamless module loading
   - Namespace structure that reflects directory organization
-- **NixOS modules**: System-level configuration with appropriate grouping
+- **NixOS modules**: Linux system-level configuration with appropriate grouping
   - Auto-import system for easy module management
+  - Enable-based configuration pattern for consistency
+- **Darwin modules**: macOS system-level configuration with appropriate grouping
+  - Platform-specific system configuration for macOS
   - Enable-based configuration pattern for consistency
 - **Conflict prevention**: Avoid namespace collisions between different module types
 - **Consistent structure**: Maintain uniform patterns across all module types

@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-let cfg = config.modules.system.roles.services;
+let cfg = config.modules.nixos.roles.services;
 
 in {
-  options.modules.system.roles.services = { enable = mkEnableOption "system services"; };
+  options.modules.nixos.roles.services = { enable = mkEnableOption "system services"; };
 
   config = mkIf cfg.enable {
   programs.ssh.startAgent = true;

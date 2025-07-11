@@ -3,10 +3,10 @@
 with lib;
 
 let
-  cfg = config.modules.system.services.openvpn.office;
+  cfg = config.modules.nixos.services.openvpn.office;
 in
 {
-  options.modules.system.services.openvpn.office = {
+  options.modules.nixos.services.openvpn.office = {
     enable = mkEnableOption "OpenVPN office connection";
 
     username = mkOption {

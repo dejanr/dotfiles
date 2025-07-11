@@ -7,7 +7,7 @@ in
   imports = [
     ./hardware-configuration.nix
     # Unmigrated roles (still need manual imports)
-    ../../modules/system/roles/multimedia.nix
+    ../../modules/nixos/roles/multimedia.nix
   ];
 
   services = {
@@ -79,5 +79,5 @@ in
     };
   };
 
-  modules.system.roles.desktop.enable = true;
+  modules.nixos.roles.desktop.enable = true;
 }

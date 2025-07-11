@@ -3,12 +3,12 @@
   # Homebrew - Mac-specific packages that aren't in Nix
   config = lib.mkIf pkgs.stdenv.isDarwin {
     # Requires Homebrew to be installed
-    system.activationScripts.preUserActivation.text = ''
+    system.activationScripts.postActivation.text = ''
       if ! xcode-select --version 2>/dev/null; then
-      $DRY_RUN_CMD xcode-select --install
+      sudo xcode-select --install
       fi
       if ! /opt/homebrew/bin/brew --version 2>/dev/null; then
-      $DRY_RUN_CMD /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      sudo -u ${config.system.primaryUser} /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       fi
     '';
 

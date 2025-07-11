@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.modules.system.roles.multimedia;
+let cfg = config.modules.nixos.roles.multimedia;
 
 in {
-  options.modules.system.roles.multimedia = { enable = mkEnableOption "multimedia system integration"; };
+  options.modules.nixos.roles.multimedia = { enable = mkEnableOption "multimedia system integration"; };
 
   config = mkIf cfg.enable {
   environment.systemPackages = with pkgs; [

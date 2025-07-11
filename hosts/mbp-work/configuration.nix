@@ -59,5 +59,11 @@ in
   environment.darwinConfig = "$HOME/.dotfiles/mbp-work/configuration.nix";
   environment.variables.LANG = "en_US.UTF-8";
 
+  # Darwin GUI modules (example usage)
+  # modules.darwin.gui.sketchybar.enable = true;
+
+  # Set primary user for Darwin-specific options
+  system.primaryUser = username;
+
   system.stateVersion = 5;
 }

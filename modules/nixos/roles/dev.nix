@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 
 with lib;
-let cfg = config.modules.system.roles.dev;
+let cfg = config.modules.nixos.roles.dev;
 
 in {
-  options.modules.system.roles.dev = { enable = mkEnableOption "development system integration"; };
+  options.modules.nixos.roles.dev = { enable = mkEnableOption "development system integration"; };
 
   config = mkIf cfg.enable {
     programs.java = {

@@ -1,10 +1,10 @@
 { config, pkgs, inputs, lib, ... }:
 
 with lib;
-let cfg = config.modules.system.roles.games;
+let cfg = config.modules.nixos.roles.games;
 
 in {
-  options.modules.system.roles.games = { enable = mkEnableOption "gaming system integration"; };
+  options.modules.nixos.roles.games = { enable = mkEnableOption "gaming system integration"; };
 
   config = mkIf cfg.enable {
     # System-level gaming packages (Wine, Vulkan drivers, system tools)

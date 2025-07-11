@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.modules.system.roles.virtualisation;
+let cfg = config.modules.nixos.roles.virtualisation;
 
 in {
-  options.modules.system.roles.virtualisation = { enable = mkEnableOption "virtualisation system integration"; };
+  options.modules.nixos.roles.virtualisation = { enable = mkEnableOption "virtualisation system integration"; };
 
   config = mkIf cfg.enable {
     # Add shared memory device for kvm machine

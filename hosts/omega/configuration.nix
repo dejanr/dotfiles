@@ -41,7 +41,7 @@
 
 
 
-  modules.system = {
+  modules.nixos = {
     roles = {
       desktop.enable = true;
       dev.enable = true;
