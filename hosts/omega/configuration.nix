@@ -3,14 +3,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system/roles/fonts.nix
-    ../../modules/system/roles/desktop.nix
-    ../../modules/system/roles/multimedia.nix
-    ../../modules/system/roles/i3.nix
-    ../../modules/system/roles/services.nix
-    ../../modules/system/roles/development.nix
-    ../../modules/system/roles/games.nix
-    ../../modules/system/roles/virtualisation.nix
   ];
 
   networking.extraHosts =
@@ -47,32 +39,23 @@
 
   # Office VPN
 
-  services.openvpn = {
-    restartAfterSleep = false;
 
-    servers = {
-      office = {
-        autoStart = false;
-        config = '' 
-        config /run/secrets/openvpn_office_conf
-        auth-user-pass /run/secrets/openvpn_office_pass
-      '';
-        updateResolvConf = true;
-        # When using resolv conf uncomment this:
-        up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
-        down = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
-      };
+
+  modules.system = {
+    roles = {
+      desktop.enable = true;
+      dev.enable = true;
+      games.enable = true;
+      hosts.enable = true;
+      i3.enable = true;
+      multimedia.enable = true;
+      services.enable = true;
+      virtualisation.enable = true;
+    };
+
+    services.openvpn.office = {
+      enable = true;
+      username = "dejanr";
     };
   };
-
-  security.sudo.extraRules = [
-    {
-      users = [ "dejanr" ];
-      commands = [
-        { command = "/run/current-system/sw/bin/systemctl start openvpn-office.service"; options = [ "NOPASSWD" ]; }
-        { command = "/run/current-system/sw/bin/systemctl stop openvpn-office.service"; options = [ "NOPASSWD" ]; }
-        { command = "/run/current-system/sw/bin/systemctl restart openvpn-office.service"; options = [ "NOPASSWD" ]; }
-      ];
-    }
-  ];
 }

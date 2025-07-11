@@ -1,67 +1,58 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
-{
-  environment.systemPackages = [
-    pkgs.star-citizen
-    pkgs.wine-ge
-    pkgs.appimage-run
-    pkgs.dxvk
-    pkgs.vkd3d-proton
-    pkgs.wineprefix-preparer
-    pkgs.winetricks-git
+with lib;
+let cfg = config.modules.system.roles.games;
 
-    pkgs.jeveassets
-    pkgs.gamemode # Optimise Linux system performance on demand
-    pkgs.winetricks
-    pkgs.cabextract
-    pkgs.gamemode
-    pkgs.libstrangle
-    pkgs.vulkan-loader
-    pkgs.vulkan-validation-layers
-    pkgs.vulkan-tools
-    pkgs.legendary-gl # A free and open-source Epic Games Launcher alternative
-    pkgs.teamspeak_client # voip client
-    pkgs.jstest-gtk
-    pkgs.linuxConsoleTools
+in {
+  options.modules.system.roles.games = { enable = mkEnableOption "gaming system integration"; };
 
-    pkgs.discord-canary
-    pkgs.pyfa
+  config = mkIf cfg.enable {
+    # System-level gaming packages (Wine, Vulkan drivers, system tools)
+    environment.systemPackages = with pkgs; [
+      wine-ge
+      appimage-run
+      dxvk
+      vkd3d-proton
+      wineprefix-preparer
+      winetricks-git
+      winetricks
+      cabextract
+      gamemode
+      libstrangle
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-tools
+      jstest-gtk
+      linuxConsoleTools
+    ];
 
-    pkgs.mumble # Low-latency, high quality voice chat software
-
-    pkgs.heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac
-    pkgs.mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
-    pkgs.libstrangle # Frame rate limiter for Linux/OpenGL
-    pkgs.protonup-qt
-  ];
-
-  programs = {
-    steam = {
-      enable = true;
-      protontricks.enable = true;
-      gamescopeSession.enable = true;
-      extraPackages = with pkgs; [ libstrangle ];
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      package = pkgs.steam.override {
-        extraPkgs = (pkgs: with pkgs; [
-          gamemode
-        ]);
+    programs = {
+      steam = {
+        enable = true;
+        protontricks.enable = true;
+        gamescopeSession.enable = true;
+        extraPackages = with pkgs; [ libstrangle ];
+        remotePlay.openFirewall = true;
+        dedicatedServer.openFirewall = true;
+        package = pkgs.steam.override {
+          extraPkgs = (pkgs: with pkgs; [
+            gamemode
+          ]);
+        };
+      };
+      gamemode = {
+        enable = true;
+        enableRenice = true;
+        settings = {
+          general.renice = -20;
+        };
+      };
+      gamescope = {
+        enable = true;
+        capSysNice = true;
       };
     };
-    gamemode = {
-      enable = true;
-      enableRenice = true;
-      settings = {
-        general.renice = -20;
-      };
-    };
-    gamescope = {
-      enable = true;
-      capSysNice = true;
-    };
+
+    hardware.steam-hardware.enable = true;
   };
-
-  hardware.steam-hardware.enable = true;
-  services.flatpak.enable = true;
 }

@@ -6,8 +6,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system/roles/fonts.nix
-    ../../modules/system/roles/desktop.nix
+    # Unmigrated roles (still need manual imports)
     ../../modules/system/roles/multimedia.nix
   ];
 
@@ -80,4 +79,5 @@ in
     };
   };
 
+  modules.system.roles.desktop.enable = true;
 }

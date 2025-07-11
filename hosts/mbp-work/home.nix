@@ -1,22 +1,22 @@
 { config, lib, inputs, pkgs, ... }:
 
 {
-  imports = [ ../../modules/default.nix ];
+  imports = [ ../../modules/home/default.nix ];
 
   config.modules = {
-    # gui
-    kitty.enable = true;
+    # apps
+    apps.kitty.enable = true;
 
     # cli
-    direnv.enable = true;
-    git.enable = true;
-    nvim.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
+    home.cli.direnv.enable = true;
+    home.cli.git.enable = true;
+    home.cli.nvim.enable = true;
+    home.cli.tmux.enable = true;
+    home.cli.zsh.enable = true;
 
     # darwin
 
     # system
-    packages.enable = true;
+    home.common.packages.enable = true;
   };
 }

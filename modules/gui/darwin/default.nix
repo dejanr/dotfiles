@@ -1,9 +1,0 @@
-{ ... }:
-
-{
-  imports = [
-    # gui
-    ./sketchybar
-    ./aerospace
-  ];
-}

@@ -1,6 +1,12 @@
 { config, lib, pkgs, ... }:
 
-{
+with lib;
+let cfg = config.modules.system.roles.services;
+
+in {
+  options.modules.system.roles.services = { enable = mkEnableOption "system services"; };
+
+  config = mkIf cfg.enable {
   programs.ssh.startAgent = true;
 
   services = {
@@ -71,5 +77,6 @@
 
     timesyncd.enable = true;
     timesyncd.servers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
+    };
   };
 }

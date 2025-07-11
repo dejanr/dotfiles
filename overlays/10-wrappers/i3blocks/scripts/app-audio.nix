@@ -12,8 +12,8 @@
   ACTIVE_COLOR="#DBC074"
 
   find_sink_inputs() {
-      pactl list sink-inputs | grep -B 20 -A 5 "application.name.*$PATTERN" | 
-      grep "Sink Input #" | 
+      pactl list sink-inputs | grep -B 20 -A 5 "application.name.*$PATTERN" |
+      grep "Sink Input #" |
       sed 's/Sink Input #//'
   }
 
@@ -39,7 +39,7 @@
   }
 
   case $BLOCK_BUTTON in
-      1) 
+      1)
           SINK_INPUT_IDS=$(find_sink_inputs)
           if [[ -n "$SINK_INPUT_IDS" ]]; then
               toggle_mute "$SINK_INPUT_IDS"

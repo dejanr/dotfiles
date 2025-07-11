@@ -24,16 +24,16 @@
   - `configuration.nix` - NixOS system configuration
   - `hardware-configuration.nix` - Hardware-specific settings
   - `home.nix` - Home Manager user environment
-- **`modules/`**: Reusable configuration modules organized by category
-  - `cli/` - Command-line tools and utilities
-  - `gui/` - Desktop applications and window managers
-  - `secrets/` - Secret management (agenix)
-  - `system/` - Legacy system configurations (being migrated)
-- **`overlays/`**: Custom Nix overlays with numerical prefixes
-  - `00-themes/` - Theme-related overlays (colors, fonts)
-  - `10-wrappers/` - Application wrapper scripts
-  - `20-scripts/` - Custom utility scripts
-  - `90-apps/` - Application-specific overlays
+- **`modules/`**: Reusable configuration modules organized by context
+  - `home/` - Home Manager modules (user-level configuration)
+    - Organized into logical categories for related functionality
+    - `default.nix` - Auto-discovery mechanism for module loading
+  - `system/` - NixOS modules (system-level configuration)
+    - System-level modules with appropriate grouping
+    - Auto-import system for module management
+- **`overlays/`**: Custom Nix overlays with logical organization
+  - Numerical prefixes for load order when needed
+  - Categorized by purpose and functionality
 - **`secrets/`**: Encrypted secrets managed with agenix
 
 ### NixOS vs Home Manager Decision Framework
@@ -65,6 +65,15 @@
 - Group related options together, separate with blank lines
 - Use descriptive option names with prefixes (e.g., `programs.neovim.enable`)
 
+### Module Namespaces
+- **Namespace mapping**: Module namespaces should reflect the directory structure
+- **NixOS modules**: System-level configuration under `modules.system.*`
+- **Home Manager modules**: User-level configuration under `modules.home.*`
+- **Category organization**: Group related modules in logical directories
+- **File naming**: Use descriptive names that match their purpose
+- **Namespace pattern**: `modules.<category>.<name>` where category matches directory structure
+- **Consistency**: Maintain consistent naming patterns across similar module types
+
 ### Formatting
 - Use 2-space indentation, no tabs
 - Always format with `nix fmt` before committing
@@ -73,7 +82,8 @@
 ### Host Configuration
 - Username should be configurable per host (not hardcoded)
 - Use `mkSystem` function for new hosts in `flake.nix`
-- Each host imports `../../modules/default.nix` for module discovery
+- Each host imports `../../modules/home/default.nix` for Home Manager module discovery
+- NixOS system modules are auto-imported via flake configuration
 
 ## Secret Management
 
@@ -102,18 +112,23 @@ config.age.secrets.secret_name.path
 
 ### Creating New Modules
 1. Use `modules/template.nix` as starting point
-2. Place in appropriate category directory (`cli/`, `gui/`, etc.)
-3. Follow standard module pattern with enable option
-4. Import automatically discovered by `modules/default.nix`
+2. **Home Manager modules**: 
+   - Place in appropriate category directory under `modules/home/`
+   - Choose logical categories that group related functionality
+   - Use namespace that matches directory structure: `modules.<category>.<name>`
+   - Ensure auto-discovery mechanism can find the module
+3. **NixOS modules**: 
+   - Place system-level modules under `modules/system/`
+   - Use appropriate namespace reflecting the module's purpose
+   - Add to auto-import system if available
+4. Follow standard module pattern with enable option and consistent structure
 
 ### Adding New Overlays
-1. Place in appropriate numbered directory:
-   - `00-themes/` - Colors, fonts, themes
-   - `10-wrappers/` - Application wrappers
-   - `20-scripts/` - Utility scripts
-   - `90-apps/` - Application packages
-2. Follow existing overlay patterns
-3. Automatically imported by flake overlay system
+1. **Categorization**: Place overlays in logically organized directories
+2. **Naming convention**: Use consistent naming that reflects overlay purpose
+3. **Priority ordering**: Use numerical prefixes if load order matters
+4. **Pattern consistency**: Follow existing overlay patterns and structure
+5. **Auto-import**: Ensure overlays are discoverable by the import system
 
 ### Managing Secrets
 1. Create encrypted file: `agenix -e secrets/new_secret.age`
@@ -121,14 +136,33 @@ config.age.secrets.secret_name.path
 3. Reference in modules via `age.secrets.new_secret.file`
 4. Ensure agenix SSH key is available before rebuild
 
-## Migration Notes
+## Migration Guidelines
 
-### Current State
-- Legacy system configurations in `modules/system/roles/` being migrated
-- Moving towards Home Manager for user-level configurations
-- Some mixed configurations need splitting between NixOS and Home Manager
+### General Migration Principles
+- Evaluate each configuration for appropriate placement (system vs user level)
+- Follow the NixOS vs Home Manager decision framework
+- Maintain backward compatibility during transitions
+- Test thoroughly to ensure no functionality is lost
 
-### Migration Priority
-1. **Move to Home Manager**: `desktop.nix`, `development.nix`, `multimedia.nix`
-2. **Keep in NixOS**: `services.nix`, `virtualisation.nix`
-3. **Split**: `games.nix` (system integration vs user games), `fonts.nix`
+### Module Migration Pattern
+1. **Add enable option**: Use `mkEnableOption` and `mkIf cfg.enable` pattern
+2. **Add to auto-import**: Ensure modules are discoverable by import systems
+3. **Update configurations**: Replace manual imports with enable-based configuration
+4. **Test thoroughly**: Ensure no conflicts between different module types
+
+### Configuration Splitting Guidelines
+- **System integration**: Keep components requiring root privileges in NixOS
+- **User preferences**: Move user-specific configurations to Home Manager
+- **Mixed configurations**: Split appropriately based on functionality
+- **Gradual migration**: Migrate incrementally to minimize disruption
+
+### Module Organization Principles
+- **Clear separation**: Separate user-level and system-level configurations
+- **Home Manager modules**: User-level configuration organized by logical categories
+  - Auto-discovery mechanism for seamless module loading
+  - Namespace structure that reflects directory organization
+- **NixOS modules**: System-level configuration with appropriate grouping
+  - Auto-import system for easy module management
+  - Enable-based configuration pattern for consistency
+- **Conflict prevention**: Avoid namespace collisions between different module types
+- **Consistent structure**: Maintain uniform patterns across all module types

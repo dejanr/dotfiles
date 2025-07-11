@@ -1,7 +1,7 @@
 { config, lib, inputs, pkgs, ... }:
 
 {
-  imports = [ ../../modules/default.nix ];
+  imports = [ ../../modules/home/default.nix ];
 
   config.programs.chromium = {
     enable = true;
@@ -30,20 +30,23 @@
 
   config.modules = {
     # gui
-    kitty.enable = true;
-    kitty.fontSize = "14.0";
+    home.gui.desktop.enable = true;
+
+    # apps
+    apps.kitty.enable = true;
+    apps.kitty.fontSize = "14.0";
 
     # cli
-    direnv.enable = true;
-    git.enable = true;
-    nvim.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
+    home.cli.direnv.enable = true;
+    home.cli.git.enable = true;
+    home.cli.nvim.enable = true;
+    home.cli.tmux.enable = true;
+    home.cli.zsh.enable = true;
 
     # graphical
-    hyprland.enable = true;
+    home.gui.hyprland.enable = true;
 
     # system
-    packages.enable = true;
+    home.common.packages.enable = true;
   };
 }

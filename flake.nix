@@ -94,7 +94,7 @@
               nix-gaming.nixosModules.pipewireLowLatency
               agenix.nixosModules.default
               disko.nixosModules.disko
-              ./modules/system/configuration.nix
+              ./modules/system/default.nix
               (./. + "/hosts/${hostConfig}/configuration.nix")
               home-manager.nixosModules.home-manager
               {

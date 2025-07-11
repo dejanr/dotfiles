@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ../../modules/default.nix ];
+  imports = [ ../../modules/home/default.nix ];
 
   # TODO: move this, reorganize
   config.home.file."npmrc".text = ''
@@ -45,25 +45,28 @@
   };
 
   config.modules = {
-    #common
-    xdg.enable = true;
+    home.common.xdg.enable = true;
+    home.common.packages.enable = true;
 
     # secrets
-    agenix.enable = true;
+    home.secrets.agenix.enable = true;
 
     # gui
-    kitty.enable = true;
+    home.gui.desktop.enable = true;
+    home.gui.games.enable = true;
+
+    # apps
+    apps.kitty.enable = true;
 
     # cli
-    direnv.enable = true;
-    git.enable = true;
-    nvim.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
-    yazi.enable = true;
-    opencode.enable = true;
+    home.cli.direnv.enable = true;
+    home.cli.git.enable = true;
+    home.cli.dev.enable = true;
+    home.cli.nvim.enable = true;
+    home.cli.tmux.enable = true;
+    home.cli.zsh.enable = true;
+    home.cli.yazi.enable = true;
+    home.cli.opencode.enable = true;
 
-    # system
-    packages.enable = true;
   };
 }

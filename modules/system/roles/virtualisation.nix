@@ -1,14 +1,19 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-# Add shared memory device for kvm machine
-#
-#<shmem name='looking-glass'>
-#  <model type='ivshmem-plain'/>
-#  <size unit='M'>64</size>
-#</shmem>
-#
+with lib;
+let cfg = config.modules.system.roles.virtualisation;
 
-{
+in {
+  options.modules.system.roles.virtualisation = { enable = mkEnableOption "virtualisation system integration"; };
+
+  config = mkIf cfg.enable {
+    # Add shared memory device for kvm machine
+    #
+    #<shmem name='looking-glass'>
+    #  <model type='ivshmem-plain'/>
+    #  <size unit='M'>64</size>
+    #</shmem>
+    #
   environment.systemPackages = with pkgs; [
     looking-glass-client
     qemu # A generic and open source machine emulator and virtualizer
@@ -64,4 +69,5 @@
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
 
   virtualisation.spiceUSBRedirection.enable = true;
+  };
 }

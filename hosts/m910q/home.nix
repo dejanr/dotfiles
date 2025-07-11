@@ -1,20 +1,20 @@
 { config, lib, inputs, ... }:
 
 {
-  imports = [ ../../modules/default.nix ];
+  imports = [ ../../modules/home/default.nix ];
 
   config.modules = {
     # secrets
-    agenix.enable = true;
+    home.secrets.agenix.enable = true;
 
     # cli
-    git.enable = true;
-    zsh.enable = true;
-    tmux.enable = true;
-    nvim.enable = true;
-    direnv.enable = true;
+    home.cli.git.enable = true;
+    home.cli.zsh.enable = true;
+    home.cli.tmux.enable = true;
+    home.cli.nvim.enable = true;
+    home.cli.direnv.enable = true;
 
     # system
-    packages.enable = true;
+    home.common.packages.enable = true;
   };
 }

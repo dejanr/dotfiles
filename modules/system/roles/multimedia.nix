@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-{
+with lib;
+let cfg = config.modules.system.roles.multimedia;
+
+in {
+  options.modules.system.roles.multimedia = { enable = mkEnableOption "multimedia system integration"; };
+
+  config = mkIf cfg.enable {
   environment.systemPackages = with pkgs; [
     alsa-utils
     audacity
@@ -66,4 +72,5 @@
 
 
   programs.noisetorch.enable = true;
+  };
 }

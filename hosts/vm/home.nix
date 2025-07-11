@@ -1,15 +1,17 @@
 { config, lib, inputs, ... }:
 
 {
-  imports = [ ../../modules/default.nix ];
+  imports = [ ../../modules/home/default.nix ];
 
   config.modules = {
     # gui
+    home.gui.desktop.enable = true;
 
     # cli
-    git.enable = true;
-    bash.enable = true;
-    tmux.enable = true;
+    home.cli.git.enable = true;
+    home.cli.bash.enable = true;
+    home.cli.dev.enable = true;
+    home.cli.tmux.enable = true;
 
     # system
   };

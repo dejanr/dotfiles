@@ -6,14 +6,6 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system/roles/fonts.nix
-    ../../modules/system/roles/desktop.nix
-    ../../modules/system/roles/multimedia.nix
-    ../../modules/system/roles/i3.nix
-    ../../modules/system/roles/services.nix
-    ../../modules/system/roles/development.nix
-    ../../modules/system/roles/games.nix
-    ../../modules/system/roles/virtualisation.nix
   ];
 
   networking = {
@@ -70,5 +62,13 @@ in
     systemPackages = [ ];
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = lib.mkForce "23.05";
+
+  modules.system.roles.desktop.enable = true;
+  modules.system.roles.dev.enable = true;
+  modules.system.roles.multimedia.enable = true;
+  modules.system.roles.i3.enable = true;
+  modules.system.roles.services.enable = true;
+  modules.system.roles.games.enable = true;
+  modules.system.roles.virtualisation.enable = true;
 }

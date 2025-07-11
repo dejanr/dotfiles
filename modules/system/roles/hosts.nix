@@ -1,6 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, config, ... }:
 
+with lib;
 let
+  cfg = config.modules.system.roles.hosts;
   baseUrl = "https://raw.githubusercontent.com/StevenBlack/hosts";
   commit = "358526ed7866d474c9158cb61f47c8aabedb8014";
   hostsFile = pkgs.fetchurl {
@@ -10,6 +12,10 @@ let
   hostsContent = lib.readFile hostsFile;
 in
 {
-  networking.extraHosts = hostsContent + ''
-  '';
+  options.modules.system.roles.hosts = { enable = mkEnableOption "custom hosts file"; };
+
+  config = mkIf cfg.enable {
+    networking.extraHosts = hostsContent + ''
+    '';
+  };
 }

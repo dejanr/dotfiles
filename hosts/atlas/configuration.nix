@@ -3,12 +3,13 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system/roles/fonts.nix
-    ../../modules/system/roles/desktop.nix
+    # Unmigrated roles (still need manual imports)
     ../../modules/system/roles/multimedia.nix
     ../../modules/system/roles/i3.nix
     ../../modules/system/roles/services.nix
-    ../../modules/system/roles/development.nix
     ../../modules/system/roles/games.nix
   ];
+
+  modules.system.roles.desktop.enable = true;
+  modules.system.roles.dev.enable = true;
 }
