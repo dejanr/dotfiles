@@ -7,7 +7,7 @@ in {
   config = mkIf cfg.enable {
     gtk.iconTheme = {
       name = "Gruvbox Plus Dark";
-      package = pkgs.callPackage ./icons/gruvbox-plus-dark.nix { };
+      package = pkgs.callPackage ./icons/gruvbox-plus-dark/default.nix { };
     };
 
     xdg.desktopEntries = {

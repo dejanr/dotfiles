@@ -1,25 +1,10 @@
-{ pkgs, inputs, lib, ... }:
+{ pkgs, inputs, lib, importsFrom, ... }:
 
 let
   username = "dejanr";
 in
 {
-  imports = [
-    ./secrets/agenix.nix
-    ./roles/desktop.nix
-    ./roles/dev.nix
-    ./roles/games.nix
-    ./roles/hosts.nix
-    ./roles/i3.nix
-    ./roles/multimedia.nix
-    ./roles/services.nix
-    ./roles/virtualisation.nix
-    ./services/openvpn/office.nix
-  ];
-
-  environment = {
-    defaultPackages = [ ];
-  };
+  imports = importsFrom { path = ./.; };
 
   services = {
     xserver.desktopManager.xterm.enable = false;

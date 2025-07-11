@@ -70,6 +70,10 @@
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+      
+      # Import utilities
+      utils = import ./utils/imports.nix { lib = nixpkgs.lib; };
+      importsFrom = utils.importsFrom;
       overlays =
         let paths = [ ./overlays ];
         in builtins.concatMap
@@ -101,7 +105,7 @@
                 home-manager = {
                   useUserPackages = true;
                   useGlobalPkgs = true;
-                  extraSpecialArgs = { inherit inputs system; };
+                  extraSpecialArgs = { inherit inputs system importsFrom; };
                   users.dejanr.imports =
                     [ (./. + "/hosts/${hostConfig}/home.nix") ];
                   sharedModules = [
@@ -118,7 +122,7 @@
                 ] ++ overlays;
               }
             ];
-            specialArgs = { inherit inputs; };
+            specialArgs = { inherit inputs importsFrom; };
           };
 
     in
@@ -144,7 +148,7 @@
         {
           "mbp-work" = nix-darwin.lib.darwinSystem {
             inherit system;
-            specialArgs = { inherit inputs system; };
+            specialArgs = { inherit inputs system importsFrom; };
             modules = [
               ./hosts/mbp-work/configuration.nix
               home-manager.darwinModules.home-manager
@@ -153,7 +157,7 @@
                 home-manager = {
                   useUserPackages = true;
                   useGlobalPkgs = true;
-                  extraSpecialArgs = { inherit inputs system; };
+                  extraSpecialArgs = { inherit inputs system importsFrom; };
                   users.${username}.imports =
                     [ (./. + "/hosts/mbp-work/home.nix") ];
                   sharedModules = [

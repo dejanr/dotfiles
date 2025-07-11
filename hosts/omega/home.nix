@@ -45,7 +45,7 @@
   };
 
   config.modules = {
-    home.common.xdg.enable = true;
+    home.gui.xdg.enable = true;
     home.common.packages.enable = true;
 
     # secrets
