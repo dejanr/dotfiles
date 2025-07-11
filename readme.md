@@ -5,28 +5,34 @@
 Create new ssh key:
 
 ```bash
-
 ssh-keygen -t ed25519 -C dejan@ranisavljevic.com
 ```
 
-Secrets are managed with sops-nix.
-Create age secret key from ssh machine private key:
+Secrets are managed with agenix.
+Create agenix identity key:
 
 ```bash
-mkdir -p ~/.config/sops/age
-nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+mkdir -p ~/.ssh
+cp ~/.ssh/id_ed25519 ~/.ssh/agenix
 ```
 
-To see age public use:
+To see age public key use:
 
 ```bash
 nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
 ```
 
-When adding a new key to .sops.yaml, update secrets with:
+To create or edit a secret:
 
 ```bash
-sops updatekeys secrets/secrets.yaml
+cd secrets
+agenix -i ~/.ssh/agenix -e secret_name.age
+```
+
+When adding a new host key to secrets/secrets.nix, re-encrypt all secrets:
+
+```bash
+agenix -r
 ```
 
 ## Rebuild
