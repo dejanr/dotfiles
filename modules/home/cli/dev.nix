@@ -53,7 +53,6 @@ in {
       wireshark
 
       # Version control
-      jujutsu
       lazygit
       gh
       gist
