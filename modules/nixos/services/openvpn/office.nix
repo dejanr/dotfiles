@@ -23,8 +23,8 @@ in
         office = {
           autoStart = false;
           config = ''
-            config /run/secrets/openvpn_office_conf
-            auth-user-pass /run/secrets/openvpn_office_pass
+            config ${config.age.secrets.openvpn_office_conf.path}
+            auth-user-pass ${config.age.secrets.openvpn_office_pass.path}
           '';
           updateResolvConf = true;
           up = "${pkgs.update-systemd-resolved}/libexec/openvpn/update-systemd-resolved";
