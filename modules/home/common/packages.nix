@@ -1,9 +1,17 @@
-{ pkgs, lib, config, ... }:
+{ pkgs
+, lib
+, config
+, ...
+}:
 
 with lib;
-let cfg = config.modules.home.common.packages;
-in {
-  options.modules.home.common.packages = { enable = mkEnableOption "home common packages"; };
+let
+  cfg = config.modules.home.common.packages;
+in
+{
+  options.modules.home.common.packages = {
+    enable = mkEnableOption "home common packages";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [

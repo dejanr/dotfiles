@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.cli.dev;
+let
+  cfg = config.modules.home.cli.dev;
 
-in {
-  options.modules.home.cli.dev = { enable = mkEnableOption "development tools"; };
+in
+{
+  options.modules.home.cli.dev = {
+    enable = mkEnableOption "development tools";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -135,4 +144,3 @@ in {
     ];
   };
 }
-

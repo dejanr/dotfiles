@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.gui.desktop;
+let
+  cfg = config.modules.home.gui.desktop;
 
-in {
-  options.modules.home.gui.desktop = { enable = mkEnableOption "desktop applications"; };
+in
+{
+  options.modules.home.gui.desktop = {
+    enable = mkEnableOption "desktop applications";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [

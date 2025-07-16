@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.modules.home.cli.zsh;
@@ -7,10 +12,17 @@ let
   nixosPath = "export PATH=node_modules/.bin:~/.npm-packages/bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
 in
 {
-  options.modules.home.cli.zsh = { enable = mkEnableOption "zsh"; };
+  options.modules.home.cli.zsh = {
+    enable = mkEnableOption "zsh";
+  };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.zsh pkgs.zoxide pkgs.fd pkgs.eza ];
+    home.packages = [
+      pkgs.zsh
+      pkgs.zoxide
+      pkgs.fd
+      pkgs.eza
+    ];
 
     programs.zoxide = {
       enable = true;
@@ -28,7 +40,12 @@ in
       # The command that gets executed as the default source for fzf when running.
       defaultCommand = "fd --hidden --strip-cwd-prefix --exclude .git";
       # Extra command line options given to fzf by default.
-      defaultOptions = [ "--height 50%" "--layout=default" "--border" "--color=hl:#2dd4bf" ];
+      defaultOptions = [
+        "--height 50%"
+        "--layout=default"
+        "--border"
+        "--color=hl:#2dd4bf"
+      ];
       # The command that gets executed as the source for fzf for the CTRL-T keybinding.
       fileWidgetCommand = "rg --files --no-ignore --hidden --follow --glob '!.git/*'";
       fileWidgetOptions = [ "--preview 'bat --color=always -n --line-range :500 {}'" ];
@@ -180,13 +197,11 @@ in
 
         timestamp = "date +%s";
 
-        passgen =
-          "date +%s | shasum | base64 | head -c 8 | pbcopy | echo 'Password saved in clipboard'";
+        passgen = "date +%s | shasum | base64 | head -c 8 | pbcopy | echo 'Password saved in clipboard'";
 
         lmk = "notify-send 'Something happened!'";
 
-        run-last-history-in-vimux =
-          "history | grep 'clear;' | grep -v 'grep clear;' | sort -n -r | head -n 1 | cut -d';' -f2- | xargs -I {} tmux send-keys -t 0 Escape \":lua require('nvimux').prompt_command()\" Enter \"clear; {}\" Enter ";
+        run-last-history-in-vimux = "history | grep 'clear;' | grep -v 'grep clear;' | sort -n -r | head -n 1 | cut -d';' -f2- | xargs -I {} tmux send-keys -t 0 Escape \":lua require('nvimux').prompt_command()\" Enter \"clear; {}\" Enter ";
       };
 
       # Source all plugins, nix-style

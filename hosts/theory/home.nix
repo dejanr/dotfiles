@@ -1,4 +1,10 @@
-{ config, lib, inputs, pkgs, ... }:
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [ ../../modules/home/default.nix ];
@@ -17,15 +23,11 @@
   };
 
   config.xdg.mimeApps = {
-    defaultApplications."x-scheme-handler/http" =
-      [ "chromium.desktop" ];
-    defaultApplications."x-scheme-handler/https" =
-      [ "chromium.desktop" ];
+    defaultApplications."x-scheme-handler/http" = [ "chromium.desktop" ];
+    defaultApplications."x-scheme-handler/https" = [ "chromium.desktop" ];
     defaultApplications."text/html" = [ "chromium.desktop" ];
-    defaultApplications."x-scheme-handler/about" =
-      [ "chromium.desktop" ];
-    defaultApplications."x-scheme-handler/unknown" =
-      [ "chromium.desktop" ];
+    defaultApplications."x-scheme-handler/about" = [ "chromium.desktop" ];
+    defaultApplications."x-scheme-handler/unknown" = [ "chromium.desktop" ];
   };
 
   config.modules = {

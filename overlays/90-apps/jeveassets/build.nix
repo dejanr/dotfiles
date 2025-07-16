@@ -1,8 +1,16 @@
-let pkgs = import <nixpkgs> { };
+let
+  pkgs = import <nixpkgs> { };
 
-in {
+in
+{
   jeveassets = pkgs.callPackage ./default.nix {
-    inherit (pkgs) stend lib fetchzip unzip jre8 makeDesktopItem;
+    inherit (pkgs)
+      stend
+      lib
+      fetchzip
+      unzip
+      jre8
+      makeDesktopItem
+      ;
   };
 }
-

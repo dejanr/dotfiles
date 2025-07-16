@@ -25,7 +25,10 @@
     allowedBridges = [ "br0" ];
   };
 
-  users.groups.libvirtd.members = [ "root" "dejanr" ];
+  users.groups.libvirtd.members = [
+    "root"
+    "dejanr"
+  ];
   users.extraUsers.dejanr.extraGroups = [ "libvirtd" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

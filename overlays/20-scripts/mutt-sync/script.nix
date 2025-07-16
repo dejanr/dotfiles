@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
   # Sync mail and give notification if there is a new mail.
 

@@ -1,4 +1,9 @@
-{ lib, nodejs, buildNpmPackage, fetchFromGitHub }:
+{
+  lib,
+  nodejs,
+  buildNpmPackage,
+  fetchFromGitHub,
+}:
 
 buildNpmPackage rec {
   pname = "mesh-mini";

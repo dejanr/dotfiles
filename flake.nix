@@ -25,7 +25,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur = { url = "github:nix-community/NUR"; };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
 
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
@@ -50,12 +52,10 @@
   };
 
   outputs =
-    { self
-    , home-manager
+    { home-manager
     , nix-darwin
     , nixos-apple-silicon
     , nixpkgs
-    , nix
     , nur
     , nix-gaming
     , rust-overlay
@@ -67,67 +67,78 @@
     }@inputs:
 
     let
-      inherit (self) outputs;
-      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+      forEachSystem = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-      
-      # Import utilities
+
       utils = import ./utils/imports.nix { lib = nixpkgs.lib; };
       importsFrom = utils.importsFrom;
       overlays =
-        let paths = [ ./overlays ];
-        in builtins.concatMap
-          (path:
-            (map (n: import (path + ("/" + n))) (builtins.filter
-              (n:
-                builtins.match ".*\\.nix" n != null
-                || builtins.pathExists (path + ("/" + n + "/default.nix")))
-              (builtins.attrNames (builtins.readDir path)))))
+        let
+          paths = [ ./overlays ];
+        in
+        builtins.concatMap
+          (
+            path:
+            (map (n: import (path + ("/" + n))) (
+              builtins.filter
+                (
+                  n: builtins.match ".*\\.nix" n != null || builtins.pathExists (path + ("/" + n + "/default.nix"))
+                )
+                (builtins.attrNames (builtins.readDir path))
+            ))
+          )
           paths;
-      mkSystem = pkgs: system: hostConfig: hostName:
-        pkgs.lib.nixosSystem
-          {
-            system = system;
-            modules = [
-              {
-                networking.hostName = hostName;
-                networking.timeServers = [ "1.amazon.pool.ntp.org" "2.amazon.pool.ntp.org" "3.amazon.pool.ntp.org" ];
-              }
-              stylix.nixosModules.stylix
-              nur.modules.nixos.default
-              nix-gaming.nixosModules.pipewireLowLatency
-              agenix.nixosModules.default
-              disko.nixosModules.disko
-              ./modules/nixos/default.nix
-              (./. + "/hosts/${hostConfig}/configuration.nix")
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useUserPackages = true;
-                  useGlobalPkgs = true;
-                  extraSpecialArgs = { inherit inputs system importsFrom; };
-                  users.dejanr.imports =
-                    [ (./. + "/hosts/${hostConfig}/home.nix") ];
-                  sharedModules = [
-                    agenix.homeManagerModules.default
-                  ];
-                };
-                nixpkgs.overlays = [
-                  nix-gaming.overlays.default
-                  (import rust-overlay)
-                  nixos-apple-silicon.overlays.apple-silicon-overlay
-                  nixos-apple-silicon.overlays.default
-                  nur.overlays.default
-                  devenv.overlays.default
-                ] ++ overlays;
-              }
-            ];
-            specialArgs = { inherit inputs importsFrom; };
-          };
+      mkSystem =
+        pkgs: system: hostConfig: hostName:
+        pkgs.lib.nixosSystem {
+          system = system;
+          modules = [
+            {
+              networking.hostName = hostName;
+              networking.timeServers = [
+                "1.amazon.pool.ntp.org"
+                "2.amazon.pool.ntp.org"
+                "3.amazon.pool.ntp.org"
+              ];
+            }
+            stylix.nixosModules.stylix
+            nur.modules.nixos.default
+            nix-gaming.nixosModules.pipewireLowLatency
+            agenix.nixosModules.default
+            disko.nixosModules.disko
+            ./modules/nixos/default.nix
+            (./. + "/hosts/${hostConfig}/configuration.nix")
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                extraSpecialArgs = { inherit inputs system importsFrom; };
+                users.dejanr.imports = [ (./. + "/hosts/${hostConfig}/home.nix") ];
+                sharedModules = [
+                  agenix.homeManagerModules.default
+                ];
+              };
+              nixpkgs.overlays = [
+                nix-gaming.overlays.default
+                (import rust-overlay)
+                nixos-apple-silicon.overlays.apple-silicon-overlay
+                nixos-apple-silicon.overlays.default
+                nur.overlays.default
+                devenv.overlays.default
+              ] ++ overlays;
+            }
+          ];
+          specialArgs = { inherit inputs importsFrom; };
+        };
 
     in
     {
-      formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
+      formatter = forEachPkgs (pkgs: pkgs.nixfmt-tree);
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs agenix; });
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
@@ -159,8 +170,7 @@
                   useUserPackages = true;
                   useGlobalPkgs = true;
                   extraSpecialArgs = { inherit inputs system importsFrom; };
-                  users.${username}.imports =
-                    [ (./. + "/hosts/mbp-work/home.nix") ];
+                  users.${username}.imports = [ (./. + "/hosts/mbp-work/home.nix") ];
                   sharedModules = [
                     agenix.homeManagerModules.default
                   ];

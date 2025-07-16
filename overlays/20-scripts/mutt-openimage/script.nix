@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
 
   resolution=$(identify $1 | awk '{print $3}')

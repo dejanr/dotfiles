@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
 
   BATTERY_STATE=$(battery | grep -wo "Full\|Charging\|Discharging")

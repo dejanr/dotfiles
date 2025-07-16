@@ -1,10 +1,19 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.gui.games;
+let
+  cfg = config.modules.home.gui.games;
 
-in {
-  options.modules.home.gui.games = { enable = mkEnableOption "gaming applications"; };
+in
+{
+  options.modules.home.gui.games = {
+    enable = mkEnableOption "gaming applications";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -29,4 +38,3 @@ in {
     ];
   };
 }
-

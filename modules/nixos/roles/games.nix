@@ -1,10 +1,20 @@
-{ config, pkgs, inputs, lib, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.nixos.roles.games;
+let
+  cfg = config.modules.nixos.roles.games;
 
-in {
-  options.modules.nixos.roles.games = { enable = mkEnableOption "gaming system integration"; };
+in
+{
+  options.modules.nixos.roles.games = {
+    enable = mkEnableOption "gaming system integration";
+  };
 
   config = mkIf cfg.enable {
     # System-level gaming packages (Wine, Vulkan drivers, system tools)
@@ -35,9 +45,11 @@ in {
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
         package = pkgs.steam.override {
-          extraPkgs = (pkgs: with pkgs; [
-            gamemode
-          ]);
+          extraPkgs = (
+            pkgs: with pkgs; [
+              gamemode
+            ]
+          );
         };
       };
       gamemode = {

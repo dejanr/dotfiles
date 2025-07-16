@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 # System related secrets that are managed by agenix
 # Use this for system wide secrets, that should be only accessible by sudo

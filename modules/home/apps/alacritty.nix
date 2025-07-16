@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -6,7 +11,9 @@ let
   cfg = config.modules.apps.alacritty;
 in
 {
-  options.modules.apps.alacritty = { enable = mkEnableOption "alacritty"; };
+  options.modules.apps.alacritty = {
+    enable = mkEnableOption "alacritty";
+  };
 
   config = mkIf cfg.enable {
     fonts.fontconfig.enable = true;
@@ -20,7 +27,10 @@ in
       settings = {
         window = {
           opacity = 1.00;
-          padding = { x = 0; y = 0; };
+          padding = {
+            x = 0;
+            y = 0;
+          };
           startup_mode = "Maximized";
           decorations = "None";
         };
@@ -32,7 +42,9 @@ in
           multiplier = 3;
         };
 
-        mouse = { hide_when_typing = true; };
+        mouse = {
+          hide_when_typing = true;
+        };
 
         key_bindings = [
           {
@@ -43,16 +55,27 @@ in
           }
         ];
 
-        font = let fontname = "PragmataPro Mono"; in
+        font =
+          let
+            fontname = "PragmataPro Mono";
+          in
           {
-            normal = { family = fontname; style = "Regular"; };
-            bold = { family = fontname; style = "Bold"; };
-            italic = { family = fontname; style = "Italic"; };
+            normal = {
+              family = fontname;
+              style = "Regular";
+            };
+            bold = {
+              family = fontname;
+              style = "Bold";
+            };
+            italic = {
+              family = fontname;
+              style = "Italic";
+            };
             size = 18;
           };
 
         cursor.style = "Block";
-
 
         # nightfox
         colors = {
@@ -81,8 +104,14 @@ in
             white = "0xe4e4e5";
           };
           indexed_colors = [
-            { index = 16; color = "0xf4a261"; }
-            { index = 17; color = "0xd67ad2"; }
+            {
+              index = 16;
+              color = "0xf4a261";
+            }
+            {
+              index = 17;
+              color = "0xd67ad2";
+            }
           ];
         };
 

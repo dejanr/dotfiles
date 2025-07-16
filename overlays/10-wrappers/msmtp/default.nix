@@ -1,4 +1,9 @@
-{ stdenv, makeWrapper, writeTextFile, msmtp }:
+{
+  stdenv,
+  makeWrapper,
+  writeTextFile,
+  msmtp,
+}:
 let
   config = import ./config.nix { };
   configFile = writeTextFile {

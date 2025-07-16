@@ -1,4 +1,12 @@
-{ stdenv, makeWrapper, writeTextFile, dunst, browser, colors, fonts }:
+{
+  stdenv,
+  makeWrapper,
+  writeTextFile,
+  dunst,
+  browser,
+  colors,
+  fonts,
+}:
 let
   config = import ./config.nix {
     inherit colors fonts browser;

@@ -1,4 +1,9 @@
-{ mpv, pipe-viewer, tmux }: ''
+{
+  mpv,
+  pipe-viewer,
+  tmux,
+}:
+''
   #!/usr/bin/env bash
 
   create_music_session() {

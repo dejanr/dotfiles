@@ -1,4 +1,11 @@
-{ config, boot, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  boot,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   hostName = "theory";
@@ -10,7 +17,10 @@ in
   ];
 
   boot = {
-    initrd.availableKernelModules = [ "usb_storage" "sdhci_pci" ];
+    initrd.availableKernelModules = [
+      "usb_storage"
+      "sdhci_pci"
+    ];
     initrd.supportedFilesystems = [ ];
     initrd.kernelModules = [ ];
 
@@ -29,17 +39,15 @@ in
     };
   };
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/173035b7-060a-4f39-8d31-2dab13be081e";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/173035b7-060a-4f39-8d31-2dab13be081e";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/33F9-19E8";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/33F9-19E8";
+    fsType = "vfat";
+  };
 
   hardware = {
     asahi.peripheralFirmwareDirectory = ./firmware;

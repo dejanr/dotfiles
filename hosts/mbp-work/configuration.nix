@@ -1,4 +1,10 @@
-{ config, lib, inputs, pkgs, ... }:
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}:
 
 let
   username = "dejan.ranisavljevic";
@@ -9,7 +15,10 @@ let
   };
 in
 {
-  imports = [ ./homebrew.nix ./system.nix ];
+  imports = [
+    ./homebrew.nix
+    ./system.nix
+  ];
 
   #fonts.fontDir.enable = true;
   #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];

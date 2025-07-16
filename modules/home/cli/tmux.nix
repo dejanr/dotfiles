@@ -1,4 +1,10 @@
-{ pkgs, lib, config, colors, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  colors,
+  ...
+}:
 
 with lib;
 
@@ -9,7 +15,9 @@ let
   };
 in
 {
-  options.modules.home.cli.tmux = { enable = mkEnableOption "tmux"; };
+  options.modules.home.cli.tmux = {
+    enable = mkEnableOption "tmux";
+  };
   config = mkIf cfg.enable {
     programs.tmux = {
       enable = true;

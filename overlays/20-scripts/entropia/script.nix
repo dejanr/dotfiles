@@ -1,4 +1,5 @@
-{ wine, prefix }: ''
+{ wine, prefix }:
+''
   #!/usr/bin/env sh
 
   cd ~/${prefix}/drive_c/Program\ Files\ \(x86\)/Entropia\ Universe

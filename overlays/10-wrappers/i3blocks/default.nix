@@ -1,17 +1,25 @@
-{ stdenv
-, makeWrapper
-, writeTextFile
-, writeScript
-, colors
-, i3blocks
-, xorg
-, libnotify
-, maim
-, xclip
+{
+  stdenv,
+  makeWrapper,
+  writeTextFile,
+  writeScript,
+  colors,
+  i3blocks,
+  xorg,
+  libnotify,
+  maim,
+  xclip,
 }:
 let
   config = import ./config.nix {
-    inherit writeScript colors xorg libnotify maim xclip;
+    inherit
+      writeScript
+      colors
+      xorg
+      libnotify
+      maim
+      xclip
+      ;
   };
   execPath = "bin";
   configFile = writeTextFile {
@@ -22,7 +30,10 @@ in
 stdenv.mkDerivation {
   name = "i3blocks-wrapper";
   buildInputs = [ makeWrapper ];
-  propagatedBuildInputs = [ i3blocks libnotify ];
+  propagatedBuildInputs = [
+    i3blocks
+    libnotify
+  ];
   phases = [ "buildPhase" ];
   buildCommand = ''
     mkdir -p $out/bin

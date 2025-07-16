@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.cli.git;
+let
+  cfg = config.modules.home.cli.git;
 
-in {
-  options.modules.home.cli.git = { enable = mkEnableOption "git"; };
+in
+{
+  options.modules.home.cli.git = {
+    enable = mkEnableOption "git";
+  };
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
@@ -20,9 +29,15 @@ in {
       userName = "Dejan Ranisavljevic";
       userEmail = "dejan@ranisavljevic.com";
       extraConfig = {
-        init = { defaultBranch = "main"; };
-        submodule = { recurse = true; };
-        github = { user = "dejanr"; };
+        init = {
+          defaultBranch = "main";
+        };
+        submodule = {
+          recurse = true;
+        };
+        github = {
+          user = "dejanr";
+        };
         "filter \"lfs\"" = {
           clean = "${pkgs.git-lfs}/bin/git-lfs clean -- %f";
           smudge = "${pkgs.git-lfs}/bin/git-lfs smudge --skip -- %f";

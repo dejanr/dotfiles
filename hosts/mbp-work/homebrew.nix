@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
 
   # Homebrew - Mac-specific packages that aren't in Nix
   config = lib.mkIf pkgs.stdenv.isDarwin {

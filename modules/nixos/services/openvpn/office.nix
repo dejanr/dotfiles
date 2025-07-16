@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -37,12 +42,20 @@ in
       {
         users = [ cfg.username ];
         commands = [
-          { command = "/run/current-system/sw/bin/systemctl start openvpn-office.service"; options = [ "NOPASSWD" ]; }
-          { command = "/run/current-system/sw/bin/systemctl stop openvpn-office.service"; options = [ "NOPASSWD" ]; }
-          { command = "/run/current-system/sw/bin/systemctl restart openvpn-office.service"; options = [ "NOPASSWD" ]; }
+          {
+            command = "/run/current-system/sw/bin/systemctl start openvpn-office.service";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "/run/current-system/sw/bin/systemctl stop openvpn-office.service";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "/run/current-system/sw/bin/systemctl restart openvpn-office.service";
+            options = [ "NOPASSWD" ];
+          }
         ];
       }
     ];
   };
 }
-

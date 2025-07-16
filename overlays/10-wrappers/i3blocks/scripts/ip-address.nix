@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
 
   IP_ADDRESS=$(ip route get 1 | awk '{print $NF;exit}')

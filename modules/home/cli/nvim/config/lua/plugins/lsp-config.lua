@@ -412,6 +412,16 @@ return {
 			},
 		})
 
+		lspconfig.nixd.setup({
+			settings = {
+				nixd = {
+					formatting = {
+						command = { "nixfmt" },
+					},
+				},
+			},
+		})
+
 		-- ╭───────────────╮
 		-- │ TEXLAB SERVER │
 		-- ╰───────────────╯

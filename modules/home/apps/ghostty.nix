@@ -1,4 +1,11 @@
-{ config, pkgs, lib, writeTextFile, colors, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  writeTextFile,
+  colors,
+  ...
+}:
 
 with lib;
 
@@ -37,7 +44,11 @@ in
 
       settings = {
         shell-integration = "zsh";
-        shell-integration-features = [ "no-sudo" "no-cursor" "no-title" ];
+        shell-integration-features = [
+          "no-sudo"
+          "no-cursor"
+          "no-title"
+        ];
         font-family = "PragmataPro Mono Regular";
         font-family-bold = "PragmataPro Mono Bold";
         font-family-italic = "PragmataPro Mono Italic";

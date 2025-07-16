@@ -1,8 +1,17 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.modules.home.gui.hyprland;
-in {
-  options.modules.home.gui.hyprland = { enable = mkEnableOption "hyprland"; };
+let
+  cfg = config.modules.home.gui.hyprland;
+in
+{
+  options.modules.home.gui.hyprland = {
+    enable = mkEnableOption "hyprland";
+  };
 
   config = mkIf cfg.enable {
     gtk.iconTheme = {
@@ -25,7 +34,11 @@ in {
       };
     };
 
-    home.packages = [ pkgs.wofi pkgs.dolphin pkgs.kitty ];
+    home.packages = [
+      pkgs.wofi
+      pkgs.dolphin
+      pkgs.kitty
+    ];
 
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";
@@ -124,15 +137,18 @@ in {
           ++ (
             # workspaces
             # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-            builtins.concatLists (builtins.genList
-              (i:
-                let ws = i + 1;
-                in [
+            builtins.concatLists (
+              builtins.genList (
+                i:
+                let
+                  ws = i + 1;
+                in
+                [
                   "$mod, code:1${toString i}, workspace, ${toString ws}"
                   "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
                 ]
-              )
-              9)
+              ) 9
+            )
           );
       };
     };

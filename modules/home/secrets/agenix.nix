@@ -1,10 +1,20 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.secrets.agenix;
+let
+  cfg = config.modules.home.secrets.agenix;
 
-in {
-  options.modules.home.secrets.agenix = { enable = mkEnableOption "agenix"; };
+in
+{
+  options.modules.home.secrets.agenix = {
+    enable = mkEnableOption "agenix";
+  };
 
   config = mkIf cfg.enable {
     age.identityPaths = [ "/home/dejanr/.ssh/agenix" ];
@@ -16,4 +26,3 @@ in {
     age.secrets.openvpn_office_conf.file = ../../../secrets/openvpn_office_conf.age;
   };
 }
-

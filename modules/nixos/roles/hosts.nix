@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 with lib;
 let
@@ -12,10 +17,11 @@ let
   hostsContent = lib.readFile hostsFile;
 in
 {
-  options.modules.nixos.roles.hosts = { enable = mkEnableOption "custom hosts file"; };
+  options.modules.nixos.roles.hosts = {
+    enable = mkEnableOption "custom hosts file";
+  };
 
   config = mkIf cfg.enable {
-    networking.extraHosts = hostsContent + ''
-    '';
+    networking.extraHosts = hostsContent + '''';
   };
 }

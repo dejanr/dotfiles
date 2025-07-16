@@ -71,4 +71,4 @@ let
     };
   };
 in
-  themes.${theme} or themes."terafox"
+themes.${theme} or themes."terafox"

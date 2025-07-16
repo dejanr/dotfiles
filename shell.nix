@@ -1,4 +1,5 @@
-{ pkgs, agenix }: {
+{ pkgs, agenix }:
+{
   default = pkgs.mkShell {
     nativeBuildInputs = with pkgs; [
       home-manager # A Nix-based user environment configurator

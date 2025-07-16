@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   pkgs' = config.hardware.asahi.pkgs;
 
@@ -30,7 +35,10 @@ in
     boot.loader.systemd-boot.extraFiles = bootFiles;
 
     # ensure the installer has m1n1 in the image
-    system.extraDependencies = lib.mkForce [ bootM1n1 bootUBoot ];
+    system.extraDependencies = lib.mkForce [
+      bootM1n1
+      bootUBoot
+    ];
     system.build.m1n1 = bootFiles."m1n1/boot.bin";
   };
 

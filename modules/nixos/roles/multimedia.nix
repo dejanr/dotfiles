@@ -1,10 +1,19 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.nixos.roles.multimedia;
+let
+  cfg = config.modules.nixos.roles.multimedia;
 
-in {
-  options.modules.nixos.roles.multimedia = { enable = mkEnableOption "multimedia system integration"; };
+in
+{
+  options.modules.nixos.roles.multimedia = {
+    enable = mkEnableOption "multimedia system integration";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
@@ -67,7 +76,6 @@ in {
         rate = 48000;
       };
     };
-
 
     programs.noisetorch.enable = true;
   };

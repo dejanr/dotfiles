@@ -1,4 +1,11 @@
-{ config, boot, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  boot,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 # IOMMU Group 42:
 # 	35:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] [10de:1c03] (rev a1)
@@ -7,16 +14,32 @@
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-  deviceIDs = [ "0000:34:00.0" "0000:34:00.1" ];
+  deviceIDs = [
+    "0000:34:00.0"
+    "0000:34:00.1"
+  ];
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    binfmt.emulatedSystems = [ "aarch64-linux" "armv6l-linux" ];
-    initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_drm" ];
-    initrd.availableKernelModules =
-      [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "armv6l-linux"
+    ];
+    initrd.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_drm"
+    ];
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     initrd.preDeviceCommands = ''
       DEVS="0000:34:00.0 0000:34:00.1"
       for DEV in $DEVS; do
@@ -62,7 +85,10 @@ in
       ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
     ];
 
-    blacklistedKernelModules = [ "fbcon" "nouveau" ];
+    blacklistedKernelModules = [
+      "fbcon"
+      "nouveau"
+    ];
 
     extraModprobeConfig = ''
       options it87 force_id=0x8628
@@ -110,23 +136,34 @@ in
     fsType = "vfat";
   };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; } ];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "nfsvers=4.1" ];
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "nfsvers=4.1"
+    ];
   };
 
   fileSystems."/mnt/synology/storage" = {
     device = "100.69.35.105:/volume1/storage";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "nfsvers=4.1" ];
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "nfsvers=4.1"
+    ];
   };
 
   hardware = {
-    cpu = { amd.updateMicrocode = true; };
+    cpu = {
+      amd.updateMicrocode = true;
+    };
 
     graphics = {
       extraPackages = with pkgs; [
@@ -178,8 +215,7 @@ in
   };
 
   services = {
-    hardware.bolt.enable =
-      true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
+    hardware.bolt.enable = true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
 
     udev.extraRules = ''
       # Always authorize thunderbolt connections when they are plugged in.
@@ -190,7 +226,9 @@ in
       enable = true;
       videoDrivers = [ "nvidia" ];
 
-      displayManager = { xserverArgs = [ "-dpi 109" ]; };
+      displayManager = {
+        xserverArgs = [ "-dpi 109" ];
+      };
 
       screenSection = ''
         Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"

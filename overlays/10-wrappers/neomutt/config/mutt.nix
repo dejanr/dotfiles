@@ -1,4 +1,10 @@
-{ colors, fonts, mailcapFile, msmtp, isync }:
+{
+  colors,
+  fonts,
+  mailcapFile,
+  msmtp,
+  isync,
+}:
 
 with colors;
 with fonts;

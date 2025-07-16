@@ -1,6 +1,11 @@
 # the Asahi Linux kernel and options that must go along with it
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   config = lib.mkIf config.hardware.asahi.enable {
     boot.kernelPackages =
@@ -94,8 +99,11 @@
   };
 
   imports = [
-    (lib.mkRemovedOptionModule [ "hardware" "asahi" "addEdgeKernelConfig" ]
-      "All edge kernel config options are now the default.")
+    (lib.mkRemovedOptionModule [
+      "hardware"
+      "asahi"
+      "addEdgeKernelConfig"
+    ] "All edge kernel config options are now the default.")
   ];
 
   options.hardware.asahi.withRust = lib.mkOption {

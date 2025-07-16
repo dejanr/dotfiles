@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   KeyStrPress Super_L
   Delay 24
   KeyStrPress 4

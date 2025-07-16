@@ -1,4 +1,11 @@
-{ config, pkgs, lib, writeTextFile, colors, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  writeTextFile,
+  colors,
+  ...
+}:
 
 with lib;
 

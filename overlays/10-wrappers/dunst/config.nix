@@ -1,4 +1,8 @@
-{ colors, fonts, browser }:
+{
+  colors,
+  fonts,
+  browser,
+}:
 with colors;
 ''
   [global]

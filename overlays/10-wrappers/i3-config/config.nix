@@ -1,4 +1,5 @@
-{ colors, fonts }: ''
+{ colors, fonts }:
+''
   set $term kitty
 
   smart_gaps on

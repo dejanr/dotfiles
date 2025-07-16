@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./kernel
@@ -28,11 +33,14 @@
               let
                 oldPatches = (old.patches or [ ]);
                 # not sure why there are non-paths in there but oh well
-                patchNames = (builtins.map (p: if ((builtins.typeOf p) == "path") then builtins.baseNameOf p else "") oldPatches);
+                patchNames = (
+                  builtins.map (p: if ((builtins.typeOf p) == "path") then builtins.baseNameOf p else "") oldPatches
+                );
                 fixName = "0019-Revert-boot-Make-initrd_prepare-semantically-equival.patch";
                 alreadyPatched = builtins.elem fixName patchNames;
               in
-              oldPatches ++ lib.optionals (!alreadyPatched) [
+              oldPatches
+              ++ lib.optionals (!alreadyPatched) [
                 (pkgs.fetchpatch {
                   url = "https://raw.githubusercontent.com/NixOS/nixpkgs/125e99477b0ac0a54b7cddc6c5a704821a3074c7/pkgs/os-specific/linux/systemd/${fixName}";
                   hash = "sha256-UW3DZiaykQUUNcGA5UFxN+/wgNSW3ufxDDCZ7emD16o=";
@@ -43,15 +51,14 @@
         if systemdBroken then systemdPatched else pkgs.systemd;
 
       hardware.asahi.pkgs =
-        if cfg.pkgsSystem != "aarch64-linux"
-        then
-          import (pkgs.path)
-            {
-              crossSystem.system = "aarch64-linux";
-              localSystem.system = cfg.pkgsSystem;
-              overlays = [ cfg.overlay ];
-            }
-        else pkgs;
+        if cfg.pkgsSystem != "aarch64-linux" then
+          import (pkgs.path) {
+            crossSystem.system = "aarch64-linux";
+            localSystem.system = cfg.pkgsSystem;
+            overlays = [ cfg.overlay ];
+          }
+        else
+          pkgs;
     };
 
   options.hardware.asahi = {

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -36,9 +41,11 @@ in
         autoshare = false;
         autoupdate = false;
 
-        instructions = [ "GUIDELINES.md" "README.md" ];
+        instructions = [
+          "GUIDELINES.md"
+          "README.md"
+        ];
       };
     };
   };
 }
-

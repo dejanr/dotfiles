@@ -1,4 +1,4 @@
-{}:
+{ }:
 ''
   # navigation + keybindings
   goto-next-feed no

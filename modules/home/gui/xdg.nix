@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.gui.xdg;
+let
+  cfg = config.modules.home.gui.xdg;
 
-in {
-  options.modules.home.gui.xdg = { enable = mkEnableOption "xdg settings"; };
+in
+{
+  options.modules.home.gui.xdg = {
+    enable = mkEnableOption "xdg settings";
+  };
 
   config = mkIf cfg.enable {
     xdg.userDirs = {

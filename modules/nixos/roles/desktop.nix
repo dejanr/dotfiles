@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.nixos.roles.desktop;
+let
+  cfg = config.modules.nixos.roles.desktop;
 
-in {
-  options.modules.nixos.roles.desktop = { enable = mkEnableOption "desktop system integration"; };
+in
+{
+  options.modules.nixos.roles.desktop = {
+    enable = mkEnableOption "desktop system integration";
+  };
 
   config = mkIf cfg.enable {
     fonts = {

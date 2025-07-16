@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
   hostConfigs = {
@@ -208,7 +214,10 @@ in
   users.users.dejanr = {
     isNormalUser = true;
     description = "Dejan Ranisavljevic";
-    extraGroups = [ "wheel" "incus-admin" ];
+    extraGroups = [
+      "wheel"
+      "incus-admin"
+    ];
     openssh.authorizedKeys.keyFiles = [
       inputs.ssh-keys.outPath
     ];

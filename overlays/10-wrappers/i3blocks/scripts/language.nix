@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
 
   KB_LAYOUT=$(setxkbmap -query | awk '/layout/{print $2}')

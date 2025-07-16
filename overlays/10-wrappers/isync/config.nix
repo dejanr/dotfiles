@@ -1,4 +1,4 @@
-{}:
+{ }:
 
 ''
   MaildirStore local

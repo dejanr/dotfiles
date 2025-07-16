@@ -1,4 +1,11 @@
-{ lib, stdenv, inputs, pkgs, importsFrom, ... }:
+{
+  lib,
+  stdenv,
+  inputs,
+  pkgs,
+  importsFrom,
+  ...
+}:
 
 {
   home.stateVersion = "23.11";
@@ -12,5 +19,8 @@
     nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
   };
 
-  imports = importsFrom { path = ./.; exclude = [ "config.nix" ]; };
+  imports = importsFrom {
+    path = ./.;
+    exclude = [ "config.nix" ];
+  };
 }

@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.cli.bash;
+let
+  cfg = config.modules.home.cli.bash;
 
-in {
-  options.modules.home.cli.bash = { enable = mkEnableOption "bash"; };
+in
+{
+  options.modules.home.cli.bash = {
+    enable = mkEnableOption "bash";
+  };
 
   config = mkIf cfg.enable {
     programs.readline = {

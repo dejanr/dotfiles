@@ -1,13 +1,13 @@
-{ lib
-, stdenvNoCC
-, buildGoModule
-, bun
-, fetchFromGitHub
-, fetchurl
-, nix-update-script
-, testers
-, writableTmpDirAsHomeHook
-,
+{
+  lib,
+  stdenvNoCC,
+  buildGoModule,
+  bun,
+  fetchFromGitHub,
+  fetchurl,
+  nix-update-script,
+  testers,
+  writableTmpDirAsHomeHook,
 }:
 
 let
@@ -114,7 +114,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   nativeBuildInputs = [ bun ];
 
   patches = [
-    # Patch `packages/opencode/src/provider/models-macro.ts` to load the prefetched `models.dev/api.json` 
+    # Patch `packages/opencode/src/provider/models-macro.ts` to load the prefetched `models.dev/api.json`
     # from the `MODELS_JSON` environment variable instead of fetching it at build time.
     ./fix-models-macro.patch
   ];

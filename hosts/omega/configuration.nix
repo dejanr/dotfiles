@@ -1,14 +1,18 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  networking.extraHosts =
-    ''
-      192.168.1.227 ot-rpi-testbed
-    '';
+  networking.extraHosts = ''
+    192.168.1.227 ot-rpi-testbed
+  '';
 
   services.ollama = {
     enable = true;
@@ -38,8 +42,6 @@
   '';
 
   # Office VPN
-
-
 
   modules.nixos = {
     roles = {

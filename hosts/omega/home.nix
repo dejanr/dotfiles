@@ -10,15 +10,11 @@
   config.home.file."npmrc".target = ".npmrc";
 
   config.xdg.mimeApps = {
-    defaultApplications."x-scheme-handler/http" =
-      [ "google-chrome-stable.desktop" ];
-    defaultApplications."x-scheme-handler/https" =
-      [ "google-chrome-stable.desktop" ];
+    defaultApplications."x-scheme-handler/http" = [ "google-chrome-stable.desktop" ];
+    defaultApplications."x-scheme-handler/https" = [ "google-chrome-stable.desktop" ];
     defaultApplications."text/html" = [ "google-chrome-stable.desktop" ];
-    defaultApplications."x-scheme-handler/about" =
-      [ "google-chrome-stable.desktop" ];
-    defaultApplications."x-scheme-handler/unknown" =
-      [ "google-chrome-stable.desktop" ];
+    defaultApplications."x-scheme-handler/about" = [ "google-chrome-stable.desktop" ];
+    defaultApplications."x-scheme-handler/unknown" = [ "google-chrome-stable.desktop" ];
   };
 
   config.xdg.desktopEntries.eve-online = {

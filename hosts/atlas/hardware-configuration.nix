@@ -1,4 +1,11 @@
-{ config, boot, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  boot,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 # IOMMU Group 42:
 # 	35:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] [10de:1c03] (rev a1)
@@ -12,9 +19,22 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
 
-    kernelModules = [ "kvm-amd" "nct6775" "k10temp" "coretemp" "i2c-dev" ];
+    kernelModules = [
+      "kvm-amd"
+      "nct6775"
+      "k10temp"
+      "coretemp"
+      "i2c-dev"
+    ];
     blacklistedKernelModules = [ "sp5100-tco" ];
 
     kernelPackages = kernelPackages;
@@ -56,20 +76,17 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/2fc0d291-ddf1-44d3-8454-cb5249de58e7";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/2fc0d291-ddf1-44d3-8454-cb5249de58e7";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/A5A3-834C";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/A5A3-834C";
+    fsType = "vfat";
+  };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/3f310f54-2430-483f-be2b-d86895de7875"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/3f310f54-2430-483f-be2b-d86895de7875"; } ];
 
   # fileSystems."/mnt/synology/inbox" = {
   #   device = "192.168.1.168:/volume1/inbox";
@@ -82,7 +99,9 @@ in
   # };
 
   hardware = {
-    cpu = { amd.updateMicrocode = true; };
+    cpu = {
+      amd.updateMicrocode = true;
+    };
 
     opengl = {
       extraPackages = with pkgs; [
@@ -102,8 +121,7 @@ in
   };
 
   services = {
-    hardware.bolt.enable =
-      true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
+    hardware.bolt.enable = true; # Userspace daemon to enable security levels for Thunderbolt 3 on GNU/Linux.
 
     udev.extraRules = ''
       # Always authorize thunderbolt connections when they are plugged in.
@@ -114,7 +132,9 @@ in
       enable = true;
       videoDrivers = [ "amdgpu" ];
 
-      displayManager = { xserverArgs = [ "-dpi 109" ]; };
+      displayManager = {
+        xserverArgs = [ "-dpi 109" ];
+      };
 
       screenSection = ''
         Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"

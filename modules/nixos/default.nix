@@ -1,4 +1,10 @@
-{ pkgs, inputs, lib, importsFrom, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  importsFrom,
+  ...
+}:
 
 let
   username = "dejanr";
@@ -42,7 +48,9 @@ in
 
       subpixel.lcdfilter = "default";
 
-      defaultFonts = { emoji = [ "OpenMoji Color" ]; };
+      defaultFonts = {
+        emoji = [ "OpenMoji Color" ];
+      };
     };
   };
 
@@ -50,7 +58,10 @@ in
     settings = {
       auto-optimise-store = true;
       allowed-users = [ "dejanr" ];
-      trusted-users = [ "${username}" "root" ];
+      trusted-users = [
+        "${username}"
+        "root"
+      ];
 
       substituters = [
         "ssh://nix-cache"
@@ -96,8 +107,11 @@ in
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    supportedLocales =
-      [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" "sr_RS@latin/UTF-8" ];
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "de_DE.UTF-8/UTF-8"
+      "sr_RS@latin/UTF-8"
+    ];
   };
 
   console = {
@@ -127,12 +141,14 @@ in
     sudo.wheelNeedsPassword = false;
     polkit.enable = true;
     rtkit.enable = true;
-    pam.loginLimits = [{
-      domain = "*";
-      type = "soft";
-      item = "nofile";
-      value = "4096";
-    }];
+    pam.loginLimits = [
+      {
+        domain = "*";
+        type = "soft";
+        item = "nofile";
+        value = "4096";
+      }
+    ];
   };
 
   systemd.extraConfig = "DefaultLimitNOFILE=1048576";
@@ -189,8 +205,7 @@ in
     };
   };
 
-  services.openssh.authorizedKeysFiles =
-    [ "/home/${username}/.ssh/authorized_keys" ];
+  services.openssh.authorizedKeysFiles = [ "/home/${username}/.ssh/authorized_keys" ];
 
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c"

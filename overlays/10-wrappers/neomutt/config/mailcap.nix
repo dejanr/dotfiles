@@ -1,4 +1,4 @@
-{}:
+{ }:
 
 ''
   text/plain; $EDITOR %s;

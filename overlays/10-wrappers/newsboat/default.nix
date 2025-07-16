@@ -1,4 +1,9 @@
-{ stdenv, makeWrapper, writeTextFile, newsboat }:
+{
+  stdenv,
+  makeWrapper,
+  writeTextFile,
+  newsboat,
+}:
 let
   config = import ./config.nix { };
   configFile = writeTextFile {

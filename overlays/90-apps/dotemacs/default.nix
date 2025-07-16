@@ -1,14 +1,18 @@
 # emacs with init.el baked in
 
-{ emacsWithPackages, epkgs, symlinkJoin, makeWrapper }:
+{
+  emacsWithPackages,
+  epkgs,
+  symlinkJoin,
+  makeWrapper,
+}:
 let
   my-emacs = emacsWithPackages (
-    epkgs: (
-      with epkgs; [
-        org
-        which-key
-      ]
-    )
+    epkgs:
+    (with epkgs; [
+      org
+      which-key
+    ])
   );
 in
 symlinkJoin {

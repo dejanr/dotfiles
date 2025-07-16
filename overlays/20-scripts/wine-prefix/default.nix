@@ -1,4 +1,5 @@
-{ pkgs }: pkgs.writeShellScriptBin "wine-prefix" ''
+{ pkgs }:
+pkgs.writeShellScriptBin "wine-prefix" ''
   if ! command -v winepath; then
    >&2 echo "$(basename "$0"): No winepath binary in path. Run with wine available"
    exit 1
@@ -25,4 +26,3 @@
     wine reg add 'HKEY_CURRENT_USER\Software\Wine\DllOverrides' /v $dll /d native /f >/dev/null 2>&1
   done
 ''
-

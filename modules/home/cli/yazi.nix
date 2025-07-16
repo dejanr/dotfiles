@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 
 let
@@ -11,19 +16,19 @@ let
     sha256 = "sha256-wvxwK4QQ3gUOuIXpZvrzmllJLDNK6zqG5V2JAqTxjiY";
   };
 
-  yaziPlugins = pkgs.fetchFromGitHub
-    {
-      owner = "yazi-rs";
-      repo = "plugins";
-      rev = "600614a9dc59a12a63721738498c5541c7923873";
-      sha256 = "sha256-mQkivPt9tOXom78jgvSwveF/8SD8M2XCXxGY8oijl+o";
-    };
+  yaziPlugins = pkgs.fetchFromGitHub {
+    owner = "yazi-rs";
+    repo = "plugins";
+    rev = "600614a9dc59a12a63721738498c5541c7923873";
+    sha256 = "sha256-mQkivPt9tOXom78jgvSwveF/8SD8M2XCXxGY8oijl+o";
+  };
 in
 {
-  options.modules.home.cli.yazi = with types;
-    {
-      enable = mkEnableOption "yazi" // { default = false; };
+  options.modules.home.cli.yazi = with types; {
+    enable = mkEnableOption "yazi" // {
+      default = false;
     };
+  };
 
   config = mkIf cfg.enable {
     programs.yazi = {
@@ -54,10 +59,22 @@ in
       };
       keymap = {
         manager.prepend_keymap = [
-          { run = "plugin jump-to-char"; on = [ "f" ]; }
-          { run = "plugin smart-enter"; on = [ "l" ]; }
-          { run = "plugin smart-enter"; on = [ "<Enter>" ]; }
-          { run = "leave"; on = [ "-" ]; }
+          {
+            run = "plugin jump-to-char";
+            on = [ "f" ];
+          }
+          {
+            run = "plugin smart-enter";
+            on = [ "l" ];
+          }
+          {
+            run = "plugin smart-enter";
+            on = [ "<Enter>" ];
+          }
+          {
+            run = "leave";
+            on = [ "-" ];
+          }
         ];
       };
     };

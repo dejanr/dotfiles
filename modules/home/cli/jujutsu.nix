@@ -1,10 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
-let cfg = config.modules.home.cli.jujutsu;
+let
+  cfg = config.modules.home.cli.jujutsu;
 
-in {
-  options.modules.home.cli.jujutsu = { enable = mkEnableOption "jujutsu"; };
+in
+{
+  options.modules.home.cli.jujutsu = {
+    enable = mkEnableOption "jujutsu";
+  };
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.jujutsu ];
@@ -40,8 +49,16 @@ in {
           conflict-marker-style = "git";
         };
         aliases = {
-          l = [ "log" "--no-pager" "--limit" "10" ];
-          s = [ "status" "--no-pager" ];
+          l = [
+            "log"
+            "--no-pager"
+            "--limit"
+            "10"
+          ];
+          s = [
+            "status"
+            "--no-pager"
+          ];
           d = [ "diff" ];
           n = [ "new" ];
           e = [ "edit" ];
@@ -50,4 +67,3 @@ in {
     };
   };
 }
-

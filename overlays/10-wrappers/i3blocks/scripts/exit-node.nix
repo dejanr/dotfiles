@@ -1,4 +1,5 @@
-{}: /* bash */ ''
+{ }: # bash
+''
   #!/usr/bin/env bash
 
   EXIT_NODE_NAME_PATTERN="''${1:-pattern}"

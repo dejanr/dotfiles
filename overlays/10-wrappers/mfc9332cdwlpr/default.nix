@@ -1,16 +1,17 @@
-{ lib
-, coreutils
-, dpkg
-, fetchurl
-, file
-, ghostscript
-, gnugrep
-, gnused
-, makeWrapper
-, perl
-, pkgs
-, stdenv
-, which
+{
+  lib,
+  coreutils,
+  dpkg,
+  fetchurl,
+  file,
+  ghostscript,
+  gnugrep,
+  gnused,
+  makeWrapper,
+  perl,
+  pkgs,
+  stdenv,
+  which,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,7 +23,10 @@ stdenv.mkDerivation rec {
     sha256 = "0mmqcwpbw4dx2hqaxhnvm52jm84vq8c55xrixsvapxwrdbpkdcca";
   };
 
-  nativeBuildInputs = [ dpkg makeWrapper ];
+  nativeBuildInputs = [
+    dpkg
+    makeWrapper
+  ];
 
   phases = [ "installPhase" ];
 
@@ -35,7 +39,16 @@ stdenv.mkDerivation rec {
       --replace "BR_PRT_PATH =~" "BR_PRT_PATH = \"$dir/\"; #" \
       --replace "PRINTER =~" "PRINTER = \"mfc9332cdw\"; #"
     wrapProgram $filter \
-      --prefix PATH : ${lib.makeBinPath [ coreutils file ghostscript gnugrep gnused which ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          coreutils
+          file
+          ghostscript
+          gnugrep
+          gnused
+          which
+        ]
+      }
     # need to use i686 glibc here, these are 32bit proprietary binaries
     interpreter=${pkgs.pkgsi686Linux.glibc}/lib/ld-linux.so.2
     patchelf --set-interpreter "$interpreter" $dir/lpd/brmfc9332cdwfilter
@@ -43,7 +56,7 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Brother MFC-9332CDW LPR printer driver";
-    homepage = http://www.brother.com/;
+    homepage = "http://www.brother.com/";
     license = lib.licenses.unfree;
     maintainers = [ lib.maintainers.fuzzy-id ];
     platforms = [ "i686-linux" ];

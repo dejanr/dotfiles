@@ -1,4 +1,5 @@
-{}: /* bash */ ''
+{ }: # bash
+''
   #!/usr/bin/env bash
 
   PATTERN="''${1:-Chrome}"

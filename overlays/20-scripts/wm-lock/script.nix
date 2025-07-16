@@ -1,4 +1,5 @@
-{ i3lock-pixeled }: ''
+{ i3lock-pixeled }:
+''
   # Command to start the locker (should not fork)
   locker="${i3lock-pixeled}/bin/i3lock-pixeled"
 

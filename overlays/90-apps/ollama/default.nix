@@ -1,34 +1,34 @@
-{ lib
-, buildGo124Module
-, fetchFromGitHub
-, fetchpatch
-, buildEnv
-, linkFarm
-, makeWrapper
-, stdenv
-, addDriverRunpath
-, nix-update-script
-, cmake
-, gitMinimal
-, clblast
-, libdrm
-, rocmPackages
-, rocmGpuTargets ? rocmPackages.clr.gpuTargets or [ ]
-, cudaPackages
-, cudaArches ? cudaPackages.flags.realArches or [ ]
-, darwin
-, autoAddDriverRunpath
-, versionCheckHook
-, # passthru
-  nixosTests
-, testers
-, ollama
-, ollama-rocm
-, ollama-cuda
-, config
-, # one of `[ null false "rocm" "cuda" ]`
-  acceleration ? null
-,
+{
+  lib,
+  buildGo124Module,
+  fetchFromGitHub,
+  fetchpatch,
+  buildEnv,
+  linkFarm,
+  makeWrapper,
+  stdenv,
+  addDriverRunpath,
+  nix-update-script,
+  cmake,
+  gitMinimal,
+  clblast,
+  libdrm,
+  rocmPackages,
+  rocmGpuTargets ? rocmPackages.clr.gpuTargets or [ ],
+  cudaPackages,
+  cudaArches ? cudaPackages.flags.realArches or [ ],
+  darwin,
+  autoAddDriverRunpath,
+  versionCheckHook,
+  # passthru
+  nixosTests,
+  testers,
+  ollama,
+  ollama-rocm,
+  ollama-cuda,
+  config,
+  # one of `[ null false "rocm" "cuda" ]`
+  acceleration ? null,
 }:
 
 assert builtins.elem acceleration [
@@ -55,12 +55,10 @@ let
 
   vendorHash = "sha256-Zpzn2YWpiDAl4cwgrrSpN8CFy4GqqhE1mWsRxtYwdDA=";
 
-  validateFallback = lib.warnIf (config.rocmSupport && config.cudaSupport)
-    (lib.concatStrings [
-      "both `nixpkgs.config.rocmSupport` and `nixpkgs.config.cudaSupport` are enabled, "
-      "but they are mutually exclusive; falling back to cpu"
-    ])
-    (!(config.rocmSupport && config.cudaSupport));
+  validateFallback = lib.warnIf (config.rocmSupport && config.cudaSupport) (lib.concatStrings [
+    "both `nixpkgs.config.rocmSupport` and `nixpkgs.config.cudaSupport` are enabled, "
+    "but they are mutually exclusive; falling back to cpu"
+  ]) (!(config.rocmSupport && config.cudaSupport));
   shouldEnable =
     mode: fallback: (acceleration == mode) || (fallback && acceleration == null && validateFallback);
 
@@ -146,12 +144,11 @@ goBuild {
     ;
 
   env =
-    lib.optionalAttrs enableRocm
-      {
-        ROCM_PATH = rocmPath;
-        CLBlast_DIR = "${clblast}/lib/cmake/CLBlast";
-        HIP_PATH = rocmPath;
-      }
+    lib.optionalAttrs enableRocm {
+      ROCM_PATH = rocmPath;
+      CLBlast_DIR = "${clblast}/lib/cmake/CLBlast";
+      HIP_PATH = rocmPath;
+    }
     // lib.optionalAttrs enableCuda { CUDA_PATH = cudaPath; };
 
   nativeBuildInputs =

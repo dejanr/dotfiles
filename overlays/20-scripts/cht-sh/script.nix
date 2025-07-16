@@ -1,4 +1,5 @@
-{ pkgs }: ''
+{ pkgs }:
+''
   #!/usr/bin/env bash
 
   topic_constraint="none"

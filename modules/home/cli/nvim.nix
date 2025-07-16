@@ -1,4 +1,8 @@
-{ pkgs, config, lib, ... }:
+{ pkgs
+, config
+, lib
+, ...
+}:
 
 with lib;
 
@@ -6,7 +10,9 @@ let
   cfg = config.modules.home.cli.nvim;
 in
 {
-  options.modules.home.cli.nvim = { enable = mkEnableOption "nvim"; };
+  options.modules.home.cli.nvim = {
+    enable = mkEnableOption "nvim";
+  };
 
   config = mkIf cfg.enable {
 
@@ -16,6 +22,8 @@ in
       lua-language-server
       rust-analyzer-unwrapped
       black # python code formatter
+      nixd # nix lsp
+      nixfmt-rfc-style # nix formatter used by nixd -> nixfmt
     ];
 
     programs.neovim = {

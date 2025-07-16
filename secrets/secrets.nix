@@ -11,4 +11,3 @@ in
   "openvpn_office_pass.age".publicKeys = publicKeys;
   "openvpn_office_conf.age".publicKeys = publicKeys;
 }
-

@@ -1,4 +1,11 @@
-{ config, boot, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  boot,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   hostName = "alpha";
@@ -14,7 +21,13 @@ in
   ];
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     initrd.kernelModules = [ ];
 
     kernelModules = [
@@ -67,17 +80,15 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/6c39fcc8-a117-4378-a197-68481b09f37a";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/6c39fcc8-a117-4378-a197-68481b09f37a";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/5C82-BCBF";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/5C82-BCBF";
+    fsType = "vfat";
+  };
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/97defdf0-f29d-4920-a4fd-737b0460fb22"; }

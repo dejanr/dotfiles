@@ -1,4 +1,12 @@
-{ stdenv, lib, fetchzip, unzip, jre8, makeDesktopItem, ... }:
+{
+  stdenv,
+  lib,
+  fetchzip,
+  unzip,
+  jre8,
+  makeDesktopItem,
+  ...
+}:
 let
   mkDesktop = makeDesktopItem {
     name = "Eve Assets";
@@ -32,6 +40,10 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    platforms = [ "x86_64-linux" "i686-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "i686-linux"
+      "aarch64-linux"
+    ];
   };
 }

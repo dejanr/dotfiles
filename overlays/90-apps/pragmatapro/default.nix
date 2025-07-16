@@ -1,4 +1,9 @@
-{ lib, stdenv, requireFile, unzip }:
+{
+  lib,
+  stdenv,
+  requireFile,
+  unzip,
+}:
 let
   version = "1.0";
 in
@@ -14,7 +19,10 @@ stdenv.mkDerivation rec {
       $ nix-store --add-fixed sha256 ~/downloads/${name}'';
   };
   buildInputs = [ unzip ];
-  phases = [ "unpackPhase" "installPhase" ];
+  phases = [
+    "unpackPhase"
+    "installPhase"
+  ];
   pathsToLink = [ "/share/fonts/truetype/" ];
   sourceRoot = ".";
   installPhase = ''

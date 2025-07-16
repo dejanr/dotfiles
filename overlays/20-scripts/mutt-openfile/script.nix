@@ -1,4 +1,5 @@
-{}: ''
+{ }:
+''
   #!/usr/bin/env bash
 
   # Helps open a file with xdg-open from mutt in a external program without weird side effects.

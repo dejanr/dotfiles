@@ -1,4 +1,10 @@
-{ pkgs, inputs, lib, importsFrom, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  importsFrom,
+  ...
+}:
 
 let
   username = "dejanr";
@@ -10,7 +16,10 @@ in
     optimise.automatic = true;
     settings = {
       allowed-users = [ "dejanr" ];
-      trusted-users = [ "${username}" "root" ];
+      trusted-users = [
+        "${username}"
+        "root"
+      ];
 
       substituters = [
         "https://cache.nixos.org"
@@ -26,7 +35,11 @@ in
 
     gc = {
       automatic = true;
-      interval = { Weekday = 0; Hour = 0; Minute = 0; };
+      interval = {
+        Weekday = 0;
+        Hour = 0;
+        Minute = 0;
+      };
       options = "--delete-older-than 7d";
     };
 
@@ -67,4 +80,3 @@ in
     shell = pkgs.zsh;
   };
 }
-
