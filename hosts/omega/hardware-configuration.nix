@@ -27,6 +27,11 @@ in
       "aarch64-linux"
       "armv6l-linux"
     ];
+    initrd.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_drm"
+    ];
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
@@ -78,6 +83,7 @@ in
       "hugepagesz=1GB"
       "loglevel=3"
       ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
+      "nvidia-drm.modeset=1"
     ];
 
     blacklistedKernelModules = [
@@ -92,6 +98,7 @@ in
       options kvm-amd nested=1
       options kvm ignore_msrs=1
       options kvm report_ignored_msrs=0
+      options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
     '';
 
     initrd.supportedFilesystems = [ ];
@@ -161,7 +168,6 @@ in
     };
 
     graphics = {
-      enable = true;
       extraPackages = with pkgs; [
         nvidia-vaapi-driver
         vaapiVdpau
@@ -176,11 +182,10 @@ in
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = false;
+      powerManagement.enable = true;
       powerManagement.finegrained = false;
       open = true;
       nvidiaSettings = true;
-      forceFullCompositionPipeline = true;
       package =
         let
           gpl_symbols_linux_615_patch = pkgs.fetchpatch {
