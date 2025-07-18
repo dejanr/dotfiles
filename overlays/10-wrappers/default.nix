@@ -94,7 +94,6 @@ self: super:
   };
 
   i3-config = import ./i3-config {
-    inherit (self) colors fonts;
     inherit (super)
       stdenv
       makeWrapper

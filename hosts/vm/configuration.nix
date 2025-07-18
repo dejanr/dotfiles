@@ -67,7 +67,7 @@ in
   modules.nixos.roles.desktop.enable = true;
   modules.nixos.roles.dev.enable = true;
   modules.nixos.roles.multimedia.enable = true;
-  modules.nixos.roles.i3.enable = true;
+  modules.nixos.roles.sway.enable = true;
   modules.nixos.roles.services.enable = true;
   modules.nixos.roles.games.enable = true;
   modules.nixos.roles.virtualisation.enable = true;

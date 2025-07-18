@@ -7,6 +7,8 @@
       flake = false;
     };
 
+    catppuccin.url = "github:catppuccin/nix";
+
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -52,19 +54,19 @@
   };
 
   outputs =
-    {
-      home-manager,
-      nix-darwin,
-      nixos-apple-silicon,
-      nixpkgs,
-      nur,
-      nix-gaming,
-      rust-overlay,
-      stylix,
-      agenix,
-      disko,
-      devenv,
-      ...
+    { home-manager
+    , nix-darwin
+    , nixos-apple-silicon
+    , nixpkgs
+    , nur
+    , nix-gaming
+    , rust-overlay
+    , stylix
+    , catppuccin
+    , agenix
+    , disko
+    , devenv
+    , ...
     }@inputs:
 
     let
@@ -81,14 +83,18 @@
         let
           paths = [ ./overlays ];
         in
-        builtins.concatMap (
-          path:
-          (map (n: import (path + ("/" + n))) (
-            builtins.filter (
-              n: builtins.match ".*\\.nix" n != null || builtins.pathExists (path + ("/" + n + "/default.nix"))
-            ) (builtins.attrNames (builtins.readDir path))
-          ))
-        ) paths;
+        builtins.concatMap
+          (
+            path:
+            (map (n: import (path + ("/" + n))) (
+              builtins.filter
+                (
+                  n: builtins.match ".*\\.nix" n != null || builtins.pathExists (path + ("/" + n + "/default.nix"))
+                )
+                (builtins.attrNames (builtins.readDir path))
+            ))
+          )
+          paths;
       mkSystem =
         pkgs: system: hostConfig: hostName:
         pkgs.lib.nixosSystem {
@@ -103,6 +109,7 @@
               ];
             }
             stylix.nixosModules.stylix
+            catppuccin.nixosModules.catppuccin
             nur.modules.nixos.default
             nix-gaming.nixosModules.pipewireLowLatency
             agenix.nixosModules.default
@@ -114,8 +121,14 @@
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
-                extraSpecialArgs = { inherit inputs system importsFrom; };
-                users.dejanr.imports = [ (./. + "/hosts/${hostConfig}/home.nix") ];
+                extraSpecialArgs = {
+                  inherit (inputs) catppuccin;
+                  inherit inputs system importsFrom;
+                };
+                users.dejanr.imports = [
+                  (./. + "/hosts/${hostConfig}/home.nix")
+                  catppuccin.homeModules.catppuccin
+                ];
                 sharedModules = [
                   agenix.homeManagerModules.default
                 ];
@@ -130,7 +143,10 @@
               ] ++ overlays;
             }
           ];
-          specialArgs = { inherit inputs importsFrom; };
+          specialArgs = {
+            inherit (inputs) catppuccin;
+            inherit inputs importsFrom;
+          };
         };
 
     in
@@ -156,7 +172,10 @@
         {
           "mbp-work" = nix-darwin.lib.darwinSystem {
             inherit system;
-            specialArgs = { inherit inputs system importsFrom; };
+            specialArgs = {
+              inherit (inputs) catppuccin;
+              inherit inputs system importsFrom;
+            };
             modules = [
               ./modules/darwin/default.nix
               ./hosts/mbp-work/configuration.nix
@@ -166,7 +185,10 @@
                 home-manager = {
                   useUserPackages = true;
                   useGlobalPkgs = true;
-                  extraSpecialArgs = { inherit inputs system importsFrom; };
+                  extraSpecialArgs = {
+                    inherit (inputs) catppuccin;
+                    inherit inputs system importsFrom;
+                  };
                   users.${username}.imports = [ (./. + "/hosts/mbp-work/home.nix") ];
                   sharedModules = [
                     agenix.homeManagerModules.default

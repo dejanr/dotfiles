@@ -1,9 +1,10 @@
-{ config
-, boot
-, lib
-, pkgs
-, modulesPath
-, ...
+{
+  config,
+  boot,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
 }:
 
 # IOMMU Group 42:
@@ -25,11 +26,6 @@ in
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv6l-linux"
-    ];
-    initrd.kernelModules = [
-      "nvidia"
-      "nvidia_modeset"
-      "nvidia_drm"
     ];
     initrd.availableKernelModules = [
       "nvme"
@@ -135,7 +131,7 @@ in
     fsType = "vfat";
   };
 
-  swapDevices = [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; } ];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";
@@ -165,6 +161,7 @@ in
     };
 
     graphics = {
+      enable = true;
       extraPackages = with pkgs; [
         nvidia-vaapi-driver
         vaapiVdpau
@@ -223,32 +220,7 @@ in
     '';
 
     xserver = {
-      enable = true;
       videoDrivers = [ "nvidia" ];
-
-      displayManager = {
-        xserverArgs = [ "-dpi 109" ];
-      };
-
-      screenSection = ''
-        Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-        Option         "AllowIndirectGLXProtocol" "off"
-        Option         "TripleBuffer" "on"
-      '';
-
-      deviceSection = ''
-        Option "ForceCompositionPipeline" "On"
-        Option "ForceFullCompositionPipeline" "On"
-        Option "AllowGSYNCCompatible" "On"
-        Option "AllowIndirectGLXProtocol" "off"
-        Option "TripleBuffer" "on"
-        Option  "Stereo" "0"
-        Option  "nvidiaXineramaInfoOrder" "DFP-1"
-        Option  "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On, AllowGSYNCCompatible=On}"
-        Option  "SLI" "Off"
-        Option  "MultiGPU" "Off"
-        Option  "BaseMosaic" "off"
-      '';
     };
 
     tlp = {
@@ -273,12 +245,6 @@ in
         DEVICES_TO_DISABLE_ON_STARTUP = "";
       };
     };
-  };
-
-  environment = {
-    etc."X11/Xresources".text = ''
-      Xft.dpi: 109
-    '';
   };
 
   environment.systemPackages = with pkgs; [

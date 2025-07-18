@@ -41,13 +41,19 @@
   };
 
   config.modules = {
-    home.gui.xdg.enable = true;
+    home.theme.enable = true;
+    home.theme.flavor = "mocha";
+
     home.common.packages.enable = true;
 
     # secrets
     home.secrets.agenix.enable = true;
 
     # gui
+    home.gui.xdg.enable = true;
+    home.gui.sway.enable = true;
+    home.gui.waybar.enable = true;
+    home.gui.mako.enable = true;
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
 

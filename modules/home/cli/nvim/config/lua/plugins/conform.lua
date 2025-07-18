@@ -12,7 +12,7 @@ return {
 				json = { "prettier" },
 				lua = { "stylua" },
 				markdown = { "prettier", "markdownlint" },
-				nix = { "nixpkgs_fmt" },
+				nix = { "nixfmt" },
 				python = { "isort", "black" },
 				terraform = { "terraform_fmt" },
 				yaml = { "prettier" },

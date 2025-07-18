@@ -1,8 +1,5 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
+{ pkgs
+, ...
 }:
 
 {
@@ -44,12 +41,15 @@
   # Office VPN
 
   modules.nixos = {
+    theme.enable = true;
+    theme.flavor = "mocha";
+
     roles = {
       desktop.enable = true;
       dev.enable = true;
       games.enable = true;
       hosts.enable = true;
-      i3.enable = true;
+      sway.enable = true;
       multimedia.enable = true;
       services.enable = true;
       virtualisation.enable = true;

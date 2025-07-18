@@ -119,7 +119,7 @@
   set -g message-style "fg=#131a24,bg=#aeafb0"
   set -g message-command-style "fg=#131a24,bg=#aeafb0"
   set -g pane-border-style "fg=#aeafb0"
-  set -g pane-active-border-style "fg=#719cd6"
+  set -g pane-active-border-style "fg=#89b4fa"
   set -g status "on"
   set -g status-justify "left"
   set -g status-style "fg=#aeafb0,bg=#131a24"
@@ -127,7 +127,7 @@
   set -g status-right-length "100"
   set -g status-left-style NONE
   set -g status-right-style NONE
-  set -g status-left "#[fg=#131a24,bg=#719cd6,bold] #S "
+  set -g status-left "#[fg=#131a24,bg=#89b4fa,bold] #S "
   set -g status-right ""
   setw -g window-status-activity-style "underscore,fg=#71839b,bg=#131a24"
   setw -g window-status-separator ""

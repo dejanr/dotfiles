@@ -1,4 +1,4 @@
-{ colors, fonts }:
+{ }:
 ''
   set $term kitty
 
@@ -324,6 +324,11 @@
   for_window [class="steam_app_0"] border pixel 0
   for_window [class="steam_app_0"] resize set 3440 1420
   for_window [class="steam_app_0"] move window to position 0 20
+  for_window [class="steam_app_1284210"] floating enable
+  for_window [class="steam_app_1284210"] border normal 0
+  for_window [class="steam_app_1284210"] border pixel 0
+  for_window [class="steam_app_1284210"] resize set 3440 1420
+  for_window [class="steam_app_1284210"] move window to position 0 20
   for_window [title="React Native DevTools"] floating disable
 
   # Widow Colours
