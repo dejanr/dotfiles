@@ -54,19 +54,20 @@
   };
 
   outputs =
-    { home-manager
-    , nix-darwin
-    , nixos-apple-silicon
-    , nixpkgs
-    , nur
-    , nix-gaming
-    , rust-overlay
-    , stylix
-    , catppuccin
-    , agenix
-    , disko
-    , devenv
-    , ...
+    {
+      home-manager,
+      nix-darwin,
+      nixos-apple-silicon,
+      nixpkgs,
+      nur,
+      nix-gaming,
+      rust-overlay,
+      stylix,
+      catppuccin,
+      agenix,
+      disko,
+      devenv,
+      ...
     }@inputs:
 
     let
@@ -83,18 +84,14 @@
         let
           paths = [ ./overlays ];
         in
-        builtins.concatMap
-          (
-            path:
-            (map (n: import (path + ("/" + n))) (
-              builtins.filter
-                (
-                  n: builtins.match ".*\\.nix" n != null || builtins.pathExists (path + ("/" + n + "/default.nix"))
-                )
-                (builtins.attrNames (builtins.readDir path))
-            ))
-          )
-          paths;
+        builtins.concatMap (
+          path:
+          (map (n: import (path + ("/" + n))) (
+            builtins.filter (
+              n: builtins.match ".*\\.nix" n != null || builtins.pathExists (path + ("/" + n + "/default.nix"))
+            ) (builtins.attrNames (builtins.readDir path))
+          ))
+        ) paths;
       mkSystem =
         pkgs: system: hostConfig: hostName:
         pkgs.lib.nixosSystem {

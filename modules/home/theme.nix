@@ -1,6 +1,7 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 
 with lib;
@@ -69,7 +70,14 @@ in
         "placeholder" = focusedInactive;
       in
       {
-        inherit background focused focusedInactive urgent unfocused"placeholder";
+        inherit
+          background
+          focused
+          focusedInactive
+          urgent
+          unfocused
+          "placeholder"
+          ;
       };
 
     # Set up theme for waybar.

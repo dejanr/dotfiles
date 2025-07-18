@@ -1,6 +1,7 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 
 with lib;
@@ -17,7 +18,7 @@ in
     services.mako = {
       enable = true;
       settings = {
-        border-size = 3;
+        border-size = 1;
         default-timeout = 6000;
         font = "PragmataPro 12";
       };

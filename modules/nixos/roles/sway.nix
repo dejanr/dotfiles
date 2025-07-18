@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 with lib;
@@ -78,34 +79,33 @@ in
 
     services.displayManager.sessionPackages = [
       (
-        pkgs.writeTextFile
-          {
-            name = "sway-session";
-            destination = "/share/wayland-sessions/sway.desktop";
-            text = ''
-              [Desktop Entry]
-              Name=Sway
-              Comment=An i3-compatible Wayland compositor
-              Exec=${
-                pkgs.writeTextFile {
-                  name = "sway-wrapper";
-                  executable = true;
-                  text = ''
-                    #!${pkgs.zsh}/bin/zsh
-                    SHLVL=0
-                    for profile in ''${(z)NIX_PROFILES}; do
-                      fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
-                    done
-                    exec sway --unsupported-gpu 2>&1 >> $XDG_CACHE_HOME/sway
-                  '';
-                  checkPhase = ''
-                    ${pkgs.stdenv.shellDryRun} "$target"
-                  '';
-                }
+        pkgs.writeTextFile {
+          name = "sway-session";
+          destination = "/share/wayland-sessions/sway.desktop";
+          text = ''
+            [Desktop Entry]
+            Name=Sway
+            Comment=An i3-compatible Wayland compositor
+            Exec=${
+              pkgs.writeTextFile {
+                name = "sway-wrapper";
+                executable = true;
+                text = ''
+                  #!${pkgs.zsh}/bin/zsh
+                  SHLVL=0
+                  for profile in ''${(z)NIX_PROFILES}; do
+                    fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
+                  done
+                  exec sway --unsupported-gpu 2>&1 >> $XDG_CACHE_HOME/sway
+                '';
+                checkPhase = ''
+                  ${pkgs.stdenv.shellDryRun} "$target"
+                '';
               }
-              Type=Application
-            '';
-          }
+            }
+            Type=Application
+          '';
+        }
         // {
           providedSessions = [ pkgs.sway.meta.mainProgram ];
         }

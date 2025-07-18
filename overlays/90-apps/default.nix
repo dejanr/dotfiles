@@ -74,6 +74,7 @@ in
   };
 
   pulumi = super.callPackage ./pulumi { };
+  sway-scratchpad = super.callPackage ./sway-scratchpad { };
   rift = super.callPackage ./rift { };
   ollama = super.callPackage ./ollama { };
   meshcommander = super.callPackage ./meshcommander { };

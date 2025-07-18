@@ -40,18 +40,13 @@ in
             "sway/mode"
             "sway/scratchpad"
           ];
-          modules-center = [
+          modules-center = [ ];
+          modules-right = [
+            "mpris"
             "idle_inhibitor"
-            "backlight"
             "cpu"
             "memory"
-            "temperature"
-            "battery"
-            "mpris"
-          ];
-          modules-right = [
             "pulseaudio"
-            "network"
             "clock"
             "tray"
           ];
@@ -75,14 +70,11 @@ in
           };
 
           "sway/scratchpad" = {
-            format = "{icon} {count}";
+            format = "{icon}";
             format-icons = [
-              ""
               ""
             ];
             show-empty = false;
-            tooltip = true;
-            tooltip-format = "{app}: {title}";
           };
 
           "sway/mode".format = "<span style=\"italic\">{}</span>";
@@ -132,7 +124,7 @@ in
             critical = 15;
           };
 
-          clock.format = "<span color=\"#88c0d0\"></span> {:%Y-%m-%d %H:%M:%S}";
+          clock.format = "<span color=\"#88c0d0\"></span> {:%H:%M}";
           clock.interval = 5;
           clock.tooltip = false;
 
@@ -172,29 +164,6 @@ in
             ];
           };
           pulseaudio.on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
-
-          privacy = {
-            icon-spacing = 4;
-            icon-size = 18;
-            transition-duration = 250;
-            modules = [
-              {
-                type = "screenshare";
-                tooltip = true;
-                tooltip-icon-size = 24;
-              }
-              {
-                type = "audio-out";
-                tooltip = true;
-                tooltip-icon-size = 24;
-              }
-              {
-                type = "audio-in";
-                tooltip = true;
-                tooltip-icon-size = 24;
-              }
-            ];
-          };
 
           temperature.critical-threshold = 80;
           temperature.format = "{icon} {temperatureC}°C";

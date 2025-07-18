@@ -158,6 +158,10 @@ in
             # Run terminal
             "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
 
+            # Scratchpad
+            "${modifier}+minus" =
+              "exec ${pkgs.sway-scratchpad}/bin/sway-scratchpad --width 50 --height 80 --command \"${pkgs.kitty}/bin/kitty -e ${pkgs.scratchpad}/bin/scratchpad\" --mark terminal";
+
             # Run Launcher
             "${modifier}+d" =
               "exec ${pkgs.rofi-wayland}/bin/rofi -show combi -modi combi -combi-modes 'window,drun' | xargs swaymsg exec --";
@@ -246,18 +250,6 @@ in
             # Swap focus between the tiling area and the floating area:
             "${modifier}+space" = "focus mode_toggle";
 
-            # Focus the parent container
-            # "${modifier}+a" = "focus parent";
-
-            # Focus the child container
-            # "${modifier}+d" = "focus child";
-
-            # Move window to scratchpad:
-            "${modifier}+Shift+minus" = "move scratchpad";
-
-            # Show scratchpad window and cycle through them:
-            "${modifier}+minus" = "scratchpad show";
-
             # Enter other modes:
             "${modifier}+Shift+r" = "mode resize";
             "${modifier}+Shift+x" = "reload";
@@ -267,8 +259,8 @@ in
             "${modifier}+e" = " exec --no-startup-id google-chrome-stable --args --profile-directory=Work";
             "${modifier}+r" =
               " exec --no-startup-id google-chrome-stable --args --profile-directory=Consulting";
-            "${modifier}+t" = " exec $term -e zsh -ic yazi";
-            "${modifier}+m" = " exec $term -e btop";
+            "${modifier}+t" = " exec ${pkgs.kitty}/bin/kitty -e zsh -ic yazi";
+            "${modifier}+m" = " exec ${pkgs.kitty}/bin/kitty -e btop";
           };
 
           modes.resize = {
