@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
+{ pkgs
+, lib
+, config
+, ...
 }:
 
 with lib;
@@ -74,7 +73,7 @@ in
       gotools
       nodejs_20
       python3
-      yarn
+      yarn-berry
       pnpm
 
       # OCaml ecosystem

@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -43,7 +42,7 @@ in
 
         instructions = [
           "GUIDELINES.md"
-          "README.md"
+          "docs/guidelines.md"
         ];
       };
     };
