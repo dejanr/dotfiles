@@ -25,22 +25,6 @@
     bun
   ];
 
-  programs.ssh.extraConfig = ''
-    Host dsn-gw
-        Hostname gw.dsn.orora.tech
-        Port 30100
-        User dejan.ranisavljevic
-        IdentityFile /home/dejanr/.ssh/id_ed25519
-    Host nix-cache
-        User nix-cache
-        Hostname iron-nugget.srv.orora.tech
-        Port 22222
-        ProxyJump dsn-gw
-        IdentityFile /home/dejanr/.ssh/id_ed25519
-  '';
-
-  # Office VPN
-
   modules.nixos = {
     theme.enable = true;
     theme.flavor = "mocha";
