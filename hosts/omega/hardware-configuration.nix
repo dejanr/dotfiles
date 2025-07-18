@@ -1,10 +1,9 @@
-{
-  config,
-  boot,
-  lib,
-  pkgs,
-  modulesPath,
-  ...
+{ config
+, boot
+, lib
+, pkgs
+, modulesPath
+, ...
 }:
 
 # IOMMU Group 42:
@@ -136,7 +135,7 @@ in
     fsType = "vfat";
   };
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; } ];
+  swapDevices = [{ device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; }];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";
@@ -184,6 +183,7 @@ in
       powerManagement.finegrained = false;
       open = true;
       nvidiaSettings = true;
+      forceFullCompositionPipeline = true;
       package =
         let
           gpl_symbols_linux_615_patch = pkgs.fetchpatch {
