@@ -129,16 +129,32 @@ in
   };
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/90d2b118-6b83-4897-9149-39dc7d4f0487";
-    fsType = "ext4";
+    device = "root/root";
+    fsType = "zfs";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/E7DB-2F1B";
+    device = "/dev/disk/by-uuid/377B-0904";
     fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
   };
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/194d14a0-0daa-491c-b247-1555e7154f75"; } ];
+  fileSystems."/home" = {
+    device = "root/home";
+    fsType = "zfs";
+  };
+
+  fileSystems."/persist" = {
+    device = "root/persist";
+    fsType = "zfs";
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/7e1abd78-4a0d-4151-b29d-f46cf8503e6d"; }
+  ];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";
@@ -210,10 +226,11 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
-    useNetworkd = true;
     useDHCP = lib.mkDefault true;
     hostId = "8425e349";
     hostName = "${hostName}";
+    networkmanager.enable = true;
+    nameservers = [ "1.1.1.1" ];
   };
 
   services = {
