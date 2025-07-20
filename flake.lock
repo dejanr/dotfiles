@@ -999,7 +999,7 @@
     "ssh-keys": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-8GfT/tOf+6GS+WU3tJqhxTIsHOoEzER54kF7J0iq4/g=",
+        "narHash": "sha256-qZnc5Zb9ExI2wPPeGb2fWDUJh8/rAjDIRpKXbgtiAFY=",
         "type": "file",
         "url": "https://github.com/dejanr.keys"
       },
