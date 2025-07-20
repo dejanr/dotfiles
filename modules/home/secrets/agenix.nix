@@ -22,7 +22,5 @@ in
     age.secrets.deepseek_api_key.file = ../../../secrets/deepseek_api_key.age;
     age.secrets.groq_api_key.file = ../../../secrets/groq_api_key.age;
     age.secrets.gemini_api_key.file = ../../../secrets/gemini_api_key.age;
-    age.secrets.openvpn_office_pass.file = ../../../secrets/openvpn_office_pass.age;
-    age.secrets.openvpn_office_conf.file = ../../../secrets/openvpn_office_conf.age;
   };
 }

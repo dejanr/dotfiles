@@ -21,11 +21,7 @@ in
     environment.systemPackages = with pkgs; [
       wine-ge
       appimage-run
-      dxvk
-      vkd3d-proton
-      wineprefix-preparer
       winetricks-git
-      winetricks
       cabextract
       gamemode
       libstrangle

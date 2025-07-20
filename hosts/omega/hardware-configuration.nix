@@ -226,11 +226,16 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
-    useDHCP = lib.mkDefault true;
+    useDHCP = true;
+    dhcpcd.enable = false;
     hostId = "8425e349";
     hostName = "${hostName}";
     networkmanager.enable = true;
-    nameservers = [ "1.1.1.1" ];
+    networkmanager.dns = lib.mkForce "none";
+    nameservers = [
+      "1.1.1.1#one.one.one.one"
+      "1.0.0.1#one.one.one.one"
+    ];
   };
 
   services = {

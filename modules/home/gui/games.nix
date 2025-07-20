@@ -18,7 +18,6 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       # Games and game launchers
-      star-citizen
       jeveassets
       legendary-gl # A free and open-source Epic Games Launcher alternative
       heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac

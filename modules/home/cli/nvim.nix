@@ -41,27 +41,36 @@ in
         pkgs.vimPlugins.nvim-treesitter-parsers.bash
         pkgs.vimPlugins.nvim-treesitter-parsers.csv
         pkgs.vimPlugins.nvim-treesitter-parsers.go
+        pkgs.vimPlugins.nvim-treesitter-parsers.zig
         pkgs.vimPlugins.nvim-treesitter-parsers.graphql
         pkgs.vimPlugins.nvim-treesitter-parsers.html
         pkgs.vimPlugins.nvim-treesitter-parsers.javascript
         pkgs.vimPlugins.nvim-treesitter-parsers.json
         pkgs.vimPlugins.nvim-treesitter-parsers.latex
         pkgs.vimPlugins.nvim-treesitter-parsers.lua
+        pkgs.vimPlugins.nvim-treesitter-parsers.make
         pkgs.vimPlugins.nvim-treesitter-parsers.gleam
+        pkgs.vimPlugins.nvim-treesitter-parsers.html
         pkgs.vimPlugins.nvim-treesitter-parsers.markdown
         pkgs.vimPlugins.nvim-treesitter-parsers.markdown_inline
+        pkgs.vimPlugins.nvim-treesitter-parsers.mermaid
         pkgs.vimPlugins.nvim-treesitter-parsers.nix
         pkgs.vimPlugins.nvim-treesitter-parsers.python
         pkgs.vimPlugins.nvim-treesitter-parsers.terraform
         pkgs.vimPlugins.nvim-treesitter-parsers.toml
         pkgs.vimPlugins.nvim-treesitter-parsers.regex
         pkgs.vimPlugins.nvim-treesitter-parsers.rust
+        pkgs.vimPlugins.nvim-treesitter-parsers.sql
         pkgs.vimPlugins.nvim-treesitter-parsers.vim
         pkgs.vimPlugins.nvim-treesitter-parsers.vimdoc
         pkgs.vimPlugins.nvim-treesitter-parsers.tsx
         pkgs.vimPlugins.nvim-treesitter-parsers.typescript
+        pkgs.vimPlugins.nvim-treesitter-parsers.toml
+        pkgs.vimPlugins.nvim-treesitter-parsers.sway
         pkgs.vimPlugins.nvim-treesitter-parsers.xml
         pkgs.vimPlugins.nvim-treesitter-parsers.yaml
+        pkgs.vimPlugins.nvim-treesitter-parsers.css
+
         pkgs.vimPlugins.nvim-ts-autotag
         pkgs.vimPlugins.nvim-treesitter-context
         pkgs.vimPlugins.nvim-treesitter-textobjects
@@ -85,6 +94,7 @@ in
         lua-language-server # Lua
         tailwindcss-language-server # Tailwind CSS Language Server
         gopls # Official language server for the Go language
+        emmet-ls
       ];
     };
 
