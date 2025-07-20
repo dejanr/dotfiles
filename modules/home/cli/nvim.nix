@@ -16,6 +16,9 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.sessionPath = [
+      "$HOME/.local/share/nvim/mason/bin"
+    ];
 
     home.packages = with pkgs; [
       ripgrep
