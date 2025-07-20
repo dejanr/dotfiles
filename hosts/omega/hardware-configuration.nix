@@ -230,11 +230,12 @@ in
     dhcpcd.enable = false;
     hostId = "8425e349";
     hostName = "${hostName}";
+    useNetworkd = false;
     networkmanager.enable = true;
-    networkmanager.dns = lib.mkForce "none";
+    networkmanager.plugins = lib.mkForce [ ];
     nameservers = [
-      "1.1.1.1#one.one.one.one"
-      "1.0.0.1#one.one.one.one"
+      "1.1.1.1"
+      "8.8.8.8"
     ];
   };
 

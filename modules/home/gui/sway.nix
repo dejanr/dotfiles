@@ -80,12 +80,11 @@ in
         command = "${pkgs.swaylock-effects}/bin/swaylock";
       }
       {
-        timeout = 600;
+        timeout = 86400;
         command = "${pkgs.systemd}/bin/systemctl suspend";
       }
     ];
 
-    # Set up the cursor theme
     home.pointerCursor = {
       enable = true;
       name = "Adwaita";
@@ -93,7 +92,6 @@ in
       package = pkgs.adwaita-icon-theme;
     };
 
-    # Set up some session environment variables
     home.sessionVariables = {
       SDL_VIDEODRIVER = "wayland";
 
@@ -104,7 +102,6 @@ in
       TERMINAL = "kitty";
     };
 
-    # Configure swaylock
     programs.swaylock.enable = true;
     programs.swaylock.package = pkgs.swaylock-effects;
     programs.swaylock.settings = {
@@ -122,7 +119,6 @@ in
 
     wayland.systemd.target = "sway-session.target";
 
-    # Sway user configs
     wayland.windowManager.sway = {
       enable = true;
       systemd.enable = true;
@@ -158,6 +154,9 @@ in
             # Run terminal
             "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
 
+            # Power Menu
+            "${modifier}+Escape" = "exec ${pkgs.wlogout}/bin/wlogout --margin-left 500 --margin-right 500";
+
             # Scratchpad
             "${modifier}+minus" =
               "exec ${pkgs.sway-scratchpad}/bin/sway-scratchpad --width 50 --height 80 --command \"${pkgs.kitty}/bin/kitty -e ${pkgs.scratchpad}/bin/scratchpad\" --mark terminal";
@@ -186,7 +185,7 @@ in
             XF86AudioNext = "exec ${pkgs.playerctl}/bin/playerctl next";
 
             # Launch screen locker
-            "${modifier}+Shift+l" = "exec swaylock";
+            "${modifier}+Shift+l" = "exec ${pkgs.swaylock-effects}/bin/swaylock";
 
             # Kill focused window
             "${modifier}+q" = "kill";
@@ -281,8 +280,6 @@ in
             "${modifier}+r" = "mode default";
           };
           modes.passthrough = {
-            # Exit mode
-            "Shift+Escape" = "mode default";
             "${modifier}+Shift+r" = "mode default";
           };
 
