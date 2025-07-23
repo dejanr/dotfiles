@@ -69,7 +69,7 @@ in
       in
 
       {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${sway}";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --time --cmd ${sway}";
         user = "greeter";
       };
 

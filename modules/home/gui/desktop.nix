@@ -74,6 +74,11 @@ in
       arc-icon-theme
       arc-theme
       adwaita-icon-theme
+
+      # dejli
+      dejli-audio
+      dejli-gif
+      dejli-screenshot
     ];
   };
 }

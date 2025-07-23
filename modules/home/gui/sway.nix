@@ -346,6 +346,11 @@ in
 
           # Disable the default bar
           bars = [ { mode = "invisible"; } ];
+
+          # Assign windows
+          assigns = {
+            "4" = [ { class = "Steam"; } ];
+          };
         };
     }; # END sway
   };
