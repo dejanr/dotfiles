@@ -26,7 +26,7 @@
         Hostname gw.dsn.orora.tech
         Port 30100
         User dejan.ranisavljevic
-        IdentityFile /home/dejanr/.ssh/id_ed25519
+        IdentityFile /home/dejanr/.ssh/id_ed25519_old
     Host nix-cache
         User nix-cache
         Hostname iron-nugget.srv.orora.tech

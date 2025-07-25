@@ -70,6 +70,6 @@
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
-    home.cli.opencode.enable = false;
+    home.cli.opencode.enable = true;
   };
 }
