@@ -20,6 +20,7 @@
   programs.nix-ld.libraries = with pkgs; [
     bun
   ];
+  programs.mosh.enable = true;
 
   programs.ssh.extraConfig = ''
     Host dsn-gw

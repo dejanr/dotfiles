@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
   lib,
   ...
 }:
@@ -19,7 +18,8 @@ in
   config = mkIf cfg.enable {
     # System-level gaming packages (Wine, Vulkan drivers, system tools)
     environment.systemPackages = with pkgs; [
-      wine-ge
+      wine-tkg
+      wineprefix-preparer
       appimage-run
       winetricks-git
       cabextract

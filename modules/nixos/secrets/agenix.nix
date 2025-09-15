@@ -11,7 +11,7 @@
 {
   age.identityPaths = [ "/home/dejanr/.ssh/agenix" ];
   age.secrets.openvpn_office_pass.file = ../../../secrets/openvpn_office_pass.age;
-  age.secrets.openvpn_office_pass.symlink = true;
+  age.secrets.openvpn_office_pass.path = "/run/secrets/openvpn_office_pass";
   age.secrets.openvpn_office_conf.file = ../../../secrets/openvpn_office_conf.age;
-  age.secrets.openvpn_office_conf.symlink = true;
+  age.secrets.openvpn_office_conf.path = "/run/secrets/openvpn_office_conf";
 }

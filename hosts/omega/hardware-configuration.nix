@@ -112,6 +112,8 @@ in
       grub.efiSupport = true;
       grub.device = "nodev";
       grub.useOSProber = true;
+      systemd-boot.memtest86.enable = true;
+      grub.memtest86.enable = true;
       grub.extraEntries = ''
         menuentry "Firmware" {
           fwsetup

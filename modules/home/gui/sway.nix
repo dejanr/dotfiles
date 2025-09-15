@@ -311,11 +311,133 @@ in
               criteria.app_id = "wlroots";
               command = "border pixel 0";
             }
+            {
+              criteria.class = "Albion-Online";
+              command = "border pixel 0";
+            }
+            {
+              criteria.class = "entropia.exe";
+              command = "border pixel 0";
+            }
+            {
+              criteria.class = "^steam_app_(1371580|2429640|0)$";
+              command = "border pixel 0; move container to workspace number 5";
+            }
 
             # Set opacity for some programs
             {
               criteria.app_id = "kitty";
               command = "opacity set 0.95";
+            }
+
+            # Window positioning and sizing
+            {
+              criteria.title = "EVE - D' Zwer";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - R' Zwer";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - P' Zwer";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - hollyoake09";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - R' hollyoake";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - P' hollyoake";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - Haibu";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - R' Haibu";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - P' Haibu";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - Brqa";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - D' Vorah";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - R' Vorah";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - P' Vorah";
+              command = "resize set 1490 1420; move position 0 20";
+            }
+            {
+              criteria.title = "EVE - Hachi Onna";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - R' Hachi Onna";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - P' Hachi Onna";
+              command = "resize set 1490 1420; move position 975 20";
+            }
+            {
+              criteria.title = "EVE - GeLaTe";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - R' GeLaTe";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.title = "EVE - P' GeLaTe";
+              command = "resize set 1490 1420; move position 1950 20";
+            }
+            {
+              criteria.class = "steam_app_8500";
+              command = "resize set 1490 1420; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.class = "Albion-Online";
+              command = "resize set 3440 1440; move position 0 -20";
+            }
+            {
+              criteria.class = "steam_app_1063730";
+              command = "fullscreen disable; resize set 3440 1420; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.class = "steam_app_327070";
+              command = "fullscreen disable; resize set 3440 1400; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.class = "steam_app_1426050";
+              command = "floating disable; resize set 3440 1420; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.class = "steam_app_1170950";
+              command = "fullscreen disable; resize set 3440 1440; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.class = "^steam_app_(2429640|0)$";
+              command = "resize set 3440 1420; move position 0 20; move container to workspace number 5";
+            }
+            {
+              criteria.title = "React Native DevTools";
+              command = "floating disable";
             }
           ];
 
@@ -325,6 +447,52 @@ in
               app_id = ".blueman-manager-wrapped";
               title = "Bluetooth Devices";
             }
+            { window_role = "pop-up"; }
+            { window_role = "bubble"; }
+            { window_role = "task_dialog"; }
+            { window_role = "Preferences"; }
+            { class = "Lxappearance"; }
+            { class = "Seahorse"; }
+            { class = "Pavucontrol"; }
+            { class = "Qalculate-gtk"; }
+            { class = ".kazam-wrapped"; }
+            { class = "Pidgin"; }
+            { class = "Thunar"; }
+            { class = "Pcmanfm"; }
+            { class = "Thunderbird"; }
+            { class = "Corebird"; }
+            { title = "EVE Launcher"; }
+            { title = "EVE - D' Zwer"; }
+            { title = "EVE - R' Zwer"; }
+            { title = "EVE - P' Zwer"; }
+            { title = "EVE - hollyoake09"; }
+            { title = "EVE - R' hollyoake"; }
+            { title = "EVE - P' hollyoake"; }
+            { title = "EVE - Haibu"; }
+            { title = "EVE - R' Haibu"; }
+            { title = "EVE - P' Haibu"; }
+            { title = "EVE - Brqa"; }
+            { title = "EVE - D' Vorah"; }
+            { title = "EVE - R' Vorah"; }
+            { title = "EVE - P' Vorah"; }
+            { title = "EVE - Hachi Onna"; }
+            { title = "EVE - R' Hachi Onna"; }
+            { title = "EVE - P' Hachi Onna"; }
+            { title = "EVE - GeLaTe"; }
+            { title = "EVE - R' GeLaTe"; }
+            { title = "EVE - P' GeLaTe"; }
+            { class = "steam_app_8500"; }
+            { class = "Albion-Online"; }
+            { class = "steam_app_1063730"; }
+            { class = "steam_app_327070"; }
+            { class = "Embers Adrift"; }
+            { class = "l2.exe"; }
+            { class = "steam_app_1170950"; }
+            { class = "entropia.exe"; }
+            { class = "clientloader.exe"; }
+            { class = "steam_app_1371580"; }
+            { class = "steam_app_2429640"; }
+            { class = "steam_app_0"; }
           ];
 
           # Set a custom keymap
@@ -349,7 +517,63 @@ in
 
           # Assign windows
           assigns = {
-            "4" = [ { class = "Steam"; } ];
+            "1" = [ ];
+            "2" = [ ];
+            "3" = [ { class = "Qemu-kvm"; } ];
+            "4" = [
+              { class = "steam"; }
+              { class = "eve-online.exe"; }
+              { class = "l2.exe"; }
+              { class = "jetbrains-studio"; }
+            ];
+            "5" = [
+              { class = "Pronterface.py"; }
+              { class = "Cura"; }
+              { class = ".slic3r.pl-wrapped"; }
+              { class = "exefile.exe"; }
+              { class = "Albion-Online"; }
+              { class = "^steam_app_.*"; }
+              { title = "EVE - D' Zwer"; }
+              { title = "EVE - R' Zwer"; }
+              { title = "EVE - P' Zwer"; }
+              { title = "EVE - hollyoake09"; }
+              { title = "EVE - R' hollyoake09"; }
+              { title = "EVE - P' hollyoake09"; }
+              { title = "EVE - Haibu"; }
+              { title = "EVE - R' Haibu"; }
+              { title = "EVE - P' Haibu"; }
+            ];
+            "6" = [
+              { class = "pyfa.py"; }
+              { class = "entropia.exe"; }
+              { class = "clientloader.exe"; }
+              { title = "EVE - D' Vorah"; }
+              { title = "EVE - R' Vorah"; }
+              { title = "EVE - P' Vorah"; }
+              { title = "EVE - Hachi Onna"; }
+              { title = "EVE - R' Hachi Onna"; }
+              { title = "EVE - P' Hachi Onna"; }
+              { title = "EVE - GeLaTe"; }
+              { title = "EVE - R' GeLaTe"; }
+              { title = "EVE - P' GeLaTe"; }
+            ];
+            "7" = [
+              { class = "discord"; }
+              { class = "dev-nohus-rift-MainKt"; }
+            ];
+            "8" = [ ];
+            "9" = [
+              { class = "Mail"; }
+              { class = "Daily"; }
+              { title = "Google Calendar"; }
+              { title = "Gmail"; }
+            ];
+            "10" = [
+              { class = "Slack"; }
+            ];
+            "11" = [
+              { title = "Google Meet"; }
+            ];
           };
         };
     }; # END sway
