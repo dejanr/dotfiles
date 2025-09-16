@@ -58,7 +58,7 @@ in
       enable = true;
 
       # directory to put config files in
-      dotDir = ".config/zsh";
+      dotDir = "${config.home.homeDirectory}/.config/zsh";
 
       enableCompletion = true;
       autosuggestion.enable = true;

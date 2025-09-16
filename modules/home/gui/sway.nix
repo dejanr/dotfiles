@@ -16,7 +16,7 @@ in
   config = mkIf cfg.enable {
     # Enable rofi home manager module.
     programs.rofi.enable = true;
-    programs.rofi.package = pkgs.rofi-wayland;
+    programs.rofi.package = pkgs.rofi;
     programs.rofi.font = "PragmataPro 12";
 
     # Enable and import network-manager-applet
@@ -163,7 +163,7 @@ in
 
             # Run Launcher
             "${modifier}+d" =
-              "exec ${pkgs.rofi-wayland}/bin/rofi -show combi -modi combi -combi-modes 'window,drun' | xargs swaymsg exec --";
+              "exec ${pkgs.rofi}/bin/rofi -show combi -modi combi -combi-modes 'window,drun' | xargs swaymsg exec --";
 
             # Run rofi emoji picker
             "${modifier}+i" = "exec ${rofi}/bin/rofi -show emoji";

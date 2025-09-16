@@ -149,8 +149,6 @@ in
     ];
   };
 
-  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
-
   programs.zsh.enable = true;
 
   users = {

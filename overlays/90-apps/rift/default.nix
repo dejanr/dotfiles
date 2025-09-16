@@ -32,8 +32,6 @@ pkgs.stdenv.mkDerivation {
     pkgs.pango
     pkgs.gtk3
     pkgs.pulseaudio
-    pkgs.qt5.qtbase
-    pkgs.qt5.qtx11extras
     pkgs.libsecret
     pkgs.libdrm
     pkgs.mesa

@@ -49,12 +49,6 @@ in
         settings.PasswordAuthentication = false;
       };
 
-      logind.extraConfig = ''
-        HandlePowerKey=ignore
-        HandleSuspendKey=ignore
-        HandleHibernateKey=ignore
-      '';
-
       acpid = {
         enable = true;
 
