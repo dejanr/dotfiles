@@ -19,53 +19,13 @@ return {
       local configs = require "nvim-treesitter.configs"
 
       configs.setup {
-        ensure_installed = {
-          'bash',
-          'bibtex',
-          'comment',
-          'cpp',
-          'css',
-          'csv',
-          'erlang',
-          'gleam',
-          'graphql',
-          'go',
-          'html',
-          'http',
-          'java',
-          'javascript',
-          'jsdoc',
-          'json',
-          'json5',
-          'latex',
-          'lua',
-          'markdown',
-          'markdown_inline',
-          'make',
-          'nix',
-          'ocaml',
-          'org',
-          'php',
-          'python',
-          'query',
-          'regex',
-          'rust',
-          'scss',
-          'sql',
-          'toml',
-          'typescript',
-          'tsx',
-          'terraform',
-          'typst',
-          'vim',
-          'vimdoc',
-          'yaml',
-          'xml',
-        },
+        ensure_installed = { "all" },
+        sync_install = false,
+        auto_install = false,
+        ignore_install = { "all" },
+        modules = {},
         highlight = {
           enable = true,
-          disable = { "" },
-          additional_vim_regex_highlighting = true,
         },
         autopairs = {
           enable = true,
@@ -99,19 +59,6 @@ return {
             [';'] = { 'textsubjects-container-outer', desc = "Select Outside Containers" },
             ['i;'] = { 'textsubjects-container-inner', desc = "Select Inside Containers" },
           },
-        },
-        refactor = {
-          enable = true,
-          highlight_definitions = {
-            enable = true,
-            clear_on_cursor_move = true,
-          },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              smart_rename = false,
-            }
-          }
         },
       }
     end,
