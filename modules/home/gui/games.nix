@@ -32,6 +32,9 @@ in
 
       # EVE Online tools
       pyfa
+
+      lutris
+      protonplus
     ];
   };
 }
