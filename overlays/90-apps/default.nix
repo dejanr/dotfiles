@@ -51,8 +51,6 @@ in
 
   pragmatapro = super.callPackage ./pragmatapro/default.nix { };
   claude-code = super.callPackage ./claude-code/default.nix { };
-  opencode = super.callPackage ./opencode/default.nix { };
-  models-dev = super.callPackage ./opencode/models-dev.nix { };
 
   scream-receivers = super.callPackage ./scream-receivers {
     inherit (super)
@@ -75,7 +73,6 @@ in
   };
 
   pulumi = super.callPackage ./pulumi { };
-  sway-scratchpad = super.callPackage ./sway-scratchpad { };
   rift = super.callPackage ./rift { };
   ollama = super.callPackage ./ollama { };
   meshcommander = super.callPackage ./meshcommander { };
