@@ -27,7 +27,9 @@ in
       libstrangle # Frame rate limiter for Linux/OpenGL
 
       # Communication apps for gaming
-      discord-canary
+      discord
+      vesktop # discord alternative
+      dorion # discord alternative
       mumble # Low-latency, high quality voice chat software
 
       # EVE Online tools

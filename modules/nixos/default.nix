@@ -64,9 +64,9 @@ in
       ];
 
       substituters = [
-        "ssh://nix-cache"
+        # "ssh://nix-cache"
         "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
+        # "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [
         "ot-nix-cache:C6ZY7QNJHk8tAcyi00y0n3UhbnZvBxJE993/J61omU4="

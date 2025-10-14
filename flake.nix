@@ -14,7 +14,7 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    nix.url = "github:nixos/nix/2.27.1";
+    nix.url = "github:nixos/nix/2.32.0";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -137,7 +137,8 @@
                 nixos-apple-silicon.overlays.default
                 nur.overlays.default
                 devenv.overlays.default
-              ] ++ overlays;
+              ]
+              ++ overlays;
             }
           ];
           specialArgs = {
