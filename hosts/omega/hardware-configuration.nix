@@ -240,6 +240,21 @@ in
 
     xserver = {
       videoDrivers = [ "nvidia" ];
+
+      displayManager = {
+        xserverArgs = [ "-dpi 92" ];
+      };
+
+      screenSection = ''
+        Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+        Option         "AllowIndirectGLXProtocol" "off"
+        Option         "TripleBuffer" "on"
+      '';
+
+      deviceSection = ''
+        Option  "DRI" "3"
+        Option  "TearFree" "true"
+      '';
     };
 
     tlp = {
@@ -264,6 +279,12 @@ in
         DEVICES_TO_DISABLE_ON_STARTUP = "";
       };
     };
+  };
+
+  environment = {
+    etc."X11/Xresources".text = ''
+      Xft.dpi: 92
+    '';
   };
 
   environment.systemPackages = with pkgs; [

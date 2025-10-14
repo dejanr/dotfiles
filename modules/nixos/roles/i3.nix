@@ -160,7 +160,7 @@ in
             indicators = ~spacer
             font-name = PragmataPro 12
             xft-antialias=true
-            xft-dpi=109
+            xft-dpi=92
             xft-hintstyle=hintslight
             xft-rgba=rgb
           '';

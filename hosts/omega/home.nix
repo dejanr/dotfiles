@@ -51,10 +51,6 @@
 
     # gui
     home.gui.xdg.enable = true;
-    home.gui.sway.enable = true;
-    home.gui.waybar.enable = true;
-    home.gui.wlogout.enable = true;
-    home.gui.mako.enable = true;
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
 

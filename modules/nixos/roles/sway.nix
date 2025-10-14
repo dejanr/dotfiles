@@ -7,7 +7,7 @@
 
 with lib;
 let
-  cfg = config.modules.nixos.theme;
+  cfg = config.modules.nixos.roles.sway;
 in
 {
   options.modules.nixos.roles.sway = {

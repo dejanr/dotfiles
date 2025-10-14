@@ -43,11 +43,11 @@
     theme.flavor = "mocha";
 
     roles = {
-      desktop.enable = true;
-      dev.enable = true;
-      games.enable = true;
       hosts.enable = true;
-      sway.enable = true;
+      dev.enable = true;
+      i3.enable = true;
+      desktop.enable = true;
+      games.enable = true;
       multimedia.enable = true;
       services.enable = true;
       virtualisation.enable = true;
