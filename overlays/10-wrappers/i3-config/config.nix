@@ -187,6 +187,7 @@
   assign [class="clientloader.exe"] $workspace6
   assign [class="rn_fusebox.html"] $workspace3
   assign [class="dev-nohus-rift-MainKt"] $workspace7
+  assign [class="steam_app_1063730"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -286,7 +287,7 @@
   for_window [class="Albion-Online"] move window to position 0 -20
   for_window [class="steam_app_1063730"] fullscreen disable
   for_window [class="steam_app_1063730"] floating enable
-  for_window [class="steam_app_1063730"] resize set 3440 1420
+  for_window [class="steam_app_1063730"] resize set 3840 2140
   for_window [class="steam_app_1063730"] move window to position 0 20
   for_window [class="steam_app_327070"] fullscreen disable
   for_window [class="steam_app_327070"] floating enable

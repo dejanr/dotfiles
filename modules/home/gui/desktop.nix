@@ -79,6 +79,8 @@ in
       dejli-audio
       dejli-gif
       dejli-screenshot
+
+      freecad
     ];
   };
 }
