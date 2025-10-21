@@ -68,6 +68,7 @@ in
       zathura
       rmview
       slack
+      teams
       qutebrowser
 
       # Themes

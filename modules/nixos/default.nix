@@ -190,6 +190,7 @@ in
         "libvirtd"
         "qemu-libvirtd"
       ];
+      packages = [ pkgs.hello ];
       isNormalUser = true;
       home = "/home/${username}";
       createHome = true;
