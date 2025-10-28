@@ -16,7 +16,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      devenv
+      # broken: devenv
       btop
       ripgrep
       eza

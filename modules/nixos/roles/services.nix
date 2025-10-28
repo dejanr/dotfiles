@@ -63,8 +63,6 @@ in
 
       upower.enable = true;
 
-      chrony.enable = true;
-
       postfix = {
         enable = true;
         setSendmail = true;
@@ -76,13 +74,14 @@ in
 
       resolved = {
         enable = true;
-        dnssec = "true";
+        dnssec = "allow-downgrade";
         domains = [ "~." ];
         fallbackDns = [
-          "1.1.1.1#one.one.one.one"
-          "1.0.0.1#one.one.one.one"
+          "9.9.9.9#dns.quad9.net" # Quad9 (privacy-focused)
+          "1.1.1.1#one.one.one.one" # Cloudflare
+          "1.0.0.1#one.one.one.one" # Cloudflare backup
         ];
-        dnsovertls = "true";
+        dnsovertls = "opportunistic";
       };
 
       timesyncd.enable = true;

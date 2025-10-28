@@ -256,6 +256,16 @@ return {
 		-- ╰───────────────────╯
 		lspconfig.ts_ls.setup({
 			handlers = handlers,
+			root_dir = function(fname)
+				local util = require("lspconfig.util")
+				-- First try to find frontend/package.json for monorepo structure
+				local frontend_root = util.root_pattern("frontend/package.json")(fname)
+				if frontend_root then
+					return frontend_root .. "/frontend"
+				end
+				-- Fall back to standard root patterns
+				return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+			end,
 			init_options = {
 				plugins = {},
 				preferences = {

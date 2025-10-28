@@ -13,6 +13,17 @@
     acceleration = "cuda";
   };
 
+  systemd.user.services.sleep-inhibit = {
+    description = "Inhibit automatic suspend";
+    after = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.systemd}/bin/systemd-inhibit --what=handle-lid-switch:sleep:idle --why='Prevent system sleep' --mode=block sleep infinity";
+      Restart = "on-failure";
+    };
+  };
+
   virtualisation.podman.enable = true;
 
   # sst.dev

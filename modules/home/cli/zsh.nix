@@ -68,7 +68,7 @@ in
       initContent =
         let
           linuxExports = optionalString (config.modules.home.secrets.agenix.enable or false) ''
-            export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
+            # export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
             export DEEPSEEK_API_KEY=$(cat ${config.age.secrets.deepseek_api_key.path})
             export GROQ_API_KEY=$(cat ${config.age.secrets.groq_api_key.path})
           '';

@@ -13,7 +13,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxKernel.packages.linux_latest_libre;
+  kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
   deviceIDs = [
     "0000:34:00.0"
     "0000:34:00.1"
@@ -200,7 +200,7 @@ in
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = true;
+      powerManagement.enable = false;
       powerManagement.finegrained = false;
       open = true;
       package = kernelPackages.nvidiaPackages.mkDriver {
@@ -224,10 +224,10 @@ in
     useNetworkd = false;
     networkmanager.enable = true;
     networkmanager.plugins = lib.mkForce [ ];
-    nameservers = [
-      "1.1.1.1"
-      "8.8.8.8"
-    ];
+    networkmanager.dns = "systemd-resolved";
+    # Use systemd-resolved instead of resolvconf (configured in services.nix)
+    # Custom nameservers are set via services.resolved.fallbackDns
+    resolvconf.enable = false;
   };
 
   services = {
