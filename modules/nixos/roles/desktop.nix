@@ -66,6 +66,7 @@ in
       samba
       xdg-utils
       xorg.xmodmap
+      google-chrome-beta
     ];
 
     services.blueman.enable = true;

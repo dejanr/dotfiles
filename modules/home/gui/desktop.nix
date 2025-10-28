@@ -27,7 +27,6 @@ in
       gimp
       grobi
       google-drive-ocamlfuse
-      google-chrome
       gtypist
       hfsprogs
       inkscape
