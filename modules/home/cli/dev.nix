@@ -48,6 +48,7 @@ in
       aider-chat
       code-cursor
       claude-code
+      codex
 
       # Network tools
       bind
