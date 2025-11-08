@@ -328,6 +328,7 @@
   for_window [class="steam_app_1284210"] resize set 3440 1420
   for_window [class="steam_app_1284210"] move window to position 0 20
   for_window [title="React Native DevTools"] floating disable
+  for_window [class="steam_app_1808500"] fullscreen disable
 
   # Widow Colours
   #                         border  background text    indicator
@@ -361,9 +362,9 @@
   bindsym $mod+s split toggle
 
   # applications
-  bindsym $mod+w exec --no-startup-id google-chrome-stable --args --profile-directory=Personal
-  bindsym $mod+e exec --no-startup-id google-chrome-stable --args --profile-directory=Work
-  bindsym $mod+r exec --no-startup-id google-chrome-stable --args --profile-directory=Consulting
+  bindsym $mod+w exec --no-startup-id qutebrowser -B "$HOME/.browser/Personal" -C "$HOME/.config/qutebrowser/config.py" -s window.title_format " {perc}[Personal]{title_sep}{current_title}"
+  bindsym $mod+e exec --no-startup-id qutebrowser -B "$HOME/.browser/Futurice" -C "$HOME/.config/qutebrowser/config.py" -s window.title_format " {perc}[Futurice]{title_sep}{current_title}" 
+  bindsym $mod+r exec --no-startup-id qutebrowser -B "$HOME/.browser/Work" -C "$HOME/.config/qutebrowser/config.py" -s window.title_format " {perc}[Work]{title_sep}{current_title}" 
   bindsym $mod+t exec $term -e zsh -ic yazi
   bindsym $mod+m exec $term -e btop
 

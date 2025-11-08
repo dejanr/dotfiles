@@ -17,12 +17,6 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      # Games and game launchers
-      jeveassets
-      legendary-gl # A free and open-source Epic Games Launcher alternative
-      heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac
-
-      # Gaming utilities and overlays
       mangohud # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
       libstrangle # Frame rate limiter for Linux/OpenGL
 
@@ -35,7 +29,6 @@ in
       # EVE Online tools
       pyfa
 
-      lutris
       protonplus
     ];
   };

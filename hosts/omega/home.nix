@@ -41,9 +41,6 @@
   };
 
   config.modules = {
-    home.theme.enable = true;
-    home.theme.flavor = "mocha";
-
     home.common.packages.enable = true;
 
     # secrets
@@ -67,5 +64,10 @@
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
+  };
+
+  config.home.stylix = {
+    enable = true;
+    theme = "catppuccin-mocha";
   };
 }

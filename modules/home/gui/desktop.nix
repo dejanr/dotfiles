@@ -40,10 +40,10 @@ in
       pciutils
       pcmanfm
       pidgin
-      pidgin-window-merge
+      pidginPackages.pidgin-window-merge
+      pidginPackages.purple-plugin-pack
       powertop
       printrun
-      purple-plugin-pack
       qalculate-gtk
       scrot
       signal-desktop
@@ -76,12 +76,9 @@ in
       arc-theme
       adwaita-icon-theme
 
-      # dejli
-      dejli-audio
-      dejli-gif
-      dejli-screenshot
-
       freecad
+
+      qutebrowser
     ];
   };
 }

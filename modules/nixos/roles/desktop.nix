@@ -33,9 +33,9 @@ in
         source-sans-pro
         source-serif-pro
         terminus_font
-        ubuntu_font_family
+        ubuntu-classic
         unifont
-        vistafonts
+        vista-fonts
       ];
 
       fontconfig = {
@@ -61,12 +61,16 @@ in
       keychain
       libnotify
       openvpn
-      pinentry
       polkit
       samba
       xdg-utils
       xorg.xmodmap
       google-chrome
+
+      # dejli
+      dejli-audio
+      dejli-gif
+      dejli-screenshot
     ];
 
     services.blueman.enable = true;

@@ -137,10 +137,6 @@ in
           obs-studio-plugins.input-overlay
         ];
       })
-
-      # Custom scripts
-      cht-sh
-      meshcommander
     ];
   };
 }

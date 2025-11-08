@@ -1,6 +1,4 @@
 {
-  config,
-  boot,
   lib,
   pkgs,
   modulesPath,
@@ -13,7 +11,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+  kernelPackages = pkgs.linuxPackages_latest;
   deviceIDs = [
     "0000:34:00.0"
     "0000:34:00.1"
@@ -23,6 +21,7 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
+    zfs.package = pkgs.zfs_unstable;
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv6l-linux"
@@ -180,6 +179,12 @@ in
     ];
   };
 
+  fileSystems."/home/dejanr/.cache/qutebrowser" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "rw" "nosuid" "nodev" "size=512M" "mode=0700" "uid=1000" "gid=100" ];
+  };
+
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
@@ -188,12 +193,12 @@ in
     graphics = {
       extraPackages = with pkgs; [
         nvidia-vaapi-driver
-        vaapiVdpau
+        libva-vdpau-driver
         libvdpau-va-gl
       ];
     };
 
-    firmware = [ pkgs.firmwareLinuxNonfree ];
+    firmware = [ pkgs.linux-firmware ];
 
     enableRedistributableFirmware = true;
     enableAllFirmware = true;

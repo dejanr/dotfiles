@@ -15,9 +15,10 @@ in
     enable = mkEnableOption "git";
   };
   config = mkIf cfg.enable {
+    programs.delta.enable = true;
+    programs.delta.enableGitIntegration = true;
     programs.git = {
       enable = true;
-      delta.enable = true;
       delta.options = {
         dark = true;
         features = "unobtrusive-line-numbers decorations";

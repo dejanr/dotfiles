@@ -124,7 +124,7 @@ in
       windowManager = {
         i3 = {
           enable = true;
-          package = pkgs.i3-gaps;
+          package = pkgs.i3;
           configFile = "${pkgs.i3-config}/config";
 
           extraSessionCommands = ''

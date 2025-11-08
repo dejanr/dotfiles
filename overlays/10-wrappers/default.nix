@@ -45,7 +45,6 @@ self: super:
       stdenv
       makeWrapper
       writeTextFile
-      i3-gaps
       ;
   };
 

@@ -100,7 +100,7 @@ in
     };
 
     firmware = [
-      pkgs.firmwareLinuxNonfree
+      pkgs.linux-firmware
     ];
 
     enableRedistributableFirmware = true;

@@ -2,7 +2,6 @@
   stdenv,
   makeWrapper,
   writeTextFile,
-  i3-gaps,
 }:
 let
   config = import ./config.nix { };
@@ -14,7 +13,6 @@ in
 stdenv.mkDerivation {
   name = "i3-config";
   buildInputs = [ makeWrapper ];
-  propagatedBuildInputs = [ i3-gaps ];
   phases = [ "buildPhase" ];
   buildCommand = ''
     mkdir $out

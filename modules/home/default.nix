@@ -1,8 +1,5 @@
 {
-  lib,
-  stdenv,
   inputs,
-  pkgs,
   importsFrom,
   ...
 }:

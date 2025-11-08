@@ -7,8 +7,6 @@
       flake = false;
     };
 
-    catppuccin.url = "github:catppuccin/nix";
-
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -42,7 +40,21 @@
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nur.follows = "nur";
+        tinted-schemes.follows = "tinted-schemes";
+      };
+    };
+
+    systems.url = "github:nix-systems/default";
+
+    tinted-schemes = {
+      flake = false;
+      url = "github:tinted-theming/schemes";
+    };
 
     nightfox = {
       url = "github:EdenEast/nightfox.nvim";
@@ -63,7 +75,6 @@
       nix-gaming,
       rust-overlay,
       stylix,
-      catppuccin,
       agenix,
       disko,
       devenv,
@@ -106,7 +117,6 @@
               ];
             }
             stylix.nixosModules.stylix
-            catppuccin.nixosModules.catppuccin
             nur.modules.nixos.default
             nix-gaming.nixosModules.pipewireLowLatency
             agenix.nixosModules.default
@@ -115,21 +125,6 @@
             (./. + "/hosts/${hostConfig}/configuration.nix")
             home-manager.nixosModules.home-manager
             {
-              home-manager = {
-                useUserPackages = true;
-                useGlobalPkgs = true;
-                extraSpecialArgs = {
-                  inherit (inputs) catppuccin;
-                  inherit inputs system importsFrom;
-                };
-                users.dejanr.imports = [
-                  (./. + "/hosts/${hostConfig}/home.nix")
-                  catppuccin.homeModules.catppuccin
-                ];
-                sharedModules = [
-                  agenix.homeManagerModules.default
-                ];
-              };
               nixpkgs.overlays = [
                 nix-gaming.overlays.default
                 (import rust-overlay)
@@ -139,10 +134,23 @@
                 devenv.overlays.default
               ]
               ++ overlays;
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                extraSpecialArgs = {
+                  inherit inputs system importsFrom;
+                };
+                users.dejanr.imports = [
+                  (./. + "/hosts/${hostConfig}/home.nix")
+                ];
+                sharedModules = [
+                  agenix.homeManagerModules.default
+                  stylix.homeModules.stylix
+                ];
+              };
             }
           ];
           specialArgs = {
-            inherit (inputs) catppuccin;
             inherit inputs importsFrom;
           };
         };
@@ -171,7 +179,6 @@
           "mbp-work" = nix-darwin.lib.darwinSystem {
             inherit system;
             specialArgs = {
-              inherit (inputs) catppuccin;
               inherit inputs system importsFrom;
             };
             modules = [
@@ -184,12 +191,12 @@
                   useUserPackages = true;
                   useGlobalPkgs = true;
                   extraSpecialArgs = {
-                    inherit (inputs) catppuccin;
                     inherit inputs system importsFrom;
                   };
                   users.${username}.imports = [ (./. + "/hosts/mbp-work/home.nix") ];
                   sharedModules = [
                     agenix.homeManagerModules.default
+                    stylix.homeModules.stylix
                   ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
