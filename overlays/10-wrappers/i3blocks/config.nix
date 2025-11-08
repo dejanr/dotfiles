@@ -10,7 +10,6 @@ let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
-  systemd = writeScript "systemd" (import ./scripts/systemd.nix { });
   app-audio = writeScript "systemd" (import ./scripts/app-audio.nix { });
   exit-node = writeScript "exit-node" (import ./scripts/exit-node.nix { });
 in
@@ -25,12 +24,6 @@ in
   [exit-node]
   interval=5
   command=${exit-node} "Belgrade" "󰖂 home"
-
-  [seperator]
-
-  [office-vpn]
-  interval=5
-  command=${systemd} "openvpn-office.service" "󰖂 office"
 
   [seperator]
 

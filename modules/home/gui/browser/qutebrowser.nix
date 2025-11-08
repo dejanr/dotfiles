@@ -49,12 +49,9 @@ in
 
   programs.qutebrowser.enable = true;
 
-  # Set critical colors early via settings to prevent white flash
   programs.qutebrowser.settings = {
     colors.webpage.bg = "#${config.lib.stylix.colors.base00}";
     window.transparent = true;
-
-    # Reduce startup time by disabling session auto-restore
     auto_save.session = false;
   };
 

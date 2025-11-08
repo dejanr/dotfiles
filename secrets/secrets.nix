@@ -8,6 +8,8 @@ in
   "deepseek_api_key.age".publicKeys = publicKeys;
   "groq_api_key.age".publicKeys = publicKeys;
   "gemini_api_key.age".publicKeys = publicKeys;
-  "openvpn_office_pass.age".publicKeys = publicKeys;
-  "openvpn_office_conf.age".publicKeys = publicKeys;
+  "qutebrowser_quickmarks.age".publicKeys = publicKeys;
+  "qutebrowser_bookmarks_personal.age".publicKeys = publicKeys;
+  "qutebrowser_bookmarks_work.age".publicKeys = publicKeys;
+  "qutebrowser_bookmarks_futurice.age".publicKeys = publicKeys;
 }

@@ -60,7 +60,6 @@ in
       gnupg
       keychain
       libnotify
-      openvpn
       polkit
       samba
       xdg-utils

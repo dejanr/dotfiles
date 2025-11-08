@@ -31,8 +31,6 @@
         IdentityFile /home/dejanr/.ssh/id_ed25519
   '';
 
-  # Office VPN
-
   modules.nixos = {
     roles = {
       hosts.enable = true;
@@ -43,11 +41,6 @@
       multimedia.enable = true;
       services.enable = true;
       virtualisation.enable = true;
-    };
-
-    services.openvpn.office = {
-      enable = true;
-      username = "dejanr";
     };
   };
 }

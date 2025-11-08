@@ -82,7 +82,6 @@ in
       xorg.xmessage
 
       networkmanagerapplet # NetworkManager control applet for GNOME
-      networkmanager-openvpn # NetworkManager's OpenVPN plugin
 
       pragmatapro
 
