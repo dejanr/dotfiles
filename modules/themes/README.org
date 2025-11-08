@@ -1,0 +1,8 @@
+#+title: My Themes
+#+author: Emmet
+
+Inside this directory are all of my themes!
+
+Each theme directory stores =default.nix= which is an attribute set containing all the necessary information including both colors and a background image link (which is automatically downloaded by my config).
+
+Look at any of the directories here for more info!
