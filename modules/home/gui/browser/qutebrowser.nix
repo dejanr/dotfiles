@@ -36,8 +36,13 @@ in
   home.packages = [
     pkgs.qutebrowser
   ];
+
+  home.shellAliases = {
+    qutebrowser = "qutebrowser -B ~/.browser/Personal";
+  };
+
   home.sessionVariables = {
-    DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser";
+    DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser -B ${config.home.homeDirectory}/.browser/Personal";
   };
   xdg.mimeApps.defaultApplications = {
     "text/html" = "org.qutebrowser.qutebrowser.desktop";
@@ -316,4 +321,15 @@ in
   home.file.".browser/Work/config/qute-home.html".text =
     generateHomepage "Work" config.stylix.fonts.monospace.name
       config;
+
+  home.file.".browser/Default".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
+
+  xdg.desktopEntries."org.qutebrowser.qutebrowser" = {
+    name = "qutebrowser";
+    genericName = "Web Browser";
+    exec = "qutebrowser -B ${config.home.homeDirectory}/.browser/Personal %u";
+    terminal = false;
+    categories = [ "Application" "Network" "WebBrowser" ];
+    mimeType = [ "text/html" "text/xml" "application/xhtml+xml" "x-scheme-handler/http" "x-scheme-handler/https" ];
+  };
 }
