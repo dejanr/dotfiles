@@ -50,7 +50,6 @@ in
   programs.qutebrowser.enable = true;
 
   programs.qutebrowser.settings = {
-    colors.webpage.bg = "#${config.lib.stylix.colors.base00}";
     window.transparent = true;
     auto_save.session = false;
   };
@@ -144,15 +143,6 @@ in
     c.tabs.last_close = 'close'
     c.tabs.position = 'left'
     c.tabs.width = '3%'
-    c.colors.webpage.darkmode.enabled = ''
-  + (if (config.stylix.polarity == "dark") then "True" else "False")
-  + ''
-
-    c.colors.webpage.preferred_color_scheme = "''
-  + config.stylix.polarity
-  + ''
-    "
-    c.colors.webpage.darkmode.policy.images = 'never'
 
     c.url.default_page = str(config.configdir)+'/qute-home.html'
     c.url.start_pages = str(config.configdir)+'/qute-home.html'
