@@ -110,7 +110,7 @@ in
       grub.enable = true;
       grub.efiSupport = true;
       grub.device = "nodev";
-      grub.useOSProber = true;
+      grub.useOSProber = false;
       systemd-boot.memtest86.enable = true;
       grub.memtest86.enable = true;
       grub.extraEntries = ''
@@ -182,7 +182,15 @@ in
   fileSystems."/home/dejanr/.cache/qutebrowser" = {
     device = "tmpfs";
     fsType = "tmpfs";
-    options = [ "rw" "nosuid" "nodev" "size=512M" "mode=0700" "uid=1000" "gid=100" ];
+    options = [
+      "rw"
+      "nosuid"
+      "nodev"
+      "size=512M"
+      "mode=0700"
+      "uid=1000"
+      "gid=100"
+    ];
   };
 
   hardware = {
