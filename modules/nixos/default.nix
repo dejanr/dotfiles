@@ -87,7 +87,7 @@ in
       keep-derivations = true
     '';
 
-    package = inputs.nix.outputs.packages.${pkgs.system}.nix;
+    package = inputs.nix.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nix;
   };
 
   nixpkgs = {

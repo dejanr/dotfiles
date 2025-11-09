@@ -15,21 +15,25 @@ in
     enable = mkEnableOption "git";
   };
   config = mkIf cfg.enable {
-    programs.delta.enable = true;
-    programs.delta.enableGitIntegration = true;
-    programs.git = {
+    programs.delta = {
       enable = true;
-      delta.options = {
+      enableGitIntegration = true;
+      options = {
         dark = true;
         features = "unobtrusive-line-numbers decorations";
         side-by-side = true;
         line-numbers-left-format = "";
         line-numbers-right-format = "│ ";
       };
+    };
+    programs.git = {
+      enable = true;
       lfs.enable = true;
-      userName = "Dejan Ranisavljevic";
-      userEmail = "dejan@ranisavljevic.com";
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Dejan Ranisavljevic";
+          email = "dejan@ranisavljevic.com";
+        };
         init = {
           defaultBranch = "main";
         };
