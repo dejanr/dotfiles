@@ -77,7 +77,6 @@ in
       adwaita-icon-theme
 
       freecad
-
       qutebrowser
     ];
   };

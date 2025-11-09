@@ -169,14 +169,14 @@ in
                            'pp'     : 'https://www.printables.com/search/models?q={}'
                           }
 
-    config.set('completion.open_categories',["searchengines","quickmarks","bookmarks"])
+    config.set('completion.open_categories',["searchengines","quickmarks","bookmarks","history"])
 
-    config.set('downloads.location.directory', '~/Downloads')
+    config.set('downloads.location.directory', '~/downloads')
 
     config.set('fileselect.handler', 'external')
-    config.set('fileselect.single_file.command', ['kitty','-e','ranger','--choosefile={}'])
-    config.set('fileselect.multiple_files.command', ['kitty','-e','ranger','--choosefiles={}'])
-    config.set('fileselect.folder.command', ['kitty','-e','ranger','--choosedir={}'])
+    config.set('fileselect.single_file.command', ['kitty', '--class=file_chooser', '-e', 'yazi', '--chooser-file={}'])
+    config.set('fileselect.multiple_files.command', ['kitty', '--class=file_chooser', '-e', 'yazi', '--chooser-file={}'])
+    config.set('fileselect.folder.command', ['kitty', '--class=file_chooser', '-e', 'yazi', '--chooser-file={}'])
 
     config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
     config.bind('<Ctrl-n>', 'completion-item-focus next', mode='command')
@@ -322,14 +322,25 @@ in
     generateHomepage "Work" config.stylix.fonts.monospace.name
       config;
 
-  home.file.".browser/Default".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
+  home.file.".browser/Default".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
 
   xdg.desktopEntries."org.qutebrowser.qutebrowser" = {
     name = "qutebrowser";
     genericName = "Web Browser";
     exec = "qutebrowser -B ${config.home.homeDirectory}/.browser/Personal %u";
     terminal = false;
-    categories = [ "Application" "Network" "WebBrowser" ];
-    mimeType = [ "text/html" "text/xml" "application/xhtml+xml" "x-scheme-handler/http" "x-scheme-handler/https" ];
+    categories = [
+      "Application"
+      "Network"
+      "WebBrowser"
+    ];
+    mimeType = [
+      "text/html"
+      "text/xml"
+      "application/xhtml+xml"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
   };
 }

@@ -32,6 +32,7 @@ in
       enable = true;
       extraPortals = [
         pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-termfilechooser
       ];
       xdgOpenUsePortal = true;
       config.common.default = "*";
