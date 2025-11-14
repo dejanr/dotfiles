@@ -187,6 +187,9 @@ in
     config.bind('yf', 'hint links yank')
     config.bind('<Ctrl-Shift-i>', 'devtools')
 
+    # save quickmark
+    config.bind('<space>q', 'set-cmd-text -s :quickmark-add {url} {title}')
+
     # spawn external programs
     config.bind(',m', 'hint links spawn mpv {hint-url}')
 
