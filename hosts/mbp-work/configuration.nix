@@ -1,9 +1,8 @@
-{
-  config,
-  lib,
-  inputs,
-  pkgs,
-  ...
+{ config
+, lib
+, inputs
+, pkgs
+, ...
 }:
 
 let
@@ -24,6 +23,7 @@ in
   #fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "Iosevka" ]; }) ];
 
   nix.nrBuildUsers = 32;
+  nix.enable = false;
 
   time.timeZone = "Europe/Berlin";
 
@@ -56,6 +56,7 @@ in
     pkgs.ripgrep
     pkgs.kitty
     pkgs.skhd
+    pkgs.claude-code
   ];
   environment.shells = [ pkgs.zsh ];
 

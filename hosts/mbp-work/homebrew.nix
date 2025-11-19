@@ -1,8 +1,7 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }:
 {
 
@@ -33,7 +32,6 @@
       };
 
       taps = [
-        "homebrew/services"
         "FelixKratz/formulae"
         "nikitabobko/tap" # aerospace
       ];

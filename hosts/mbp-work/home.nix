@@ -7,7 +7,15 @@
 }:
 
 {
-  imports = [ ../../modules/home/default.nix ];
+  imports = [
+    ../../modules/home/apps/kitty.nix
+    ../../modules/home/cli/direnv.nix
+    ../../modules/home/cli/git.nix
+    ../../modules/home/cli/tmux.nix
+    ../../modules/home/cli/nvim.nix
+    ../../modules/home/cli/zsh.nix
+    ../../modules/darwin/gui/aerospace.nix
+  ];
 
   config.modules = {
     # apps
@@ -21,8 +29,7 @@
     home.cli.zsh.enable = true;
 
     # darwin
-
-    # system
-    home.common.packages.enable = true;
   };
+
+  config.home.stateVersion = "23.11";
 }
