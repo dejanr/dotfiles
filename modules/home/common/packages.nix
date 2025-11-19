@@ -16,6 +16,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      bat
       # broken: devenv
       btop
       ripgrep
@@ -23,7 +24,6 @@ in
       htop
       pass
       gnupg
-      bat
       unzip
       lowdown
       zk

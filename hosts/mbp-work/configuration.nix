@@ -1,8 +1,9 @@
-{ config
-, lib
-, inputs
-, pkgs
-, ...
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
 }:
 
 let
@@ -58,7 +59,9 @@ in
     pkgs.skhd
     pkgs.claude-code
   ];
-  environment.shells = [ pkgs.zsh ];
+  environment.shells = [
+    pkgs.zsh
+  ];
 
   environment.variables = {
     PASSWORD_STORE_DIR = "$HOME/.local/share/password-store";

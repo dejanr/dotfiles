@@ -42,6 +42,7 @@
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
+    home.gui.qutebrowser.enable = true;
 
     # apps
     apps.kitty.enable = true;

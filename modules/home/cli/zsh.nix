@@ -7,9 +7,8 @@
 with lib;
 let
   cfg = config.modules.home.cli.zsh;
-  isDarwin = pkgs.stdenv.isDarwin;
-  darwinPath = "export PATH=node_modules/.bin:~/.npm-packages/bin:$GOPATH/bin:$PATH";
-  nixosPath = "export PATH=node_modules/.bin:~/.npm-packages/bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
+  darwinPath = "export PATH=node_modules/.bin:~/.bun/bin:$GOPATH/bin:$PATH";
+  nixosPath = "export PATH=node_modules/.bin:~/.bun/bin:$GOPATH/bin:/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
 in
 {
   options.modules.home.cli.zsh = {
@@ -67,12 +66,17 @@ in
       # .zshrc
       initContent =
         let
-          linuxExports = optionalString (config.modules.home.secrets.agenix.enable or false) ''
+          linuxExports = ''
+            ${nixosPath}
+          ''
+          + optionalString (config.modules.home.secrets.agenix.enable or false) ''
             # export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
             export DEEPSEEK_API_KEY=$(cat ${config.age.secrets.deepseek_api_key.path})
             export GROQ_API_KEY=$(cat ${config.age.secrets.groq_api_key.path})
           '';
-          darwinExports = "";
+          darwinExports = ''
+            ${darwinPath}
+          '';
         in
         ''
           PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"

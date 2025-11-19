@@ -7,17 +7,13 @@
 }:
 
 {
-  imports = [
-    ../../modules/home/apps/kitty.nix
-    ../../modules/home/cli/direnv.nix
-    ../../modules/home/cli/git.nix
-    ../../modules/home/cli/tmux.nix
-    ../../modules/home/cli/nvim.nix
-    ../../modules/home/cli/zsh.nix
-    ../../modules/darwin/gui/aerospace.nix
-  ];
+  imports = [ ../../modules/home/default.nix ];
+
+  config.programs.bun.enable = true;
 
   config.modules = {
+    home.common.packages.enable = true;
+
     # apps
     apps.kitty.enable = true;
 

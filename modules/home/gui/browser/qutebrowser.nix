@@ -1,9 +1,15 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
+
+with lib;
+
 let
+  cfg = config.modules.home.gui.browser.qutebrowser;
+
   generateHomepage =
     name: font: config: # html
     ''
@@ -32,6 +38,11 @@ let
     '';
 in
 {
+  options.modules.home.gui.browser.qutebrowser = {
+    enable = mkEnableOption "qutebrowser";
+  };
+
+  config = mkIf cfg.enable {
 
   home.packages = [
     pkgs.qutebrowser
@@ -328,22 +339,26 @@ in
   home.file.".browser/Default".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
 
-  xdg.desktopEntries."org.qutebrowser.qutebrowser" = {
-    name = "qutebrowser";
-    genericName = "Web Browser";
-    exec = "qutebrowser -B ${config.home.homeDirectory}/.browser/Personal %u";
-    terminal = false;
-    categories = [
-      "Application"
-      "Network"
-      "WebBrowser"
-    ];
-    mimeType = [
-      "text/html"
-      "text/xml"
-      "application/xhtml+xml"
-      "x-scheme-handler/http"
-      "x-scheme-handler/https"
-    ];
+  # xdg.desktopEntries is only supported on Linux
+  xdg.desktopEntries = mkIf pkgs.stdenv.isLinux {
+    "org.qutebrowser.qutebrowser" = {
+      name = "qutebrowser";
+      genericName = "Web Browser";
+      exec = "qutebrowser -B ${config.home.homeDirectory}/.browser/Personal %u";
+      terminal = false;
+      categories = [
+        "Application"
+        "Network"
+        "WebBrowser"
+      ];
+      mimeType = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
+    };
+  };
   };
 }
