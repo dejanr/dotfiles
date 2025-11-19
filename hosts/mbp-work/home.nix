@@ -1,7 +1,4 @@
 {
-  config,
-  lib,
-  inputs,
   pkgs,
   ...
 }:
@@ -10,6 +7,7 @@
   imports = [ ../../modules/home/default.nix ];
 
   config.programs.bun.enable = true;
+  config.home.packages = [ pkgs.nodejs_24 ];
 
   config.modules = {
     home.common.packages.enable = true;

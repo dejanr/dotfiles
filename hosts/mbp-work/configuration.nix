@@ -49,6 +49,7 @@ in
     pkgs.t
     pkgs.cht-sh
     pkgs.fzf
+    pkgs.nodejs_24
 
     pkgs.awscli
     pkgs.gettext
