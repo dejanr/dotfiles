@@ -199,7 +199,7 @@ in
     config.bind('<Ctrl-Shift-i>', 'devtools')
 
     # save quickmark
-    config.bind('<space>q', 'set-cmd-text -s :quickmark-add {url} {title}')
+    config.bind('<space>q', 'cmd-set-text -s :quickmark-add {url} {title}')
 
     # spawn external programs
     config.bind(',m', 'hint links spawn mpv {hint-url}')

@@ -110,7 +110,7 @@ in
       grub.enable = true;
       grub.efiSupport = true;
       grub.device = "nodev";
-      grub.useOSProber = false;
+      grub.useOSProber = true;
       systemd-boot.memtest86.enable = true;
       grub.memtest86.enable = true;
       grub.extraEntries = ''
