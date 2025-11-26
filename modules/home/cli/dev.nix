@@ -48,7 +48,9 @@ in
       aider-chat
       code-cursor
       claude-code
+      gemini-cli
       codex
+      mermaid-cli
 
       # Network tools
       bind
