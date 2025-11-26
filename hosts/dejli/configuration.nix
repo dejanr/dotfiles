@@ -17,8 +17,7 @@
   ];
   programs.mosh.enable = true;
 
-  programs.ssh.extraConfig = ''
-  '';
+  programs.ssh.extraConfig = '''';
 
   modules.nixos = {
     roles = {

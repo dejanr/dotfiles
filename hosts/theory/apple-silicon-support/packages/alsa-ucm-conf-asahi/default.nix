@@ -15,9 +15,7 @@
     hash = "sha256-daUNz5oUrPfSMO0Tqq/WbtiLHMOtPeQQlI+juGrhTxw=";
   };
 
-  postInstall =
-    oldAttrs.postInstall or ""
-    + ''
-      cp -r ${src_asahi}/ucm2 $out/share/alsa
-    '';
+  postInstall = oldAttrs.postInstall or "" + ''
+    cp -r ${src_asahi}/ucm2 $out/share/alsa
+  '';
 }))

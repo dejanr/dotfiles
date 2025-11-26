@@ -145,7 +145,8 @@ let
             name = "coreutils-fix";
             patch = ./0001-fs-fcntl-accept-more-values-as-F_DUPFD_CLOEXEC-args.patch;
           }
-        ] ++ _kernelPatches;
+        ]
+        ++ _kernelPatches;
 
         inherit configfile;
         # hide Rust support from the nixpkgs infra to avoid it re-adding the rust packages.

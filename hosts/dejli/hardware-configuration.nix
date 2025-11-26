@@ -10,18 +10,18 @@ let
   kernelPackages = pkgs.linuxPackages_latest;
 in
 {
-  imports = [ 
+  imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
   boot = {
     initrd.kernelModules = [ ];
     initrd.availableKernelModules = [
-      "xhci_pci" 
+      "xhci_pci"
       "virtio_pci"
-      "usbhid" 
+      "usbhid"
       "usb_storage"
-      "sr_mod" 
+      "sr_mod"
     ];
 
     kernelModules = [
@@ -75,15 +75,19 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/4b6c58bf-9a69-403b-beb0-ef9990fc28e0";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/4b6c58bf-9a69-403b-beb0-ef9990fc28e0";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/70EE-ABC1";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/70EE-ABC1";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
+  };
 
   swapDevices = [
     { device = "/dev/disk/by-label/swap"; }
@@ -166,8 +170,7 @@ in
         xserverArgs = [ "-dpi 92" ];
       };
 
-      screenSection = ''
-      '';
+      screenSection = '''';
 
       deviceSection = ''
         Option  "DRI" "3"
@@ -213,5 +216,4 @@ in
   ];
 
   nix.settings.max-jobs = lib.mkDefault 8;
-};
 }

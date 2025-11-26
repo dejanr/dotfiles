@@ -1,6 +1,7 @@
-{ inputs
-, importsFrom
-, ...
+{
+  inputs,
+  importsFrom,
+  ...
 }:
 
 {

@@ -111,21 +111,20 @@ let
     MetalPerformanceShaders
   ];
 
-  wrapperOptions =
-    [
-      # ollama embeds llama-cpp binaries which actually run the ai models
-      # these llama-cpp binaries are unaffected by the ollama binary's DT_RUNPATH
-      # LD_LIBRARY_PATH is temporarily required to use the gpu
-      # until these llama-cpp binaries can have their runpath patched
-      "--suffix LD_LIBRARY_PATH : '${addDriverRunpath.driverLink}/lib'"
-    ]
-    ++ lib.optionals enableRocm [
-      "--suffix LD_LIBRARY_PATH : '${rocmPath}/lib'"
-      "--set-default HIP_PATH '${rocmPath}'"
-    ]
-    ++ lib.optionals enableCuda [
-      "--suffix LD_LIBRARY_PATH : '${lib.makeLibraryPath (map lib.getLib cudaLibs)}'"
-    ];
+  wrapperOptions = [
+    # ollama embeds llama-cpp binaries which actually run the ai models
+    # these llama-cpp binaries are unaffected by the ollama binary's DT_RUNPATH
+    # LD_LIBRARY_PATH is temporarily required to use the gpu
+    # until these llama-cpp binaries can have their runpath patched
+    "--suffix LD_LIBRARY_PATH : '${addDriverRunpath.driverLink}/lib'"
+  ]
+  ++ lib.optionals enableRocm [
+    "--suffix LD_LIBRARY_PATH : '${rocmPath}/lib'"
+    "--set-default HIP_PATH '${rocmPath}'"
+  ]
+  ++ lib.optionals enableCuda [
+    "--suffix LD_LIBRARY_PATH : '${lib.makeLibraryPath (map lib.getLib cudaLibs)}'"
+  ];
   wrapperArgs = builtins.concatStringsSep " " wrapperOptions;
 
   goBuild =
@@ -151,21 +150,20 @@ goBuild {
     }
     // lib.optionalAttrs enableCuda { CUDA_PATH = cudaPath; };
 
-  nativeBuildInputs =
-    [
-      cmake
-      gitMinimal
-    ]
-    ++ lib.optionals enableRocm [
-      rocmPackages.llvm.bintools
-      rocmLibs
-    ]
-    ++ lib.optionals enableCuda [ cudaPackages.cuda_nvcc ]
-    ++ lib.optionals (enableRocm || enableCuda) [
-      makeWrapper
-      autoAddDriverRunpath
-    ]
-    ++ lib.optionals stdenv.hostPlatform.isDarwin metalFrameworks;
+  nativeBuildInputs = [
+    cmake
+    gitMinimal
+  ]
+  ++ lib.optionals enableRocm [
+    rocmPackages.llvm.bintools
+    rocmLibs
+  ]
+  ++ lib.optionals enableCuda [ cudaPackages.cuda_nvcc ]
+  ++ lib.optionals (enableRocm || enableCuda) [
+    makeWrapper
+    autoAddDriverRunpath
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin metalFrameworks;
 
   buildInputs =
     lib.optionals enableRocm (rocmLibs ++ [ libdrm ])
@@ -242,21 +240,21 @@ goBuild {
   doInstallCheck = true;
 
   passthru = {
-    tests =
-      {
-        inherit ollama;
-        version = testers.testVersion {
-          inherit version;
-          package = ollama;
-        };
-      }
-      // lib.optionalAttrs stdenv.hostPlatform.isLinux {
-        inherit ollama-rocm ollama-cuda;
-        service = nixosTests.ollama;
-        service-cuda = nixosTests.ollama-cuda;
-        service-rocm = nixosTests.ollama-rocm;
+    tests = {
+      inherit ollama;
+      version = testers.testVersion {
+        inherit version;
+        package = ollama;
       };
-  } // lib.optionalAttrs (!enableRocm && !enableCuda) { updateScript = nix-update-script { }; };
+    }
+    // lib.optionalAttrs stdenv.hostPlatform.isLinux {
+      inherit ollama-rocm ollama-cuda;
+      service = nixosTests.ollama;
+      service-cuda = nixosTests.ollama-cuda;
+      service-rocm = nixosTests.ollama-rocm;
+    };
+  }
+  // lib.optionalAttrs (!enableRocm && !enableCuda) { updateScript = nix-update-script { }; };
 
   meta = {
     description =
