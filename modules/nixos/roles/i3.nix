@@ -115,6 +115,8 @@ in
 
     services.displayManager = {
       defaultSession = "none+i3";
+      autoLogin.enable = true;
+      autoLogin.user = "dejanr";
     };
 
     services.xserver = {
@@ -149,7 +151,9 @@ in
           greeters.gtk.theme.package = pkgs.arc-theme;
           greeters.gtk.theme.name = "Arc-Dark";
           greeters.gtk.iconTheme.name = "Arc";
+          greeters.gtk.iconTheme.package = pkgs.arc-icon-theme;
           greeters.gtk.cursorTheme.name = "Capitaine Cursors - White";
+          greeters.gtk.cursorTheme.package = pkgs.capitaine-cursors;
 
           background = pkgs.fetchurl {
             url = "https://w.wallhaven.cc/full/wq/wallhaven-wqery6.jpg";
@@ -160,7 +164,7 @@ in
             indicators = ~spacer
             font-name = PragmataPro 12
             xft-antialias=true
-            xft-dpi=92
+            xft-dpi=98
             xft-hintstyle=hintslight
             xft-rgba=rgb
           '';

@@ -67,7 +67,6 @@ in
       xsettingsd
       zathura
       rmview
-      slack
       teams-for-linux
       qutebrowser
 

@@ -20,7 +20,7 @@ in
 
     services = {
       printing.enable = true;
-      printing.drivers = [ pkgs.mfc9332cdwlpr ];
+      printing.drivers = [];
       printing.browsing = true;
       printing.defaultShared = true;
       printing.extraConf = ''

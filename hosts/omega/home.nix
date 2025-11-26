@@ -9,6 +9,10 @@
   '';
   config.home.file."npmrc".target = ".npmrc";
 
+  config.home.packages = with pkgs; [
+    slack
+  ];
+
   config.xdg.desktopEntries.eve-online = {
     name = "Eve";
     exec = "env WINEPREFIX=/home/dejanr/games/eve-online WINEARCH=win64 wine64 /home/dejanr/games/eve-online/drive_c/users/dejanr/AppData/Local/eve-online/eve-online.exe";

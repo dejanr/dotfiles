@@ -9,28 +9,7 @@
   '';
   config.home.file."npmrc".target = ".npmrc";
 
-  config.xdg.desktopEntries.eve-online = {
-    name = "Eve";
-    exec = "env WINEPREFIX=/home/dejanr/games/eve-online WINEARCH=win64 wine64 /home/dejanr/games/eve-online/drive_c/users/dejanr/AppData/Local/eve-online/eve-online.exe";
-    icon = "wine";
-    terminal = false;
-    categories = [ "Game" ];
-  };
-
-  config.xdg.desktopEntries.workspace-eve = {
-    name = "Workspace For Eve";
-    exec = "${pkgs.wm-workspace}/bin/wm-workspace \"6: \" \"GeLaTe\" \"Hachi\" \"Vorah\"";
-    icon = "utilities-terminal";
-    terminal = true;
-    categories = [ "Utility" ];
-  };
-
-  config.xdg.desktopEntries.rift = {
-    name = "Rift";
-    exec = "${pkgs.steam-run}/bin/steam-run ${pkgs.rift}/usr/lib/nohus/rift/bin/rift";
-    icon = "utilities-terminal";
-    categories = [ "Utility" ];
-  };
+  config.services.ollama.enable = true;
 
   config.modules = {
     home.common.packages.enable = true;
@@ -41,8 +20,7 @@
     # gui
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
-    home.gui.games.enable = true;
-    #home.gui.qutebrowser.enable = true;
+    home.gui.browser.qutebrowser.enable = true;
 
     # apps
     apps.kitty.enable = true;

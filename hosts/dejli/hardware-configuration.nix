@@ -19,6 +19,7 @@ in
     initrd.availableKernelModules = [
       "xhci_pci"
       "virtio_pci"
+      "virtio_gpu"
       "usbhid"
       "usb_storage"
       "sr_mod"
@@ -42,15 +43,10 @@ in
     };
 
     kernelParams = [
-      "quiet"
-      "udev.log_level=3"
-      "splash"
       "hugepagesz=1GB"
-      "loglevel=3"
     ];
 
     blacklistedKernelModules = [
-      "fbcon"
       "nouveau"
     ];
 
@@ -142,13 +138,14 @@ in
   };
 
   hardware = {
-    firmware = [ pkgs.linux-firmware ];
-
-    enableRedistributableFirmware = true;
-    enableAllFirmware = true;
+    graphics = {
+      enable = true;
+    };
   };
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+  environment.sessionVariables = {
+    LIBGL_ALWAYS_SOFTWARE = "1";
+  };
 
   networking = {
     useDHCP = true;
@@ -159,22 +156,24 @@ in
     networkmanager.enable = true;
     networkmanager.plugins = lib.mkForce [ ];
     networkmanager.dns = "systemd-resolved";
-    # Use systemd-resolved instead of resolvconf (configured in services.nix)
-    # Custom nameservers are set via services.resolved.fallbackDns
     resolvconf.enable = false;
   };
 
   services = {
+    qemuGuest.enable = true;
+    spice-vdagentd.enable = true;
+    spice-webdavd.enable = true;
+
     xserver = {
+      enable = true;
+      videoDrivers = [ "modesetting" ];
+
       displayManager = {
-        xserverArgs = [ "-dpi 92" ];
+        xserverArgs = [ "-dpi 98" ];
       };
 
-      screenSection = '''';
-
       deviceSection = ''
-        Option  "DRI" "3"
-        Option  "TearFree" "true"
+        Option "DPI" "98 x 98"
       '';
     };
 
@@ -204,15 +203,14 @@ in
 
   environment = {
     etc."X11/Xresources".text = ''
-      Xft.dpi: 92
+      Xft.dpi: 98
     '';
   };
 
   environment.systemPackages = with pkgs; [
-    vulkan-loader
-    vulkan-validation-layers
-    vulkan-tools
     libglvnd
+    mesa
+    mesa-demos
   ];
 
   nix.settings.max-jobs = lib.mkDefault 8;

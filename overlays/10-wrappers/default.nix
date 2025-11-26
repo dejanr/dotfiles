@@ -22,24 +22,6 @@ self: super:
     browser = "google-chrome-stable";
   };
 
-  mfc9332cdwlpr = import ./mfc9332cdwlpr {
-    inherit (super)
-      lib
-      coreutils
-      dpkg
-      fetchurl
-      file
-      ghostscript
-      gnugrep
-      gnused
-      makeWrapper
-      perl
-      pkgs
-      stdenv
-      which
-      ;
-  };
-
   i3-config = import ./i3-config {
     inherit (super)
       stdenv

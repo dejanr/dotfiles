@@ -73,7 +73,6 @@ in
 
   pulumi = super.callPackage ./pulumi { };
   rift = super.callPackage ./rift { };
-  ollama = super.callPackage ./ollama { };
   meshcommander = super.callPackage ./meshcommander { };
 
   jeveassets = super.callPackage ./jeveassets/default.nix {
