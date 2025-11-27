@@ -52,9 +52,6 @@ in
       qutebrowser = "qutebrowser -B ~/.browser/Personal";
     };
 
-    home.sessionVariables = {
-      DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser -B ${config.home.homeDirectory}/.browser/Personal";
-    };
     xdg.mimeApps.defaultApplications = {
       "text/html" = "org.qutebrowser.qutebrowser.desktop";
       "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
@@ -153,8 +150,6 @@ in
       config.set('content.javascript.enabled', True, 'chrome://*/*')
       config.set('content.javascript.enabled', True, 'qute://*/*')
 
-      config.set('content.javascript.enabled', True, 'qute://*/*')
-
       c.tabs.favicons.scale = 1.0
       c.tabs.last_close = 'close'
       c.tabs.position = 'left'
@@ -199,18 +194,10 @@ in
       config.bind('<Ctrl-Shift-i>', 'devtools')
 
       # save quickmark
-      config.bind('<space>q', 'cmd-set-text -s :quickmark-add {url} {title}')
+      config.bind('<space>q', 'cmd-set-text -s :quickmark-add {url} "{title}"')
 
       # spawn external programs
       config.bind(',m', 'hint links spawn mpv {hint-url}')
-
-      # TODO stylix user CSS
-      # current_stylesheet_directory = '~/.config/qutebrowser/themes/'
-      # current_stylesheet = base16_theme+'-all-sites.css'
-      # current_stylesheet_path = current_stylesheet_directory + current_stylesheet
-      # config.set('content.user_stylesheets', current_stylesheet_path)
-      #config.bind(',s', 'set content.user_stylesheets \'\' ')
-      #config.bind(',S', 'set content.user_stylesheets '+current_stylesheet_path)
 
       # theming
       c.colors.completion.fg = base05
@@ -322,7 +309,7 @@ in
     home.file.".config/qutebrowser/containers".text = ''
       Personal
       Futurice
-      Consulting
+      Work
       Gaming
     '';
 
@@ -336,10 +323,28 @@ in
       generateHomepage "Work" config.stylix.fonts.monospace.name
         config;
 
+    home.file.".browser/Personal/config/config.py".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
+    home.file.".browser/Futurice/config/config.py".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
+    home.file.".browser/Work/config/config.py".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
+
     home.file.".browser/Default".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
 
-    # xdg.desktopEntries is only supported on Linux
+    home.file.".config/qutebrowser/userscripts/qute-1pass" = {
+      source = ./qute-1pass;
+      executable = true;
+    };
+
+    home.file.".browser/Personal/config/userscripts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
+    home.file.".browser/Futurice/config/userscripts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
+    home.file.".browser/Work/config/userscripts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
+
     xdg.desktopEntries = mkIf pkgs.stdenv.isLinux {
       "org.qutebrowser.qutebrowser" = {
         name = "qutebrowser";

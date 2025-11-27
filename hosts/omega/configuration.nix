@@ -17,6 +17,12 @@
   ];
   programs.mosh.enable = true;
 
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "dejanr" ];
+  };
+
   programs.ssh.extraConfig = ''
     Host dsn-gw
         Hostname gw.dsn.orora.tech
