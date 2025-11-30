@@ -24,14 +24,7 @@
     ];
   };
 
-  systemd.tmpfiles.rules = [
-    "d /home/dejanr/downloads 775 dejanr transmission"
-    "d /home/dejanr/downloads/incoming 775 dejanr transmission"
-    "d /home/dejanr/downloads/incomplete 775 dejanr transmission"
-  ];
-
-  # Add nginx user to transmission group so it can read downloads
-  users.users.nginx.extraGroups = [ "transmission" ];
+  users.groups.transmission.members = [ "nginx" ];
 
   services = {
     fail2ban = {
@@ -67,17 +60,18 @@
       enable = true;
       package = pkgs.transmission_4;
       openRPCPort = false;
+      downloadDirPermissions = "755";
       settings = {
         rpc-port = 9091;
         peer-port = 51413;
-        download-dir = "/home/dejanr/downloads/";
-        watch-dir = "/home/dejanr/downloads/incoming";
+        download-dir = "/var/lib/transmission/downloads";
+        watch-dir = "/var/lib/transmission/incoming";
         trash-original-torrent-files = true;
-        incomplete-dir = "/home/dejanr/downloads/incomplete/";
+        incomplete-dir = "/var/lib/transmission/incomplete";
         incomplete-dir-enabled = true;
         rpc-authentication-required = true;
         rpc-whitelist-enabled = true;
-        rpc-whitelist = "127.0.0.1,100.*.*.*"; # localhost + Tailscale IP range
+        rpc-whitelist = "127.0.0.1,100.*.*.*";
         rpc-bind-address = "0.0.0.0";
         rpc-enable = true;
       };
@@ -91,7 +85,7 @@
       recommendedProxySettings = true;
 
       virtualHosts."zima.cat-vimba.ts.net" = {
-        root = "/home/dejanr/downloads";
+        root = "/var/lib/transmission/downloads";
         forceSSL = true;
         sslCertificate = "/var/lib/nginx/certs/zima.cat-vimba.ts.net.crt";
         sslCertificateKey = "/var/lib/nginx/certs/zima.cat-vimba.ts.net.key";
