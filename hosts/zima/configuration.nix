@@ -71,8 +71,8 @@
         incomplete-dir-enabled = true;
         rpc-authentication-required = true;
         rpc-whitelist-enabled = true;
-        rpc-whitelist = "127.0.0.1,100.*.*.*";
-        rpc-bind-address = "0.0.0.0";
+        rpc-whitelist = "127.0.0.1";
+        rpc-bind-address = "127.0.0.1";
         rpc-enable = true;
       };
       credentialsFile = config.age.secrets.transmission_credentials.path;
@@ -94,6 +94,16 @@
             autoindex on;
             autoindex_exact_size off;
             autoindex_localtime on;
+          '';
+        };
+        locations."/transmission" = {
+          proxyPass = "http://127.0.0.1:9091";
+          extraConfig = ''
+            proxy_pass_header X-Transmission-Session-Id;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
           '';
         };
       };
