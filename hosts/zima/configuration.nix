@@ -86,6 +86,7 @@
       recommendedOptimisation = true;
       recommendedGzipSettings = true;
       recommendedProxySettings = true;
+      group = "tailscale";
 
       virtualHosts."zima.cat-vimba.ts.net" = {
         root = "/home/dejanr/downloads";
