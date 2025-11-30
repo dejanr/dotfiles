@@ -18,8 +18,8 @@
       51413 # transmission
     ];
     interfaces.tailscale0.allowedTCPPorts = [
-      80   # nginx http
-      443  # nginx https
+      80 # nginx http
+      443 # nginx https
       9091 # transmission rpc
     ];
   };
@@ -86,7 +86,6 @@
       recommendedOptimisation = true;
       recommendedGzipSettings = true;
       recommendedProxySettings = true;
-      group = "tailscale";
 
       virtualHosts."zima.cat-vimba.ts.net" = {
         root = "/home/dejanr/downloads";
@@ -102,6 +101,10 @@
         };
       };
     };
+  };
+
+  systemd.services.nginx.serviceConfig = {
+    SupplementaryGroups = [ "tailscale" ];
   };
 
   modules.nixos = {

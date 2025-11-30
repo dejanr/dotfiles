@@ -20,7 +20,7 @@ in
 
     services = {
       printing.enable = true;
-      printing.drivers = [];
+      printing.drivers = [ ];
       printing.browsing = true;
       printing.defaultShared = true;
       printing.extraConf = ''

@@ -17,7 +17,14 @@ in
   ];
 
   boot = {
-    initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+    initrd.availableKernelModules = [
+      "ahci"
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "sdhci_pci"
+    ];
     initrd.kernelModules = [ ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
@@ -55,25 +62,28 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/3b17614d-6d06-4585-a3f6-86a80c9844ac";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/3b17614d-6d06-4585-a3f6-86a80c9844ac";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F365-3F80";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/d84cccd7-dfbc-485f-b097-0e6234f44675";
-      fsType = "ext4";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/c52ba68b-e5be-41dc-a7d7-9aed4ee35be7"; }
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/F365-3F80";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
     ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/d84cccd7-dfbc-485f-b097-0e6234f44675";
+    fsType = "ext4";
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/c52ba68b-e5be-41dc-a7d7-9aed4ee35be7"; }
+  ];
 
   hardware = {
     cpu = {
@@ -90,7 +100,7 @@ in
 
   networking = {
     hostName = "${hostName}";
-    nameservers = ["8.8.8.8"];
+    nameservers = [ "8.8.8.8" ];
     useDHCP = lib.mkDefault false;
 
     networkmanager.enable = false;
