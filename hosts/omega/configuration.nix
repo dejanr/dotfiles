@@ -37,6 +37,16 @@
         IdentityFile /home/dejanr/.ssh/id_ed25519
   '';
 
+  services = {
+    tailscale = {
+      enable = true;
+      openFirewall = true;
+      useRoutingFeatures = "both";
+      extraUpFlags = [ "--ssh" ];
+      extraSetFlags = [ "--advertise-exit-node" ];
+    };
+  };
+
   modules.nixos = {
     roles = {
       hosts.enable = true;
