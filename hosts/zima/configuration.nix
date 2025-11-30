@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   ...
 }:
@@ -47,6 +48,7 @@
     transmission = {
       enable = true;
       openRPCPort = true;
+      package = pkgs.transmission_4;
       settings = {
         rpc-port = 9091;
         download-dir = "/home/dejanr/downloads/";
