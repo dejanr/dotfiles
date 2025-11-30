@@ -9,6 +9,19 @@
     ./hardware-configuration.nix
   ];
 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      51413 # transmission
+    ];
+    allowedUDPPorts = [
+      51413 # transmission
+    ];
+    interfaces.tailscale0.allowedTCPPorts = [
+      9091 # transmission rpc
+    ];
+  };
+
   systemd.tmpfiles.rules = [
     "d /home/dejanr/downloads 775 dejanr wheel"
     "d /home/dejanr/downloads/incoming 775 dejanr wheel"
@@ -47,10 +60,11 @@
 
     transmission = {
       enable = true;
-      openRPCPort = true;
       package = pkgs.transmission_4;
+      openRPCPort = false;
       settings = {
         rpc-port = 9091;
+        peer-port = 51413;
         download-dir = "/home/dejanr/downloads/";
         watch-dir = "/home/dejanr/downloads/incoming";
         trash-original-torrent-files = true;
