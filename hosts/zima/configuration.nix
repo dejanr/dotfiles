@@ -90,8 +90,8 @@
       virtualHosts."zima.cat-vimba.ts.net" = {
         root = "/home/dejanr/downloads";
         forceSSL = true;
-        sslCertificate = "/var/lib/tailscale/certs/zima.cat-vimba.ts.net.crt";
-        sslCertificateKey = "/var/lib/tailscale/certs/zima.cat-vimba.ts.net.key";
+        sslCertificate = "/var/lib/nginx/certs/zima.cat-vimba.ts.net.crt";
+        sslCertificateKey = "/var/lib/nginx/certs/zima.cat-vimba.ts.net.key";
         locations."/" = {
           extraConfig = ''
             autoindex on;
@@ -103,8 +103,24 @@
     };
   };
 
-  systemd.services.nginx.serviceConfig = {
-    SupplementaryGroups = [ "tailscale" ];
+  systemd.services.nginx-copy-certs = {
+    description = "Copy Tailscale certificates for nginx";
+    before = [ "nginx.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      mkdir -p /var/lib/nginx/certs
+      if [ -f /var/lib/tailscale/certs/zima.cat-vimba.ts.net.crt ]; then
+        cp /var/lib/tailscale/certs/zima.cat-vimba.ts.net.crt /var/lib/nginx/certs/
+        cp /var/lib/tailscale/certs/zima.cat-vimba.ts.net.key /var/lib/nginx/certs/
+        chown -R nginx:nginx /var/lib/nginx/certs
+        chmod 600 /var/lib/nginx/certs/*.key
+        chmod 644 /var/lib/nginx/certs/*.crt
+      fi
+    '';
   };
 
   modules.nixos = {
