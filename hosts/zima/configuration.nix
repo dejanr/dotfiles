@@ -18,6 +18,8 @@
       51413 # transmission
     ];
     interfaces.tailscale0.allowedTCPPorts = [
+      80   # nginx http
+      443  # nginx https
       9091 # transmission rpc
     ];
   };
