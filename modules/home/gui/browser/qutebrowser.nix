@@ -333,11 +333,6 @@ in
     home.file.".browser/Default".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
 
-    home.file.".config/qutebrowser/userscripts/qute-1pass" = {
-      source = ./qute-1pass;
-      executable = true;
-    };
-
     home.file.".browser/Personal/config/userscripts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
     home.file.".browser/Futurice/config/userscripts".source =

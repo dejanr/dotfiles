@@ -79,7 +79,11 @@ in
           '';
         in
         ''
-          PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
+          if [[ -n $SSH_CONNECTION ]]; then
+            PROMPT="%F{blue}%n@%m %F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
+          else
+            PROMPT="%F{white}%~%b "$'\n'"%(?.%F{white}λ%b.%F{red}λ) %f"
+          fi
 
           ${if pkgs.stdenv.isDarwin then darwinExports else linuxExports}
 
