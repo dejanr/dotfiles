@@ -69,13 +69,12 @@
         trash-original-torrent-files = true;
         incomplete-dir = "/var/lib/transmission/incomplete";
         incomplete-dir-enabled = true;
-        rpc-authentication-required = true;
+        rpc-authentication-required = false;
         rpc-whitelist-enabled = true;
         rpc-whitelist = "127.0.0.1";
         rpc-bind-address = "127.0.0.1";
         rpc-enable = true;
       };
-      credentialsFile = config.age.secrets.transmission_credentials.path;
     };
     nginx = {
       enable = true;

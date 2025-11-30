@@ -12,5 +12,4 @@ in
   "qutebrowser_bookmarks_personal.age".publicKeys = publicKeys;
   "qutebrowser_bookmarks_work.age".publicKeys = publicKeys;
   "qutebrowser_bookmarks_futurice.age".publicKeys = publicKeys;
-  "transmission_credentials.age".publicKeys = publicKeys;
 }
