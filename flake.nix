@@ -170,6 +170,7 @@
         m910q4 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q4";
         theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm" "vm";
+        zima = mkSystem inputs.nixpkgs "x86_64-linux" "zima" "zima";
       };
       darwinConfigurations =
         let
