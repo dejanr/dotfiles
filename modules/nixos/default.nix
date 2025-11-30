@@ -186,6 +186,7 @@ in
         "dialout"
         "transmission"
         "plex"
+        "nginx"
         "adbusers"
         "libvirtd"
         "qemu-libvirtd"

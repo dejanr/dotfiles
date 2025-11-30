@@ -25,10 +25,13 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /home/dejanr/downloads 775 dejanr wheel"
-    "d /home/dejanr/downloads/incoming 775 dejanr wheel"
-    "d /home/dejanr/downloads/incomplete 775 dejanr wheel"
+    "d /home/dejanr/downloads 775 dejanr transmission"
+    "d /home/dejanr/downloads/incoming 775 dejanr transmission"
+    "d /home/dejanr/downloads/incomplete 775 dejanr transmission"
   ];
+
+  # Add nginx user to transmission group so it can read downloads
+  users.users.nginx.extraGroups = [ "transmission" ];
 
   services = {
     fail2ban = {
