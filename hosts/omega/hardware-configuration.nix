@@ -213,7 +213,8 @@ in
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = false;
+      # Enable power management to help with suspend/resume
+      powerManagement.enable = true;
       powerManagement.finegrained = false;
       open = true;
       package = kernelPackages.nvidiaPackages.mkDriver {
@@ -264,9 +265,19 @@ in
         Option         "TripleBuffer" "on"
       '';
 
+      # Disable DPMS to prevent display sleep issues with TV
+      serverFlagsSection = ''
+        Option "BlankTime" "0"
+        Option "StandbyTime" "0"
+        Option "SuspendTime" "0"
+        Option "OffTime" "0"
+      '';
+
       deviceSection = ''
         Option  "DRI" "3"
         Option  "TearFree" "true"
+        # Use legacy DPMS instead of modesetting for better TV compatibility
+        Option  "HardDPMS" "false"
       '';
     };
 
