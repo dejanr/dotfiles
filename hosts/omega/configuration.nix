@@ -35,6 +35,15 @@
         Port 22222
         ProxyJump dsn-gw
         IdentityFile /home/dejanr/.ssh/id_ed25519
+    Host dejli
+        Hostname dejli
+        User dejanr
+        LocalForward 3000 localhost:3000
+        LocalForward 8080 localhost:8080
+        LocalForward 8090 localhost:8090
+        LocalForward 4000 localhost:4000
+        LocalForward 4001 localhost:4001
+        LocalForward 6006 localhost:6006
   '';
 
   services = {
