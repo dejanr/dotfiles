@@ -115,7 +115,6 @@ in
 
     services.displayManager = {
       defaultSession = "none+i3";
-      autoLogin.enable = true;
       autoLogin.user = "dejanr";
     };
 
