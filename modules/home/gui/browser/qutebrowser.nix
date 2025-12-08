@@ -158,22 +158,33 @@ in
       c.url.default_page = str(config.configdir)+'/qute-home.html'
       c.url.start_pages = str(config.configdir)+'/qute-home.html'
 
-      c.url.searchengines = {'DEFAULT': 'https://startpage.com/do/search?query={}',
-                             'd'      : 'https://duckduckgo.com/?q={}&ia=web',
-                             'az'     : 'https://www.amazon.com/s?k={}',
-                             'aw'     : 'https://wiki.archlinux.org/index.php?search={}&title=Special%3ASearch&wprov=acrw1',
-                             'nw'     : 'https://nixos.wiki/index.php?search={}&go=Go',
-                             'mn'     : 'https://mynixos.com/search?q={}',
-                             'sb'     : 'https://www.serebii.net/search.shtml?q={}&sa=Search',
-                             'yt'     : 'https://www.youtube.com/results?search_query={}',
-                             'od'     : 'https://odysee.com/$/search?q={}',
-                             'gd'     : 'https://drive.google.com/drive/search?q={}',
-                             'gh'     : 'https://github.com/search?q={}&type=repositories',
-                             'np'     : 'https://github.com/search?q=repo%3ANixOS%2Fnixpkgs%20{}&type=code',
-                             'wk'     : 'https://en.wikipedia.org/w/index.php?fulltext=1&search={}&title=Special%3ASearch&ns0=1',
-                             'th'     : 'https://www.thingiverse.com/search?q={}&page=1',
-                             'pp'     : 'https://www.printables.com/search/models?q={}'
-                            }
+      c.url.searchengines['google'] = 'https://encrypted.google.com/search?q={}'
+      c.url.searchengines['g'] = c.url.searchengines['google']
+      c.url.searchengines['gl'] = 'https://encrypted.google.com/search?btnI=1&q={}&sourceid=navclient&gfns=1'
+      c.url.searchengines['DEFAULT'] = c.url.searchengines['google']
+      c.url.searchengines['gimg'] = 'http://www.google.de/search?tbm=isch&hl=de&source=hp&q={}'
+
+      c.url.searchengines['duckduckgo'] = 'https://duckduckgo.com/?q={}'
+      c.url.searchengines['d'] = c.url.searchengines['duckduckgo']
+
+      c.url.searchengines['amazon'] = 'https://www.amazon.com/s?k={}'
+      c.url.searchengines['am'] = c.url.searchengines['amazon']
+
+      c.url.searchengines['mynixos'] = 'https://mynixos.com/search?q={}'
+      c.url.searchengines['mn'] = c.url.searchengines['mynixos']
+
+      c.url.searchengines['nixpkg'] = 'https://github.com/search?q=repo%3ANixOS%2Fnixpkgs%20{}&type=code'
+      c.url.searchengines['np'] = c.url.searchengines['nixpkg']
+
+      c.url.searchengines['wikipedia'] = 'https://en.wikipedia.org/w/index.php?fulltext=1&search={}&title=Special%3ASearch&ns0=1'
+      c.url.searchengines['wp'] = c.url.searchengines['wikipedia']
+
+      c.url.searchengines['yt'] = 'https://www.youtube.com/results?search_query={}'
+      c.url.searchengines['gd'] = 'https://drive.google.com/drive/search?q={}'
+      c.url.searchengines['gh'] = 'https://github.com/search?q={}&type=repositories'
+
+      c.url.searchengines['th'] = 'https://www.thingiverse.com/search?q={}&page=1'
+      c.url.searchengines['pp'] = 'https://www.printables.com/search/models?q={}'
 
       config.set('completion.open_categories',["searchengines","quickmarks","bookmarks","history"])
 
