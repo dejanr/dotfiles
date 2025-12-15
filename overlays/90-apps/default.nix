@@ -72,6 +72,7 @@ in
   };
 
   pulumi = super.callPackage ./pulumi { };
+  opencode = super.callPackage ./opencode { };
   rift = super.callPackage ./rift { };
   meshcommander = super.callPackage ./meshcommander { };
 
