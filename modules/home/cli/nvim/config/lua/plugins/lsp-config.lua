@@ -26,6 +26,7 @@ return {
 				"bashls",
 				"cssls",
 				"emmet_ls",
+				"eslint",
 				"html",
 				"intelephense",
 				"jdtls",
@@ -258,13 +259,9 @@ return {
 			handlers = handlers,
 			root_dir = function(fname)
 				local util = require("lspconfig.util")
-				-- First try to find frontend/package.json for monorepo structure
-				local frontend_root = util.root_pattern("frontend/package.json")(fname)
-				if frontend_root then
-					return frontend_root .. "/frontend"
-				end
-				-- Fall back to standard root patterns
-				return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+				-- Prioritize finding tsconfig.json closest to the file
+				-- This ensures frontend/tsconfig.json is used for frontend files
+				return util.root_pattern("tsconfig.json", "package.json", ".git")(fname)
 			end,
 			init_options = {
 				plugins = {},
@@ -287,6 +284,38 @@ return {
 		-- ╰───────────────╯
 		lspconfig.ruff.setup({
 			handlers = handlers,
+		})
+
+		-- ╭──────────────╮
+		-- │ ESLINT SERVER│
+		-- ╰──────────────╯
+		lspconfig.eslint.setup({
+			handlers = handlers,
+			root_dir = function(fname)
+				local util = require("lspconfig.util")
+				-- Look for eslint config files closest to the file
+				-- This ensures frontend/eslint.config.ts is used for frontend files
+				return util.root_pattern(
+					"eslint.config.js",
+					"eslint.config.mjs",
+					"eslint.config.cjs",
+					"eslint.config.ts",
+					".eslintrc.js",
+					".eslintrc.json",
+					"package.json",
+					".git"
+				)(fname)
+			end,
+			settings = {
+				workingDirectories = { mode = "auto" },
+			},
+			on_attach = function(client, bufnr)
+				-- Enable eslint code actions
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					buffer = bufnr,
+					command = "EslintFixAll",
+				})
+			end,
 		})
 
 		-- ╭──────────────╮
