@@ -8,6 +8,9 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable x86_64 emulation for cross-platform builds
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+
   virtualisation.podman.enable = true;
 
   # sst.dev

@@ -41,29 +41,44 @@ return {
 			},
 		})
 
-		-- ╭───────────╮
-		-- │ LSPCONFIG │
-		-- ╰───────────╯
-		local lspconfig = require("lspconfig")
-
 		-- ╭──────────────────────╮
 		-- │ CMP LSP CAPABILITIES │
 		-- ╰──────────────────────╯
-		local lsp_defaults = lspconfig.util.default_config
-		-- lsp_defaults.capabilities =
-		--     vim.tbl_deep_extend('force', lsp_defaults.capabilities, require('cmp_nvim_lsp').default_capabilities())
-		lsp_defaults.capabilities =
-			vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
-
-		-- ╭─────────────────────────────────╮
-		-- │ LSP BORDER FOR :LSPINFO COMMAND │
-		-- ╰─────────────────────────────────╯
-		require("lspconfig.ui.windows").default_options.border = "single"
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		-- ╭───────────────────╮
 		-- │ WINBAR WITH NAVIC │
 		-- ╰───────────────────╯
 		local navic = require("nvim-navic")
+
+		-- ╭──────────────────────────╮
+		-- │ MONOREPO ROOT DIR HELPER │
+		-- ╰──────────────────────────╯
+		local function find_monorepo_root(bufnr, markers, workspace_dirs)
+			-- Try to find closest marker file first
+			local closest_root = vim.fs.root(bufnr, markers)
+			if not closest_root then
+				return nil
+			end
+
+			-- Check if we're inside a monorepo workspace
+			for _, workspace in ipairs(workspace_dirs or {}) do
+				local workspace_pattern = workspace .. "/"
+				local bufname = vim.api.nvim_buf_get_name(bufnr)
+				if bufname:match(workspace_pattern) then
+					-- Find the workspace root that contains the marker
+					local workspace_root = vim.fs.root(bufnr, function(name, path)
+						return vim.fn.isdirectory(path .. "/" .. workspace) == 1
+							and vim.fn.filereadable(path .. "/" .. workspace .. "/" .. markers[1]) == 1
+					end)
+					if workspace_root then
+						return workspace_root .. "/" .. workspace
+					end
+				end
+			end
+
+			return closest_root
+		end
 
 		-- ╭─────────────────────────────────────────────────────────╮
 		-- │                   DIAGNOSTIC KAYMAPS                    │
@@ -211,7 +226,8 @@ return {
 		local runtime_path = vim.split(package.path, ";")
 		table.insert(runtime_path, "lua/?.lua")
 		table.insert(runtime_path, "lua/?/init.lua")
-		lspconfig.lua_ls.setup({
+		vim.lsp.config('lua_ls', {
+			capabilities = capabilities,
 			handlers = handlers,
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
@@ -244,24 +260,30 @@ return {
 				Lua = {},
 			},
 		})
+		vim.lsp.enable('lua_ls')
 
 		-- ╭─────────────╮
 		-- │ BASH SERVER │
 		-- ╰─────────────╯
-		lspconfig.bashls.setup({
+		vim.lsp.config('bashls', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('bashls')
 
 		-- ╭───────────────────╮
 		-- │ JAVASCRIPT SERVER │
 		-- ╰───────────────────╯
-		lspconfig.ts_ls.setup({
+		vim.lsp.config('ts_ls', {
+			capabilities = capabilities,
 			handlers = handlers,
-			root_dir = function(fname)
-				local util = require("lspconfig.util")
-				-- Prioritize finding tsconfig.json closest to the file
-				-- This ensures frontend/tsconfig.json is used for frontend files
-				return util.root_pattern("tsconfig.json", "package.json", ".git")(fname)
+			root_dir = function(bufnr, on_dir)
+				local root = find_monorepo_root(
+					bufnr,
+					{ "package.json", "tsconfig.json", ".git" },
+					{ "frontend", "backend", "packages", "apps", "services" }
+				)
+				on_dir(root)
 			end,
 			init_options = {
 				plugins = {},
@@ -278,57 +300,73 @@ return {
 			},
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact" },
 		})
+		vim.lsp.enable('ts_ls')
 
 		-- ╭───────────────╮
 		-- │ PYTHON SERVER │
 		-- ╰───────────────╯
-		lspconfig.ruff.setup({
+		vim.lsp.config('ruff', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('ruff')
 
 		-- ╭──────────────╮
 		-- │ ESLINT SERVER│
 		-- ╰──────────────╯
-		lspconfig.eslint.setup({
+		vim.lsp.config('eslint', {
+			capabilities = capabilities,
 			handlers = handlers,
-			root_dir = function(fname)
-				local util = require("lspconfig.util")
-				-- Look for eslint config files closest to the file
-				-- This ensures frontend/eslint.config.ts is used for frontend files
-				return util.root_pattern(
-					"eslint.config.js",
-					"eslint.config.mjs",
-					"eslint.config.cjs",
-					"eslint.config.ts",
-					".eslintrc.js",
-					".eslintrc.json",
-					"package.json",
-					".git"
-				)(fname)
+			root_dir = function(bufnr, on_dir)
+				local root = find_monorepo_root(
+					bufnr,
+					{
+						"eslint.config.js",
+						"eslint.config.mjs",
+						"eslint.config.cjs",
+						"eslint.config.ts",
+						".eslintrc.js",
+						".eslintrc.json",
+						"package.json",
+						".git"
+					},
+					{ "frontend", "backend", "packages", "apps", "services" }
+				)
+				on_dir(root)
 			end,
 			settings = {
 				workingDirectories = { mode = "auto" },
 			},
-			on_attach = function(client, bufnr)
-				-- Enable eslint code actions
-				vim.api.nvim_create_autocmd("BufWritePre", {
-					buffer = bufnr,
-					command = "EslintFixAll",
-				})
+		})
+		vim.lsp.enable('eslint')
+
+		-- Auto-fix on save for eslint
+		vim.api.nvim_create_autocmd("LspAttach", {
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if client and client.name == "eslint" then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = args.buf,
+						command = "EslintFixAll",
+					})
+				end
 			end,
 		})
 
 		-- ╭──────────────╮
 		-- │ EMMET SERVER │
 		-- ╰──────────────╯
-		lspconfig.emmet_ls.setup({
+		vim.lsp.config('emmet_ls', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('emmet_ls')
 
 		-- ╭────╮
 		-- │ Go │
 		-- ╰────╯
-		lspconfig.gopls.setup({
+		vim.lsp.config('gopls', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settings = {
 				gofumpt = true,
@@ -370,11 +408,13 @@ return {
 				semanticTokens = true,
 			},
 		})
+		vim.lsp.enable('gopls')
 
 		-- ╭────────────╮
 		-- │ CSS SERVER │
 		-- ╰────────────╯
-		lspconfig.cssls.setup({
+		vim.lsp.config('cssls', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settings = {
 				css = {
@@ -384,11 +424,13 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('cssls')
 
 		-- ╭─────────────────╮
 		-- │ TAILWIND SERVER │
 		-- ╰─────────────────╯
-		lspconfig.tailwindcss.setup({
+		vim.lsp.config('tailwindcss', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settings = {
 				tailwindCSS = {
@@ -412,22 +454,26 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('tailwindcss')
 
 		-- ╭─────────────╮
 		-- │ JSON SERVER │
 		-- ╰─────────────╯
-		lspconfig.jsonls.setup({
+		vim.lsp.config('jsonls', {
+			capabilities = capabilities,
 			handlers = handlers,
 			filetypes = { "json", "jsonc" },
 			init_options = {
 				provideFormatter = true,
 			},
 		})
+		vim.lsp.enable('jsonls')
 
 		-- ╭─────────────╮
 		-- │ HTML SERVER │
 		-- ╰─────────────╯
-		lspconfig.html.setup({
+		vim.lsp.config('html', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settigns = {
 				css = {
@@ -437,11 +483,13 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('html')
 
 		-- ╭─────────────╮
 		-- │ LTEX SERVER │
 		-- ╰─────────────╯
-		lspconfig.ltex.setup({
+		vim.lsp.config('ltex', {
+			capabilities = capabilities,
 			handlers = handlers,
 			filetypes = { "bibtex", "markdown", "latex", "tex" },
 			settings = {
@@ -450,8 +498,10 @@ return {
 				-- },
 			},
 		})
+		vim.lsp.enable('ltex')
 
-		lspconfig.nixd.setup({
+		vim.lsp.config('nixd', {
+			capabilities = capabilities,
 			settings = {
 				nixd = {
 					formatting = {
@@ -460,11 +510,13 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('nixd')
 
 		-- ╭───────────────╮
 		-- │ TEXLAB SERVER │
 		-- ╰───────────────╯
-		lspconfig.texlab.setup({
+		vim.lsp.config('texlab', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settings = {
 				texlab = {
@@ -492,25 +544,31 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('texlab')
 
 		-- ╭────────────╮
 		-- │ PHP SERVER │
 		-- ╰────────────╯
-		lspconfig.intelephense.setup({
+		vim.lsp.config('intelephense', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('intelephense')
 
 		-- ╭─────────────╮
 		-- │ JAVA SERVER │
 		-- ╰─────────────╯
-		lspconfig.jdtls.setup({
+		vim.lsp.config('jdtls', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('jdtls')
 
 		-- ╭─────────────╮
 		-- │ YAML SERVER │
 		-- ╰─────────────╯
-		lspconfig.yamlls.setup({
+		vim.lsp.config('yamlls', {
+			capabilities = capabilities,
 			handlers = handlers,
 			settings = {
 				yaml = {
@@ -534,26 +592,31 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('yamlls')
 
 		-- ╭─────────────╮
 		-- │ RUST SERVER │
 		-- ╰─────────────╯
-		lspconfig.rust_analyzer.setup({
+		vim.lsp.config('rust_analyzer', {
+			capabilities = capabilities,
 			handlers = handlers,
 		})
+		vim.lsp.enable('rust_analyzer')
 
 		-- ╭──────────────╮
 		-- │ TYPST SERVER │
 		-- ╰──────────────╯
-		lspconfig.tinymist.setup({
+		vim.lsp.config('tinymist', {
+			capabilities = capabilities,
 			handlers = handlers,
 			single_file_support = true,
-			root_dir = function()
-				return vim.fn.getcwd()
+			root_dir = function(bufnr, on_dir)
+				on_dir(vim.fn.getcwd())
 			end,
 			settings = {
 				formatterMode = "typstyle",
 			},
 		})
+		vim.lsp.enable('tinymist')
 	end,
 }
