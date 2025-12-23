@@ -91,5 +91,9 @@ in
         "3.amazon.pool.ntp.org"
       ];
     };
+
+    programs._1password.enable = true;
+    programs._1password-gui.enable = true;
+    programs._1password-gui.polkitPolicyOwners = [ "dejanr" ];
   };
 }
