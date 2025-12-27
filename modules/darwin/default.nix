@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   ...
 }:
 
@@ -39,8 +38,6 @@ in
       keep-outputs = true
       keep-derivations = true
     '';
-
-    package = inputs.nix.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nix;
   };
 
   nixpkgs = {

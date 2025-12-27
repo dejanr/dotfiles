@@ -16,7 +16,6 @@ let
 in
 {
   imports = [
-    ./homebrew.nix
     ./system.nix
   ];
 
@@ -31,7 +30,7 @@ in
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
-    skhdConfig = "cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
+    skhdConfig = "cmd - return : /etc/profiles/per-user/dejan.ranisavljevic/bin/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
   };
 
   users = {
@@ -42,8 +41,6 @@ in
       };
     };
   };
-
-  programs.zsh.enable = true;
 
   environment.systemPackages = [
     pkgs.t
@@ -78,6 +75,5 @@ in
 
   # Set primary user for Darwin-specific options
   system.primaryUser = username;
-
-  system.stateVersion = 5;
+  system.stateVersion = 6;
 }

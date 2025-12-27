@@ -1,4 +1,5 @@
 {
+  pkgs,
   inputs,
   importsFrom,
   ...
@@ -10,6 +11,8 @@
   nix.registry = {
     nixpkgs.flake = inputs.nixpkgs;
   };
+
+  nix.package = pkgs.nix;
 
   nix.settings = {
     experimental-features = "nix-command flakes";

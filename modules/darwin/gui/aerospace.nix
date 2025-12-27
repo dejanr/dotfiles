@@ -1,75 +1,121 @@
-{ ... }:
 {
-  home.file.aerospace = {
-    target = ".aerospace.toml";
-    text = ''
-      enable-normalization-flatten-containers = false
-      enable-normalization-opposite-orientation-for-nested-containers = false
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
-      [gaps]
-      inner.horizontal = 0
-      inner.vertical   = 0
-      outer.left       = 0
-      outer.bottom     = 0
-      outer.top        = 0
-      outer.right      = 0
+with lib;
 
-      [mode.main.binding]
-      cmd-shift-j = 'focus down'
-      cmd-shift-k = 'focus up'
-      cmd-shift-l = 'focus right'
-      cmd-shift-h = 'focus left'
+let
+  cfg = config.modules.darwin.gui.aerospace;
+in
+{
+  options.modules.darwin.gui.aerospace = {
+    enable = mkEnableOption "aerospace";
+  };
 
-      cmd-alt-j = 'move down'
-      cmd-alt-k = 'move up'
-      cmd-alt-l = 'move right'
-      cmd-alt-h = 'move left'
+  config = mkIf cfg.enable {
+    programs.aerospace = {
+      enable = true;
+      package = pkgs.aerospace;
 
-      cmd-shift-f = 'fullscreen'
-      cmd-shift-m = 'layout floating tiling'
+      launchd.enable = true;
 
-      cmd-1 = 'workspace 1'
-      cmd-2 = 'workspace 2'
-      cmd-3 = 'workspace 3'
-      cmd-4 = 'workspace 4'
-      cmd-5 = 'workspace 5'
+      userSettings = {
+        default-root-container-layout = "tiles";
+        default-root-container-orientation = "horizontal";
+        enable-normalization-flatten-containers = false;
+        enable-normalization-opposite-orientation-for-nested-containers = false;
 
-      cmd-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
-      cmd-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
-      cmd-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
-      cmd-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
-      cmd-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+        gaps = {
+          inner = {
+            horizontal = 0;
+            vertical = 0;
+          };
+          outer = {
+            left = 0;
+            bottom = 0;
+            top = 0;
+            right = 0;
+          };
+        };
 
-      cmd-alt-x = 'reload-config'
+        mode.main.binding = {
+          cmd-shift-j = "focus down";
+          cmd-shift-k = "focus up";
+          cmd-shift-l = "focus right";
+          cmd-shift-h = "focus left";
 
-      [workspace-to-monitor-force-assignment]
-      1 = 'main'
-      2 = 'main'
-      3 = 'main'
-      4 = 'secondary'
-      5 = 'main'
+          cmd-alt-j = "move down";
+          cmd-alt-k = "move up";
+          cmd-alt-l = "move right";
+          cmd-alt-h = "move left";
 
-      ### Window Rules
-      # Floating apps
-      [[on-window-detected]]
-      if.app-name-regex-substring = '(Finder|1Password|Google Chrome)'
-      run = 'layout floating'
+          cmd-shift-f = "fullscreen";
+          cmd-shift-m = "layout floating tiling";
 
-      [[on-window-detected]]
-      if.app-name-regex-substring = 'Calendar'
-      run = ['layout floating', 'move-node-to-workspace 4']
+          cmd-1 = "workspace 1";
+          cmd-2 = "workspace 2";
+          cmd-3 = "workspace 3";
+          cmd-4 = "workspace 4";
+          cmd-5 = "workspace 5";
 
-      [[on-window-detected]]
-      if.app-name-regex-substring = 'Simulator'
-      run = ['layout floating']
+          cmd-shift-1 = [
+            "move-node-to-workspace 1"
+            "workspace 1"
+          ];
+          cmd-shift-2 = [
+            "move-node-to-workspace 2"
+            "workspace 2"
+          ];
+          cmd-shift-3 = [
+            "move-node-to-workspace 3"
+            "workspace 3"
+          ];
+          cmd-shift-4 = [
+            "move-node-to-workspace 4"
+            "workspace 4"
+          ];
+          cmd-shift-5 = [
+            "move-node-to-workspace 5"
+            "workspace 5"
+          ];
 
-      [[on-window-detected]]
-      if.app-name-regex-substring = 'Messages'
-      run = ['layout floating', 'move-node-to-workspace 5']
+          cmd-alt-x = "reload-config";
+        };
 
-      [[on-window-detected]]
-      if.app-name-regex-substring = 'Slack'
-      run = ['layout floating', 'move-node-to-workspace 5']
-    '';
+        on-window-detected = [
+          {
+            "if".app-id = "com.google.Chrome";
+            run = "layout floating";
+          }
+          {
+            "if".app-id = "com.apple.finder";
+            run = "layout floating";
+          }
+          {
+            "if".app-name-regex-substring = "1Password";
+            run = "layout floating";
+          }
+          {
+            "if".app-name-regex-substring = "Calendar";
+            run = ["layout floating" "move-node-to-workspace 4"];
+          }
+          {
+            "if".app-name-regex-substring = "Simulator";
+            run = "layout floating";
+          }
+          {
+            "if".app-name-regex-substring = "Messages";
+            run = ["layout floating" "move-node-to-workspace 5"];
+          }
+          {
+            "if".app-name-regex-substring = "Slack";
+            run = ["layout floating" "move-node-to-workspace 5"];
+          }
+        ];
+      };
+    };
   };
 }

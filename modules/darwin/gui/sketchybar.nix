@@ -15,6 +15,5 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.jq ];
-    home.file.".config/sketchybar".source = ./config;
   };
 }

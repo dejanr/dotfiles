@@ -4,10 +4,18 @@
 }:
 
 {
-  imports = [ ../../modules/home/default.nix ];
+  imports = [
+    ../../modules/home/default.nix
+    ../../modules/darwin/gui/aerospace.nix
+  ];
 
   config.programs.bun.enable = true;
-  config.home.packages = [ pkgs.nodejs_24 ];
+  config.home.packages = [
+    pkgs.nodejs_24
+    pkgs.slack
+    pkgs.tailscale
+    pkgs.raycast
+  ];
 
   config.modules = {
     home.common.packages.enable = true;
@@ -23,7 +31,6 @@
     home.cli.zsh.enable = true;
 
     # darwin
+    darwin.gui.aerospace.enable = true;
   };
-
-  config.home.stateVersion = "23.11";
 }
