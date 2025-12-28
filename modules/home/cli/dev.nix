@@ -35,8 +35,6 @@ in
       iotop
       lshw
       lsof
-      psmisc
-      smartmontools
 
       # Cloud and infrastructure
       awscli2
@@ -47,9 +45,11 @@ in
       # AI and coding assistants
       aider-chat
       code-cursor
+      opencode
       claude-code
       gemini-cli
       codex
+      llama-cpp
       mermaid-cli
 
       # Network tools
@@ -61,7 +61,6 @@ in
       ngrep
       nmap
       tcpdump
-      wireshark
 
       # Version control
       lazygit
@@ -70,13 +69,11 @@ in
       mr
 
       # Programming languages and tools
-      cargo
       go
       gofumpt
       gotools
-      nodejs_20
+      nodejs_22
       python3
-      yarn-berry
       pnpm
 
       # OCaml ecosystem
@@ -94,14 +91,12 @@ in
 
       # Python packages
       python3Packages.huggingface-hub
-      conda
 
       # Development utilities
       ctags
       exercism
       file
       gforth
-      gparted
       icdiff
       nix-prefetch-scripts
       nixpkgs-fmt
@@ -120,25 +115,8 @@ in
       imagemagickBig
       portaudio
 
-      # Editors
-      zed-editor
-
       # API testing
       bruno
-
-      # OBS with plugins
-      (wrapOBS {
-        plugins = [
-          obs-studio-plugins.obs-vintage-filter
-          obs-studio-plugins.obs-pipewire-audio-capture
-          obs-studio-plugins.obs-gradient-source
-          obs-studio-plugins.obs-freeze-filter
-          obs-studio-plugins.obs-composite-blur
-          obs-studio-plugins.obs-backgroundremoval
-          obs-studio-plugins.obs-3d-effect
-          obs-studio-plugins.input-overlay
-        ];
-      })
     ];
   };
 }
