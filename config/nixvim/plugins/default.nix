@@ -9,5 +9,7 @@
     ./editor/treesitter.nix
     ./editor/nvim-autopairs.nix
     ./editor/nvim-surround.nix
+    ./lsp/lspconfig.nix
+    ./lsp/conform.nix
   ];
 }
