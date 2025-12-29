@@ -1,9 +1,15 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./globals.nix
+    ./settings.nix
+    ./autocmds.nix
+    ./keymaps.nix
+  ];
+
   colorschemes.catppuccin.enable = true;
 
-  opts = {
-    number = true;
-    relativenumber = false;
+  extraFiles = {
+    "lua/dejanr/utils.lua".source = ./lua/dejanr/utils.lua;
   };
 }
