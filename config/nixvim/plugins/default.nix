@@ -14,5 +14,6 @@
     ./lsp/conform.nix
     ./completion/blink-cmp.nix
     ./git/git.nix
+    ./ai/avante.nix
   ];
 }

@@ -5,6 +5,7 @@
     ./settings.nix
     ./autocmds.nix
     ./keymaps.nix
+    ./performance.nix
     ./stylix.nix
     ./plugins
   ];
