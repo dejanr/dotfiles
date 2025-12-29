@@ -77,6 +77,20 @@ in
 
       freecad
       qutebrowser
+
+      # OBS with plugins
+      (wrapOBS {
+        plugins = [
+          obs-studio-plugins.obs-vintage-filter
+          obs-studio-plugins.obs-pipewire-audio-capture
+          obs-studio-plugins.obs-gradient-source
+          obs-studio-plugins.obs-freeze-filter
+          obs-studio-plugins.obs-composite-blur
+          obs-studio-plugins.obs-backgroundremoval
+          obs-studio-plugins.obs-3d-effect
+          obs-studio-plugins.input-overlay
+        ];
+      })
     ];
   };
 }

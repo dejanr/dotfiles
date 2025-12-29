@@ -37,7 +37,7 @@ in
 
       settings = {
         theme = "stylix";
-        model = "anthropic/claude-sonnet-4-20250514";
+        model = "llama.cpp/gpt-oss-120b-mxfp4-00001-of-00003.gguf";
         autoshare = false;
         autoupdate = false;
 
@@ -45,6 +45,25 @@ in
           "GUIDELINES.md"
           "docs/guidelines.md"
         ];
+
+        provider = {
+          "llama.cpp" = {
+            npm = "@ai-sdk/openai-compatible";
+            name = "llama-server (local)";
+            options = {
+              baseURL = "http://127.0.0.1:8080/v1";
+            };
+            models = {
+              "gpt-oss-120b-mxfp4-00001-of-00003.gguf" = {
+                name = "GPT-OSS 120B (local)";
+                limit = {
+                  context = 128000;
+                  output = 65536;
+                };
+              };
+            };
+          };
+        };
       };
     };
   };

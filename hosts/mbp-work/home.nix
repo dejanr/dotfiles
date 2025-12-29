@@ -15,6 +15,9 @@
     pkgs.slack
     pkgs.tailscale
     pkgs.raycast
+    pkgs.llama-cpp
+    pkgs.opencode
+    pkgs.python312Packages.huggingface-hub
   ];
 
   config.modules = {
@@ -27,6 +30,7 @@
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
     home.cli.nvim.enable = true;
+    home.cli.opencode.enable = true;
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
 
