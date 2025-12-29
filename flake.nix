@@ -63,6 +63,11 @@
 
     devenv.url = "github:cachix/devenv";
     devenv.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -78,6 +83,7 @@
       agenix,
       disko,
       devenv,
+      nixvim,
       ...
     }@inputs:
 
@@ -155,10 +161,26 @@
           };
         };
 
+      nixvimConfig = system:
+        let
+          nixvimLib = nixvim.lib.${system};
+          nixvim' = nixvim.legacyPackages.${system};
+          nixvimModule = {
+            pkgs = nixpkgs.legacyPackages.${system};
+            module = import ./config/nixvim;
+            extraSpecialArgs = { };
+          };
+        in
+          nixvim'.makeNixvimWithModule nixvimModule;
+
     in
     {
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-tree);
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs agenix; });
+      packages = forEachSystem (system: {
+        nvim = nixvimConfig system;
+        default = nixvimConfig system;
+      });
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
