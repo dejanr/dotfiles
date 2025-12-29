@@ -5,9 +5,9 @@
     ./settings.nix
     ./autocmds.nix
     ./keymaps.nix
+    ./stylix.nix
+    ./plugins
   ];
-
-  colorschemes.catppuccin.enable = true;
 
   extraFiles = {
     "lua/dejanr/utils.lua".source = ./lua/dejanr/utils.lua;
