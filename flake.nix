@@ -152,6 +152,7 @@
                 sharedModules = [
                   agenix.homeManagerModules.default
                   stylix.homeModules.stylix
+                  nixvim.homeManagerModules.nixvim
                 ];
               };
             }
@@ -161,7 +162,8 @@
           };
         };
 
-      nixvimConfig = system:
+      nixvimConfig =
+        system:
         let
           nixvimLib = nixvim.lib.${system};
           nixvim' = nixvim.legacyPackages.${system};
@@ -171,7 +173,7 @@
             extraSpecialArgs = { };
           };
         in
-          nixvim'.makeNixvimWithModule nixvimModule;
+        nixvim'.makeNixvimWithModule nixvimModule;
 
     in
     {
@@ -221,6 +223,7 @@
                   sharedModules = [
                     agenix.homeManagerModules.default
                     stylix.homeModules.stylix
+                    nixvim.homeManagerModules.nixvim
                   ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
