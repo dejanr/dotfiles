@@ -9,7 +9,10 @@
     ./editor/treesitter.nix
     ./editor/nvim-autopairs.nix
     ./editor/nvim-surround.nix
+    ./editor/diagnostics.nix
     ./lsp/lspconfig.nix
     ./lsp/conform.nix
+    ./completion/blink-cmp.nix
+    ./git/git.nix
   ];
 }

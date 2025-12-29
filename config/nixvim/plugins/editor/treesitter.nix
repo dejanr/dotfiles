@@ -28,19 +28,21 @@
   plugins.treesitter-textobjects = {
     enable = true;
 
-    select = {
-      enable = true;
-      lookahead = true;
+    settings = {
+      select = {
+        enable = true;
+        lookahead = true;
 
-      keymaps = {
-        "af" = "@function.outer";
-        "if" = "@function.inner";
-        "ac" = "@conditional.outer";
-        "ic" = "@conditional.inner";
-        "al" = "@loop.outer";
-        "il" = "@loop.inner";
-        "am" = "@statement.outer";
-        "ix" = "@comment.outer";
+        keymaps = {
+          "af" = "@function.outer";
+          "if" = "@function.inner";
+          "ac" = "@conditional.outer";
+          "ic" = "@conditional.inner";
+          "al" = "@loop.outer";
+          "il" = "@loop.inner";
+          "am" = "@statement.outer";
+          "ix" = "@comment.outer";
+        };
       };
     };
   };
