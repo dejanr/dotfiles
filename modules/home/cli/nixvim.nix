@@ -23,6 +23,7 @@ in
       black
       nixd
       nixfmt-rfc-style
+      lazygit
     ];
 
     programs.nixvim = {
