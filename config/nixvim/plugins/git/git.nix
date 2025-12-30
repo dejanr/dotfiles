@@ -29,6 +29,10 @@
     };
   };
 
+  plugins.lazygit = {
+    enable = true;
+  };
+
   keymaps = [
     {
       mode = "n";
@@ -39,9 +43,33 @@
         silent = true;
       };
     }
+    {
+      mode = "n";
+      key = "<leader>lg";
+      action = "<cmd>LazyGit<cr>";
+      options = {
+        desc = "LazyGit";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>gb";
+      action = "<cmd>GitBlameToggle<cr>";
+      options = {
+        desc = "Toggle Git Blame";
+        silent = true;
+      };
+    }
   ];
 
   extraPlugins = with pkgs.vimPlugins; [
     advanced-git-search-nvim
+    git-blame-nvim
   ];
+
+  extraConfigLua = ''
+    vim.g.gitblame_enabled = 0
+    vim.g.gitblame_message_template = '<author> • <date> • <summary>'
+  '';
 }

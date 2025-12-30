@@ -5,6 +5,7 @@
     ./ui/lualine.nix
     ./ui/nvim-tree.nix
     ./ui/which-key.nix
+    ./ui/zen-mode.nix
     ./editor/telescope.nix
     ./editor/treesitter.nix
     ./editor/nvim-autopairs.nix
