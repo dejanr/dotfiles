@@ -152,7 +152,7 @@
                 sharedModules = [
                   agenix.homeManagerModules.default
                   stylix.homeModules.stylix
-                  nixvim.homeManagerModules.nixvim
+                  nixvim.homeModules.nixvim
                 ];
               };
             }
@@ -223,7 +223,7 @@
                   sharedModules = [
                     agenix.homeManagerModules.default
                     stylix.homeModules.stylix
-                    nixvim.homeManagerModules.nixvim
+                    nixvim.homeModules.nixvim
                   ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
