@@ -15,6 +15,8 @@
     ./editor/glance.nix
     ./editor/grug-far.nix
     ./editor/neoclip.nix
+    ./editor/nvimux.nix
+    ./editor/mdx.nix
     ./lsp/lspconfig.nix
     ./lsp/conform.nix
     ./completion/blink-cmp.nix
