@@ -4,7 +4,7 @@
     dejanr = { };
   };
 
-  autoCmd = [
+  autoCommands = [
     # Nix files use 4 space indentation
     {
       event = "FileType";

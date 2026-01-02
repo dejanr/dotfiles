@@ -33,7 +33,7 @@ in
       vimAlias = true;
       vimdiffAlias = true;
 
-      imports = [ ../../../config/nixvim ];
+      imports = [ ./nixvim ];
     };
   };
 }

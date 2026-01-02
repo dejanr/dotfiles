@@ -21,6 +21,9 @@
 
   imports = importsFrom {
     path = ./.;
-    exclude = [ "config.nix" ];
+    exclude = [
+      "config.nix"
+      ./cli/nixvim
+    ];
   };
 }
