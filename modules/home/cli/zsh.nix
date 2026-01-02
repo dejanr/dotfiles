@@ -183,10 +183,9 @@ in
         tree = "eza --tree";
         nd = "nix develop -c $SHELL";
 
-        e = "nvim -i NONE";
-        vi = "nvim -i NONE";
-        vim = "nvim -i NONE";
-        nvim = "nvim -i NONE";
+        e = "nvim";
+        vi = "nvim";
+        vim = "nvim";
 
         l = "eza -a";
         ll = "eza -la";

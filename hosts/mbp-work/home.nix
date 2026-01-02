@@ -29,7 +29,6 @@
     # cli
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
-    # home.cli.nvim.enable = true;
     home.cli.nixvim.enable = true;
     home.cli.opencode.enable = true;
     home.cli.tmux.enable = true;
