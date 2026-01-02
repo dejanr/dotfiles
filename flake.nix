@@ -169,7 +169,7 @@
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
             pkgs = nixpkgs.legacyPackages.${system};
-            module = import ./config/nixvim;
+            module = import ./modules/home/cli/nixvim;
             extraSpecialArgs = { };
           };
         in
