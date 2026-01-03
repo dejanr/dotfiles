@@ -2,6 +2,18 @@
 {
   plugins.nvim-tree = {
     enable = true;
+    settings = {
+      git.enable = false;
+      modified.enable = false;
+      diagnostics.enable = false;
+      renderer.icons.show = {
+        file = true;
+        folder = true;
+        folder_arrow = false;
+        git = false;
+        modified = false;
+      };
+    };
   };
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -9,26 +21,10 @@
       plugin = circles-nvim;
       config = ''
         lua << EOF
-          local circles = require('circles')
-
-          circles.setup({
+          require('circles').setup({
             icons = { empty = '◯', filled = '●', lsp_prefix = '●' },
             lsp = true
           })
-
-          require('nvim-tree').setup {
-            renderer = {
-              icons = {
-                glyphs = circles.get_nvimtree_glyphs(),
-                show = {
-                  file = true,
-                  folder = true,
-                  folder_arrow = false,
-                  git = false
-                }
-              },
-            },
-          }
         EOF
       '';
     }

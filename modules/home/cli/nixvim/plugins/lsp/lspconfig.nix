@@ -70,7 +70,7 @@
             end
           '';
           init_options = {
-            plugins = [];
+            plugins = [ ];
             preferences = {
               includeInlayParameterNameHints = "all";
               includeInlayParameterNameHintsWhenArgumentMatchesName = true;
@@ -83,7 +83,12 @@
             };
           };
         };
-        filetypes = [ "typescript" "javascript" "javascriptreact" "typescriptreact" ];
+        filetypes = [
+          "typescript"
+          "javascript"
+          "javascriptreact"
+          "typescriptreact"
+        ];
       };
 
       ruff = {
@@ -93,13 +98,12 @@
       eslint = {
         enable = true;
         extraOptions = {
+          # Only start ESLint if config file exists
           root_dir = ''
             function(fname)
-              local util = require('lspconfig.util')
-              -- Only start if eslint config exists
-              return util.root_pattern(
+              return require('lspconfig.util').root_pattern(
                 "eslint.config.js",
-                "eslint.config.mjs", 
+                "eslint.config.mjs",
                 "eslint.config.cjs",
                 "eslint.config.ts",
                 ".eslintrc",
@@ -109,25 +113,6 @@
                 ".eslintrc.yml",
                 ".eslintrc.yaml"
               )(fname)
-            end
-          '';
-          on_new_config = ''
-            function(config, new_root_dir)
-              -- Disable if no eslint config found
-              local eslint_files = {
-                "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs", "eslint.config.ts",
-                ".eslintrc", ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.json", ".eslintrc.yml", ".eslintrc.yaml"
-              }
-              local found = false
-              for _, file in ipairs(eslint_files) do
-                if vim.fn.filereadable(new_root_dir .. "/" .. file) == 1 then
-                  found = true
-                  break
-                end
-              end
-              if not found then
-                config.settings = { enable = false }
-              end
             end
           '';
         };
@@ -185,7 +170,10 @@
             usePlaceholders = true;
             completeUnimported = true;
             staticcheck = true;
-            directoryFilters = [ "-.git" "-node_modules" ];
+            directoryFilters = [
+              "-.git"
+              "-node_modules"
+            ];
             semanticTokens = true;
           };
         };
@@ -206,7 +194,13 @@
         enable = true;
         settings = {
           tailwindCSS = {
-            classAttributes = [ "class" "className" "class:list" "classList" "ngClass" ];
+            classAttributes = [
+              "class"
+              "className"
+              "class:list"
+              "classList"
+              "ngClass"
+            ];
             includeLanguages = {
               eelixir = "html-eex";
               eruby = "erb";
@@ -229,7 +223,10 @@
 
       jsonls = {
         enable = true;
-        filetypes = [ "json" "jsonc" ];
+        filetypes = [
+          "json"
+          "jsonc"
+        ];
         extraOptions = {
           init_options = {
             provideFormatter = true;
@@ -243,7 +240,12 @@
 
       ltex = {
         enable = true;
-        filetypes = [ "bibtex" "markdown" "latex" "tex" ];
+        filetypes = [
+          "bibtex"
+          "markdown"
+          "latex"
+          "tex"
+        ];
       };
 
       nixd = {
@@ -264,7 +266,12 @@
             auxDirectory = ".";
             bibtexFormatter = "texlab";
             build = {
-              args = [ "-pdf" "-interaction=nonstopmode" "-synctex=1" "%f" ];
+              args = [
+                "-pdf"
+                "-interaction=nonstopmode"
+                "-synctex=1"
+                "%f"
+              ];
               executable = "latexmk";
               forwardSearchAfter = false;
               onSave = false;
