@@ -96,22 +96,38 @@
           root_dir = ''
             function(fname)
               local util = require('lspconfig.util')
-              local monorepo = require('lsp.monorepo')
-              local bufnr = vim.fn.bufnr(fname)
-              return monorepo.find_monorepo_root(
-                bufnr,
-                {
-                  "eslint.config.js",
-                  "eslint.config.mjs",
-                  "eslint.config.cjs",
-                  "eslint.config.ts",
-                  ".eslintrc.js",
-                  ".eslintrc.json",
-                  "package.json",
-                  ".git"
-                },
-                { "frontend", "backend", "packages", "apps", "services" }
-              )
+              -- Only start if eslint config exists
+              return util.root_pattern(
+                "eslint.config.js",
+                "eslint.config.mjs", 
+                "eslint.config.cjs",
+                "eslint.config.ts",
+                ".eslintrc",
+                ".eslintrc.js",
+                ".eslintrc.cjs",
+                ".eslintrc.json",
+                ".eslintrc.yml",
+                ".eslintrc.yaml"
+              )(fname)
+            end
+          '';
+          on_new_config = ''
+            function(config, new_root_dir)
+              -- Disable if no eslint config found
+              local eslint_files = {
+                "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs", "eslint.config.ts",
+                ".eslintrc", ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.json", ".eslintrc.yml", ".eslintrc.yaml"
+              }
+              local found = false
+              for _, file in ipairs(eslint_files) do
+                if vim.fn.filereadable(new_root_dir .. "/" .. file) == 1 then
+                  found = true
+                  break
+                end
+              end
+              if not found then
+                config.settings = { enable = false }
+              end
             end
           '';
         };
