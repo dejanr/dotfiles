@@ -17,18 +17,16 @@
   };
 
   extraPlugins = with pkgs.vimPlugins; [
-    {
-      plugin = circles-nvim;
-      config = ''
-        lua << EOF
-          require('circles').setup({
-            icons = { empty = '◯', filled = '●', lsp_prefix = '●' },
-            lsp = true
-          })
-        EOF
-      '';
-    }
+    circles-nvim
   ];
+
+  # Setup circles after nvim-tree is configured
+  extraConfigLua = ''
+    require('circles').setup({
+      icons = { empty = '◯', filled = '●', lsp_prefix = '●' },
+      lsp = true
+    })
+  '';
 
   keymaps = [
     {
