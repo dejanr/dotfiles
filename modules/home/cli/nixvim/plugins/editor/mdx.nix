@@ -12,6 +12,4 @@
       };
     })
   ];
-
-  # mdx.nvim works automatically via treesitter, no setup needed
 }
