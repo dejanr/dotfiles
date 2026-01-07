@@ -29,7 +29,7 @@ in
 
     (lib.mkIf cfg.enable {
       stylix.enable = true;
-      home.file.".currenttheme".text = config.home.stylix.theme;
+
       stylix.autoEnable = false;
       stylix.polarity = theme.polarity;
       stylix.image = pkgs.fetchurl {
@@ -69,6 +69,7 @@ in
       stylix.targets.qt.enable = true;
 
       home.file = {
+        ".currenttheme".text = config.home.stylix.theme;
         ".config/qt5ct/colors/oomox-current.conf".source = config.lib.stylix.colors {
           template = builtins.readFile ./stylix/oomox-current.conf.mustache;
           extension = ".conf";
@@ -82,6 +83,7 @@ in
           extension = "";
         };
       };
+
       home.packages = with pkgs; [
         kdePackages.breeze
         kdePackages.breeze-icons
