@@ -22,7 +22,7 @@ in
 
       launchd.enable = true;
 
-      userSettings = {
+      settings = {
         default-root-container-layout = "tiles";
         default-root-container-orientation = "horizontal";
         enable-normalization-flatten-containers = false;

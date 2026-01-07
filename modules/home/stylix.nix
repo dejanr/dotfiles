@@ -24,73 +24,77 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    stylix.enable = true;
-    home.file.".currenttheme".text = config.home.stylix.theme;
-    stylix.autoEnable = false;
-    stylix.polarity = theme.polarity;
-    stylix.image = pkgs.fetchurl {
-      url = theme.backgroundUrl;
-      sha256 = theme.backgroundSha256;
-    };
-    stylix.base16Scheme = theme;
+  config = lib.mkMerge [
+    { stylix.overlays.enable = false; }
 
-    stylix.fonts = {
-      monospace = {
-        name = "PragmataPro Mono";
-        package = pkgs.pragmatapro;
+    (lib.mkIf cfg.enable {
+      stylix.enable = true;
+      home.file.".currenttheme".text = config.home.stylix.theme;
+      stylix.autoEnable = false;
+      stylix.polarity = theme.polarity;
+      stylix.image = pkgs.fetchurl {
+        url = theme.backgroundUrl;
+        sha256 = theme.backgroundSha256;
       };
-      serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
+      stylix.base16Scheme = theme;
+
+      stylix.fonts = {
+        monospace = {
+          name = "PragmataPro Mono";
+          package = pkgs.pragmatapro;
+        };
+        serif = {
+          package = pkgs.dejavu_fonts;
+          name = "DejaVu Serif";
+        };
+
+        sansSerif = {
+          package = pkgs.dejavu_fonts;
+          name = "DejaVu Sans";
+        };
+        emoji = {
+          name = "Twitter Color Emoji";
+          package = pkgs.twitter-color-emoji;
+        };
+        sizes = {
+          terminal = 14;
+          applications = 14;
+          popups = 14;
+          desktop = 14;
+        };
       };
 
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
-      emoji = {
-        name = "Twitter Color Emoji";
-        package = pkgs.twitter-color-emoji;
-      };
-      sizes = {
-        terminal = 14;
-        applications = 14;
-        popups = 14;
-        desktop = 14;
-      };
-    };
+      stylix.targets.gtk.enable = true;
+      stylix.targets.kde.enable = true;
+      stylix.targets.qt.enable = true;
 
-    stylix.targets.gtk.enable = true;
-    stylix.targets.kde.enable = true;
-    stylix.targets.qt.enable = true;
+      home.file = {
+        ".config/qt5ct/colors/oomox-current.conf".source = config.lib.stylix.colors {
+          template = builtins.readFile ./stylix/oomox-current.conf.mustache;
+          extension = ".conf";
+        };
+        ".config/Trolltech.conf".source = config.lib.stylix.colors {
+          template = builtins.readFile ./stylix/Trolltech.conf.mustache;
+          extension = ".conf";
+        };
+        ".config/kdeglobals".source = config.lib.stylix.colors {
+          template = builtins.readFile ./stylix/Trolltech.conf.mustache;
+          extension = "";
+        };
+      };
+      home.packages = with pkgs; [
+        kdePackages.breeze
+        kdePackages.breeze-icons
+        nerd-fonts.fira-code
+        fira-sans
+        twitter-color-emoji
+      ];
 
-    home.file = {
-      ".config/qt5ct/colors/oomox-current.conf".source = config.lib.stylix.colors {
-        template = builtins.readFile ./stylix/oomox-current.conf.mustache;
-        extension = ".conf";
+      fonts.fontconfig.defaultFonts = {
+        monospace = [ config.stylix.fonts.monospace.name ];
+        sansSerif = [ config.stylix.fonts.sansSerif.name ];
+        serif = [ config.stylix.fonts.serif.name ];
       };
-      ".config/Trolltech.conf".source = config.lib.stylix.colors {
-        template = builtins.readFile ./stylix/Trolltech.conf.mustache;
-        extension = ".conf";
-      };
-      ".config/kdeglobals".source = config.lib.stylix.colors {
-        template = builtins.readFile ./stylix/Trolltech.conf.mustache;
-        extension = "";
-      };
-    };
-    home.packages = with pkgs; [
-      kdePackages.breeze
-      kdePackages.breeze-icons
-      nerd-fonts.fira-code
-      fira-sans
-      twitter-color-emoji
-    ];
-
-    fonts.fontconfig.defaultFonts = {
-      monospace = [ config.stylix.fonts.monospace.name ];
-      sansSerif = [ config.stylix.fonts.sansSerif.name ];
-      serif = [ config.stylix.fonts.serif.name ];
-    };
-  };
+    })
+  ];
 }
