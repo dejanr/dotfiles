@@ -11,13 +11,11 @@
 
   config.programs.bun.enable = true;
   config.home.packages = [
-    pkgs.nodejs_24
     pkgs.slack
     pkgs.tailscale
     pkgs.raycast
     pkgs.llama-cpp
     pkgs.opencode
-    pkgs.python312Packages.huggingface-hub
   ];
 
   config.modules = {
@@ -28,6 +26,7 @@
 
     # cli
     home.cli.direnv.enable = true;
+    home.cli.dev.enable = true;
     home.cli.git.enable = true;
     home.cli.nixvim.enable = true;
     home.cli.opencode.enable = true;

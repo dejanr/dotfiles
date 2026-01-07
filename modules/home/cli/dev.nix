@@ -28,12 +28,12 @@ in
       aspellDicts.de
       aspellDicts.en
 
+      ast-grep # grep by code
+
       # System monitoring
-      atop
       htop
       iftop
       iotop
-      lshw
       lsof
 
       # Cloud and infrastructure
@@ -72,7 +72,7 @@ in
       go
       gofumpt
       gotools
-      nodejs_22
+      nodejs_24
       python3
       pnpm
 
@@ -90,13 +90,12 @@ in
       rebar3
 
       # Python packages
-      python3Packages.huggingface-hub
+      python312Packages.huggingface-hub
 
       # Development utilities
       ctags
       exercism
       file
-      gforth
       icdiff
       nix-prefetch-scripts
       nixpkgs-fmt
