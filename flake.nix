@@ -68,6 +68,11 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    pi-mono = {
+      url = "github:badlogic/pi-mono";
+      flake = false;
+    };
   };
 
   outputs =

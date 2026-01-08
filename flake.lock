@@ -809,6 +809,22 @@
         "type": "github"
       }
     },
+    "pi-mono": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767814795,
+        "narHash": "sha256-kYagCk0pk/fhfh3n4aculfM8s7K/qwNVUAns84Nu2i4=",
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "rev": "faa26ffbf909c41eced3fe077ad6cb3defcb6f4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -823,6 +839,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
         "nur": "nur",
+        "pi-mono": "pi-mono",
         "rust-overlay": "rust-overlay",
         "ssh-keys": "ssh-keys",
         "stylix": "stylix",

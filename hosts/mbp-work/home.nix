@@ -30,6 +30,7 @@
     home.cli.git.enable = true;
     home.cli.nixvim.enable = true;
     home.cli.opencode.enable = true;
+    home.cli.pi-mono.enable = true;
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
 

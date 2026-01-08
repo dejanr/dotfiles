@@ -6,3 +6,4 @@ nix/config/nixpkgs/overlays/80-wine/generated-reverts
 nix/config/nixpkgs/overlays/80-wine/revert-hashes
 .direnv
 .aider*
+modules/home/cli/pi-mono/extensions/*/node_modules/

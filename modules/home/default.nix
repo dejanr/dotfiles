@@ -24,6 +24,9 @@
     exclude = [
       "config.nix"
       ./cli/nixvim
+      ./cli/pi-mono/extensions
+      ./cli/pi-mono/nix
+      ./cli/pi-mono/prompts
     ];
   };
 }
