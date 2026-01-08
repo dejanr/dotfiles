@@ -121,12 +121,7 @@
             mode = "auto";
           };
         };
-        onAttach.function = ''
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-          })
-        '';
+
       };
 
       emmet_ls = {
