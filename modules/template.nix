@@ -1,11 +1,11 @@
 {
-  pkgs,
   lib,
   config,
   ...
 }:
 
 with lib;
+
 let
   cfg = config.modules.PROGRAM;
 
