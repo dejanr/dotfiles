@@ -12,7 +12,7 @@ pkgs.buildNpmPackage {
 
   src = pi-mono-src;
 
-  npmDepsHash = "sha256-Nf/qfJNNZe665ZHVviYyrpxT7ehtPThdTYp2kmNpZz8=";
+  npmDepsHash = "sha256-Okstbpk7pmCLgdnoAtCoitaqwLNRtBfCIQJX0ItE4HY=";
 
   nodejs = pkgs.nodejs_24;
 
@@ -41,7 +41,7 @@ pkgs.buildNpmPackage {
 
     # Skip generate-models (needs network) - use committed models.generated.ts
     substituteInPlace packages/ai/package.json \
-      --replace '"build": "npm run generate-models && tsgo' '"build": "tsgo'
+      --replace-fail '"build": "npm run generate-models && tsgo' '"build": "tsgo'
   '';
 
   npmBuildScript = "build";
