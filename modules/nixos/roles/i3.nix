@@ -68,7 +68,7 @@ in
       xfce.ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
       xfce.tumbler # A D-Bus thumbnailer service
       xfce.xfce4-icon-theme # Icons for Xfce
-      xfce.xfconf # Simple client-server configuration storage and query system for Xfce
+      xfconf # Simple client-server configuration storage and query system for Xfce
       vte
       gnome-themes-extra
       gnome-settings-daemon # makes DPI scaling, fonts and GTK settings come active.

@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   inputs,
   importsFrom,
@@ -12,7 +13,7 @@
     nixpkgs.flake = inputs.nixpkgs;
   };
 
-  nix.package = pkgs.nix;
+  nix.package = lib.mkForce inputs.nix.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nix;
 
   nix.settings = {
     experimental-features = "nix-command flakes";

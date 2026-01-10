@@ -23,7 +23,6 @@ in
       # Communication apps for gaming
       discord
       vesktop # discord alternative
-      dorion # discord alternative
       mumble # Low-latency, high quality voice chat software
 
       # EVE Online tools
