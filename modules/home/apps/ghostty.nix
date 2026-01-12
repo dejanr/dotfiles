@@ -58,6 +58,7 @@ in
         confirm-close-surface = false;
         auto-update = "off";
         resize-overlay = "never";
+        term = "xterm-ghostty";
       };
       themes = {
         nightfox = {
