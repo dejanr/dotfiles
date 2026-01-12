@@ -18,6 +18,8 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       alsa-utils
+      alsa-plugins
+      sox
       audacity
       gphoto2 # A ready to use set of digital camera software applications
       gphoto2fs # Fuse FS to mount a digital camera
@@ -77,5 +79,21 @@ in
     };
 
     programs.noisetorch.enable = true;
+
+    # Configure ALSA to use PulseAudio/PipeWire without enabling full ALSA support
+    environment.etc."asound.conf".text = ''
+      pcm_type.pulse {
+        lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_pcm_pulse.so"
+      }
+      ctl_type.pulse {
+        lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_ctl_pulse.so"
+      }
+      pcm.!default {
+        type pulse
+      }
+      ctl.!default {
+        type pulse
+      }
+    '';
   };
 }

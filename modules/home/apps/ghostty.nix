@@ -26,15 +26,6 @@ in
       pkgs.pragmatapro
     ];
 
-    home.file."gtk.css".target = ".config/gtk-4.0/gtk.css";
-    home.file."gtk.css".text = ''
-      .background {
-        margin: 0;
-        padding: 0;
-        box-shadow: 0 0 0 0;
-      }
-    '';
-
     programs.ghostty = {
       enable = true;
       enableZshIntegration = true;

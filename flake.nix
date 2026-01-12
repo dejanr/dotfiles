@@ -170,7 +170,6 @@
       nixvimConfig =
         system:
         let
-          nixvimLib = nixvim.lib.${system};
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
             pkgs = nixpkgs.legacyPackages.${system};

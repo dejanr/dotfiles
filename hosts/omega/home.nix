@@ -50,6 +50,7 @@
 
     # apps
     apps.kitty.enable = true;
+    apps.ghostty.enable = true;
 
     # cli
     home.cli.direnv.enable = true;
@@ -61,6 +62,7 @@
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
+    home.cli.pi-mono.enable = true;
   };
 
   config.home.stylix = {

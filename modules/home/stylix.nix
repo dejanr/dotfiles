@@ -65,6 +65,15 @@ in
       };
 
       stylix.targets.gtk.enable = true;
+
+      # Remove box-shadow for cleaner borderless windows (e.g., Ghostty)
+      stylix.targets.gtk.extraCss = ''
+        .background {
+          margin: 0;
+          padding: 0;
+          box-shadow: 0 0 0 0;
+        }
+      '';
       stylix.targets.kde.enable = true;
       stylix.targets.qt.enable = true;
 

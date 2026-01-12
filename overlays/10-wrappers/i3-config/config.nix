@@ -1,6 +1,6 @@
 { }:
 ''
-  set $term kitty
+  set $term ghostty +new-window
 
   smart_gaps on
   smart_borders on
