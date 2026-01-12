@@ -2,8 +2,6 @@
   config,
   pkgs,
   lib,
-  writeTextFile,
-  colors,
   ...
 }:
 
@@ -12,6 +10,7 @@ with lib;
 let
   stdenv = pkgs.stdenv;
   cfg = config.modules.apps.ghostty;
+  colors = config.lib.stylix.colors;
 in
 {
   options.modules.apps.ghostty = {
@@ -54,39 +53,40 @@ in
         macos-titlebar-style = "hidden";
 
         cursor-style-blink = false;
-        theme = "nightfox";
+        theme = "stylix";
         confirm-close-surface = false;
         auto-update = "off";
         resize-overlay = "never";
         term = "xterm-ghostty";
+        window-vsync = true;
       };
       themes = {
-        nightfox = {
+        stylix = {
           palette = [
-            "0=#393b44"
-            "1=#c94f6d"
-            "2=#81b29a"
-            "3=#dbc074"
-            "4=#719cd6"
-            "5=#9d79d6"
-            "6=#63cdcf"
-            "7=#dfdfe0"
-            "8=#575860"
-            "9=#d16983"
-            "10=#8ebaa4"
-            "11=#e0c989"
-            "12=#86abdc"
-            "13=#baa1e2"
-            "14=#7ad5d6"
-            "15=#e4e4e5"
-            "16=#f4a261"
+            "0=#${colors.base00}"
+            "1=#${colors.base08}"
+            "2=#${colors.base0B}"
+            "3=#${colors.base0A}"
+            "4=#${colors.base0D}"
+            "5=#${colors.base0E}"
+            "6=#${colors.base0C}"
+            "7=#${colors.base05}"
+            "8=#${colors.base03}"
+            "9=#${colors.base08}"
+            "10=#${colors.base0B}"
+            "11=#${colors.base0A}"
+            "12=#${colors.base0D}"
+            "13=#${colors.base0E}"
+            "14=#${colors.base0C}"
+            "15=#${colors.base07}"
+            "16=#${colors.base09}"
           ];
 
-          background = "#1c1c1c";
-          foreground = "#cdcecf";
-          selection-background = "#2b3b51";
-          selection-foreground = "#cdcecf";
-          cursor-color = "#cdcecf";
+          background = "#${colors.base00}";
+          foreground = "#${colors.base05}";
+          selection-background = "#${colors.base02}";
+          selection-foreground = "#${colors.base05}";
+          cursor-color = "#${colors.base05}";
         };
       };
     };

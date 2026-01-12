@@ -2,8 +2,6 @@
   config,
   pkgs,
   lib,
-  writeTextFile,
-  colors,
   ...
 }:
 
@@ -11,6 +9,7 @@ with lib;
 
 let
   cfg = config.modules.apps.kitty;
+  colors = config.lib.stylix.colors;
 in
 {
   options.modules.apps.kitty = {

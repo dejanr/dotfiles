@@ -7,7 +7,7 @@
   font_size ${fontSize}
 
   #--------------------------------------------------------------------
-  # Key bindings 12345 12312321
+  # Key bindings
   #--------------------------------------------------------------------
   # Clipboard
     map super+v             paste_from_clipboard
@@ -42,86 +42,68 @@
     single_window_padding_width -1
 
   #--------------------------------------------------------------------
-  # Theme
+  # Theme (from stylix)
   #--------------------------------------------------------------------
-  # vim:ft=kitty
+    foreground              #${colors.base05}
+    background              #${colors.base00}
+    selection_foreground    #${colors.base00}
+    selection_background    #${colors.base05}
 
-    ## name:     Catppuccin Kitty Mocha
-    ## author:   Catppuccin Org
-    ## license:  MIT
-    ## upstream: https://github.com/catppuccin/kitty/blob/main/themes/mocha.conf
-    ## blurb:    Soothing pastel theme for the high-spirited!
+    cursor                  #${colors.base05}
+    cursor_text_color       #${colors.base00}
 
+    url_color               #${colors.base0D}
 
+    active_border_color     #${colors.base0D}
+    inactive_border_color   #${colors.base03}
+    bell_border_color       #${colors.base0A}
 
-    # The basic colors
-    foreground              #cdd6f4
-    background              #1e1e2e
-    selection_foreground    #1e1e2e
-    selection_background    #f5e0dc
-
-    # Cursor colors
-    cursor                  #f5e0dc
-    cursor_text_color       #1e1e2e
-
-    # URL underline color when hovering with mouse
-    url_color               #f5e0dc
-
-    # Kitty window border colors
-    active_border_color     #b4befe
-    inactive_border_color   #6c7086
-    bell_border_color       #f9e2af
-
-    # OS Window titlebar colors
     wayland_titlebar_color system
     macos_titlebar_color system
 
-    # Tab bar colors
-    active_tab_foreground   #11111b
-    active_tab_background   #cba6f7
-    inactive_tab_foreground #cdd6f4
-    inactive_tab_background #181825
-    tab_bar_background      #11111b
+    active_tab_foreground   #${colors.base00}
+    active_tab_background   #${colors.base0D}
+    inactive_tab_foreground #${colors.base05}
+    inactive_tab_background #${colors.base01}
+    tab_bar_background      #${colors.base00}
 
-    # Colors for marks (marked text in the terminal)
-    mark1_foreground #1e1e2e
-    mark1_background #b4befe
-    mark2_foreground #1e1e2e
-    mark2_background #cba6f7
-    mark3_foreground #1e1e2e
-    mark3_background #74c7ec
+    mark1_foreground #${colors.base00}
+    mark1_background #${colors.base0D}
+    mark2_foreground #${colors.base00}
+    mark2_background #${colors.base0E}
+    mark3_foreground #${colors.base00}
+    mark3_background #${colors.base0C}
 
     # The 16 terminal colors
-
     # black
-    color0 #45475a
-    color8 #585b70
+    color0 #${colors.base00}
+    color8 #${colors.base03}
 
     # red
-    color1 #f38ba8
-    color9 #f38ba8
+    color1 #${colors.base08}
+    color9 #${colors.base08}
 
     # green
-    color2  #a6e3a1
-    color10 #a6e3a1
+    color2  #${colors.base0B}
+    color10 #${colors.base0B}
 
     # yellow
-    color3  #f9e2af
-    color11 #f9e2af
+    color3  #${colors.base0A}
+    color11 #${colors.base0A}
 
     # blue
-    color4  #89b4fa
-    color12 #89b4fa
+    color4  #${colors.base0D}
+    color12 #${colors.base0D}
 
     # magenta
-    color5  #f5c2e7
-    color13 #f5c2e7
+    color5  #${colors.base0E}
+    color13 #${colors.base0E}
 
     # cyan
-    color6  #94e2d5
-    color14 #94e2d5
+    color6  #${colors.base0C}
+    color14 #${colors.base0C}
 
     # white
-    color7  #bac2de
-    color15 #a6adc8
+    color7  #${colors.base05}
+    color15 #${colors.base07}
 ''
