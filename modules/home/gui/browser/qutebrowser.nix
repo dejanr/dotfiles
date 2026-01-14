@@ -48,6 +48,12 @@ in
       pkgs.qutebrowser
     ];
 
+    # Workaround for Qt 6.9 + GBM black screen issue
+    # https://github.com/qutebrowser/qutebrowser/issues/8535
+    home.sessionVariables = {
+      QTWEBENGINE_FORCE_USE_GBM = "0";
+    };
+
     home.shellAliases = {
       qutebrowser = "qutebrowser -B ~/.browser/Personal";
     };
