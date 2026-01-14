@@ -68,7 +68,7 @@ in
     };
 
     programs.qutebrowser.extraConfig = ''
-      config.set('qt.args',['use-gl=egl','enable-features=VaapiVideoDecoder,VaapiVideoEncoder','disable-features=UseChromeOSDirectVideoDecoder','num-raster-threads=4'])
+      config.set('qt.args',['ignore-gpu-blacklist','enable-gpu-rasterization','enable-native-gpu-memory-buffers','num-raster-threads=4'])
       config.load_autoconfig(True)
 
       base00 = "#''
