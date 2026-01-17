@@ -74,8 +74,36 @@ in
     };
 
     programs.qutebrowser.extraConfig = ''
-      config.set('qt.args',['ignore-gpu-blacklist','enable-gpu-rasterization','enable-native-gpu-memory-buffers','num-raster-threads=4'])
+      config.set('qt.args',[
+        'ignore-gpu-blacklist',
+        'enable-gpu-rasterization',
+        'enable-native-gpu-memory-buffers',
+        'num-raster-threads=4',
+        # Process isolation - each tab gets own process (prevents cross-tab freezing)
+        '--process-per-site',
+        '--renderer-process-limit=8',
+      ])
       config.load_autoconfig(True)
+
+      # === FREEZE PREVENTION SETTINGS ===
+      
+      # Ad blocking (biggest impact - blocks heavy tracking/ad scripts)
+      c.content.blocking.enabled = True
+      c.content.blocking.method = 'both'
+      c.content.blocking.adblock.lists = [
+        "https://easylist.to/easylist/easylist.txt",
+        "https://easylist.to/easylist/easyprivacy.txt",
+        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
+        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
+        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
+        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
+      ]
+      
+      # Limit JavaScript capabilities
+      c.content.javascript.clipboard = 'none'
+      
+      # Reduce WebRTC overhead
+      c.content.webrtc_ip_handling_policy = 'default-public-interface-only'
 
       base00 = "#''
     + config.lib.stylix.colors.base00
@@ -215,6 +243,10 @@ in
 
       # spawn external programs
       config.bind(',m', 'hint links spawn mpv {hint-url}')
+
+      # Quick recovery keybindings for frozen tabs
+      config.bind(',k', 'tab-close')  # Kill current tab quickly
+      config.bind(',r', 'reload -f')  # Force reload (bypasses cache)
 
       # theming
       c.colors.completion.fg = base05
