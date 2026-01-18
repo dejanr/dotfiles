@@ -2,110 +2,102 @@
   config,
   lib,
   pkgs,
-  nixos,
   ...
 }:
 
 let
   cfg = config.home.stylix;
   theme = import (../themes + "/${cfg.theme}");
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
-  options = {
-    home.stylix = {
-      enable = lib.mkEnableOption "Enable stylix theming";
-    };
-    home.stylix.theme = lib.mkOption {
-      default = if (nixos.stylix.enable) then nixos.stylix.theme else "io";
-      type = lib.types.enum (
-        builtins.attrNames (lib.filterAttrs (name: type: type == "directory") (builtins.readDir ../themes))
-      );
-      description = "Theme for stylix to use for the user. A list of themes can be found in the `themes` directory.";
-    };
+  options.home.stylix.theme = lib.mkOption {
+    default = "io";
+    type = lib.types.enum (
+      builtins.attrNames (lib.filterAttrs (name: type: type == "directory") (builtins.readDir ../themes))
+    );
+    description = "Theme for stylix to use for the user. A list of themes can be found in the `themes` directory.";
   };
 
-  config = lib.mkMerge [
-    { stylix.overlays.enable = false; }
+  config = {
+    stylix.overlays.enable = false;
+    stylix.enable = true;
+    stylix.autoEnable = false;
+    stylix.polarity = theme.polarity;
+    stylix.image = pkgs.fetchurl {
+      url = theme.backgroundUrl;
+      sha256 = theme.backgroundSha256;
+    };
+    stylix.base16Scheme = theme;
 
-    (lib.mkIf cfg.enable {
-      stylix.enable = true;
-
-      stylix.autoEnable = false;
-      stylix.polarity = theme.polarity;
-      stylix.image = pkgs.fetchurl {
-        url = theme.backgroundUrl;
-        sha256 = theme.backgroundSha256;
+    stylix.fonts = {
+      monospace = {
+        name = "PragmataPro Mono";
+        package = pkgs.pragmatapro;
       };
-      stylix.base16Scheme = theme;
-
-      stylix.fonts = {
-        monospace = {
-          name = "PragmataPro Mono";
-          package = pkgs.pragmatapro;
-        };
-        serif = {
-          package = pkgs.dejavu_fonts;
-          name = "DejaVu Serif";
-        };
-
-        sansSerif = {
-          package = pkgs.dejavu_fonts;
-          name = "DejaVu Sans";
-        };
-        emoji = {
-          name = "Twitter Color Emoji";
-          package = pkgs.twitter-color-emoji;
-        };
-        sizes = {
-          terminal = 14;
-          applications = 14;
-          popups = 14;
-          desktop = 14;
-        };
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Serif";
       };
 
-      stylix.targets.gtk.enable = true;
-
-      # Remove box-shadow for cleaner borderless windows (e.g., Ghostty)
-      stylix.targets.gtk.extraCss = ''
-        .background {
-          margin: 0;
-          padding: 0;
-          box-shadow: 0 0 0 0;
-        }
-      '';
-      stylix.targets.kde.enable = true;
-      stylix.targets.qt.enable = true;
-
-      home.file = {
-        ".currenttheme".text = config.home.stylix.theme;
-        ".config/qt5ct/colors/oomox-current.conf".source = config.lib.stylix.colors {
-          template = builtins.readFile ./stylix/oomox-current.conf.mustache;
-          extension = ".conf";
-        };
-        ".config/Trolltech.conf".source = config.lib.stylix.colors {
-          template = builtins.readFile ./stylix/Trolltech.conf.mustache;
-          extension = ".conf";
-        };
-        ".config/kdeglobals".source = config.lib.stylix.colors {
-          template = builtins.readFile ./stylix/Trolltech.conf.mustache;
-          extension = "";
-        };
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Sans";
       };
-
-      home.packages = with pkgs; [
-        kdePackages.breeze
-        kdePackages.breeze-icons
-        nerd-fonts.fira-code
-        fira-sans
-        twitter-color-emoji
-      ];
-
-      fonts.fontconfig.defaultFonts = {
-        monospace = [ config.stylix.fonts.monospace.name ];
-        sansSerif = [ config.stylix.fonts.sansSerif.name ];
-        serif = [ config.stylix.fonts.serif.name ];
+      emoji = {
+        name = "Twitter Color Emoji";
+        package = pkgs.twitter-color-emoji;
       };
-    })
-  ];
+      sizes = {
+        terminal = 14;
+        applications = 14;
+        popups = 14;
+        desktop = 14;
+      };
+    };
+
+    stylix.targets.gtk.enable = isLinux;
+    stylix.targets.kde.enable = isLinux;
+    stylix.targets.qt.enable = isLinux;
+
+    # Remove box-shadow for cleaner borderless windows (e.g., Ghostty)
+    stylix.targets.gtk.extraCss = lib.mkIf isLinux ''
+      .background {
+        margin: 0;
+        padding: 0;
+        box-shadow: 0 0 0 0;
+      }
+    '';
+
+    home.file = lib.mkIf isLinux {
+      ".currenttheme".text = config.home.stylix.theme;
+      ".config/qt5ct/colors/oomox-current.conf".source = config.lib.stylix.colors {
+        template = builtins.readFile ./stylix/oomox-current.conf.mustache;
+        extension = ".conf";
+      };
+      ".config/Trolltech.conf".source = config.lib.stylix.colors {
+        template = builtins.readFile ./stylix/Trolltech.conf.mustache;
+        extension = ".conf";
+      };
+      ".config/kdeglobals".source = config.lib.stylix.colors {
+        template = builtins.readFile ./stylix/Trolltech.conf.mustache;
+        extension = "";
+      };
+    };
+
+    home.packages = with pkgs; [
+      nerd-fonts.fira-code
+      fira-sans
+      twitter-color-emoji
+    ] ++ lib.optionals isLinux [
+      kdePackages.breeze
+      kdePackages.breeze-icons
+    ];
+
+    fonts.fontconfig.defaultFonts = {
+      monospace = [ config.stylix.fonts.monospace.name ];
+      sansSerif = [ config.stylix.fonts.sansSerif.name ];
+      serif = [ config.stylix.fonts.serif.name ];
+    };
+  };
 }

@@ -37,4 +37,6 @@
     # darwin
     darwin.gui.aerospace.enable = true;
   };
+
+  config.home.stylix.theme = "catppuccin-mocha";
 }

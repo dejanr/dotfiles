@@ -65,8 +65,5 @@
     home.cli.pi-mono.enable = true;
   };
 
-  config.home.stylix = {
-    enable = true;
-    theme = "catppuccin-mocha";
-  };
+  config.home.stylix.theme = "catppuccin-mocha";
 }

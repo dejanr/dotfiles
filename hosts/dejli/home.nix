@@ -37,8 +37,5 @@
     home.cli.opencode.enable = true;
   };
 
-  config.home.stylix = {
-    enable = true;
-    theme = "catppuccin-mocha";
-  };
+  config.home.stylix.theme = "catppuccin-mocha";
 }
