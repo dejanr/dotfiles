@@ -18,7 +18,8 @@ in
   config = mkIf cfg.enable {
     # System-level gaming packages (Wine, Vulkan drivers, system tools)
     environment.systemPackages = with pkgs; [
-      wine-tkg
+      wine
+      dxvk
       wineprefix-preparer
       appimage-run
       winetricks-git

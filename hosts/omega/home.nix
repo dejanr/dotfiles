@@ -36,6 +36,19 @@
     categories = [ "Utility" ];
   };
 
+  config.xdg.desktopEntries.darkfall-roa = {
+    name = "Darkfall: Rise of Agon";
+    exec = "${pkgs.writeShellScript "darkfall-roa" ''
+      export WINEPREFIX="/home/dejanr/games/riseofagon"
+      export WINEARCH=win32
+      cd "/home/dejanr/games/riseofagon/drive_c/Program Files/Darkfall RoA"
+      wine ./Darkfall_RoA.exe
+    ''}";
+    icon = "wine";
+    terminal = false;
+    categories = [ "Game" ];
+  };
+
   config.modules = {
     home.common.packages.enable = true;
 
