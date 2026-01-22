@@ -43,6 +43,9 @@ in
         github = {
           user = "dejanr";
         };
+        "url \"git@github.com:\"" = {
+          insteadOf = "https://github.com/";
+        };
         "filter \"lfs\"" = {
           clean = "${pkgs.git-lfs}/bin/git-lfs clean -- %f";
           smudge = "${pkgs.git-lfs}/bin/git-lfs smudge --skip -- %f";

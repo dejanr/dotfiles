@@ -332,7 +332,7 @@
   for_window [class="steam_app_1808500"] fullscreen disable
   for_window [class="explorer.exe"] fullscreen disable
   for_window [class="explorer.exe"] floating enable
-  for_window [class="explorer.exe"] resize set 2560 1440
+  for_window [class="explorer.exe"] resize set 3440 1440
   for_window [class="explorer.exe"] move window to position 0 0
   for_window [class="explorer.exe"] floating disable
 
