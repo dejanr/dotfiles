@@ -18,6 +18,7 @@ Nix-based system configurations for NixOS and macOS (nix-darwin).
 ### NixOS vs Home Manager Decision Framework
 
 #### Keep in NixOS (System-level)
+
 - System services (daemons, background services)
 - Hardware configuration (drivers, kernel modules)
 - Security/permissions (sudo, polkit, groups)
@@ -26,12 +27,14 @@ Nix-based system configurations for NixOS and macOS (nix-darwin).
 - Virtualization (libvirt, docker, etc.)
 
 #### Move to Home Manager (User-level)
+
 - User applications (browsers, editors, media players)
 - Desktop applications without system integration needs
 - User configuration files (dotfiles, themes)
 - Development tools (unless system-wide needed)
 
 #### Special Cases
+
 - **Games**: Steam system integration stays in NixOS, individual games in Home Manager
 - **Fonts**: System-wide fonts in NixOS, user preferences in Home Manager
 - **Mixed apps**: Apps needing polkit/system integration stay in NixOS
@@ -83,6 +86,7 @@ modules/
 All modules follow the template in `modules/template.nix`.
 
 Options follow the path structure:
+
 - `modules.home.cli.git` → `modules/home/cli/git.nix`
 - `modules.apps.kitty` → `modules/home/apps/kitty.nix`
 - `modules.nixos.roles.desktop` → `modules/nixos/roles/desktop.nix`
@@ -125,6 +129,7 @@ secrets/
 ```
 
 **Adding a secret:**
+
 1. Add entry to `secrets/secrets.nix` with public keys
 2. Run `cd secrets && agenix -i ~/.ssh/agenix -e <name>.age`
 3. Reference in modules via `config.age.secrets.<name>.path`

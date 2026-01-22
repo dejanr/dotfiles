@@ -65,6 +65,7 @@ in
       xdg-utils
       xorg.xmodmap
       google-chrome
+      openscad-unstable
 
       # dejli
       dejli-audio

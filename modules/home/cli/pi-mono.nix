@@ -31,28 +31,25 @@ let
 
   settings = {
     lastChangelogVersion = packageJson.version;
-    defaultProvider = "anthropic";
-    defaultModel = "claude-opus-4-5";
+    defaultProvider = "openai-codex";
+    defaultModel = "gpt-5.2-codex";
     defaultThinkingLevel = "off";
+    theme = "dejanr";
     extensions = map (name: "${homeDir}/.pi/agent/extensions/${name}/index.ts") extensionNames;
   };
 
   keybindings = {
     cursorUp = [
       "up"
-      "ctrl+p"
     ];
     cursorDown = [
       "down"
-      "ctrl+n"
     ];
     cursorLeft = [
       "left"
-      "ctrl+b"
     ];
     cursorRight = [
       "right"
-      "ctrl+f"
     ];
   };
 
@@ -66,7 +63,9 @@ let
       in
       map (file: {
         name = ".pi/agent/extensions/${name}/${file}";
-        value = { source = extDir + "/${file}"; };
+        value = {
+          source = extDir + "/${file}";
+        };
       }) tsFiles
     ) extensionNames
   );
@@ -79,18 +78,19 @@ in
   config = mkIf cfg.enable {
     home.packages = [ piMono ];
 
-    home.file =
-      {
-        ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
-        ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
-        ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
+    home.file = {
+      ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
+      ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
+      ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
+      ".pi/agent/skills".source = ./pi-mono/skills;
+      ".pi/agent/themes/dejanr.json".source = ./pi-mono/themes/dejanr.json;
+    }
+    // extensionFiles
+    // (mapAttrs' (
+      name: _:
+      nameValuePair ".pi/agent/prompts/${name}" {
+        source = ./pi-mono/prompts/${name};
       }
-      // extensionFiles
-      // (mapAttrs' (
-        name: _:
-        nameValuePair ".pi/agent/prompts/${name}" {
-          source = ./pi-mono/prompts/${name};
-        }
-      ) prompts);
+    ) prompts);
   };
 }
