@@ -1,0 +1,21 @@
+{
+  "name": "pi-extension-voice-input",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*"
+  },
+  "dependencies": {
+    "ws": "^8.19.0"
+  },
+  "scripts": {
+    "build": "node ../../nix/scripts/build.mjs"
+  }
+}

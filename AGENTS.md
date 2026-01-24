@@ -54,7 +54,16 @@ nixos-rebuild switch --flake .#<host> --target-host <ip>
 # Check/format
 nix flake check
 nix fmt
+
+# Dev shell (direnv)
+direnv allow
+# Run commands in the dev shell
+# Example: direnv exec . agenix --version
 ```
+
+## Pi-mono Extensions
+
+Extensions live in `modules/home/cli/pi-mono/extensions`. See `modules/home/cli/pi-mono/extensions/README.md` for how to add a new extension, run lint/typecheck, and test with `pi -e`.
 
 ## Module Conventions
 

@@ -18,7 +18,7 @@
 
 import type { ExtensionAPI, ExtensionContext, ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import { DynamicBorder, BorderedLoader } from "@mariozechner/pi-coding-agent";
-import { Container, type SelectItem, SelectList, Text, Key } from "@mariozechner/pi-tui";
+import { Container, type SelectItem, SelectList, Text, Key, matchesKey } from "@mariozechner/pi-tui";
 
 // State to track fresh session review (where we branched from).
 // Module-level state means only one review can be active at a time.
@@ -401,8 +401,8 @@ export default function reviewExtension(pi: ExtensionAPI) {
 				noMatch: (text) => theme.fg("warning", text),
 			});
 
-			// Enable search
-			selectList.searchable = true;
+			let filter = "";
+			const applyFilter = () => selectList.setFilter(filter);
 
 			selectList.onSelect = (item) => done(item.value);
 			selectList.onCancel = () => done(null);
@@ -419,6 +419,16 @@ export default function reviewExtension(pi: ExtensionAPI) {
 					container.invalidate();
 				},
 				handleInput(data: string) {
+					if (matchesKey(data, Key.backspace) || matchesKey(data, Key.ctrl("h"))) {
+						if (filter.length > 0) {
+							filter = filter.slice(0, -1);
+							applyFilter();
+						}
+					} else if (data.length === 1 && data >= " " && data <= "~") {
+						filter += data;
+						applyFilter();
+					}
+
 					selectList.handleInput(data);
 					tui.requestRender();
 				},
@@ -459,8 +469,8 @@ export default function reviewExtension(pi: ExtensionAPI) {
 				noMatch: (text) => theme.fg("warning", text),
 			});
 
-			// Enable search
-			selectList.searchable = true;
+			let filter = "";
+			const applyFilter = () => selectList.setFilter(filter);
 
 			selectList.onSelect = (item) => {
 				const commit = commits.find((c) => c.sha === item.value);
@@ -484,6 +494,16 @@ export default function reviewExtension(pi: ExtensionAPI) {
 					container.invalidate();
 				},
 				handleInput(data: string) {
+					if (matchesKey(data, Key.backspace) || matchesKey(data, Key.ctrl("h"))) {
+						if (filter.length > 0) {
+							filter = filter.slice(0, -1);
+							applyFilter();
+						}
+					} else if (data.length === 1 && data >= " " && data <= "~") {
+						filter += data;
+						applyFilter();
+					}
+
 					selectList.handleInput(data);
 					tui.requestRender();
 				},
@@ -537,7 +557,7 @@ export default function reviewExtension(pi: ExtensionAPI) {
 			// Navigate to first user message to create a new branch from that point
 			// Label it as "code-review" so it's visible in the tree
 			try {
-				const result = await ctx.navigateTree(firstUserMessage.id, { summarize: false, label: "code-review" });
+				const result = await ctx.navigateTree(firstUserMessage.id, { summarize: false });
 				if (result.cancelled) {
 					reviewOriginId = undefined;
 					return;
@@ -746,8 +766,6 @@ Preserve exact file paths, function names, and error messages.
 
 					ctx.navigateTree(originId!, {
 						summarize: true,
-						customInstructions: REVIEW_SUMMARY_PROMPT,
-						replaceInstructions: true,
 					})
 						.then(done)
 						.catch((err) => done({ cancelled: false, error: err instanceof Error ? err.message : String(err) }));

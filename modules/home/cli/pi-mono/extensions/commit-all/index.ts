@@ -48,7 +48,7 @@ You are tasked with creating git commits for the changes in this repository.
 - The user trusts your judgment - they asked you to commit`;
 
 export default function (pi: ExtensionAPI) {
-  pi.registerCommand("commit", {
+  pi.registerCommand("commit-all", {
     description: "Branch into new session to create git commits",
     handler: async (_args, ctx) => {
       try {

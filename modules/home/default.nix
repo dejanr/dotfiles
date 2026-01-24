@@ -28,6 +28,8 @@
       ./cli/pi-mono/extensions
       ./cli/pi-mono/nix
       ./cli/pi-mono/prompts
+      ./cli/pi-mono/flake.nix
+      ./cli/pi-mono/devenv.nix
     ];
   };
 }

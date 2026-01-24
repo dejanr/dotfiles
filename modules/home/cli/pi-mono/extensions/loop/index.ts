@@ -212,19 +212,25 @@ export default function loopExtension(pi: ExtensionAPI): void {
 		if (!loopState.active || !loopState.mode || !loopState.prompt) return;
 		if (ctx.hasPendingMessages()) return;
 
+		const prompt = loopState.prompt;
+		if (!prompt) return;
+
 		const loopCount = (loopState.loopCount ?? 0) + 1;
 		loopState = { ...loopState, loopCount };
 		persistState(loopState);
 		updateStatus(ctx, loopState);
 
-		pi.sendMessage({
-			customType: "loop",
-			content: loopState.prompt,
-			display: true
-		}, {
-			deliverAs: "followUp",
-			triggerTurn: true
-		});
+		pi.sendMessage(
+			{
+				customType: "loop",
+				content: prompt,
+				display: true,
+			},
+			{
+				deliverAs: "followUp",
+				triggerTurn: true,
+			},
+		);
 	}
 
 	async function showLoopSelector(ctx: ExtensionContext): Promise<LoopStateData | null> {

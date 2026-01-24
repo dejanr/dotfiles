@@ -1,3 +1,4 @@
+.devenv
 vm.qcow2
 result
 vim/vim/plugged
@@ -7,3 +8,5 @@ nix/config/nixpkgs/overlays/80-wine/revert-hashes
 .direnv
 .aider*
 modules/home/cli/pi-mono/extensions/*/node_modules/
+dist/
+node_modules

@@ -545,7 +545,7 @@ export default function (pi: ExtensionAPI) {
 			});
 
 			return {
-				content: [{ type: "text", text: formatted }],
+				content: [{ type: "text" as const, text: formatted }],
 				details: { exitCode: result.code, cwd: resolvedCwd, timedOut },
 			};
 		};

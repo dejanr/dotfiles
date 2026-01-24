@@ -20,9 +20,7 @@ let
   piMonoPkg = import ./pi-mono/nix/package.nix;
   piMono = piMonoPkg { inherit pkgs pi-mono-src; };
 
-  extensionsDir = ./pi-mono/extensions;
-  extensionDirs = builtins.readDir extensionsDir;
-  extensionNames = attrNames (filterAttrs (_: v: v == "directory") extensionDirs);
+  piMonoExtensionsPkg = inputs.self.packages.${pkgs.system}.pi-mono-extensions;
 
   promptFiles = builtins.readDir ./pi-mono/prompts;
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;
@@ -35,7 +33,6 @@ let
     defaultModel = "gpt-5.2-codex";
     defaultThinkingLevel = "off";
     theme = "dejanr";
-    extensions = map (name: "${homeDir}/.pi/agent/extensions/${name}/index.ts") extensionNames;
   };
 
   keybindings = {
@@ -53,22 +50,6 @@ let
     ];
   };
 
-  extensionFiles = listToAttrs (
-    concatMap (
-      name:
-      let
-        extDir = extensionsDir + "/${name}";
-        files = builtins.readDir extDir;
-        tsFiles = attrNames (filterAttrs (n: v: v == "regular" && hasSuffix ".ts" n) files);
-      in
-      map (file: {
-        name = ".pi/agent/extensions/${name}/${file}";
-        value = {
-          source = extDir + "/${file}";
-        };
-      }) tsFiles
-    ) extensionNames
-  );
 in
 {
   options.modules.home.cli.pi-mono = {
@@ -82,10 +63,10 @@ in
       ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
       ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
       ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
+      ".pi/agent/extensions".source = piMonoExtensionsPkg;
       ".pi/agent/skills".source = ./pi-mono/skills;
       ".pi/agent/themes/dejanr.json".source = ./pi-mono/themes/dejanr.json;
     }
-    // extensionFiles
     // (mapAttrs' (
       name: _:
       nameValuePair ".pi/agent/prompts/${name}" {

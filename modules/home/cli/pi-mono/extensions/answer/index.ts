@@ -27,6 +27,7 @@ import {
   type EditorTheme,
   Key,
   matchesKey,
+  type TUI,
   truncateToWidth,
   visibleWidth,
   wrapTextWithAnsi,
@@ -142,7 +143,7 @@ class QnAComponent implements Component {
   private answers: string[];
   private currentIndex: number = 0;
   private editor: Editor;
-  private tui: { requestRender: () => void };
+  private tui: TUI;
   private onDone: (result: string | null) => void;
   private showingConfirmation: boolean = false;
 
@@ -160,7 +161,7 @@ class QnAComponent implements Component {
 
   constructor(
     questions: ExtractedQuestion[],
-    tui: { requestRender: () => void },
+    tui: TUI,
     onDone: (result: string | null) => void,
   ) {
     this.questions = questions;
@@ -172,13 +173,15 @@ class QnAComponent implements Component {
     const editorTheme: EditorTheme = {
       borderColor: this.dim,
       selectList: {
-        selectedBg: (s: string) => `\x1b[44m${s}\x1b[0m`,
-        matchHighlight: this.cyan,
-        itemSecondary: this.gray,
+        selectedPrefix: this.cyan,
+        selectedText: this.cyan,
+        description: this.gray,
+        scrollInfo: this.gray,
+        noMatch: this.gray,
       },
     };
 
-    this.editor = new Editor(editorTheme);
+    this.editor = new Editor(this.tui, editorTheme);
     // Disable the editor's built-in submit (which clears the editor)
     // We'll handle Enter ourselves to preserve the text
     this.editor.disableSubmit = true;

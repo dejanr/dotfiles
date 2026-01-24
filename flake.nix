@@ -73,10 +73,12 @@
       url = "github:badlogic/pi-mono";
       flake = false;
     };
+
   };
 
   outputs =
     {
+      self,
       home-manager,
       nix-darwin,
       nixos-apple-silicon,
@@ -186,6 +188,11 @@
       packages = forEachSystem (system: {
         nvim = nixvimConfig system;
         default = nixvimConfig system;
+        pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+          extensions-src = self + "/modules/home/cli/pi-mono";
+          pi-mono-src = inputs.pi-mono;
+        };
       });
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";

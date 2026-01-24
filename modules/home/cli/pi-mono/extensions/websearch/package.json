@@ -1,0 +1,22 @@
+{
+  "name": "pi-extension-websearch",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*",
+    "@sinclair/typebox": "*"
+  },
+  "dependencies": {
+    "exa-js": "^1.10.2"
+  },
+  "scripts": {
+    "build": "node ../../nix/scripts/build.mjs"
+  }
+}
