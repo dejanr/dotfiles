@@ -22,5 +22,7 @@ in
     age.secrets.deepseek_api_key.file = ../../../secrets/deepseek_api_key.age;
     age.secrets.groq_api_key.file = ../../../secrets/groq_api_key.age;
     age.secrets.gemini_api_key.file = ../../../secrets/gemini_api_key.age;
+    age.secrets.elevenlabs_api_key.file = ../../../secrets/elevenlabs_api_key.age;
+    age.secrets.exa_api_key.file = ../../../secrets/exa_api_key.age;
   };
 }

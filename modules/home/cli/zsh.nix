@@ -73,6 +73,8 @@ in
             # export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
             export DEEPSEEK_API_KEY=$(cat ${config.age.secrets.deepseek_api_key.path})
             export GROQ_API_KEY=$(cat ${config.age.secrets.groq_api_key.path})
+            export ELEVENLABS_API_KEY=$(cat ${config.age.secrets.elevenlabs_api_key.path})
+            export EXA_API_KEY=$(cat ${config.age.secrets.exa_api_key.path})
           '';
           darwinExports = ''
             ${darwinPath}
