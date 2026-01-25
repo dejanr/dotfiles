@@ -1,49 +1,85 @@
-{ pkgs, extensions-src, pi-mono-src }:
+{
+  pkgs,
+  extensions-src,
+  pi-mono-src,
+}:
 
+let
+  pnpm = pkgs.pnpm_10;
+  nodejs = pkgs.nodejs_24;
+
+  piVersion =
+    (builtins.fromJSON (builtins.readFile (pi-mono-src + "/packages/coding-agent/package.json")))
+    .version;
+
+  extSrc = pkgs.lib.cleanSourceWith {
+    src = extensions-src + "/extensions";
+    filter =
+      p: _t:
+      let
+        name = baseNameOf p;
+      in
+      !builtins.elem name [
+        "node_modules"
+        "dist"
+        ".direnv"
+        ".devenv"
+      ];
+  };
+
+  buildScript = pkgs.writeText "build-extension.mjs" ''
+    import { readFile } from "node:fs/promises";
+    import { createRequire } from "node:module";
+    import { resolve } from "node:path";
+
+    const cwd = process.cwd();
+    const require = createRequire(resolve(cwd, "..", "package.json"));
+    const { build } = require("esbuild");
+    const packageJson = JSON.parse(await readFile(resolve(cwd, "package.json"), "utf8"));
+    const peerDeps = Object.keys(packageJson.peerDependencies ?? {});
+
+    await build({
+      entryPoints: [resolve(cwd, "index.ts")],
+      outfile: resolve(cwd, "dist/index.js"),
+      bundle: true,
+      platform: "node",
+      format: "esm",
+      target: "node18",
+      external: ["@mariozechner/*", ...peerDeps],
+    });
+  '';
+in
 pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "pi-mono-extensions";
   version = "1.0.0";
 
-  src = extensions-src;
-  sourceRoot = "extensions";
+  src = extSrc;
 
   nativeBuildInputs = [
-    pkgs.nodejs_24
-    pkgs.pnpm
+    nodejs
+    pnpm
     pkgs.pnpmConfigHook
   ];
 
   pnpmDeps = pkgs.fetchPnpmDeps {
-    inherit (finalAttrs) pname version src sourceRoot;
-    hash = "sha256-fGO1E8aFnDPMhPaw1hBhAX29r9JYHRnmzAxofT48jcw=";
-    fetcherVersion = 2;
-    unpackPhase = ''
-      runHook preUnpack
-      cp -r $src/. .
-      chmod -R u+w .
-      runHook postUnpack
-    '';
+    inherit (finalAttrs) pname version src;
+    inherit pnpm;
+    fetcherVersion = 3;
+    hash = "sha256-5DmyouxDvBk7/VH03ga/UD5HwYL1BqjjQcT5/l1+YMA=";
   };
-
-  unpackPhase = ''
-    runHook preUnpack
-    cp -r $src/. .
-    chmod -R u+w .
-    runHook postUnpack
-  '';
 
   buildPhase = ''
     runHook preBuild
 
-    expectedVersion=$(node -p "JSON.parse(require('fs').readFileSync('${pi-mono-src}/packages/coding-agent/package.json', 'utf8')).version")
     declaredVersion=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).devDependencies['@mariozechner/pi-coding-agent']")
-    if [ "$expectedVersion" != "$declaredVersion" ]; then
-      echo "Expected @mariozechner/pi-coding-agent version $expectedVersion but extensions declare $declaredVersion" >&2
+    if [ "${piVersion}" != "$declaredVersion" ]; then
+      echo "ERROR: pi-mono version mismatch (input: ${piVersion}, declared: $declaredVersion)" >&2
       exit 1
     fi
 
-    pnpm install --frozen-lockfile --offline --ignore-scripts
-    pnpm -r run build
+    for dir in */; do
+      [ -f "$dir/index.ts" ] && echo "Building $dir" && (cd "$dir" && node ${buildScript})
+    done
 
     runHook postBuild
   '';
@@ -51,13 +87,8 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p "$out"
-
-    for extension in */; do
-      if [ -f "$extension/package.json" ]; then
-        mkdir -p "$out/$extension"
-        cp -r "$extension/dist" "$extension/package.json" "$out/$extension/"
-      fi
+    for dir in */; do
+      [ -f "$dir/dist/index.js" ] && mkdir -p "$out/$dir" && cp -r "$dir"/{dist,package.json} "$out/$dir/"
     done
 
     runHook postInstall

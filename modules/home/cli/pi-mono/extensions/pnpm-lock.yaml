@@ -81,6 +81,18 @@ importers:
         specifier: '*'
         version: 0.49.3(ws@8.19.0)(zod@3.25.76)
 
+  direnv:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
+
+  footer:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
+
   loop:
     dependencies:
       '@mariozechner/pi-ai':

@@ -25,12 +25,10 @@ let
   promptFiles = builtins.readDir ./pi-mono/prompts;
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;
 
-  homeDir = config.home.homeDirectory;
-
   settings = {
     lastChangelogVersion = packageJson.version;
-    defaultProvider = "openai-codex";
-    defaultModel = "gpt-5.2-codex";
+    defaultProvider = "anthropic";
+    defaultModel = "claude-opus-4-5";
     defaultThinkingLevel = "off";
     theme = "dejanr";
   };
