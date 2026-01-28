@@ -45,6 +45,9 @@ let
     cursorRight = [
       "right"
     ];
+    toggleThinking = [
+      "ctrl+z"
+    ];
   };
 
 in
