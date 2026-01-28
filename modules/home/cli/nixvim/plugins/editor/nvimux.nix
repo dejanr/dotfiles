@@ -60,11 +60,27 @@
       key = "T";
       action.__raw = ''
         function()
-          require("nvimux").run(" run-last-history-in-vimux")
+          -- Find last clear; command from zsh history and run it via nvimux
+          local handle = io.popen("fc -ln -1000 2>/dev/null | grep 'clear\\;' | tail -1")
+          if not handle then
+            vim.notify("Could not read history", vim.log.levels.ERROR)
+            return
+          end
+
+          local cmd = handle:read("*a")
+          handle:close()
+          cmd = cmd:gsub("^%s+", ""):gsub("%s+$", "")
+
+          if cmd == "" then
+            vim.notify("No 'clear;' command found in history", vim.log.levels.WARN)
+            return
+          end
+
+          require("nvimux").run(cmd)
         end
       '';
       options = {
-        desc = "Run new tmux command";
+        desc = "Run last clear; command from shell history";
         silent = true;
       };
     }

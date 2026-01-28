@@ -30,7 +30,6 @@ let
     defaultProvider = "anthropic";
     defaultModel = "claude-opus-4-5";
     defaultThinkingLevel = "off";
-    theme = "dejanr";
   };
 
   keybindings = {

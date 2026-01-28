@@ -44,7 +44,7 @@ export default function (pi: ExtensionAPI) {
 
 					const branch = footerData.getGitBranch();
 					const branchStr = branch
-						? `${theme.fg("dim", " │ ")}${theme.fg("success", " ")}${theme.fg("accent", branch)}`
+						? `${theme.fg("dim", " │ ")}${theme.fg("accent", branch)}`
 						: "";
 
 					const statuses = footerData.getExtensionStatuses();
