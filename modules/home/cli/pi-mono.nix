@@ -46,7 +46,7 @@ let
       "right"
     ];
     toggleThinking = [
-      "ctrl+z"
+      "ctrl+t"
     ];
   };
 

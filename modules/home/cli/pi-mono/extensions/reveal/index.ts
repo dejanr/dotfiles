@@ -1,5 +1,5 @@
-import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, statSync, unlinkSync, writeFileSync } from "node:fs";
+import { execSync } from "node:child_process";
+import { existsSync, statSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,7 +10,6 @@ import {
 	type SelectItem,
 	SelectList,
 	Text,
-	type TUI,
 	Input,
 	Spacer,
 	fuzzyFilter,
@@ -33,8 +32,6 @@ type FileReference = {
 const FILE_TAG_REGEX = /<file\s+name=["']([^"']+)["']>/g;
 const FILE_URL_REGEX = /file:\/\/[^\s"'<>]+/g;
 const PATH_REGEX = /(?:^|[\s"'`([{<])((?:~|\/)[^\s"'`<>)}\]]+)/g;
-
-const MAX_EDIT_BYTES = 40 * 1024 * 1024;
 
 const extractFileReferencesFromText = (text: string): string[] => {
 	const refs: string[] = [];
@@ -360,47 +357,24 @@ const showFileSelector = async (
 	});
 };
 
-type EditCheckResult = {
-	allowed: boolean;
-	reason?: string;
-	content?: string;
-};
-
-const getEditableContent = (target: FileReference): EditCheckResult => {
+const canEditFile = (target: FileReference): boolean => {
 	if (!existsSync(target.path)) {
-		return { allowed: false, reason: "File not found" };
+		return false;
 	}
-
 	const stats = statSync(target.path);
-	if (stats.isDirectory()) {
-		return { allowed: false, reason: "Directories cannot be edited" };
-	}
-
-	if (stats.size >= MAX_EDIT_BYTES) {
-		return { allowed: false, reason: "File is too large" };
-	}
-
-	const buffer = readFileSync(target.path);
-	if (buffer.includes(0)) {
-		return { allowed: false, reason: "File contains null bytes" };
-	}
-
-	return { allowed: true, content: buffer.toString("utf8") };
+	return !stats.isDirectory();
 };
 
 const showActionSelector = async (
 	ctx: ExtensionContext,
-	options: { canQuickLook: boolean; canEdit: boolean },
-): Promise<"reveal" | "quicklook" | "open" | "edit" | "addToPrompt" | null> => {
+	options: { canEdit: boolean; hasTmuxEditor: boolean },
+): Promise<"edit" | "addToPrompt" | null> => {
 	const actions: SelectItem[] = [
-		{ value: "reveal", label: "Reveal in Finder" },
-		{ value: "open", label: "Open" },
+		...(options.canEdit && options.hasTmuxEditor ? [{ value: "edit", label: "Open in nvim" }] : []),
 		{ value: "addToPrompt", label: "Add to prompt" },
-		...(options.canQuickLook ? [{ value: "quicklook", label: "Open in Quick Look" }] : []),
-		...(options.canEdit ? [{ value: "edit", label: "Edit" }] : []),
 	];
 
-	return ctx.ui.custom<"reveal" | "quicklook" | "open" | "edit" | "addToPrompt" | null>((tui, theme, _kb, done) => {
+	return ctx.ui.custom<"edit" | "addToPrompt" | null>((tui, theme, _kb, done) => {
 		const container = new Container();
 		container.addChild(new DynamicBorder((str) => theme.fg("accent", str)));
 		container.addChild(new Text(theme.fg("accent", theme.bold("Choose action"))));
@@ -414,7 +388,7 @@ const showActionSelector = async (
 		});
 
 		selectList.onSelect = (item) =>
-			done(item.value as "reveal" | "quicklook" | "open" | "edit" | "addToPrompt");
+			done(item.value as "edit" | "addToPrompt");
 		selectList.onCancel = () => done(null);
 
 		container.addChild(selectList);
@@ -436,136 +410,48 @@ const showActionSelector = async (
 	});
 };
 
-const openPath = async (pi: ExtensionAPI, ctx: ExtensionContext, target: FileReference): Promise<void> => {
-	if (!existsSync(target.path)) {
-		if (ctx.hasUI) {
-			ctx.ui.notify(`File not found: ${target.path}`, "error");
-		}
-		return;
-	}
-
-	const command = process.platform === "darwin" ? "open" : "xdg-open";
-	const result = await pi.exec(command, [target.path]);
-	if (result.code !== 0 && ctx.hasUI) {
-		const errorMessage = result.stderr?.trim() || `Failed to open ${target.path}`;
-		ctx.ui.notify(errorMessage, "error");
-	}
+type TmuxEditorTarget = {
+	session: string;
+	window: string;
+	pane?: string;
 };
 
-const openExternalEditor = (tui: TUI, editorCmd: string, content: string): string | null => {
-	const tmpFile = path.join(os.tmpdir(), `pi-reveal-edit-${Date.now()}.txt`);
-
+const findTmuxEditorWindow = (): TmuxEditorTarget | null => {
 	try {
-		writeFileSync(tmpFile, content, "utf8");
-		tui.stop();
+		const windows = execSync("tmux list-windows -a -F '#{session_name}:#{window_name}'", {
+			encoding: "utf8",
+			timeout: 5000,
+		}).trim();
 
-		const [editor, ...editorArgs] = editorCmd.split(" ");
-		const result = spawnSync(editor, [...editorArgs, tmpFile], { stdio: "inherit" });
-
-		if (result.status === 0) {
-			return readFileSync(tmpFile, "utf8").replace(/\n$/, "");
+		for (const line of windows.split("\n")) {
+			const [session, window] = line.split(":");
+			if (window === "editor" || window === "nvim" || window === "vim") {
+				return { session, window };
+			}
 		}
 
 		return null;
-	} finally {
-		try {
-			unlinkSync(tmpFile);
-		} catch {
-		}
-		tui.start();
-		tui.requestRender(true);
+	} catch {
+		return null;
 	}
 };
 
-const editPath = async (
+const openInTmuxNvim = (
 	ctx: ExtensionContext,
 	target: FileReference,
-	content: string,
-): Promise<void> => {
-	const editorCmd = process.env.VISUAL || process.env.EDITOR;
-	if (!editorCmd) {
-		ctx.ui.notify("No editor configured. Set $VISUAL or $EDITOR.", "warning");
-		return;
-	}
-
-	const updated = await ctx.ui.custom<string | null>((tui, theme, _kb, done) => {
-		const status = new Text(theme.fg("dim", `Opening ${editorCmd}...`));
-
-		queueMicrotask(() => {
-			const result = openExternalEditor(tui, editorCmd, content);
-			done(result);
-		});
-
-		return status;
-	});
-
-	if (updated === null) {
-		ctx.ui.notify("Edit cancelled", "info");
-		return;
-	}
+	tmuxTarget: TmuxEditorTarget,
+): void => {
+	const paneTarget = `${tmuxTarget.session}:${tmuxTarget.window}`;
 
 	try {
-		writeFileSync(target.path, updated, "utf8");
-	} catch {
-		ctx.ui.notify(`Failed to save ${target.path}`, "error");
-		return;
-	}
-};
+		const escapedPath = target.path.replace(/'/g, "'\\''");
+		execSync(`tmux send-keys -t '${paneTarget}' Escape`, { timeout: 2000 });
+		execSync(`tmux send-keys -t '${paneTarget}' ':e ${escapedPath}' Enter`, { timeout: 2000 });
+		execSync(`tmux select-window -t '${paneTarget}'`, { timeout: 2000 });
 
-
-const revealPath = async (pi: ExtensionAPI, ctx: ExtensionContext, target: FileReference): Promise<void> => {
-	if (!existsSync(target.path)) {
-		if (ctx.hasUI) {
-			ctx.ui.notify(`File not found: ${target.path}`, "error");
-		}
-		return;
-	}
-
-	const isDirectory = target.isDirectory || statSync(target.path).isDirectory();
-	let command = "open";
-	let args: string[] = [];
-
-	if (process.platform === "darwin") {
-		args = isDirectory ? [target.path] : ["-R", target.path];
-	} else {
-		command = "xdg-open";
-		args = [isDirectory ? target.path : path.dirname(target.path)];
-	}
-
-	const result = await pi.exec(command, args);
-	if (result.code !== 0 && ctx.hasUI) {
-		const errorMessage = result.stderr?.trim() || `Failed to reveal ${target.path}`;
-		ctx.ui.notify(errorMessage, "error");
-	}
-};
-
-const quickLookPath = async (pi: ExtensionAPI, ctx: ExtensionContext, target: FileReference): Promise<void> => {
-	if (process.platform !== "darwin") {
-		if (ctx.hasUI) {
-			ctx.ui.notify("Quick Look is only available on macOS", "warning");
-		}
-		return;
-	}
-
-	if (!existsSync(target.path)) {
-		if (ctx.hasUI) {
-			ctx.ui.notify(`File not found: ${target.path}`, "error");
-		}
-		return;
-	}
-
-	const isDirectory = target.isDirectory || statSync(target.path).isDirectory();
-	if (isDirectory) {
-		if (ctx.hasUI) {
-			ctx.ui.notify("Quick Look only works on files", "warning");
-		}
-		return;
-	}
-
-	const result = await pi.exec("qlmanage", ["-p", target.path]);
-	if (result.code !== 0 && ctx.hasUI) {
-		const errorMessage = result.stderr?.trim() || `Failed to Quick Look ${target.path}`;
-		ctx.ui.notify(errorMessage, "error");
+		ctx.ui.notify(`Opened ${target.display} in nvim`, "info");
+	} catch (error) {
+		ctx.ui.notify(`Failed to open in nvim: ${error}`, "error");
 	}
 };
 
@@ -607,36 +493,27 @@ const runFileBrowser = async (pi: ExtensionAPI, ctx: ExtensionContext): Promise<
 			return;
 		}
 
-		const editCheck = getEditableContent(selection);
-		const canQuickLook = process.platform === "darwin" && !selection.isDirectory;
+		const canEdit = canEditFile(selection);
+		const tmuxTarget = findTmuxEditorWindow();
 
 		const action = await showActionSelector(ctx, {
-			canQuickLook,
-			canEdit: editCheck.allowed,
+			canEdit,
+			hasTmuxEditor: tmuxTarget !== null,
 		});
 		if (!action) {
 			continue;
 		}
 
 		switch (action) {
-			case "quicklook":
-				await quickLookPath(pi, ctx, selection);
-				return;
-			case "open":
-				await openPath(pi, ctx, selection);
-				return;
 			case "edit":
-				if (!editCheck.allowed || editCheck.content === undefined) {
-					ctx.ui.notify(editCheck.reason ?? "File cannot be edited", "warning");
+				if (!tmuxTarget) {
+					ctx.ui.notify("No tmux editor window found", "warning");
 					return;
 				}
-				await editPath(ctx, selection, editCheck.content);
+				openInTmuxNvim(ctx, selection, tmuxTarget);
 				return;
 			case "addToPrompt":
 				addFileToPrompt(ctx, selection);
-				return;
-			default:
-				await revealPath(pi, ctx, selection);
 				return;
 		}
 	}
@@ -657,8 +534,8 @@ export default function (pi: ExtensionAPI): void {
 		},
 	});
 
-	pi.registerShortcut("ctrl+r", {
-		description: "Reveal the latest file reference in Finder",
+	pi.registerShortcut("alt+r", {
+		description: "Open the latest file reference in nvim",
 		handler: async (ctx) => {
 			const entries = ctx.sessionManager.getBranch();
 			const latest = findLatestFileReference(entries, ctx.cwd);
@@ -670,24 +547,13 @@ export default function (pi: ExtensionAPI): void {
 				return;
 			}
 
-			await revealPath(pi, ctx, latest);
-		},
-	});
-
-	pi.registerShortcut("ctrl+shift+r", {
-		description: "Quick Look the latest file reference",
-		handler: async (ctx) => {
-			const entries = ctx.sessionManager.getBranch();
-			const latest = findLatestFileReference(entries, ctx.cwd);
-
-			if (!latest) {
-				if (ctx.hasUI) {
-					ctx.ui.notify("No file reference found in the session", "warning");
-				}
+			const tmuxTarget = findTmuxEditorWindow();
+			if (!tmuxTarget) {
+				ctx.ui.notify("No tmux editor window found", "warning");
 				return;
 			}
 
-			await quickLookPath(pi, ctx, latest);
+			openInTmuxNvim(ctx, latest, tmuxTarget);
 		},
 	});
 }

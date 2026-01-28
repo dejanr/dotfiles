@@ -150,6 +150,15 @@ importers:
         specifier: '*'
         version: 0.49.3
 
+  session-tree:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.50.1(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-tui':
+        specifier: '*'
+        version: 0.50.1
+
   voice-input:
     dependencies:
       '@mariozechner/pi-coding-agent':
