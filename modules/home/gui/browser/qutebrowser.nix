@@ -48,11 +48,7 @@ in
       pkgs.qutebrowser
     ];
 
-    # Workaround for Qt 6.9 + GBM black screen issue
-    # https://github.com/qutebrowser/qutebrowser/issues/8535
     home.sessionVariables = {
-      QTWEBENGINE_FORCE_USE_GBM = "0";
-      # Force Qt to use Vulkan (removed QTWEBENGINE_CHROMIUM_FLAGS as it conflicts with qt.args)
       QT_QPA_PLATFORM = "xcb";
       QSG_RHI_BACKEND = "vulkan";
     };

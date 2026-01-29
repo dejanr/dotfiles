@@ -71,17 +71,33 @@ const getPulseInputDevice = (): string | undefined => {
   const envDevice = process.env.PULSE_INPUT_DEVICE;
   if (envDevice) return envDevice;
 
-  const result = spawnSync("pactl", ["list", "sources", "short"], {
+  // Try pactl first (PulseAudio)
+  const pactlResult = spawnSync("pactl", ["list", "sources", "short"], {
     encoding: "utf-8",
   });
-  if (result.status !== 0) return undefined;
-
-  for (const line of result.stdout.split("\n")) {
-    if (line.includes("input") && line.includes("analog-stereo")) {
-      const parts = line.split("\t");
-      if (parts[1]) return parts[1];
+  if (pactlResult.status === 0) {
+    for (const line of pactlResult.stdout.split("\n")) {
+      if (line.includes("input") && line.includes("analog-stereo")) {
+        const parts = line.split("\t");
+        if (parts[1]) return parts[1];
+      }
     }
   }
+
+  // Fallback to pw-cli (PipeWire)
+  const pwResult = spawnSync("pw-cli", ["list-objects"], {
+    encoding: "utf-8",
+  });
+  if (pwResult.status === 0) {
+    const lines = pwResult.stdout.split("\n");
+    for (const line of lines) {
+      if (line.includes("node.name") && line.includes("alsa_input")) {
+        const match = line.match(/"([^"]+)"/);
+        if (match) return match[1];
+      }
+    }
+  }
+
   return undefined;
 };
 

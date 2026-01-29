@@ -10,6 +10,7 @@
   config.home.file."npmrc".target = ".npmrc";
 
   config.home.packages = with pkgs; [
+    firefox
   ];
 
   config.modules = {
