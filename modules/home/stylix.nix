@@ -85,19 +85,26 @@ in
       };
     };
 
-    home.packages = with pkgs; [
-      nerd-fonts.fira-code
-      fira-sans
-      twitter-color-emoji
-    ] ++ lib.optionals isLinux [
-      kdePackages.breeze
-      kdePackages.breeze-icons
-    ];
+    home.packages =
+      with pkgs;
+      [
+        nerd-fonts.fira-code
+        fira-sans
+        twitter-color-emoji
+      ]
+      ++ lib.optionals isLinux [
+        kdePackages.breeze
+        kdePackages.breeze-icons
+      ];
 
-    fonts.fontconfig.defaultFonts = {
-      monospace = [ config.stylix.fonts.monospace.name ];
-      sansSerif = [ config.stylix.fonts.sansSerif.name ];
-      serif = [ config.stylix.fonts.serif.name ];
+    fonts.fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ config.stylix.fonts.monospace.name ];
+        sansSerif = [ config.stylix.fonts.sansSerif.name ];
+        serif = [ config.stylix.fonts.serif.name ];
+      };
+      antialiasing = true;
     };
   };
 }

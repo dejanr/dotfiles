@@ -22,7 +22,7 @@ in
       rust-analyzer-unwrapped
       black
       nixd
-      nixfmt-rfc-style
+      nixfmt
       lazygit
     ];
 

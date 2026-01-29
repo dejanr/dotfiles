@@ -21,8 +21,6 @@ in
       package = pkgs.jdk11;
     };
 
-    programs.adb.enable = true;
-
     environment.systemPackages = with pkgs; [
       # System-level development tools
       binutils

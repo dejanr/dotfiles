@@ -32,16 +32,13 @@ in
       hfsprogs
       inkscape
       kazam
-      kdePackages.kdenlive
       lm_sensors
       magic-wormhole
       mutt
       newsboat
       pciutils
       pcmanfm
-      pidgin
-      pidginPackages.pidgin-window-merge
-      pidginPackages.purple-plugin-pack
+
       powertop
       printrun
       qalculate-gtk

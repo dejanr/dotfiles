@@ -11,6 +11,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-mesa.url = "github:nixos/nixpkgs/c5ae371f1a6a7fd27823";
 
     nix.url = "github:nixos/nix/2.32.0";
 
@@ -206,6 +207,7 @@
         theory = mkSystem inputs.nixpkgs "aarch64-linux" "theory" "theory";
         vm = mkSystem inputs.nixpkgs "x86_64-linux" "vm" "vm";
         zima = mkSystem inputs.nixpkgs "x86_64-linux" "zima" "zima";
+        ultra = mkSystem inputs.nixpkgs "aarch64-linux" "ultra" "ultra";
       };
       darwinConfigurations =
         let

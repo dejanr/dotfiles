@@ -74,14 +74,16 @@ in
 
       resolved = {
         enable = true;
-        dnssec = "allow-downgrade";
-        domains = [ "~." ];
-        fallbackDns = [
-          "9.9.9.9#dns.quad9.net" # Quad9 (privacy-focused)
-          "1.1.1.1#one.one.one.one" # Cloudflare
-          "1.0.0.1#one.one.one.one" # Cloudflare backup
-        ];
-        dnsovertls = "opportunistic";
+        settings.Resolve = {
+          DNSSEC = "allow-downgrade";
+          Domains = [ "~." ];
+          FallbackDNS = [
+            "9.9.9.9#dns.quad9.net" # Quad9 (privacy-focused)
+            "1.1.1.1#one.one.one.one" # Cloudflare
+            "1.0.0.1#one.one.one.one" # Cloudflare backup
+          ];
+          DNSOverTLS = "opportunistic";
+        };
       };
 
       timesyncd.enable = true;

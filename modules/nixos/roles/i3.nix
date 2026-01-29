@@ -61,13 +61,13 @@ in
       i3blocks
       i3lock-fancy
       xscreensaver # screensaver
-      xfce.thunar # file amanger
-      xfce.thunar-volman
-      xfce.thunar-archive-plugin
-      xfce.xfce4-screenshooter
-      xfce.ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
-      xfce.tumbler # A D-Bus thumbnailer service
-      xfce.xfce4-icon-theme # Icons for Xfce
+      thunar # file amanger
+      thunar-volman
+      thunar-archive-plugin
+      xfce4-screenshooter
+      ristretto # A fast and lightweight picture-viewer for the Xfce desktop environment
+      tumbler # A D-Bus thumbnailer service
+      xfce4-icon-theme # Icons for Xfce
       xfconf # Simple client-server configuration storage and query system for Xfce
       vte
       gnome-themes-extra
@@ -115,7 +115,6 @@ in
 
     services.displayManager = {
       defaultSession = "none+i3";
-      autoLogin.user = "dejanr";
     };
 
     services.xserver = {

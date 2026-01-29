@@ -40,7 +40,7 @@
     gofumpt
     gotools
     stylua
-    nixfmt-rfc-style
+    nixfmt
     isort
     black
     markdownlint-cli
