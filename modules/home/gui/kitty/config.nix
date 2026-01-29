@@ -6,6 +6,15 @@
   font_family PragmataPro Mono
   font_size ${fontSize}
 
+  # === PERFORMANCE ===
+  # Faster rendering
+  repaint_delay 6
+  input_delay 1
+  sync_to_monitor no
+
+  # GPU rendering (faster on Asahi with Vulkan)
+  # wayland_enable_ime no
+
   #--------------------------------------------------------------------
   # Key bindings
   #--------------------------------------------------------------------

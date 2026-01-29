@@ -52,6 +52,11 @@ in
     # https://github.com/qutebrowser/qutebrowser/issues/8535
     home.sessionVariables = {
       QTWEBENGINE_FORCE_USE_GBM = "0";
+      # Chromium performance flags
+      QTWEBENGINE_CHROMIUM_FLAGS = "--disable-logging";
+      # Force Qt to use Vulkan
+      QT_QPA_PLATFORM = "xcb";
+      QSG_RHI_BACKEND = "vulkan";
     };
 
     home.shellAliases = {
@@ -71,17 +76,40 @@ in
     programs.qutebrowser.settings = {
       window.transparent = true;
       auto_save.session = false;
+      # Prevent white flash on startup/new tabs
+      colors.webpage.bg = config.lib.stylix.colors.withHashtag.base00;
+
+      # === PERFORMANCE SETTINGS ===
+      # Faster scrolling
+      scrolling.smooth = false;
+      # Reduce memory - don't keep pages in memory when switching tabs
+      content.cache.size = 52428800; # 50MB cache
+      # Faster completion
+      completion.shrink = true;
+      completion.use_best_match = true;
+      # Disable animations
+      tabs.show_switching_delay = 0;
+      # Lazy load tabs on restore (huge speedup)
+      session.lazy_restore = true;
     };
 
     programs.qutebrowser.extraConfig = ''
       config.set('qt.args',[
-        'ignore-gpu-blacklist',
-        'enable-gpu-rasterization',
-        'enable-native-gpu-memory-buffers',
-        'num-raster-threads=4',
         # Process isolation - each tab gets own process (prevents cross-tab freezing)
         '--process-per-site',
         '--renderer-process-limit=8',
+        # Performance: disable features we don't need
+        '--disable-reading-from-canvas',
+        '--disable-remote-fonts',
+        '--disable-background-networking',
+        '--disable-sync',
+        # Faster startup
+        '--disable-extensions',
+        '--disable-default-apps',
+        # Use Vulkan backend instead of OpenGL (better on Asahi)
+        '--use-vulkan',
+        '--enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan',
+        '--use-angle=vulkan',
       ])
       config.load_autoconfig(True)
 
@@ -104,6 +132,37 @@ in
       
       # Reduce WebRTC overhead
       c.content.webrtc_ip_handling_policy = 'default-public-interface-only'
+
+      # Dark mode for web content - reduces white flash
+      c.colors.webpage.preferred_color_scheme = 'dark'
+
+      # === ADDITIONAL PERFORMANCE ===
+      # Disable preloading - saves memory and CPU
+      c.content.prefers_reduced_motion = True
+      
+      # Limit history for faster searches
+      c.completion.web_history.max_items = 1000
+      
+      # Disable DNS prefetching
+      c.content.dns_prefetch = False
+      
+      # Disable hyperlink auditing (tracking)
+      c.content.hyperlink_auditing = False
+      
+      # Disable canvas reading (fingerprinting + performance)
+      c.content.canvas_reading = False
+      
+      # Disable geolocation
+      c.content.geolocation = False
+      
+      # Disable notifications
+      c.content.notifications.enabled = False
+      
+      # Disable autoplay - huge performance saver
+      c.content.autoplay = False
+      
+      # Limit concurrent tabs loading
+      c.tabs.background = True
 
       base00 = "#''
     + config.lib.stylix.colors.base00

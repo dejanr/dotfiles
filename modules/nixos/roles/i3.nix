@@ -38,6 +38,22 @@ in
       config.common.default = "*";
     };
 
+    # Compositor for vsync, no tearing, and better rendering
+    services.picom = {
+      enable = true;
+      backend = "glx";
+      vSync = true;
+      settings = {
+        glx-no-stencil = true;
+        glx-no-rebind-pixmap = true;
+        use-damage = true;
+        # Disable effects for speed
+        shadow = false;
+        fading = false;
+        blur.method = "none";
+      };
+    };
+
     environment.systemPackages = with pkgs; [
       wm-lock
       wm-wallpaper

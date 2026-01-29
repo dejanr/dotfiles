@@ -30,8 +30,6 @@ in
       avahi.publish.enable = true;
       avahi.publish.userServices = true;
       avahi.nssmdns4 = true;
-      urxvtd.enable = true;
-
       passSecretService.enable = true;
 
       mpd.enable = true;
@@ -62,11 +60,6 @@ in
       };
 
       upower.enable = true;
-
-      postfix = {
-        enable = true;
-        setSendmail = true;
-      };
 
       accounts-daemon.enable = true;
 

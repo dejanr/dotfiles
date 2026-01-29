@@ -9,6 +9,13 @@
 
   smart_borders on
 
+  # === PERFORMANCE ===
+  # Disable title bars (faster rendering)
+  default_border pixel 1
+  default_floating_border pixel 1
+  # Reduce redraws
+  force_display_urgency_hint 500 ms
+
   # Constants
   set $mod Mod4
   set $alt Mod1

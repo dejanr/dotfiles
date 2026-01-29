@@ -71,13 +71,21 @@ in
 
   hardware = {
     asahi.peripheralFirmwareDirectory = ./firmware;
+
+    # Enable Vulkan and OpenGL
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vulkan-loader
+        vulkan-validation-layers
+        libglvnd
+      ];
+    };
   };
 
   environment.systemPackages = with pkgs; [
-    vulkan-loader
-    vulkan-validation-layers
-    vulkan-tools
-    libglvnd
+    vulkan-tools # vulkaninfo, vkcube
+    mesa-demos # glxgears etc
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
