@@ -27,12 +27,9 @@ in
       blueman
       calf
       slop # Queries a selection from the user and prints to stdout
-      (ffmpeg-full.override {
-        withXcb = true;
-      })
+      ffmpeg-full
       gpu-screen-recorder # screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
       gpu-screen-recorder-gtk # GTK for screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
-      handbrake
       jack2
       ladspaPlugins
       libdvdcss
