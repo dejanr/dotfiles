@@ -52,9 +52,7 @@ in
     # https://github.com/qutebrowser/qutebrowser/issues/8535
     home.sessionVariables = {
       QTWEBENGINE_FORCE_USE_GBM = "0";
-      # Chromium performance flags
-      QTWEBENGINE_CHROMIUM_FLAGS = "--disable-logging";
-      # Force Qt to use Vulkan
+      # Force Qt to use Vulkan (removed QTWEBENGINE_CHROMIUM_FLAGS as it conflicts with qt.args)
       QT_QPA_PLATFORM = "xcb";
       QSG_RHI_BACKEND = "vulkan";
     };
@@ -74,10 +72,14 @@ in
     programs.qutebrowser.enable = true;
 
     programs.qutebrowser.settings = {
-      window.transparent = true;
+      window.transparent = false;
       auto_save.session = false;
-      # Prevent white flash on startup/new tabs
+      # Prevent white/pink flash on startup/new tabs
       colors.webpage.bg = config.lib.stylix.colors.withHashtag.base00;
+      # Set window/UI background colors early to prevent artifacts
+      colors.tabs.bar.bg = config.lib.stylix.colors.withHashtag.base00;
+      colors.statusbar.normal.bg = config.lib.stylix.colors.withHashtag.base00;
+      colors.completion.even.bg = config.lib.stylix.colors.withHashtag.base00;
 
       # === PERFORMANCE SETTINGS ===
       # Faster scrolling
