@@ -8,6 +8,7 @@
 with lib;
 let
   cfg = config.modules.nixos.roles.multimedia;
+  isAsahi = config.hardware.asahi.enable or false;
 
 in
 {
@@ -16,35 +17,40 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      alsa-utils
-      alsa-plugins
-      sox
-      audacity
-      gphoto2 # A ready to use set of digital camera software applications
-      gphoto2fs # Fuse FS to mount a digital camera
-      libgphoto2 # A library for accessing digital cameras
-      blueman
-      calf
-      slop # Queries a selection from the user and prints to stdout
-      ffmpeg-full
-      gpu-screen-recorder # screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
-      gpu-screen-recorder-gtk # GTK for screen recorder that has minimal impact on system performance by recording your monitor using the GPU only
-      jack2
-      ladspaPlugins
-      libdvdcss
-      libdvdnav
-      libdvdread
-      mplayer
-      pavucontrol
-      puredata
-      qjackctl
-      vlc
-      darktable # Virtual lighttable and darkroom for photographers
-      mpv
-      strawberry # Music player and music collection organizer
-      pulseaudioFull
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        alsa-utils
+        alsa-plugins
+        sox
+        audacity
+        gphoto2
+        gphoto2fs
+        libgphoto2
+        blueman
+        calf
+        slop
+        ffmpeg-full
+        jack2
+        ladspaPlugins
+        libdvdcss
+        libdvdnav
+        libdvdread
+        mplayer
+        pavucontrol
+        puredata
+        qjackctl
+        vlc
+        darktable
+        mpv
+        strawberry
+      ]
+      ++ optionals (!isAsahi) [
+        # gpu-screen-recorder needs NVENC/VAAPI - not available on Asahi
+        gpu-screen-recorder
+        gpu-screen-recorder-gtk
+        pulseaudioFull
+      ];
 
     hardware.bluetooth = {
       enable = true;
@@ -58,9 +64,10 @@ in
       };
     };
 
-    security.rtkit.enable = true;
+    # Non-Asahi audio setup (Asahi uses its own sound module)
+    security.rtkit.enable = mkIf (!isAsahi) true;
 
-    services.pipewire = {
+    services.pipewire = mkIf (!isAsahi) {
       enable = true;
       wireplumber.enable = true;
 
@@ -75,22 +82,24 @@ in
       };
     };
 
-    programs.noisetorch.enable = true;
+    programs.noisetorch.enable = !isAsahi;
 
-    # Configure ALSA to use PulseAudio/PipeWire without enabling full ALSA support
-    environment.etc."asound.conf".text = ''
-      pcm_type.pulse {
-        lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_pcm_pulse.so"
-      }
-      ctl_type.pulse {
-        lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_ctl_pulse.so"
-      }
-      pcm.!default {
-        type pulse
-      }
-      ctl.!default {
-        type pulse
-      }
-    '';
+    # Configure ALSA to use PulseAudio/PipeWire (non-Asahi only)
+    environment.etc."asound.conf" = mkIf (!isAsahi) {
+      text = ''
+        pcm_type.pulse {
+          lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_pcm_pulse.so"
+        }
+        ctl_type.pulse {
+          lib "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_ctl_pulse.so"
+        }
+        pcm.!default {
+          type pulse
+        }
+        ctl.!default {
+          type pulse
+        }
+      '';
+    };
   };
 }

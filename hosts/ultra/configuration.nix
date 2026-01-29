@@ -89,7 +89,7 @@
       i3.enable = true;
       desktop.enable = true;
       #games.enable = true;
-      #multimedia.enable = true;
+      multimedia.enable = true;
       services.enable = true;
       #virtualisation.enable = true;
     };
