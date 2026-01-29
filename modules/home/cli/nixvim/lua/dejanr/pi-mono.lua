@@ -124,8 +124,7 @@ function M.send_selection()
     return
   end
 
-  local filename = vim.fn.expand("%:t")
-  local filetype = vim.bo.filetype
+  local filepath = vim.fn.expand("%:p")
 
   vim.ui.input({ prompt = "Send to pi: " }, function(input)
     if input == nil then
@@ -133,26 +132,19 @@ function M.send_selection()
       return
     end
 
+    local file_tag = string.format(
+      '<file name="%s" lines="%d-%d">\n%s\n</file>',
+      filepath,
+      line_start,
+      line_end,
+      selection
+    )
+
     local message
     if input ~= "" then
-      message = string.format(
-        "%s:\n\n```%s\n%s\n```\n\n(from %s, lines %d-%d)",
-        input,
-        filetype,
-        selection,
-        filename,
-        line_start,
-        line_end
-      )
+      message = string.format("%s\n\n%s", input, file_tag)
     else
-      message = string.format(
-        "```%s\n%s\n```\n\n(from %s, lines %d-%d)",
-        filetype,
-        selection,
-        filename,
-        line_start,
-        line_end
-      )
+      message = file_tag
     end
 
     if send_to_tmux(target, message) then
