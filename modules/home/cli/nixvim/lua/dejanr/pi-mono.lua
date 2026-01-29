@@ -7,9 +7,34 @@ M.config = {
   pane_target = nil,
 }
 
+local function is_pi_pane(target)
+  local check_cmd = string.format(
+    "tmux capture-pane -p -t '%s' -S -50 2>/dev/null | grep -q 'pi\\|Claude\\|assistant' && echo 'found'",
+    target
+  )
+  local check = io.popen(check_cmd)
+  if check then
+    local result = check:read("*a")
+    check:close()
+    return result:match("found") ~= nil
+  end
+  return false
+end
+
+local function path_matches(pane_path, nvim_cwd)
+  if not pane_path or not nvim_cwd then
+    return false
+  end
+  pane_path = pane_path:gsub("/$", "")
+  nvim_cwd = nvim_cwd:gsub("/$", "")
+  return pane_path == nvim_cwd or nvim_cwd:find("^" .. pane_path:gsub("([%-%.%+%[%]%(%)%$%^%%%?%*])", "%%%1") .. "/")
+end
+
 local function find_pi_pane()
+  local nvim_cwd = vim.fn.getcwd()
+
   local cmd = "tmux list-panes -a -F "
-    .. "'#{session_name}:#{window_index}.#{pane_index} #{pane_current_command}' 2>/dev/null"
+    .. "'#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_command}\t#{pane_current_path}' 2>/dev/null"
   local handle = io.popen(cmd)
   if not handle then
     return nil
@@ -18,33 +43,28 @@ local function find_pi_pane()
   local output = handle:read("*a")
   handle:close()
 
+  local matching_panes = {}
+  local other_panes = {}
+
   for line in output:gmatch("[^\n]+") do
-    local target, pane_cmd = line:match("^(%S+)%s+(.+)$")
+    local target, pane_cmd, pane_path = line:match("^([^\t]+)\t([^\t]+)\t(.+)$")
     if target and pane_cmd and (pane_cmd:match("pi") or pane_cmd:match("node")) then
-      local check_cmd = string.format(
-        "tmux capture-pane -p -t '%s' -S -50 2>/dev/null | grep -q 'pi\\|Claude\\|assistant' && echo 'found'",
-        target
-      )
-      local check = io.popen(check_cmd)
-      if check then
-        local result = check:read("*a")
-        check:close()
-        if result:match("found") then
-          return target
+      if is_pi_pane(target) then
+        if path_matches(pane_path, nvim_cwd) then
+          table.insert(matching_panes, { target = target, path = pane_path })
+        else
+          table.insert(other_panes, { target = target, path = pane_path })
         end
       end
     end
   end
 
-  handle = io.popen("tmux list-sessions -F '#{session_name}' 2>/dev/null")
-  if handle then
-    local sessions = handle:read("*a")
-    handle:close()
-    for session in sessions:gmatch("[^\n]+") do
-      if session:match("^pi$") or session:match("pi%-") then
-        return session .. ":0.0"
-      end
-    end
+  if #matching_panes > 0 then
+    return matching_panes[1].target
+  end
+
+  if #other_panes > 0 then
+    return other_panes[1].target
   end
 
   return nil
