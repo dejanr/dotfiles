@@ -3,7 +3,6 @@
 {
   imports = [ ../../modules/home/default.nix ];
 
-  # TODO: move this, reorganize
   config.home.file."npmrc".text = ''
     prefix = ~/.npm-packages
   '';
@@ -62,6 +61,11 @@
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.pi-mono.enable = true;
+
+    home.cli.llama-cpp = {
+      enable = true;
+      package = pkgs.ultra-llama-cpp;
+    };
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

@@ -85,4 +85,6 @@ in
       makeDesktopItem
       ;
   };
+
+  ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
 }

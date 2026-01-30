@@ -35,6 +35,13 @@
     ${pkgs.xorg.xrandr}/bin/xrandr --auto || true
   '';
 
+  # Disable DPMS and screen blanking - Asahi HDMI doesn't wake reliably
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xset}/bin/xset s off
+    ${pkgs.xorg.xset}/bin/xset -dpms
+    ${pkgs.xorg.xset}/bin/xset s noblank
+  '';
+
   # Delay display-manager start to allow DCP initialization
   systemd.services.display-manager = {
     after = [ "systemd-udev-settle.service" ];

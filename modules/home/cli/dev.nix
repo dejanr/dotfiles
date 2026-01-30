@@ -49,7 +49,6 @@ in
       claude-code
       gemini-cli
       codex
-      llama-cpp
       mermaid-cli
 
       # Network tools
