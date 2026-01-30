@@ -428,6 +428,9 @@ in
     home.file.".browser/Work/config/qute-home.html".text =
       generateHomepage "Work" config.stylix.fonts.monospace.name
         config;
+    home.file.".browser/AGENTS/config/qute-home.html".text =
+      generateHomepage "AGENTS" config.stylix.fonts.monospace.name
+        config;
 
     home.file.".browser/Personal/config/config.py".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";

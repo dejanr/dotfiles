@@ -40,7 +40,7 @@ if (!commandExists("qutebrowser")) {
 const homeDir = process.env["HOME"] ?? "";
 const profileDir = `${homeDir}/.browser/AGENTS`;
 const configPath = `${homeDir}/.config/qutebrowser/config.py`;
-const homePage = `file://${homeDir}/.config/qutebrowser/qute-home.html`;
+const homePage = `${profileDir}/config/qute-home.html`;
 
 const endpoint = await fetchEndpoint();
 if (endpoint?.Browser?.toLowerCase().includes("qutebrowser")) {
