@@ -60,7 +60,10 @@
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
-    home.cli.pi-mono.enable = true;
+    home.cli.pi-mono = {
+      enable = true;
+      voiceInput.device = "alsa_input.platform-sound.HiFi__Headset__source";
+    };
 
     home.cli.llama-cpp = {
       enable = true;
