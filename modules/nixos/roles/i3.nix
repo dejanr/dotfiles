@@ -179,8 +179,8 @@ in
             font-name = PragmataPro 12
             xft-antialias=true
             xft-dpi=98
-            xft-hintstyle=hintslight
-            xft-rgba=rgb
+            xft-hintstyle=hintfull
+            xft-rgba=none
           '';
         };
       };

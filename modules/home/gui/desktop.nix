@@ -17,12 +17,14 @@ in
 
   config = mkIf cfg.enable {
     xresources.properties = {
-      "Xft.dpi" = 92;
+      "Xft.dpi" = 98;
       "Xft.antialias" = true;
       "Xft.hinting" = true;
-      "Xft.hintstyle" = "hintslight";
-      "Xft.rgba" = "rgb";
+      "Xft.hintstyle" = "hintfull";
+      "Xft.rgba" = "none";
     };
+
+
 
     home.packages = with pkgs; [
       acpi

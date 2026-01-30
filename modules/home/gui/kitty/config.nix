@@ -6,6 +6,15 @@
   font_family PragmataPro Mono
   font_size ${fontSize}
 
+  # Font rendering for OLED
+  text_composition_strategy 2.0 0
+  disable_ligatures never
+  
+  # Thicken fonts for better readability
+  modify_font cell_height 105%
+  modify_font baseline 1
+  modify_font underline_thickness 150%
+
   # === PERFORMANCE ===
   # Faster rendering
   repaint_delay 6

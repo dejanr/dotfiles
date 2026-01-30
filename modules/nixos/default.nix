@@ -40,14 +40,6 @@ in
 
     fontconfig = {
       enable = true;
-      antialias = true;
-      hinting = {
-        autohint = false;
-        enable = true;
-      };
-
-      subpixel.lcdfilter = "default";
-
       defaultFonts = {
         emoji = [ "OpenMoji Color" ];
       };

@@ -11,6 +11,19 @@
 
   config.home.packages = [ ];
 
+  # Scaling for 4K OLED TV
+  config.home.sessionVariables = {
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+    QT_SCALE_FACTOR = "1.5";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+  };
+
+  # Qutebrowser zoom for 4K
+  config.programs.qutebrowser.settings = {
+    zoom.default = "150%";
+  };
+
   config.modules = {
     home.common.packages.enable = true;
 
@@ -23,6 +36,18 @@
     home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;
     home.gui.slack-web.enable = true;
+    home.gui.grobi = {
+      enable = true;
+      rules = [
+        {
+          name = "LG OLED TV";
+          outputs_connected = [ "HDMI-1" ];
+          configure_single = "HDMI-1@3840x2160";
+          primary = true;
+          atomic = true;
+        }
+      ];
+    };
 
     # apps
     apps.kitty.enable = true;

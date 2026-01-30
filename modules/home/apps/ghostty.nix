@@ -43,12 +43,14 @@ in
         font-family-bold = "PragmataPro Mono Bold";
         font-family-italic = "PragmataPro Mono Italic";
         font-family-bold-italic = "PragmataPro Mono Bold Italic";
-        font-thicken = false;
+        font-thicken = true;
+        font-thicken-strength = 255;
         font-size = 14;
         font-feature = [
           "calt"
           "liga"
         ];
+        freetype-load-flags = "hinting,no-force-autohint,no-monochrome,no-autohint";
         window-decoration = false;
         macos-titlebar-style = "hidden";
 

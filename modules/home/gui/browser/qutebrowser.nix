@@ -131,8 +131,8 @@ in
       # Reduce WebRTC overhead
       c.content.webrtc_ip_handling_policy = 'default-public-interface-only'
 
-      # Dark mode for web content - reduces white flash
-      c.colors.webpage.preferred_color_scheme = 'dark'
+      # Let websites use their default color scheme
+      c.colors.webpage.preferred_color_scheme = 'auto'
 
       # === ADDITIONAL PERFORMANCE ===
       # Disable preloading - saves memory and CPU

@@ -13,6 +13,33 @@ in
 {
   options.modules.nixos.roles.desktop = {
     enable = mkEnableOption "desktop system integration";
+
+    fontconfig = {
+      hinting = {
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Enable font hinting";
+        };
+        style = mkOption {
+          type = types.enum [ "none" "slight" "medium" "full" ];
+          default = "slight";
+          description = "Font hinting style";
+        };
+      };
+      subpixel = {
+        rgba = mkOption {
+          type = types.enum [ "none" "rgb" "bgr" "vrgb" "vbgr" ];
+          default = "rgb";
+          description = "Subpixel rendering order (use 'none' for OLED)";
+        };
+        lcdfilter = mkOption {
+          type = types.enum [ "none" "default" "light" "legacy" ];
+          default = "default";
+          description = "LCD filter for subpixel rendering";
+        };
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -43,10 +70,12 @@ in
         antialias = true;
         hinting = {
           autohint = false;
-          enable = true;
+          enable = cfg.fontconfig.hinting.enable;
+          style = cfg.fontconfig.hinting.style;
         };
 
-        subpixel.lcdfilter = "default";
+        subpixel.lcdfilter = cfg.fontconfig.subpixel.lcdfilter;
+        subpixel.rgba = cfg.fontconfig.subpixel.rgba;
 
         defaultFonts = {
           serif = [ "PragmataPro" ];

@@ -87,8 +87,16 @@
       hosts.enable = true;
       dev.enable = true;
       i3.enable = true;
-      desktop.enable = true;
-      #games.enable = true;
+      desktop = {
+        enable = true;
+        # OLED TV font rendering - no subpixel, full hinting
+        fontconfig = {
+          hinting.style = "full";
+          subpixel.rgba = "none";
+          subpixel.lcdfilter = "none";
+        };
+      };
+      games.enable = true;
       multimedia.enable = true;
       services.enable = true;
       #virtualisation.enable = true;
