@@ -61,9 +61,32 @@ direnv allow
 # Example: direnv exec . agenix --version
 ```
 
-## Pi-mono Extensions
+## Pi-mono Configuration
 
-Extensions live in `modules/home/cli/pi-mono/extensions`. See `modules/home/cli/pi-mono/extensions/README.md` for how to add a new extension, run lint/typecheck, and test with `pi -e`.
+Pi-mono (coding agent) configuration lives in `modules/home/cli/pi-mono/`.
+
+### Nix Packaging
+
+- `modules/home/cli/pi-mono/nix/package.nix` - Main pi-mono package (`npmDepsHash`)
+- `modules/home/cli/pi-mono/nix/extensions.nix` - Extensions package (`hash` in `pnpmDeps`)
+
+### Extensions
+
+- `modules/home/cli/pi-mono/extensions/README.md` - How to add extensions, lint, test
+- `modules/home/cli/pi-mono/extensions/package.json` - `@mariozechner/*` versions (must match pi-mono)
+- `modules/home/cli/pi-mono/extensions/<name>/index.ts` - Extension implementations
+
+### Skills
+
+- `modules/home/cli/pi-mono/skills/` - All available skills
+- `modules/home/cli/pi-mono/skills/pi-mono-upgrade/SKILL.md` - Upgrade pi-mono itself
+- `modules/home/cli/pi-mono/skills/github/SKILL.md` - GitHub CLI interactions
+- `modules/home/cli/pi-mono/skills/improve-skill/SKILL.md` - Improve skills from sessions
+
+### Other
+
+- `modules/home/cli/pi-mono/prompts/` - Custom prompt templates
+- `modules/home/cli/pi-mono/themes/` - Pi TUI themes
 
 ## Module Conventions
 

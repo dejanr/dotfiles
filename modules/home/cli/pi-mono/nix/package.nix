@@ -12,7 +12,7 @@ pkgs.buildNpmPackage {
 
   src = pi-mono-src;
 
-  npmDepsHash = "sha256-bM7cpY3k4AIfruPeKNS5qKur4UDC7BoetUfX1AiuVIE=";
+  npmDepsHash = "sha256-Q68ag/zfR1xF4g48r/e0C7i2YuCR6sGQqdeDMyr7nCM=";
 
   nodejs = pkgs.nodejs_24;
 
