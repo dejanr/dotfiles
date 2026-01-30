@@ -47,15 +47,18 @@ in
     systemd.user.services.grobi = {
       Unit = {
         Description = "Grobi display manager";
-        After = [ "graphical-session-pre.target" ];
+        After = [ "graphical-session.target" ];
         PartOf = [ "graphical-session.target" ];
+        Requisite = [ "graphical-session.target" ];
       };
 
       Service = {
         Type = "simple";
+        # Wait for X environment to be imported
+        ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
         ExecStart = "${pkgs.grobi}/bin/grobi watch -v";
-        Restart = "always";
-        RestartSec = 2;
+        Restart = "on-failure";
+        RestartSec = 5;
       };
 
       Install = {

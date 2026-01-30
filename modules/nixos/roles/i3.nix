@@ -144,6 +144,10 @@ in
           configFile = "${pkgs.i3-config}/config";
 
           extraSessionCommands = ''
+            # Import X11 environment into systemd user session
+            ${pkgs.systemd}/bin/systemctl --user import-environment DISPLAY XAUTHORITY
+            ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY
+
             ${pkgs.wm-wallpaper}/bin/wm-wallpaper &
             ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources &
             ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources &

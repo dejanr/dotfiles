@@ -42,6 +42,7 @@ self: super:
       libnotify
       maim
       xclip
+      pulseaudio
       ;
   };
 

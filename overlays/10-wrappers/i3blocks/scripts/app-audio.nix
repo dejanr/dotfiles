@@ -1,4 +1,7 @@
-{ }: # bash
+{ pulseaudio }: # bash
+let
+  pactl = "${pulseaudio}/bin/pactl";
+in
 ''
   #!/usr/bin/env bash
 
@@ -13,7 +16,7 @@
   ACTIVE_COLOR="#DBC074"
 
   find_sink_inputs() {
-      pactl list sink-inputs | grep -B 20 -A 5 "application.name.*$PATTERN" |
+      ${pactl} list sink-inputs | grep -B 20 -A 5 "application.name.*$PATTERN" |
       grep "Sink Input #" |
       sed 's/Sink Input #//'
   }
@@ -22,7 +25,7 @@
     local sink_input_ids="$1"
     while IFS= read -r sink_input_id; do
       if [[ -n "$sink_input_id" ]]; then
-        if pactl list sink-inputs | grep -A 20 "Sink Input #$sink_input_id" | grep "Mute:" | grep -q "yes"; then
+        if ${pactl} list sink-inputs | grep -A 20 "Sink Input #$sink_input_id" | grep "Mute:" | grep -q "yes"; then
           return 0
         fi
       fi
@@ -34,7 +37,7 @@
       local sink_input_ids="$1"
       while IFS= read -r sink_input_id; do
           if [[ -n "$sink_input_id" ]]; then
-              pactl set-sink-input-mute "$sink_input_id" toggle
+              ${pactl} set-sink-input-mute "$sink_input_id" toggle
           fi
       done <<< "$sink_input_ids"
   }

@@ -9,6 +9,7 @@
   libnotify,
   maim,
   xclip,
+  pulseaudio,
 }:
 let
   config = import ./config.nix {
@@ -19,6 +20,7 @@ let
       libnotify
       maim
       xclip
+      pulseaudio
       ;
   };
   execPath = "bin";

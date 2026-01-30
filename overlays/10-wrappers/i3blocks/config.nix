@@ -5,12 +5,13 @@
   libnotify,
   maim,
   xclip,
+  pulseaudio,
 }:
 let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
   language = writeScript "audio" (import ./scripts/language.nix { });
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
-  app-audio = writeScript "systemd" (import ./scripts/app-audio.nix { });
+  app-audio = writeScript "app-audio" (import ./scripts/app-audio.nix { inherit pulseaudio; });
   exit-node = writeScript "exit-node" (import ./scripts/exit-node.nix { });
 in
 ''
