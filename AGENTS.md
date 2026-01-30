@@ -174,3 +174,4 @@ secrets/
 - Use roles for NixOS system-level feature bundles
 - Keep host configs minimal - put reusable logic in modules
 - Do NOT commit after every change - wait for user to explicitly request a commit
+- Keep commit messages concise: `type: brief description` (bullet points only for complex changes that need elaboration)
