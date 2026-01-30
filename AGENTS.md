@@ -150,3 +150,4 @@ secrets/
 - Prefer enabling existing modules over adding inline config
 - Use roles for NixOS system-level feature bundles
 - Keep host configs minimal - put reusable logic in modules
+- Do NOT commit after every change - wait for user to explicitly request a commit

@@ -9,9 +9,7 @@
   '';
   config.home.file."npmrc".target = ".npmrc";
 
-  config.home.packages = with pkgs; [
-    firefox
-  ];
+  config.home.packages = [ ];
 
   config.modules = {
     home.common.packages.enable = true;
@@ -22,8 +20,9 @@
     # gui
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
-    #home.gui.games.enable = true;
+    home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;
+    home.gui.slack-web.enable = true;
 
     # apps
     apps.kitty.enable = true;

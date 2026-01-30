@@ -16,6 +16,14 @@ in
   };
 
   config = mkIf cfg.enable {
+    xresources.properties = {
+      "Xft.dpi" = 92;
+      "Xft.antialias" = true;
+      "Xft.hinting" = true;
+      "Xft.hintstyle" = "hintslight";
+      "Xft.rgba" = "rgb";
+    };
+
     home.packages = with pkgs; [
       acpi
       arandr
