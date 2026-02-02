@@ -14,4 +14,5 @@ in
   "qutebrowser_bookmarks_futurice.age".publicKeys = publicKeys;
   "elevenlabs_api_key.age".publicKeys = publicKeys;
   "exa_api_key.age".publicKeys = publicKeys;
+  "github_runner_token_dejli.age".publicKeys = publicKeys;
 }

@@ -46,6 +46,10 @@
         LocalForward 6006 localhost:6006
   '';
 
+  age.secrets.github_runner_token_dejli.file = ../../secrets/github_runner_token_dejli.age;
+
+  nix.settings.trusted-users = [ "github-runner-dejli" ];
+
   services = {
     tailscale = {
       enable = true;
@@ -53,6 +57,20 @@
       useRoutingFeatures = "both";
       extraUpFlags = [ "--ssh" ];
       extraSetFlags = [ "--advertise-exit-node" ];
+    };
+
+    github-runners.dejli = {
+      enable = true;
+      replace = true;
+      url = "https://github.com/dejli/dejli";
+      tokenFile = "/run/agenix/github_runner_token_dejli";
+      extraLabels = [ "nix" ];
+      extraPackages = with pkgs; [
+        nix
+        nodejs
+        pnpm
+        git
+      ];
     };
   };
 
