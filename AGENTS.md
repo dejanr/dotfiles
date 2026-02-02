@@ -166,6 +166,10 @@ secrets/
 2. Run `cd secrets && agenix -i ~/.ssh/agenix -e <name>.age`
 3. Reference in modules via `config.age.secrets.<name>.path`
 
+## Task Tracking
+
+Use `bd` for task tracking. See [beads documentation](https://github.com/steveyegge/beads).
+
 ## Guidelines
 
 - Follow existing Nix patterns in the codebase
