@@ -73,7 +73,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ piMono ];
+    home.packages = [
+      piMono
+      pkgs.beads
+    ];
 
     home.sessionVariables = mkMerge [
       (mkIf (cfg.voiceInput.device != null) {

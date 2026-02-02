@@ -74,7 +74,6 @@
       url = "github:badlogic/pi-mono";
       flake = false;
     };
-
   };
 
   outputs =
