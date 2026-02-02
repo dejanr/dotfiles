@@ -51,6 +51,29 @@
   nix.settings.trusted-users = [ "github-runner-dejli" ];
 
   services = {
+    caddy = {
+      enable = true;
+      virtualHosts = {
+        "dej.li.dev" = {
+          extraConfig = ''
+            tls internal
+            handle /auth/* {
+              reverse_proxy localhost:3001
+            }
+            handle {
+              reverse_proxy localhost:3000
+            }
+          '';
+        };
+        "dejan.ranisavljevic.com.dev" = {
+          extraConfig = ''
+            tls internal
+            reverse_proxy localhost:3002
+          '';
+        };
+      };
+    };
+
     tailscale = {
       enable = true;
       openFirewall = true;
