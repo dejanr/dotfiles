@@ -9,14 +9,14 @@ importers:
   .:
     devDependencies:
       '@mariozechner/pi-ai':
-        specifier: 0.50.5
-        version: 0.50.5(ws@8.19.0)(zod@3.25.76)
+        specifier: 0.51.2
+        version: 0.51.2(ws@8.19.0)(zod@3.25.76)
       '@mariozechner/pi-coding-agent':
-        specifier: 0.50.5
-        version: 0.50.5(ws@8.19.0)(zod@3.25.76)
+        specifier: 0.51.2
+        version: 0.51.2(ws@8.19.0)(zod@3.25.76)
       '@mariozechner/pi-tui':
-        specifier: 0.50.5
-        version: 0.50.5
+        specifier: 0.51.2
+        version: 0.51.2
       '@sinclair/typebox':
         specifier: ^0.34.47
         version: 0.34.47
@@ -569,13 +569,30 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@mariozechner/clipboard-darwin-arm64@0.3.2':
+    resolution: {integrity: sha512-uBf6K7Je1ihsgvmWxA8UCGCeI+nbRVRXoarZdLjl6slz94Zs1tNKFZqx7aCI5O1i3e0B6ja82zZ06BWrl0MCVw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
   '@mariozechner/clipboard-darwin-universal@0.3.0':
     resolution: {integrity: sha512-FVZLGdIkmvqtPQjD0GQwKLVheL+zV7DjA6I5NcsHGjBeWpG2nACS6COuelNf8ruMoPxJFw7RoB4fjw6mmjT+Nw==}
     engines: {node: '>= 10'}
     os: [darwin]
 
+  '@mariozechner/clipboard-darwin-universal@0.3.2':
+    resolution: {integrity: sha512-mxSheKTW2U9LsBdXy0SdmdCAE5HqNS9QUmpNHLnfJ+SsbFKALjEZc5oRrVMXxGQSirDvYf5bjmRyT0QYYonnlg==}
+    engines: {node: '>= 10'}
+    os: [darwin]
+
   '@mariozechner/clipboard-darwin-x64@0.3.0':
     resolution: {integrity: sha512-KuurQYEqRhalvBji3CH5xIq1Ts23IgVRE3rjanhqFDI77luOhCnlNbDtqv3No5OxJhEBLykQNrAzfgjqPsPWdA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@mariozechner/clipboard-darwin-x64@0.3.2':
+    resolution: {integrity: sha512-U1BcVEoidvwIp95+HJswSW+xr28EQiHR7rZjH6pn8Sja5yO4Yoe3yCN0Zm8Lo72BbSOK/fTSq0je7CJpaPCspg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -586,8 +603,26 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  '@mariozechner/clipboard-linux-arm64-gnu@0.3.2':
+    resolution: {integrity: sha512-BsinwG3yWTIjdgNCxsFlip7LkfwPk+ruw/aFCXHUg/fb5XC/Ksp+YMQ7u0LUtiKzIv/7LMXgZInJQH6gxbAaqQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-arm64-musl@0.3.2':
+    resolution: {integrity: sha512-0/Gi5Xq2V6goXBop19ePoHvXsmJD9SzFlO3S+d6+T2b+BlPcpOu3Oa0wTjl+cZrLAAEzA86aPNBI+VVAFDFPKw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
   '@mariozechner/clipboard-linux-riscv64-gnu@0.3.0':
     resolution: {integrity: sha512-4BC08CIaOXSSAGRZLEjqJmQfioED8ohAzwt0k2amZPEbH96YKoBNorq5EdwPf5VT+odS0DeyCwhwtxokRLZIvQ==}
+    engines: {node: '>= 10'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-riscv64-gnu@0.3.2':
+    resolution: {integrity: sha512-2AFFiXB24qf0zOZsxI1GJGb9wQGlOJyN6UwoXqmKS3dpQi/l6ix30IzDDA4c4ZcCcx4D+9HLYXhC1w7Sov8pXA==}
     engines: {node: '>= 10'}
     cpu: [riscv64]
     os: [linux]
@@ -598,8 +633,20 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@mariozechner/clipboard-linux-x64-gnu@0.3.2':
+    resolution: {integrity: sha512-v6fVnsn7WMGg73Dab8QMwyFce7tzGfgEixKgzLP8f1GJqkJZi5zO4k4FOHzSgUufgLil63gnxvMpjWkgfeQN7A==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
   '@mariozechner/clipboard-linux-x64-musl@0.3.0':
     resolution: {integrity: sha512-+PnR48/x9GMY5Kh8BLjzHMx6trOegMtxAuqTM9X/bhV3QuW6sLLd7nojDHSGj/ZueK6i0tcQxvOrgNLozVtNDA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-x64-musl@0.3.2':
+    resolution: {integrity: sha512-xVUtnoMQ8v2JVyfJLKKXACA6avdnchdbBkTsZs8BgJQo29qwCp5NIHAUO8gbJ40iaEGToW5RlmVk2M9V0HsHEw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -610,14 +657,30 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@mariozechner/clipboard-win32-arm64-msvc@0.3.2':
+    resolution: {integrity: sha512-AEgg95TNi8TGgak2wSXZkXKCvAUTjWoU1Pqb0ON7JHrX78p616XUFNTJohtIon3e0w6k0pYPZeCuqRCza/Tqeg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
   '@mariozechner/clipboard-win32-x64-msvc@0.3.0':
     resolution: {integrity: sha512-dfpHrUpKHl7ad3xVGE1+gIN3cEnjjPZa4I0BIYMuj2OKq07Gf1FKTXMypB41rDFv6XNzcfhYQnY+ZNgIu9FB8A==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
+  '@mariozechner/clipboard-win32-x64-msvc@0.3.2':
+    resolution: {integrity: sha512-tGRuYpZwDOD7HBrCpyRuhGnHHSCknELvqwKKUG4JSfSB7JIU7LKRh6zx6fMUOQd8uISK35TjFg5UcNih+vJhFA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
   '@mariozechner/clipboard@0.3.0':
     resolution: {integrity: sha512-tQrCRAtr58BLmWcvwCqlJo5GJgqBGb3zwOBFFBKCEKvRgD8y/EawhCyXsfOh9XOOde1NTAYsYuYyVOYw2tLnoQ==}
+    engines: {node: '>= 10'}
+
+  '@mariozechner/clipboard@0.3.2':
+    resolution: {integrity: sha512-IHQpksNjo7EAtGuHFU+tbWDp5LarH3HU/8WiB9O70ZEoBPHOg0/6afwSLK0QyNMMmx4Bpi/zl6+DcBXe95nWYA==}
     engines: {node: '>= 10'}
 
   '@mariozechner/jiti@2.6.5':
@@ -628,8 +691,8 @@ packages:
     resolution: {integrity: sha512-YL3PrLA8//Cklx58GJBUyNBCVLIOtK+wpAgqimuR03EgToaGPkSM7B/1S4CP4pFkr7b3DTIsC6t++tK7LgfjQg==}
     engines: {node: '>=20.0.0'}
 
-  '@mariozechner/pi-agent-core@0.50.5':
-    resolution: {integrity: sha512-a41lWHql9S+3/rNV4lso1gIojANUdaPuD/5gMy2v0wt/AKhjPRAESpuwBFX7XbS4CW6sjtMxk5P7/tR3iyJw1g==}
+  '@mariozechner/pi-agent-core@0.51.2':
+    resolution: {integrity: sha512-x59xnPD99lhqNR+YxYZgP87y1fdln/lWcvYNRzptCTtKxe2JjDgOFFkUfvCvLzXFBwhnTXVfn7OsQJA1d1fKqw==}
     engines: {node: '>=20.0.0'}
 
   '@mariozechner/pi-ai@0.49.3':
@@ -637,8 +700,8 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@mariozechner/pi-ai@0.50.5':
-    resolution: {integrity: sha512-qI72awLLYHE5M3+KAac2AJSeFL9u3YkpBNgUoRhFhkGE5edqRgnEHRicnTppuz+g87GUYbHI6gzffXqA6JMgAg==}
+  '@mariozechner/pi-ai@0.51.2':
+    resolution: {integrity: sha512-scxJ76LzxWKzB1C2OcTrz1Vdid00jTfGcWW1/ZlCv82054g8Zno3tnQ63i1C8D7xkDI5zt6bzrWmHnplQ8xEgQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -647,8 +710,8 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@mariozechner/pi-coding-agent@0.50.5':
-    resolution: {integrity: sha512-Hf9EUG59kDxPGgosYzciRPDckhkA5E/7EhYIkxHKHU1UqQSGAYnqHPUbdQL3VMVIEuywba2Mq3cwp9X5dHm8kA==}
+  '@mariozechner/pi-coding-agent@0.51.2':
+    resolution: {integrity: sha512-kSpTij9k0iU2zMg9gCIdbgcl6YRORKBuxdBatij7ev2o85SdEXkNDljIaSzGJshZkVB8FA53/p9r2ONHABm+0g==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -656,8 +719,8 @@ packages:
     resolution: {integrity: sha512-SyBtQ0B9A/8V4eX7z3l9Q7sEVAnSueNJ1gC6+nRakDBfBOSxuqA61vz6tic0C7Jj46NERRuvJKdQSmk1VP5sUA==}
     engines: {node: '>=20.0.0'}
 
-  '@mariozechner/pi-tui@0.50.5':
-    resolution: {integrity: sha512-KGukNtdXcO3ZWBuGKWi46G9eJYNIiZxOeHpwkGQU/e1m7rhLNOL1FildNkR8B+XhEbpg8bQHo85dVw7jDV2gvA==}
+  '@mariozechner/pi-tui@0.51.2':
+    resolution: {integrity: sha512-Eg6QdROJRVM+W4JF7OU84vN8hRDDovVYl164Qp4zl4aroGJdDy+2bSaSDDzJfqXNZ5Wpt4jJEhvF7jhZAXhGDQ==}
     engines: {node: '>=20.0.0'}
 
   '@mistralai/mistralai@1.10.0':
@@ -2756,28 +2819,58 @@ snapshots:
   '@mariozechner/clipboard-darwin-arm64@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-darwin-arm64@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-darwin-universal@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-darwin-universal@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-darwin-x64@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-darwin-x64@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-linux-arm64-gnu@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-linux-arm64-gnu@0.3.2':
+    optional: true
+
+  '@mariozechner/clipboard-linux-arm64-musl@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-linux-riscv64-gnu@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-linux-riscv64-gnu@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-linux-x64-gnu@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-linux-x64-gnu@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-linux-x64-musl@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-linux-x64-musl@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-win32-arm64-msvc@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-win32-arm64-msvc@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-win32-x64-msvc@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-win32-x64-msvc@0.3.2':
     optional: true
 
   '@mariozechner/clipboard@0.3.0':
@@ -2791,6 +2884,20 @@ snapshots:
       '@mariozechner/clipboard-linux-x64-musl': 0.3.0
       '@mariozechner/clipboard-win32-arm64-msvc': 0.3.0
       '@mariozechner/clipboard-win32-x64-msvc': 0.3.0
+
+  '@mariozechner/clipboard@0.3.2':
+    optionalDependencies:
+      '@mariozechner/clipboard-darwin-arm64': 0.3.2
+      '@mariozechner/clipboard-darwin-universal': 0.3.2
+      '@mariozechner/clipboard-darwin-x64': 0.3.2
+      '@mariozechner/clipboard-linux-arm64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-arm64-musl': 0.3.2
+      '@mariozechner/clipboard-linux-riscv64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-x64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-x64-musl': 0.3.2
+      '@mariozechner/clipboard-win32-arm64-msvc': 0.3.2
+      '@mariozechner/clipboard-win32-x64-msvc': 0.3.2
+    optional: true
 
   '@mariozechner/jiti@2.6.5':
     dependencies:
@@ -2810,10 +2917,9 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-agent-core@0.50.5(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-agent-core@0.51.2(ws@8.19.0)(zod@3.25.76)':
     dependencies:
-      '@mariozechner/pi-ai': 0.50.5(ws@8.19.0)(zod@3.25.76)
-      '@mariozechner/pi-tui': 0.50.5
+      '@mariozechner/pi-ai': 0.51.2(ws@8.19.0)(zod@3.25.76)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - aws-crt
@@ -2845,7 +2951,7 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-ai@0.50.5(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-ai@0.51.2(ws@8.19.0)(zod@3.25.76)':
     dependencies:
       '@anthropic-ai/sdk': 0.71.2(zod@3.25.76)
       '@aws-sdk/client-bedrock-runtime': 3.972.0
@@ -2895,13 +3001,12 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-coding-agent@0.50.5(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-coding-agent@0.51.2(ws@8.19.0)(zod@3.25.76)':
     dependencies:
-      '@mariozechner/clipboard': 0.3.0
       '@mariozechner/jiti': 2.6.5
-      '@mariozechner/pi-agent-core': 0.50.5(ws@8.19.0)(zod@3.25.76)
-      '@mariozechner/pi-ai': 0.50.5(ws@8.19.0)(zod@3.25.76)
-      '@mariozechner/pi-tui': 0.50.5
+      '@mariozechner/pi-agent-core': 0.51.2(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-ai': 0.51.2(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-tui': 0.51.2
       '@silvia-odwyer/photon-node': 0.3.4
       chalk: 5.6.2
       cli-highlight: 2.1.11
@@ -2913,6 +3018,8 @@ snapshots:
       minimatch: 10.1.1
       proper-lockfile: 4.1.2
       yaml: 2.8.2
+    optionalDependencies:
+      '@mariozechner/clipboard': 0.3.2
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - aws-crt
@@ -2930,7 +3037,7 @@ snapshots:
       marked: 15.0.12
       mime-types: 3.0.2
 
-  '@mariozechner/pi-tui@0.50.5':
+  '@mariozechner/pi-tui@0.51.2':
     dependencies:
       '@types/mime-types': 2.1.4
       chalk: 5.6.2
