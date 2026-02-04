@@ -9,14 +9,14 @@ importers:
   .:
     devDependencies:
       '@mariozechner/pi-ai':
-        specifier: 0.51.2
-        version: 0.51.2(ws@8.19.0)(zod@3.25.76)
+        specifier: 0.51.5
+        version: 0.51.5(ws@8.19.0)(zod@3.25.76)
       '@mariozechner/pi-coding-agent':
-        specifier: 0.51.2
-        version: 0.51.2(ws@8.19.0)(zod@3.25.76)
+        specifier: 0.51.5
+        version: 0.51.5(ws@8.19.0)(zod@3.25.76)
       '@mariozechner/pi-tui':
-        specifier: 0.51.2
-        version: 0.51.2
+        specifier: 0.51.5
+        version: 0.51.5
       '@sinclair/typebox':
         specifier: ^0.34.47
         version: 0.34.47
@@ -559,6 +559,10 @@ packages:
     resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
     engines: {node: 20 || >=22}
 
+  '@isaacs/brace-expansion@5.0.1':
+    resolution: {integrity: sha512-WMz71T1JS624nWj2n2fnYAuPovhv7EUhk69R6i9dsVyzxt5eM3bjwvgk9L+APE1TRscGysAVMANkB0jh0LQZrQ==}
+    engines: {node: 20 || >=22}
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -691,8 +695,8 @@ packages:
     resolution: {integrity: sha512-YL3PrLA8//Cklx58GJBUyNBCVLIOtK+wpAgqimuR03EgToaGPkSM7B/1S4CP4pFkr7b3DTIsC6t++tK7LgfjQg==}
     engines: {node: '>=20.0.0'}
 
-  '@mariozechner/pi-agent-core@0.51.2':
-    resolution: {integrity: sha512-x59xnPD99lhqNR+YxYZgP87y1fdln/lWcvYNRzptCTtKxe2JjDgOFFkUfvCvLzXFBwhnTXVfn7OsQJA1d1fKqw==}
+  '@mariozechner/pi-agent-core@0.51.5':
+    resolution: {integrity: sha512-Zf9ISCxbOsshg8xxjKuDPbJGwKvH3HcM24iyMUSF/RjR2NKhlpqLArr39yym5wXC8ZpzvRajzC1P4ZUp50gS2A==}
     engines: {node: '>=20.0.0'}
 
   '@mariozechner/pi-ai@0.49.3':
@@ -700,8 +704,8 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@mariozechner/pi-ai@0.51.2':
-    resolution: {integrity: sha512-scxJ76LzxWKzB1C2OcTrz1Vdid00jTfGcWW1/ZlCv82054g8Zno3tnQ63i1C8D7xkDI5zt6bzrWmHnplQ8xEgQ==}
+  '@mariozechner/pi-ai@0.51.5':
+    resolution: {integrity: sha512-YmtTWAKT4jyl5Gtn6VMyUvOI9Q4ngvNjtZj1juTyiNcKv1rcVhEmNSjCe2h4S1kSv15SDqOLj/n9cf3Cw4o3JA==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -710,8 +714,8 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@mariozechner/pi-coding-agent@0.51.2':
-    resolution: {integrity: sha512-kSpTij9k0iU2zMg9gCIdbgcl6YRORKBuxdBatij7ev2o85SdEXkNDljIaSzGJshZkVB8FA53/p9r2ONHABm+0g==}
+  '@mariozechner/pi-coding-agent@0.51.5':
+    resolution: {integrity: sha512-TDDIa+ajCYgkBxb5SMZv8SudZbURLmg/PhLpzC31YoWJmUb0f4B522abgkn4IHYTUsgXeRh7IyDMvGZdU0B0jQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -719,8 +723,8 @@ packages:
     resolution: {integrity: sha512-SyBtQ0B9A/8V4eX7z3l9Q7sEVAnSueNJ1gC6+nRakDBfBOSxuqA61vz6tic0C7Jj46NERRuvJKdQSmk1VP5sUA==}
     engines: {node: '>=20.0.0'}
 
-  '@mariozechner/pi-tui@0.51.2':
-    resolution: {integrity: sha512-Eg6QdROJRVM+W4JF7OU84vN8hRDDovVYl164Qp4zl4aroGJdDy+2bSaSDDzJfqXNZ5Wpt4jJEhvF7jhZAXhGDQ==}
+  '@mariozechner/pi-tui@0.51.5':
+    resolution: {integrity: sha512-TW01yCu1NQ9WD/EjA1/DiuTzKrpSxrHO3gBl7o8+rrZ4ON2tEellSUaaGZeRl+xhRJFqCndLSIKXbIl7mX0RDA==}
     engines: {node: '>=20.0.0'}
 
   '@mistralai/mistralai@1.10.0':
@@ -1442,6 +1446,10 @@ packages:
     engines: {node: 20 || >=22}
     hasBin: true
 
+  glob@13.0.1:
+    resolution: {integrity: sha512-B7U/vJpE3DkJ5WXTgTpTRN63uV42DseiXXKMwG14LQBXmsdeIoHAPbU/MEo6II0k5ED74uc2ZGTC6MwHFQhF6w==}
+    engines: {node: 20 || >=22}
+
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
@@ -1724,6 +1732,10 @@ packages:
 
   minimatch@10.1.1:
     resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
+    engines: {node: 20 || >=22}
+
+  minimatch@10.1.2:
+    resolution: {integrity: sha512-fu656aJ0n2kcXwsnwnv9g24tkU5uSmOlTjd6WyyaKm2Z+h1qmY6bAjrcaIxF/BslFqbZ8UBtbJi7KgQOZD2PTw==}
     engines: {node: 20 || >=22}
 
   minimatch@3.1.2:
@@ -2807,6 +2819,10 @@ snapshots:
     dependencies:
       '@isaacs/balanced-match': 4.0.1
 
+  '@isaacs/brace-expansion@5.0.1':
+    dependencies:
+      '@isaacs/balanced-match': 4.0.1
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -2917,9 +2933,9 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-agent-core@0.51.2(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-agent-core@0.51.5(ws@8.19.0)(zod@3.25.76)':
     dependencies:
-      '@mariozechner/pi-ai': 0.51.2(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-ai': 0.51.5(ws@8.19.0)(zod@3.25.76)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - aws-crt
@@ -2951,7 +2967,7 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-ai@0.51.2(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-ai@0.51.5(ws@8.19.0)(zod@3.25.76)':
     dependencies:
       '@anthropic-ai/sdk': 0.71.2(zod@3.25.76)
       '@aws-sdk/client-bedrock-runtime': 3.972.0
@@ -3001,18 +3017,18 @@ snapshots:
       - ws
       - zod
 
-  '@mariozechner/pi-coding-agent@0.51.2(ws@8.19.0)(zod@3.25.76)':
+  '@mariozechner/pi-coding-agent@0.51.5(ws@8.19.0)(zod@3.25.76)':
     dependencies:
       '@mariozechner/jiti': 2.6.5
-      '@mariozechner/pi-agent-core': 0.51.2(ws@8.19.0)(zod@3.25.76)
-      '@mariozechner/pi-ai': 0.51.2(ws@8.19.0)(zod@3.25.76)
-      '@mariozechner/pi-tui': 0.51.2
+      '@mariozechner/pi-agent-core': 0.51.5(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-ai': 0.51.5(ws@8.19.0)(zod@3.25.76)
+      '@mariozechner/pi-tui': 0.51.5
       '@silvia-odwyer/photon-node': 0.3.4
       chalk: 5.6.2
       cli-highlight: 2.1.11
       diff: 8.0.3
       file-type: 21.3.0
-      glob: 11.1.0
+      glob: 13.0.1
       ignore: 7.0.5
       marked: 15.0.12
       minimatch: 10.1.1
@@ -3037,7 +3053,7 @@ snapshots:
       marked: 15.0.12
       mime-types: 3.0.2
 
-  '@mariozechner/pi-tui@0.51.2':
+  '@mariozechner/pi-tui@0.51.5':
     dependencies:
       '@types/mime-types': 2.1.4
       chalk: 5.6.2
@@ -4039,6 +4055,12 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.1
 
+  glob@13.0.1:
+    dependencies:
+      minimatch: 10.1.2
+      minipass: 7.1.2
+      path-scurry: 2.0.1
+
   globals@14.0.0: {}
 
   globalthis@1.0.4:
@@ -4322,6 +4344,10 @@ snapshots:
   minimatch@10.1.1:
     dependencies:
       '@isaacs/brace-expansion': 5.0.0
+
+  minimatch@10.1.2:
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@3.1.2:
     dependencies:
