@@ -500,7 +500,7 @@ export default function (pi: ExtensionAPI) {
 			description:
 				"Apply a patch in Codex format. Provide the full patch starting with '*** Begin Patch' and ending with '*** End Patch'.",
 			parameters: applyPatchSchema,
-			async execute(_toolCallId, params, _onUpdate, ctx, signal) {
+			async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 				return executeApplyPatch(params.input, ctx, signal);
 			},
 		});
@@ -561,7 +561,7 @@ export default function (pi: ExtensionAPI) {
 				label,
 				description,
 				parameters: schema,
-				async execute(_toolCallId, params, _onUpdate, ctx, signal) {
+				async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 					return executeShellArgs(params.command, params, ctx, signal, true);
 				},
 			});
@@ -585,7 +585,7 @@ export default function (pi: ExtensionAPI) {
 			description:
 				"Runs a shell script and returns its output. Provide the script as a single string.",
 			parameters: shellCommandSchema,
-			async execute(_toolCallId, params, _onUpdate, ctx, signal) {
+			async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 				const commandArgs = buildShellCommand(params.command, params.login);
 				return executeShellArgs(commandArgs, params, ctx, signal, false);
 			},

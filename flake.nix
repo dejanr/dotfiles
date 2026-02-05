@@ -188,6 +188,10 @@
       packages = forEachSystem (system: {
         nvim = nixvimConfig system;
         default = nixvimConfig system;
+        pi-mono-coding-agent = import ./modules/home/cli/pi-mono/nix/package.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+          pi-mono-src = inputs.pi-mono;
+        };
         pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {
           pkgs = nixpkgs.legacyPackages.${system};
           extensions-src = self + "/modules/home/cli/pi-mono";

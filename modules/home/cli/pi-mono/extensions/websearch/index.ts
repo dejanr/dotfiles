@@ -92,7 +92,7 @@ export default function (pi: ExtensionAPI) {
     description: DESCRIPTION,
     parameters: WebSearchParams,
 
-    async execute(_toolCallId, params, onUpdate, _ctx, signal) {
+    async execute(_toolCallId, params, signal, onUpdate, _ctx) {
       const apiKey = getApiKey();
       if (!apiKey) {
         return {

@@ -27,6 +27,26 @@ Commit message format guidelines:
 `.trim();
 
 export default function commit(pi: ExtensionAPI) {
+	// Debug tool to inspect context
+	pi.registerTool({
+		name: "debug_context",
+		label: "Debug Context",
+		description: "Debug tool to inspect the extension context",
+		parameters: Type.Object({}),
+		async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
+			const debugInfo = {
+				hasUI: ctx.hasUI,
+				uiType: typeof ctx.ui,
+				uiKeys: Object.keys(ctx.ui),
+				cwd: ctx.cwd,
+			};
+			return {
+				content: [{ type: "text", text: JSON.stringify(debugInfo, null, 2) }],
+				details: debugInfo,
+			};
+		},
+	});
+
 	// Command: /commit
 	pi.registerCommand("commit", {
 		description: "Draft and create a git commit with LLM assistance",
@@ -129,7 +149,7 @@ ${COMMIT_FORMAT_GUIDE}`,
 			),
 		}),
 
-		async execute(_toolCallId, params, _onUpdate, ctx, signal) {
+		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 			if (!ctx.hasUI) {
 				return {
 					content: [{ type: "text", text: "Error: UI not available (running in non-interactive mode)" }],
