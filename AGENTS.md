@@ -95,20 +95,8 @@ Pi-mono (coding agent) configuration lives in `modules/home/cli/pi-mono/`.
 ```
 modules/
 ├── darwin/           # macOS-specific system modules
-│   ├── default.nix   # Base darwin config
-│   └── gui/          # GUI apps (aerospace, sketchybar, etc.)
 ├── home/             # Home Manager modules (cross-platform)
-│   ├── default.nix   # Base home config, auto-imports modules
-│   ├── apps/         # GUI applications (kitty)
-│   ├── cli/          # CLI tools (git, zsh, tmux, nixvim, etc.)
-│   ├── common/       # Shared packages
-│   ├── gui/          # Desktop environment configs
-│   ├── secrets/      # Agenix secrets for home
-│   └── stylix/       # Theming
 ├── nixos/            # NixOS-specific system modules
-│   ├── default.nix   # Base NixOS config
-│   ├── roles/        # Composable system roles (desktop, dev, games, etc.)
-│   └── secrets/      # System-level secrets
 ├── themes/           # Color schemes
 └── template.nix      # Module template
 ```

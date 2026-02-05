@@ -8,104 +8,35 @@ model: anthropic/claude-sonnet-4-5
 
 Upgrade the pi-mono coding agent package in a Nix-based dotfiles repository.
 
-## Quick Reference
-
-```bash
-# Check current version
-pi --version
-
-# Check latest version
-curl -s "https://api.github.com/repos/badlogic/pi-mono/tags?per_page=1" | jq -r '.[0].name'
-
-# Update flake input
-nix flake update pi-mono
-
-# Build pi-mono packages directly
-nix build .#pi-mono-coding-agent
-nix build .#pi-mono-extensions
-```
-
 ## Upgrade Workflow
 
-### 1. Check Versions
+### 1. Check If Upgrade Needed
 
 ```bash
-# Current version
+# Current vs latest - run both in parallel
 pi --version
-
-# Latest available
-curl -s "https://api.github.com/repos/badlogic/pi-mono/tags?per_page=5" | jq -r '.[].name'
+curl -s "https://api.github.com/repos/badlogic/pi-mono/tags?per_page=1" | jq -r '.[0].name'
 ```
 
-If already on latest, no upgrade needed.
+If already on latest, **stop here** - no upgrade needed.
 
-### 2. Check Breaking Changes (CRITICAL)
+### 2. Check Breaking Changes
 
-**Before upgrading, always check for breaking changes that affect local extensions.**
+Only fetch the relevant portion of CHANGELOG between current and target versions:
 
 ```bash
-# Get current and target versions
 CURRENT=$(pi --version)
-TARGET=$(curl -s "https://api.github.com/repos/badlogic/pi-mono/tags?per_page=1" | jq -r '.[0].name')
-
-# Fetch CHANGELOG and check for breaking changes between versions
 curl -s "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/CHANGELOG.md" | \
-  sed -n "/## \[$TARGET/,/## \[$CURRENT/p" | grep -A5 -i "breaking"
+  sed -n "/## \[${TARGET#v}/,/## \[${CURRENT}/p"
 ```
 
-Alternatively, if you have `~/projects/pi-mono` checked out:
+Look for `### Breaking Changes` sections. If none exist between versions, skip step 3.
 
-```bash
-cat ~/projects/pi-mono/packages/coding-agent/CHANGELOG.md | head -300
-```
+### 3. Apply Breaking Changes to Local Extensions (if any)
 
-Look for sections marked:
-- `### Breaking Changes`
-- `BREAKING CHANGE:` in commit messages
-- Changes to `ToolDefinition`, `ExtensionAPI`, `ExtensionContext`, or `ctx.ui.*`
+Extensions are in `modules/home/cli/pi-mono/extensions/`.
 
-### 3. Apply Breaking Changes to Local Extensions
-
-Local extensions are in `modules/home/cli/pi-mono/extensions/`.
-
-**Common breaking change patterns:**
-
-#### Tool Execute Signature Change (v0.51.0)
-
-If upgrading across v0.51.0, tool execute signatures changed:
-
-```typescript
-// Old signature (pre-0.51.0)
-async execute(toolCallId, params, onUpdate, ctx, signal) { ... }
-
-// New signature (0.51.0+)
-async execute(toolCallId, params, signal, onUpdate, ctx) { ... }
-```
-
-Find and update all affected tools:
-
-```bash
-# Find old signature pattern
-rg "async execute\(_?toolCallId.*params.*onUpdate.*ctx.*signal" modules/home/cli/pi-mono/extensions/
-
-# Or broader search for execute functions
-rg "async execute\(" modules/home/cli/pi-mono/extensions/ --type ts
-```
-
-Update each match by swapping `signal` and `onUpdate` parameters.
-
-#### Other API Changes
-
-Check for usage of changed APIs in your extensions:
-
-```bash
-# Search for potentially affected patterns
-rg "ctx\.hasUI|ctx\.ui\.|pi\.registerTool|ToolDefinition" modules/home/cli/pi-mono/extensions/ --type ts
-```
-
-Compare your usage against the updated docs:
-- `~/projects/pi-mono/packages/coding-agent/docs/extensions.md`
-- `~/projects/pi-mono/packages/coding-agent/src/core/extensions/types.ts`
+See [Known Breaking Changes Reference](#known-breaking-changes-reference) below for specific migration patterns.
 
 ### 4. Update Flake Input
 
@@ -113,90 +44,61 @@ Compare your usage against the updated docs:
 nix flake update pi-mono
 ```
 
-This updates `flake.lock` with the new revision.
-
 ### 5. Update Extensions package.json
 
-Extensions are in `modules/home/cli/pi-mono/extensions/`.
+Check if versions need updating:
 
-Update `package.json` devDependencies to match the new version:
-
-```json
-{
-  "devDependencies": {
-    "@mariozechner/pi-ai": "<new-version>",
-    "@mariozechner/pi-coding-agent": "<new-version>",
-    "@mariozechner/pi-tui": "<new-version>"
-  }
-}
+```bash
+# Check current declared version
+grep "@mariozechner/pi-coding-agent" modules/home/cli/pi-mono/extensions/package.json
 ```
 
-Then regenerate the lockfile:
+If version differs from target, update `package.json` and regenerate lockfile:
 
 ```bash
 cd modules/home/cli/pi-mono/extensions
+# Edit package.json to update @mariozechner/* versions
 pnpm install
 ```
 
-### 6. Update Both Nix Hashes (Invalid Hash Trick)
+### 6. Test Build (Determines If Hashes Need Updating)
 
-Both `package.nix` and `extensions.nix` need hash updates. The simplest approach is to use invalid hashes and let the build tell you the correct ones.
+**Always build individual packages, never toplevel:**
 
-**Step 6a: Set invalid hashes in both files:**
+```bash
+nix build .#pi-mono-coding-agent 2>&1 | tail -20
+```
 
-In `modules/home/cli/pi-mono/nix/package.nix`:
+**If build succeeds:** Hashes are already correct. Skip to step 8.
+
+**If hash mismatch error:** Continue to step 7.
+
+**If chroot/store error:** Run `nix-collect-garbage -d` and retry.
+
+### 7. Update Hashes (Only If Step 6 Failed)
+
+Set invalid hash in `modules/home/cli/pi-mono/nix/package.nix`:
 
 ```nix
 npmDepsHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 ```
 
-In `modules/home/cli/pi-mono/nix/extensions.nix`:
-
-```nix
-hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-```
-
-**Step 6b: Build packages and capture correct hashes:**
-
-Build the main pi-mono package first:
+Build and capture correct hash:
 
 ```bash
-nix build .#pi-mono-coding-agent 2>&1 | tail -50
+nix build .#pi-mono-coding-agent 2>&1 | grep "got:"
 ```
 
-The build will fail with a hash mismatch:
+Update `package.nix` with the hash from `got:` line.
 
-```
-error: hash mismatch in fixed-output derivation '...-pi-mono-coding-agent-...-npm-deps.drv':
-         specified: sha256-AAA...
-            got:    sha256-Q68ag/zfR1xF4g48r/e0C7i2YuCR6sGQqdeDMyr7nCM=
-```
-
-Update `package.nix` with the hash from the `got:` line, then build extensions:
+Repeat for extensions if needed:
 
 ```bash
-nix build .#pi-mono-extensions 2>&1 | tail -50
+# Set invalid hash in extensions.nix, then:
+nix build .#pi-mono-extensions 2>&1 | grep "got:"
 ```
 
-You'll get the extensions hash mismatch:
-
-```
-error: hash mismatch in fixed-output derivation '...-pi-mono-extensions-pnpm-deps.drv':
-         specified: sha256-AAA...
-            got:    sha256-P+2ldIgK6I6WgVPEOrWIgxwH8sIiPmP7ASrFqPZ0vhY=
-```
-
-Update `extensions.nix` with that hash.
-
-### 7. Verify Build
-
-```bash
-# Verify both packages build successfully
-nix build .#pi-mono-coding-agent --no-link
-nix build .#pi-mono-extensions --no-link
-```
-
-### 8. Apply
+### 8. Apply and Verify
 
 ```bash
 # NixOS
@@ -209,33 +111,16 @@ nix run nix-darwin -- switch --flake .#
 pi --version
 ```
 
-### 9. Test Extensions
-
-After applying, verify your extensions work correctly:
-
-```bash
-# Test tool registration (should not error on startup)
-pi --help
-
-# If you have a debug_context tool, test it
-# In pi: "Call debug_context tool"
-
-# Test any tools that use ctx.hasUI or interactive features
-# In pi: "Use git_commit_with_user_approval with message 'test: verify upgrade'"
-```
-
-If tools fail with `no-ui` or similar context errors, the execute signature likely wasn't updated correctly.
-
 ## Files to Update
 
-| File                                                 | What to Update                          |
-| ---------------------------------------------------- | --------------------------------------- |
-| `flake.lock`                                         | `nix flake update pi-mono`              |
-| `modules/home/cli/pi-mono/extensions/*.ts`           | Breaking API changes (signatures, etc.) |
-| `modules/home/cli/pi-mono/extensions/package.json`   | `@mariozechner/*` versions              |
-| `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install`                          |
-| `modules/home/cli/pi-mono/nix/extensions.nix`        | `hash` in `pnpmDeps`                    |
-| `modules/home/cli/pi-mono/nix/package.nix`           | `npmDepsHash`                           |
+| File | What to Update |
+|------|----------------|
+| `flake.lock` | `nix flake update pi-mono` |
+| `modules/home/cli/pi-mono/extensions/*.ts` | Breaking API changes (if any) |
+| `modules/home/cli/pi-mono/extensions/package.json` | `@mariozechner/*` versions |
+| `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install` |
+| `modules/home/cli/pi-mono/nix/package.nix` | `npmDepsHash` (if build fails) |
+| `modules/home/cli/pi-mono/nix/extensions.nix` | `hash` in `pnpmDeps` (if build fails) |
 
 ## Known Breaking Changes Reference
 
@@ -243,9 +128,12 @@ If tools fail with `no-ui` or similar context errors, the execute signature like
 
 Parameter order changed from `(id, params, onUpdate, ctx, signal)` to `(id, params, signal, onUpdate, ctx)`.
 
-**Symptom:** Tools fail with `no-ui` error even in interactive mode, or `ctx` is undefined/wrong type.
+**Find affected code:**
+```bash
+rg "execute\(.*onUpdate.*ctx.*signal" modules/home/cli/pi-mono/extensions/
+```
 
-**Fix:** Swap `signal` and `onUpdate` parameters in all `execute()` functions:
+**Fix:** Swap `signal` and `onUpdate` parameters:
 
 ```typescript
 // Before
@@ -255,10 +143,9 @@ async execute(_toolCallId, params, _onUpdate, ctx, signal) {
 async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 ```
 
-**Find affected code:**
-```bash
-rg "execute\(.*onUpdate.*ctx.*signal" modules/home/cli/pi-mono/extensions/
-```
+### v0.51.3 - SlashCommandSource Type
+
+RPC `get_commands` response renamed `"template"` to `"prompt"`.
 
 ## Common Errors
 
@@ -268,9 +155,7 @@ rg "execute\(.*onUpdate.*ctx.*signal" modules/home/cli/pi-mono/extensions/
 ERROR: pi-mono version mismatch (input: X.Y.Z, declared: A.B.C)
 ```
 
-**Cause:** Extensions `package.json` version doesn't match the flake input.
-
-**Fix:** Update `@mariozechner/*` devDependencies in `extensions/package.json` to match the input version, then run `pnpm install`.
+**Fix:** Update `@mariozechner/*` in `extensions/package.json` to match input version, run `pnpm install`.
 
 ### Hash Mismatch
 
@@ -280,81 +165,22 @@ hash mismatch in fixed-output derivation
   got:       sha256-...
 ```
 
-**Fix:** Use the hash from the `got:` line to update the relevant file (`package.nix` for npm-deps, `extensions.nix` for pnpm-deps).
+**Fix:** Copy hash from `got:` line to the relevant file.
 
-### Tool Fails with "no-ui"
-
-```
-Failed: no-ui
-```
-
-**Cause:** Tool execute signature not updated after breaking change. The `ctx` parameter is receiving the wrong value.
-
-**Fix:** Check and update execute signature (see v0.51.0 breaking change above).
-
-### Chroot/Build Errors
+### Chroot/Store Error
 
 ```
 error: getting status of '...drv.chroot/root/nix/store/...': No such file or directory
 ```
 
-**Fix:** Try garbage collecting and rebuilding:
-
+**Fix:** 
 ```bash
 nix-collect-garbage -d
-nix build ...
+# Then retry the build
 ```
 
-## Checking Release Notes
+### Tool Fails with "no-ui"
 
-```bash
-# Latest release info
-curl -s "https://api.github.com/repos/badlogic/pi-mono/releases/latest" | jq -r '.tag_name, .name, .body'
+**Cause:** Tool execute signature not updated after v0.51.0 breaking change.
 
-# Compare versions
-curl -s "https://api.github.com/repos/badlogic/pi-mono/compare/v0.49.3...v0.50.1" | jq -r '.commits[].commit.message' | head -20
-
-# Full CHANGELOG
-curl -s "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/CHANGELOG.md" | head -200
-```
-
-## Debugging Extension Issues Post-Upgrade
-
-If extensions misbehave after upgrade:
-
-1. **Check pi-mono source** (if available):
-   ```bash
-   cat ~/projects/pi-mono/packages/coding-agent/src/core/extensions/types.ts
-   ```
-
-2. **Compare with example extensions**:
-   ```bash
-   ls ~/projects/pi-mono/packages/coding-agent/examples/extensions/
-   cat ~/projects/pi-mono/packages/coding-agent/examples/extensions/hello.ts
-   ```
-
-3. **Use git bisect** to find breaking commit (if you have source):
-   ```bash
-   cd ~/projects/pi-mono
-   git bisect start
-   git bisect bad HEAD
-   git bisect good v0.50.0  # last known working version
-   # Test each commit with: tsx packages/coding-agent/src/cli.ts
-   ```
-
-4. **Add debug tool** to inspect context:
-   ```typescript
-   pi.registerTool({
-     name: "debug_context",
-     parameters: Type.Object({}),
-     async execute(_id, _params, _signal, _onUpdate, ctx) {
-       return {
-         content: [{ type: "text", text: JSON.stringify({
-           hasUI: ctx.hasUI,
-           uiKeys: Object.keys(ctx.ui),
-           cwd: ctx.cwd,
-         }, null, 2) }],
-       };
-     },
-   });
-   ```
+**Fix:** Update execute signature (see v0.51.0 above).
