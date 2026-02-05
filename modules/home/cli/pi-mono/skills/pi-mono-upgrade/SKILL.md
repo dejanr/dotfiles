@@ -1,6 +1,7 @@
 ---
 name: pi-mono-upgrade
-description: "Upgrade pi-mono coding agent in NixOS/nix-darwin dotfiles. Updates flake input, package hashes, and extension dependencies."
+description: "Upgrade pi-mono coding agent in NixOS/nix-darwin dotfiles. Updates flake input, package hashes, and extension dependencies. Mechanical task - use Sonnet."
+model: anthropic/claude-sonnet-4-5
 ---
 
 # Pi-mono Upgrade Skill
@@ -75,11 +76,13 @@ Both `package.nix` and `extensions.nix` need hash updates. The simplest approach
 **Step 4a: Set invalid hashes in both files:**
 
 In `modules/home/cli/pi-mono/nix/package.nix`:
+
 ```nix
 npmDepsHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 ```
 
 In `modules/home/cli/pi-mono/nix/extensions.nix`:
+
 ```nix
 hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 ```
@@ -93,6 +96,7 @@ nix build .#nixosConfigurations.$HOST.config.system.build.toplevel 2>&1 | tail -
 ```
 
 The build will fail with hash mismatches. Look for lines like:
+
 ```
 error: hash mismatch in fixed-output derivation '...-pi-mono-extensions-pnpm-deps.drv':
          specified: sha256-AAA...
@@ -106,6 +110,7 @@ nix build .#nixosConfigurations.$HOST.config.system.build.toplevel 2>&1 | tail -
 ```
 
 Now you'll get the `package.nix` hash mismatch:
+
 ```
 error: hash mismatch in fixed-output derivation '...-pi-mono-coding-agent-...-npm-deps.drv':
          specified: sha256-AAA...
@@ -139,13 +144,13 @@ pi --version
 
 ## Files to Update
 
-| File | What to Update |
-|------|----------------|
-| `flake.lock` | `nix flake update pi-mono` |
-| `modules/home/cli/pi-mono/extensions/package.json` | `@mariozechner/*` versions |
-| `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install` |
-| `modules/home/cli/pi-mono/nix/extensions.nix` | `hash` in `pnpmDeps` |
-| `modules/home/cli/pi-mono/nix/package.nix` | `npmDepsHash` |
+| File                                                 | What to Update             |
+| ---------------------------------------------------- | -------------------------- |
+| `flake.lock`                                         | `nix flake update pi-mono` |
+| `modules/home/cli/pi-mono/extensions/package.json`   | `@mariozechner/*` versions |
+| `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install`             |
+| `modules/home/cli/pi-mono/nix/extensions.nix`        | `hash` in `pnpmDeps`       |
+| `modules/home/cli/pi-mono/nix/package.nix`           | `npmDepsHash`              |
 
 ## Common Errors
 
@@ -158,6 +163,7 @@ error: flake '...' does not provide attribute '...nixosConfigurations.dex...'
 **Cause:** Using wrong hostname. The build target must match an existing host configuration.
 
 **Fix:** Use `hostname` to get current host, or check available hosts:
+
 ```bash
 nix eval .#nixosConfigurations --apply builtins.attrNames
 ```
@@ -189,6 +195,7 @@ error: getting status of '...drv.chroot/root/nix/store/...': No such file or dir
 ```
 
 **Fix:** Try garbage collecting and rebuilding:
+
 ```bash
 nix-collect-garbage -d
 nix build ...
