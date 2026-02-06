@@ -28,7 +28,7 @@ let
   settings = {
     lastChangelogVersion = packageJson.version;
     defaultProvider = "anthropic";
-    defaultModel = "claude-opus-4-5";
+    defaultModel = "claude-opus-4-6";
     defaultThinkingLevel = "off";
   };
 

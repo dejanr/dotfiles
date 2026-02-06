@@ -3,6 +3,14 @@
   plugins.nvim-tree = {
     enable = true;
     settings = {
+      filesystem_watchers = {
+        ignore_dirs = [
+          ".direnv"
+          ".devenv"
+          "node_modules"
+          ".git"
+        ];
+      };
       git.enable = false;
       modified.enable = false;
       diagnostics.enable = false;
