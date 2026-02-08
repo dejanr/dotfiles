@@ -71,7 +71,7 @@
         "dejan.ranisavljevic.com.dev" = {
           extraConfig = ''
             tls internal
-            reverse_proxy localhost:3002
+            reverse_proxy localhost:3003
           '';
         };
       };
