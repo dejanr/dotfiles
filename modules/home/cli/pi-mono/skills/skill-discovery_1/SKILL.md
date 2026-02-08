@@ -83,15 +83,10 @@ gh api repos/<owner>/<repo>/contents/<path>/SKILL.md --jq '.content' | base64 -d
 
 ## Install skill
 
-Skills are managed via Nix — `~/.pi/agent/skills/` is a read-only Nix store symlink.
-Install into the dotfiles source, then rebuild to activate.
-
 ```bash
 gh repo clone <owner>/<repo> /tmp/<repo>
-cp -r /tmp/<repo>/skills/<skill-name> ~/.dotfiles/modules/home/cli/pi-mono/skills/
+cp -r /tmp/<repo>/skills/<skill-name> ~/.pi/agent/skills/
 ```
-
-After copying, remind the user to rebuild (`sudo nixos-rebuild switch --flake ~/.dotfiles#` or `nix run nix-darwin -- switch --flake ~/.dotfiles#`) to activate the new skill.
 
 ## Output
 
