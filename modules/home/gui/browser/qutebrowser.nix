@@ -70,8 +70,6 @@ in
     programs.qutebrowser.settings = {
       window.transparent = false;
       auto_save.session = false;
-      # Prevent white/pink flash on startup/new tabs
-      colors.webpage.bg = config.lib.stylix.colors.withHashtag.base00;
       # Set window/UI background colors early to prevent artifacts
       colors.tabs.bar.bg = config.lib.stylix.colors.withHashtag.base00;
       colors.statusbar.normal.bg = config.lib.stylix.colors.withHashtag.base00;
