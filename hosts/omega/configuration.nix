@@ -60,6 +60,9 @@
             handle /auth/* {
               reverse_proxy localhost:3001
             }
+            handle /api/* {
+              reverse_proxy localhost:3002
+            }
             handle {
               reverse_proxy localhost:3000
             }
