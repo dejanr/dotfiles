@@ -2,9 +2,10 @@
   stdenv,
   makeWrapper,
   writeTextFile,
+  kitty,
 }:
 let
-  config = import ./config.nix { };
+  config = import ./config.nix { inherit kitty; };
   configFile = writeTextFile {
     name = "i3-config";
     text = config;

@@ -27,6 +27,7 @@ self: super:
       stdenv
       makeWrapper
       writeTextFile
+      kitty
       ;
   };
 
