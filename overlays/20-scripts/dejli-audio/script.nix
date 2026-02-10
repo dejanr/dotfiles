@@ -1,149 +1,183 @@
 { pkgs }:
 
 let
-  ffmpeg = "${(pkgs.ffmpeg-full.override { withXcb = true; })}/bin/ffmpeg";
+  ffmpeg = "${pkgs.ffmpeg-full}/bin/ffmpeg";
+  pactl = "${pkgs.pulseaudio}/bin/pactl";
+  notify-send = "${pkgs.libnotify}/bin/notify-send";
+  xclip = "${pkgs.xclip}/bin/xclip";
 in
 ''
   #!/usr/bin/env bash
   #
-  #   dejli-audio is an audio recorder that records a mic and output together into a combined audio.
+  #   dejli-audio — records mic + system output into a combined audio file.
+  #
+  #   Usage:
+  #     dejli-audio              Record using default source + default sink monitor
+  #     dejli-audio --toggle     Stop if already recording, start otherwise (for keybinds)
+  #     dejli-audio --list       List available audio sources
+  #     dejli-audio --source X   Record using source X instead of default
   #
   #   Audio is stored in ~/archive/dejli-audio
 
-  stty -echoctl # Don't print ^C when pressing Ctrl+C
-
-  function log() {
-    local level="$1" message="$2" exit_on_fail="''${3:-false}"
-    local color=""
-
-    case "$level" in
-      ERROR) color="\033[0;31m" ;;
-      SUCCESS) color="\033[0;32m" ;;
-      INFO) color="\033[0;36m" ;;
-    esac
-
-    echo -e "''${color}''${level}:\033[0m $message"
-
-    [[ "$exit_on_fail" == true ]] && exit 1
-  }
+  stty -echoctl 2>/dev/null || true
 
   PID_FILE="/tmp/dejli-audio.pid"
-  OUTPUT_FILE=$(eval echo "~/archive/dejli-audio/$(date +%Y%m%d_%H%M%S).wav")
+  ARCHIVE_DIR="$HOME/archive/dejli-audio"
+  OUTPUT_FILE="$ARCHIVE_DIR/$(date +%Y%m%d_%H%M%S).wav"
+  SOURCE_OVERRIDE=""
+  TOGGLE_MODE=false
 
-  mkdir -p $(dirname "$OUTPUT_FILE")
-
-  function kill_previous_instances() {
-    local script_name=$(basename "$0")
-
-    local script_pids
-    script_pids=$(pgrep -f "$script_name" | grep -vw "$$") # Exclude the current script's process ID
-
-    if [[ -n "$script_pids" ]]; then
-      log "INFO" "Found running script instances: $script_pids"
-      for pid in $script_pids; do
-        log "INFO" "Stopping script process (PID: $pid)..."
-        kill "$pid" 2>/dev/null
-        wait "$pid" 2>/dev/null || true
-      done
-      log "SUCCESS" "Stopped all previous instances of $script_name."
-    else
-      log "INFO" "No previous script instances found."
-    fi
-
-    # Kill any leftover FFmpeg processes using the PID file
-    if [[ -f "$PID_FILE" ]]; then
-      local ffmpeg_pid
-      ffmpeg_pid=$(cat "$PID_FILE")
-      if kill -0 "$ffmpeg_pid" 2>/dev/null; then
-        log "INFO" "Stopping leftover FFmpeg process (PID: $ffmpeg_pid)..."
-        kill "$ffmpeg_pid" 2>/dev/null
-        wait "$ffmpeg_pid" 2>/dev/null || true
-        log "SUCCESS" "Stopped leftover FFmpeg process."
-      else
-        log "INFO" "No leftover FFmpeg process found in PID file."
-      fi
-      rm -f "$PID_FILE"
-      log "INFO" "Removed PID file."
-    fi
+  function log() {
+    local level="$1" message="$2"
+    local color=""
+    case "$level" in
+      ERROR)   color="\033[0;31m" ;;
+      SUCCESS) color="\033[0;32m" ;;
+      INFO)    color="\033[0;36m" ;;
+    esac
+    echo -e "''${color}''${level}:\033[0m $message"
   }
 
-  function record() {
-    ${ffmpeg} \
-    -loglevel "quiet" \
-    -f pulse -i alsa_input.pci-0000_55_00.4.analog-stereo \
-    -f pulse -i alsa_output.usb-FIIO_FiiO_K11_R2R-01.analog-stereo.monitor \
-    -filter_complex "amix=inputs=2:duration=longest" \
-    -y "$OUTPUT_FILE" &
-
-    FFMPEG_PID="$!"
-    echo "$FFMPEG_PID" > "$PID_FILE"
-
-    log "INFO" "Started recording (PID: $FFMPEG_PID). Press Esc to stop."
-
-    trap stop_recording INT
-    wait_for_esc
+  function notify() {
+    ${notify-send} -a "dejli-audio" "$1" "$2" 2>/dev/null || true
   }
 
-  function stop_recording() {
-    if [[ -n "$FFMPEG_PID" ]] && kill -0 "$FFMPEG_PID" 2>/dev/null; then
-      log "INFO" "Stopping recording..."
-      kill "$FFMPEG_PID"
-      wait "$FFMPEG_PID" 2>/dev/null
-      log "SUCCESS" "Recording saved to $OUTPUT_FILE"
-      FFMPEG_PID="" # Clear the PID to prevent repeated attempts
-    else
-      log "INFO" "Recording process already stopped."
-    fi
-  }
-
-  function wait_for_esc() {
-    while true; do
-      # Check if PID_FILE is missing or if the process with the PID in PID_FILE is no longer running
-      if [[ ! -f "$PID_FILE" ]]; then
-        log "ERROR" "PID_FILE is missing. Stopping recording."
-        stop_recording
-        break
-      fi
-
-      local pid_in_file
-      pid_in_file=$(cat "$PID_FILE" 2>/dev/null)
-
-      if [[ -z "$pid_in_file" || ! -e /proc/"$pid_in_file" ]]; then
-        log "ERROR" "Process with PID $pid_in_file is no longer running. Stopping recording."
-        stop_recording
-        break
-      fi
-
-      # Use non-blocking read to check for user input
-      if read -t 1 -n 1 key; then
-        if [[ "$key" == $'\e' ]]; then
-          stop_recording
-          break
-        fi
-      fi
-
-      sleep 1
+  function list_sources() {
+    echo "Available audio sources:"
+    ${pactl} list sources short 2>/dev/null | while read -r id name driver fmt state; do
+      local desc
+      desc=$(${pactl} list sources 2>/dev/null | grep -A1 "Name: $name" | grep "Description:" | sed 's/.*Description: //')
+      printf "  %-60s %s\n" "$name" "$desc"
     done
   }
 
-  function deliver() {
-    echo -n "file://$OUTPUT_FILE" | xclip -sel clip -t text/uri-list || log "ERROR" "Failed to copy Audio to clipboard" false
-    log "SUCCESS" "Audio copied to clipboard"
+  function is_recording() {
+    [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null
   }
 
-  function cleanup() {
-    rm -rf "$TEMP_DIRECTORY"
-    rm -f "$PID_FILE"
-    log "INFO" "Deleted temporary directory $TEMP_DIRECTORY"
+  function stop_existing() {
+    if [[ -f "$PID_FILE" ]]; then
+      local pid
+      pid=$(cat "$PID_FILE")
+      if kill -0 "$pid" 2>/dev/null; then
+        kill "$pid" 2>/dev/null
+        wait "$pid" 2>/dev/null || true
+        log "SUCCESS" "Stopped recording (PID: $pid)"
+        notify "Recording stopped" "Audio saved"
+      fi
+      rm -f "$PID_FILE"
+    fi
+  }
+
+  function kill_previous_instances() {
+    local script_name
+    script_name=$(basename "$0")
+    local pids
+    pids=$(pgrep -f "$script_name" | grep -vw "$$" || true)
+
+    for pid in $pids; do
+      kill "$pid" 2>/dev/null
+      wait "$pid" 2>/dev/null || true
+    done
+
+    stop_existing
+  }
+
+  function record() {
+    local mic_source
+    mic_source="''${SOURCE_OVERRIDE:-$(${pactl} get-default-source 2>/dev/null)}"
+    local output_monitor
+    output_monitor="$(${pactl} get-default-sink 2>/dev/null).monitor"
+
+    if [[ -z "$mic_source" ]]; then
+      log "ERROR" "No mic source found"
+      notify "Recording failed" "No mic source found"
+      exit 1
+    fi
+
+    mkdir -p "$ARCHIVE_DIR"
+
+    log "INFO" "Mic: $mic_source"
+    log "INFO" "Output: $output_monitor"
+    notify "Recording started" "Mic: $mic_source\nPress Esc to stop"
+
+    ${ffmpeg} \
+      -loglevel quiet \
+      -f pulse -i "$mic_source" \
+      -f pulse -i "$output_monitor" \
+      -filter_complex "amix=inputs=2:duration=longest" \
+      -y "$OUTPUT_FILE" &
+
+    local ffmpeg_pid="$!"
+    echo "$ffmpeg_pid" > "$PID_FILE"
+
+    log "INFO" "Recording (PID: $ffmpeg_pid). Press Esc to stop."
+
+    trap 'stop_recording' INT TERM
+    wait_for_stop "$ffmpeg_pid"
+  }
+
+  function stop_recording() {
+    if [[ -f "$PID_FILE" ]]; then
+      local pid
+      pid=$(cat "$PID_FILE")
+      if kill -0 "$pid" 2>/dev/null; then
+        kill "$pid" 2>/dev/null
+        wait "$pid" 2>/dev/null || true
+      fi
+      rm -f "$PID_FILE"
+    fi
+
+    if [[ -f "$OUTPUT_FILE" && -s "$OUTPUT_FILE" ]]; then
+      log "SUCCESS" "Saved: $OUTPUT_FILE"
+      echo -n "file://$OUTPUT_FILE" | ${xclip} -sel clip -t text/uri-list 2>/dev/null || true
+      notify "Recording saved" "$OUTPUT_FILE"
+    else
+      log "ERROR" "Recording produced no output"
+      notify "Recording failed" "No output file"
+    fi
+  }
+
+  function wait_for_stop() {
+    local pid="$1"
+    while kill -0 "$pid" 2>/dev/null; do
+      if read -t 1 -n 1 key 2>/dev/null; then
+        if [[ "$key" == $'\e' ]]; then
+          stop_recording
+          return
+        fi
+      fi
+    done
+    # ffmpeg exited on its own
+    stop_recording
+  }
+
+  function parse_args() {
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --toggle)  TOGGLE_MODE=true; shift ;;
+        --list)    list_sources; exit 0 ;;
+        --source)  SOURCE_OVERRIDE="$2"; shift 2 ;;
+        -h|--help)
+          echo "Usage: dejli-audio [--toggle] [--list] [--source NAME]"
+          exit 0
+          ;;
+        *) log "ERROR" "Unknown option: $1"; exit 1 ;;
+      esac
+    done
   }
 
   function main() {
+    parse_args "$@"
+
+    if [[ "$TOGGLE_MODE" == true ]] && is_recording; then
+      stop_existing
+      exit 0
+    fi
+
     kill_previous_instances
     record
-    deliver
-    cleanup
-    exit 0
   }
 
-  main
+  main "$@"
 ''

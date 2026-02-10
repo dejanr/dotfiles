@@ -352,7 +352,7 @@
 
   # Bar
   bar {
-    font pango: PragmataPro, FontAwesome 9
+    font pango: PragmataPro, FiraCode Nerd Font, Font Awesome 7 Free Solid, Noto Color Emoji 9
     status_command i3blocks
     position top
     strip_workspace_numbers no

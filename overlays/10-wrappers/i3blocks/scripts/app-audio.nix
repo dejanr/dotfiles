@@ -8,9 +8,9 @@ in
   PATTERN="''${1:-Chrome}"
   TITLE="''${2:-chrome}"
 
-  MUTED_ICON="🔇"
-  UNMUTED_ICON="🔊"
-  NO_SINK_ICON="🎮"
+  MUTED_ICON="ﱝ"
+  UNMUTED_ICON="墳"
+  NO_SINK_ICON=""
 
   DEFAULT_COLOR="#FFFFFF"
   ACTIVE_COLOR="#DBC074"

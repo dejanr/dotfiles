@@ -100,6 +100,21 @@
     };
   };
 
+  # Set RØDE VideoMic Me-C+ as default mic
+  services.pipewire.wireplumber.extraConfig."10-default-source" = {
+    "monitor.alsa.rules" = [
+      {
+        matches = [
+          { "node.name" = "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback"; }
+        ];
+        actions.update-props = {
+          "priority.session" = 2500;
+          "priority.driver" = 2500;
+        };
+      }
+    ];
+  };
+
   modules.nixos = {
     roles = {
       hosts.enable = true;

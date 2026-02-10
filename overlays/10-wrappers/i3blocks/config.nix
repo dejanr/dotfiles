@@ -30,19 +30,13 @@ in
 
   [dejli-screenshot]
   interval=5
-  command=${dejli-script} "dejli-screenshot" "/tmp/dejli-screenshot.pid" "📸 screenshot"
+  command=${dejli-script} "dejli-screenshot" "/tmp/dejli-screenshot.pid" " screenshot"
 
   [seperator]
 
   [dejli-audio]
   interval=5
-  command=${dejli-script} "dejli-audio" "/tmp/dejli-audio.pid" "🎙️ audio"
-
-  [seperator]
-
-  [app-audio-dune]
-  interval=5
-  command=${app-audio} "Steel" "steel"
+  command=${dejli-script} "dejli-audio" "/tmp/dejli-audio.pid" " audio"
 
   [seperator]
 
