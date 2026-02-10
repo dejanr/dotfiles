@@ -50,7 +50,12 @@ in
 
     home.sessionVariables = {
       QT_QPA_PLATFORM = "xcb";
-      QSG_RHI_BACKEND = "vulkan";
+      QSG_RHI_BACKEND = "opengl";
+      # Enable NVIDIA VA-API hardware video decoding
+      LIBVA_DRIVER_NAME = "nvidia";
+      NVD_BACKEND = "direct";
+      # Needed for nvidia-vaapi-driver
+      MOZ_DISABLE_RDD_SANDBOX = "1";
     };
 
     home.shellAliases = {
@@ -102,10 +107,13 @@ in
         # Faster startup
         '--disable-extensions',
         '--disable-default-apps',
-        # Use Vulkan backend instead of OpenGL (better on Asahi)
-        '--use-vulkan',
-        '--enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan',
-        '--use-angle=vulkan',
+        # Hardware video acceleration via VA-API (NVIDIA)
+        '--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL',
+        '--disable-features=UseChromeOSDirectVideoDecoder',
+        '--enable-gpu-rasterization',
+        '--enable-zero-copy',
+        '--use-gl=egl',
+        '--ignore-gpu-blocklist',
       ])
       config.load_autoconfig(True)
 
