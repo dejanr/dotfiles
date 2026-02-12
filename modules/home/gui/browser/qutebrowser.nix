@@ -126,13 +126,15 @@ in
       ''
       config.set('qt.args',[
         # NOTE: qutebrowser prepends '--' to each arg, so do NOT include '--' here
-        # Process isolation
-        'process-per-site',
+        # Process model: each tab gets its own process (isolates crashes/hangs)
+        'process-per-tab',
         # Performance
         'disable-background-networking',
         'disable-sync',
         'disable-extensions',
         'disable-default-apps',
+        # Renderer process limits - kill tabs that use too much memory (512MB)
+        'renderer-process-limit=20',
         # Hardware acceleration
         ${enableFeaturesArg}
         ${disableFeaturesArg}
