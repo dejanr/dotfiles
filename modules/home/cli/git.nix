@@ -34,6 +34,9 @@ in
           name = "Dejan Ranisavljevic";
           email = "dejan@ranisavljevic.com";
         };
+        pull = {
+          rebase = true;
+        };
         init = {
           defaultBranch = "main";
         };

@@ -3,6 +3,14 @@
   plugins.nvim-tree = {
     enable = true;
     settings = {
+      on_attach.__raw = ''
+        function(bufnr)
+          local api = require('nvim-tree.api')
+          api.config.mappings.default_on_attach(bufnr)
+          vim.keymap.del('n', 's', { buffer = bufnr })
+          vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr, desc = 'Open: Vertical Split' })
+        end
+      '';
       filesystem_watchers = {
         ignore_dirs = [
           ".direnv"
