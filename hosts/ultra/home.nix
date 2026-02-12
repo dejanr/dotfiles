@@ -34,6 +34,7 @@
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.qutebrowser.gpu = "apple";
     home.gui.slack-web.enable = true;
     home.gui.grobi = {
       enable = true;

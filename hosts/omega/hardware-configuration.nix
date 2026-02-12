@@ -110,10 +110,14 @@ in
       grub.enable = true;
       grub.efiSupport = true;
       grub.device = "nodev";
-      grub.useOSProber = true;
+      grub.useOSProber = false;
       systemd-boot.memtest86.enable = true;
       grub.memtest86.enable = true;
       grub.extraEntries = ''
+        menuentry "Windows Boot Manager" {
+          search --fs-uuid --no-floppy --set=root 377B-0904
+          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+        }
         menuentry "Firmware" {
           fwsetup
         }

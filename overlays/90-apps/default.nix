@@ -88,4 +88,22 @@ in
   };
 
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
+
+  qutebrowser-unstable =
+    let
+      mainSrc = super.fetchFromGitHub {
+        owner = "qutebrowser";
+        repo = "qutebrowser";
+        rev = "0774a08ef7294f1bfb9b5b51a2ce88a7128b843d"; # main 2026-02-10
+        hash = "sha256-wTluzB2KJ2IaPWNHBub2kDzHEhRhvFe0cS1vv4gnKVg=";
+      };
+    in
+    super.qutebrowser.overrideAttrs (old: {
+      version = "3.6.3-unstable-2026-02-10";
+      src = mainSrc;
+    });
+
+  qutebrowser-nvidia = (self.qutebrowser-unstable.override {
+    enableVulkan = true;
+  });
 }

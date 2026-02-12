@@ -119,9 +119,9 @@
       mkSystem =
         pkgs: system: hostConfig: hostName:
         pkgs.lib.nixosSystem {
-          system = system;
           modules = [
             {
+              nixpkgs.hostPlatform = system;
               networking.hostName = hostName;
               networking.timeServers = [
                 "1.amazon.pool.ntp.org"

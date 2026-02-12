@@ -77,7 +77,7 @@ in
 
       lowLatency = {
         enable = true;
-        quantum = 64;
+        quantum = 256;
         rate = 48000;
       };
     };

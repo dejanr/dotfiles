@@ -35,7 +35,11 @@ in
         pkgs.xdg-desktop-portal-termfilechooser
       ];
       xdgOpenUsePortal = true;
-      config.common.default = "*";
+      config.common = {
+        default = "*";
+        "org.freedesktop.impl.portal.ScreenCast" = "gtk";
+        "org.freedesktop.impl.portal.RemoteDesktop" = "gtk";
+      };
     };
 
     # Compositor for vsync, no tearing, and better rendering
@@ -144,9 +148,11 @@ in
           configFile = "${pkgs.i3-config}/config";
 
           extraSessionCommands = ''
+            export XDG_CURRENT_DESKTOP=i3
+
             # Import X11 environment into systemd user session
-            ${pkgs.systemd}/bin/systemctl --user import-environment DISPLAY XAUTHORITY
-            ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY
+            ${pkgs.systemd}/bin/systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
+            ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 
             ${pkgs.wm-wallpaper}/bin/wm-wallpaper &
             ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources &

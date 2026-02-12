@@ -40,21 +40,28 @@ in
 {
   options.modules.home.gui.browser.qutebrowser = {
     enable = mkEnableOption "qutebrowser";
+
+    gpu = mkOption {
+      type = types.enum [ "nvidia" "apple" "intel" "amd" "none" ];
+      default = "none";
+      description = "GPU vendor for hardware acceleration flags";
+    };
   };
 
-  config = mkIf cfg.enable {
-
-    home.packages = [
-      pkgs.qutebrowser
-    ];
+  config = mkIf cfg.enable (
+    let
+      qutebrowserPkg =
+        if cfg.gpu == "nvidia" then pkgs.qutebrowser-nvidia
+        else pkgs.qutebrowser-unstable;
+    in
+    {
 
     home.sessionVariables = {
       QT_QPA_PLATFORM = "xcb";
       QSG_RHI_BACKEND = "opengl";
-      # Enable NVIDIA VA-API hardware video decoding
+    } // optionalAttrs (cfg.gpu == "nvidia") {
       LIBVA_DRIVER_NAME = "nvidia";
       NVD_BACKEND = "direct";
-      # Needed for nvidia-vaapi-driver
       MOZ_DISABLE_RDD_SANDBOX = "1";
     };
 
@@ -71,6 +78,7 @@ in
     };
 
     programs.qutebrowser.enable = true;
+    programs.qutebrowser.package = qutebrowserPkg;
 
     programs.qutebrowser.settings = {
       window.transparent = false;
@@ -94,26 +102,43 @@ in
       session.lazy_restore = true;
     };
 
-    programs.qutebrowser.extraConfig = ''
+    programs.qutebrowser.extraConfig =
+      let
+        gpuFeatures = {
+          nvidia = "VaapiVideoDecoder,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL,VaapiOnNvidiaGPUs,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE";
+          intel = "VaapiVideoDecoder,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL";
+          amd = "VaapiVideoDecoder,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL";
+          apple = "";
+          none = "";
+        };
+        gpuDisableFeatures = {
+          nvidia = "UseChromeOSDirectVideoDecoder";
+          intel = "UseChromeOSDirectVideoDecoder";
+          amd = "UseChromeOSDirectVideoDecoder";
+          apple = "";
+          none = "";
+        };
+        enableFeatures = gpuFeatures.${cfg.gpu};
+        disableFeatures = gpuDisableFeatures.${cfg.gpu};
+        enableFeaturesArg = optionalString (enableFeatures != "") "'enable-features=${enableFeatures}',";
+        disableFeaturesArg = optionalString (disableFeatures != "") "'disable-features=${disableFeatures}',";
+      in
+      ''
       config.set('qt.args',[
-        # Process isolation - each tab gets own process (prevents cross-tab freezing)
-        '--process-per-site',
-        '--renderer-process-limit=8',
-        # Performance: disable features we don't need
-        '--disable-reading-from-canvas',
-        '--disable-remote-fonts',
-        '--disable-background-networking',
-        '--disable-sync',
-        # Faster startup
-        '--disable-extensions',
-        '--disable-default-apps',
-        # Hardware video acceleration via VA-API (NVIDIA)
-        '--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL',
-        '--disable-features=UseChromeOSDirectVideoDecoder',
-        '--enable-gpu-rasterization',
-        '--enable-zero-copy',
-        '--use-gl=egl',
-        '--ignore-gpu-blocklist',
+        # NOTE: qutebrowser prepends '--' to each arg, so do NOT include '--' here
+        # Process isolation
+        'process-per-site',
+        # Performance
+        'disable-background-networking',
+        'disable-sync',
+        'disable-extensions',
+        'disable-default-apps',
+        # Hardware acceleration
+        ${enableFeaturesArg}
+        ${disableFeaturesArg}
+        'enable-gpu-rasterization',
+        'enable-zero-copy',
+        'ignore-gpu-blocklist',
       ])
       config.load_autoconfig(True)
 
@@ -153,8 +178,9 @@ in
       # Disable hyperlink auditing (tracking)
       c.content.hyperlink_auditing = False
       
-      # Disable canvas reading (fingerprinting + performance)
-      c.content.canvas_reading = False
+      # Canvas reading enabled (disabling breaks canvas-based apps like Figma, Google Maps, etc.
+      # and provides minimal fingerprinting protection on its own)
+      c.content.canvas_reading = True
       
       # Disable geolocation
       c.content.geolocation = False
@@ -475,5 +501,5 @@ in
         ];
       };
     };
-  };
+  });
 }

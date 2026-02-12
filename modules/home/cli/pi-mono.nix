@@ -20,7 +20,7 @@ let
   piMonoPkg = import ./pi-mono/nix/package.nix;
   piMono = piMonoPkg { inherit pkgs pi-mono-src; };
 
-  piMonoExtensionsPkg = inputs.self.packages.${pkgs.system}.pi-mono-extensions;
+  piMonoExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-extensions;
 
   promptFiles = builtins.readDir ./pi-mono/prompts;
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;

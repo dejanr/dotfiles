@@ -75,7 +75,6 @@ in
       zathura
       rmview
       teams-for-linux
-      qutebrowser
 
       # Themes
       arc-icon-theme
@@ -83,7 +82,6 @@ in
       adwaita-icon-theme
 
       freecad
-      qutebrowser
 
       # OBS with plugins
       (wrapOBS {

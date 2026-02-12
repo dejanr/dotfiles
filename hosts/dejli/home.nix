@@ -21,6 +21,7 @@
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
     home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.qutebrowser.gpu = "nvidia";
 
     # apps
     apps.kitty.enable = true;
