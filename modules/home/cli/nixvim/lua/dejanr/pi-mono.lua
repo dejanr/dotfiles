@@ -7,34 +7,32 @@ M.config = {
   pane_target = nil,
 }
 
-local function is_pi_pane(target)
-  local check_cmd = string.format(
-    "tmux capture-pane -p -t '%s' -S -50 2>/dev/null | grep -q 'pi\\|Claude\\|assistant' && echo 'found'",
-    target
-  )
-  local check = io.popen(check_cmd)
-  if check then
-    local result = check:read("*a")
-    check:close()
-    return result:match("found") ~= nil
+local function get_current_tmux_session()
+  local pane_id = vim.env.TMUX_PANE
+  if not pane_id then
+    return nil
   end
-  return false
-end
-
-local function path_matches(pane_path, nvim_cwd)
-  if not pane_path or not nvim_cwd then
-    return false
+  local cmd = string.format("tmux display-message -p -t '%s' '#{session_name}' 2>/dev/null", pane_id)
+  local handle = io.popen(cmd)
+  if not handle then
+    return nil
   end
-  pane_path = pane_path:gsub("/$", "")
-  nvim_cwd = nvim_cwd:gsub("/$", "")
-  return pane_path == nvim_cwd or nvim_cwd:find("^" .. pane_path:gsub("([%-%.%+%[%]%(%)%$%^%%%?%*])", "%%%1") .. "/")
+  local session = handle:read("*a"):gsub("%s+$", "")
+  handle:close()
+  return session ~= "" and session or nil
 end
 
 local function find_pi_pane()
-  local nvim_cwd = vim.fn.getcwd()
+  local session = get_current_tmux_session()
+  if not session then
+    vim.notify("Not running inside a tmux session", vim.log.levels.WARN)
+    return nil
+  end
 
-  local cmd = "tmux list-panes -a -F "
-    .. "'#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_command}\t#{pane_current_path}' 2>/dev/null"
+  local cmd = string.format(
+    "tmux list-panes -s -t '%s' -F '#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_command}' 2>/dev/null",
+    session
+  )
   local handle = io.popen(cmd)
   if not handle then
     return nil
@@ -43,28 +41,11 @@ local function find_pi_pane()
   local output = handle:read("*a")
   handle:close()
 
-  local matching_panes = {}
-  local other_panes = {}
-
   for line in output:gmatch("[^\n]+") do
-    local target, pane_cmd, pane_path = line:match("^([^\t]+)\t([^\t]+)\t(.+)$")
-    if target and pane_cmd and (pane_cmd:match("pi") or pane_cmd:match("node")) then
-      if is_pi_pane(target) then
-        if path_matches(pane_path, nvim_cwd) then
-          table.insert(matching_panes, { target = target, path = pane_path })
-        else
-          table.insert(other_panes, { target = target, path = pane_path })
-        end
-      end
+    local target, pane_cmd = line:match("^([^\t]+)\t(.+)$")
+    if target and pane_cmd and pane_cmd:match("^pi$") then
+      return target
     end
-  end
-
-  if #matching_panes > 0 then
-    return matching_panes[1].target
-  end
-
-  if #other_panes > 0 then
-    return other_panes[1].target
   end
 
   return nil
