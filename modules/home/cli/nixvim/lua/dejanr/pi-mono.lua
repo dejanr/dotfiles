@@ -89,25 +89,37 @@ local function get_visual_selection()
   return table.concat(lines, "\n"), start_line, end_line
 end
 
-local function escape_for_tmux(text)
-  text = text:gsub("\\", "\\\\")
-  text = text:gsub("'", "'\\''")
-  text = text:gsub(";", "\\;")
-  text = text:gsub("%$", "\\$")
-  return text
-end
-
 local function send_to_tmux(target, text)
   -- Clear any existing input in pi-mono first (Ctrl+A select all, then delete)
   os.execute(string.format("tmux send-keys -t '%s' C-a C-k", target))
 
-  local escaped = escape_for_tmux(text)
-  local cmd = string.format("tmux send-keys -t '%s' -l '%s'", target, escaped)
+  -- Use 3-step bracketed paste so pi treats content as pasted text,
+  -- not keystrokes (avoids triggering shortcuts like backtick for voice input).
+  -- Step 1: send bracketed paste start via hex bytes
+  os.execute(string.format("tmux send-keys -t '%s' -H 1b 5b 32 30 30 7e", target))
+
+  -- Step 2: paste raw text via temp file (avoids shell escaping issues)
+  local tmpfile = os.tmpname()
+  local f = io.open(tmpfile, "w")
+  if not f then
+    vim.notify("Failed to create temp file", vim.log.levels.ERROR)
+    return false
+  end
+  f:write(text)
+  f:close()
+
+  local cmd = string.format("tmux load-buffer '%s' \\; paste-buffer -d -t '%s'", tmpfile, target)
   local result = os.execute(cmd)
+  os.remove(tmpfile)
+
   if result ~= 0 then
     vim.notify("Failed to send to tmux pane: " .. target, vim.log.levels.ERROR)
     return false
   end
+
+  -- Step 3: send bracketed paste end via hex bytes
+  os.execute(string.format("tmux send-keys -t '%s' -H 1b 5b 32 30 31 7e", target))
+
   os.execute(string.format("tmux send-keys -t '%s' Enter", target))
   return true
 end
@@ -133,13 +145,8 @@ function M.send_selection()
       return
     end
 
-    local file_tag = string.format(
-      '<file name="%s" lines="%d-%d">\n%s\n</file>',
-      filepath,
-      line_start,
-      line_end,
-      selection
-    )
+    local file_tag =
+      string.format('<file name="%s" lines="%d-%d">\n%s\n</file>', filepath, line_start, line_end, selection)
 
     local message
     if input ~= "" then
