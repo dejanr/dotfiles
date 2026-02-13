@@ -21,13 +21,13 @@ pkgs.stdenv.mkDerivation {
 
   buildInputs = [
     pkgs.alsa-lib
-    pkgs.xorg.libX11
+    pkgs.libx11
     pkgs.glib
     pkgs.freetype
     pkgs.libxkbcommon
-    pkgs.xorg.libICE
-    pkgs.xorg.libXrender
-    pkgs.xorg.libSM
+    pkgs.libice
+    pkgs.libxrender
+    pkgs.libsm
     pkgs.fontconfig
     pkgs.pango
     pkgs.gtk3
@@ -39,9 +39,9 @@ pkgs.stdenv.mkDerivation {
     pkgs.mesa
     pkgs.nss
     pkgs.nspr
-    pkgs.xorg.libXdamage
-    pkgs.xorg.libxshmfence
-    pkgs.xorg.libXtst
+    pkgs.libxdamage
+    pkgs.libxshmfence
+    pkgs.libxtst
     pkgs.libGL
   ];
 

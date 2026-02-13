@@ -92,7 +92,7 @@ in
       polkit
       samba
       xdg-utils
-      xorg.xmodmap
+      xmodmap
       google-chrome
       openscad-unstable
 

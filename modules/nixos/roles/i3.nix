@@ -68,12 +68,12 @@ in
       feh # for background image
       polybar # status bar
       xdotool # inspect window title
-      xorg.utilmacros
-      xorg.xcursorgen
-      xorg.xcursorthemes
-      xorg.xrdb
-      xorg.xsetroot
-      xorg.xbacklight
+      util-macros
+      xcursorgen
+      xcursor-themes
+      xrdb
+      xsetroot
+      xbacklight
       sound-theme-freedesktop
       dunst # notifications
       i3minator # i3 project manager
@@ -96,11 +96,11 @@ in
       gtk-engine-murrine
       lxappearance # configure theme
 
-      xorg.libX11
-      xorg.libXinerama
-      xorg.xev
-      xorg.xkill
-      xorg.xmessage
+      libx11
+      libxinerama
+      xev
+      xkill
+      xmessage
 
       networkmanagerapplet # NetworkManager control applet for GNOME
 
@@ -155,8 +155,8 @@ in
             ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 
             ${pkgs.wm-wallpaper}/bin/wm-wallpaper &
-            ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources &
-            ${pkgs.xorg.xrdb}/bin/xrdb -merge /etc/X11/Xresources &
+            ${pkgs.xrdb}/bin/xrdb -merge ~/.Xresources &
+            ${pkgs.xrdb}/bin/xrdb -merge /etc/X11/Xresources &
             ${pkgs.dunst}/bin/dunst &
             ${pkgs.tailscale-systray}/bin/tailscale-systray &
             ${pkgs.networkmanager_dmenu}/bin/nm-applet &

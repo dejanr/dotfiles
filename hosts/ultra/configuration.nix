@@ -27,19 +27,19 @@
     # Wait for DCP display initialization on Asahi
     # Check for connected displays, retry if none found
     for i in $(seq 1 10); do
-      if ${pkgs.xorg.xrandr}/bin/xrandr | grep -q " connected"; then
+      if ${pkgs.xrandr}/bin/xrandr | grep -q " connected"; then
         break
       fi
       sleep 1
     done
-    ${pkgs.xorg.xrandr}/bin/xrandr --auto || true
+    ${pkgs.xrandr}/bin/xrandr --auto || true
   '';
 
   # Disable DPMS and screen blanking - Asahi HDMI doesn't wake reliably
   services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.xorg.xset}/bin/xset s off
-    ${pkgs.xorg.xset}/bin/xset -dpms
-    ${pkgs.xorg.xset}/bin/xset s noblank
+    ${pkgs.xset}/bin/xset s off
+    ${pkgs.xset}/bin/xset -dpms
+    ${pkgs.xset}/bin/xset s noblank
   '';
 
   # Delay display-manager start to allow DCP initialization
