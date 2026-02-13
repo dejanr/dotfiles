@@ -27,8 +27,8 @@ let
 
   settings = {
     lastChangelogVersion = packageJson.version;
-    defaultProvider = "anthropic";
-    defaultModel = "claude-opus-4-6";
+    defaultProvider = "openai-codex";
+    defaultModel = "gpt-5.3-codex";
     defaultThinkingLevel = "off";
   };
 

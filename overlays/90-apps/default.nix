@@ -87,6 +87,7 @@ in
       ;
   };
 
+  codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
 
   qutebrowser-unstable =

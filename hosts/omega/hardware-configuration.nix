@@ -11,7 +11,7 @@
 
 let
   hostName = "omega";
-  kernelPackages = pkgs.linuxPackages_latest;
+  kernelPackages = pkgs.linuxPackages_6_18;
   deviceIDs = [
     "0000:34:00.0"
     "0000:34:00.1"
