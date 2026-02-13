@@ -201,6 +201,7 @@ in
         gca = "git commit -a";
         gco = "git checkout";
         gb = "git branch";
+        gbda = "git checkout develop && git branch --merged develop | grep -vE '(^\\*| develop$| master$| main$)' | xargs -r git branch -d";
         gs = "clear; git rev-parse --git-dir >/dev/null 2>&1 && git status -sb";
         grm = "git status | grep deleted | awk '{print $3}' | xargs git rm";
 
