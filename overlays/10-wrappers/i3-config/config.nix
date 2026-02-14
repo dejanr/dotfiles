@@ -209,10 +209,11 @@
   for_window [class="Albion-Online"] border normal 0
   for_window [class="Albion-Online"] border pixel 0
 
+  for_window [class="Dejli-desktop"] mark dejli-desktop
   for_window [class="Dejli-desktop"] floating enable
-  for_window [class="Dejli-desktop"] sticky enable
   for_window [class="Dejli-desktop"] resize set 1024 768
   for_window [class="Dejli-desktop"] move position center
+  for_window [class="Dejli-desktop"] move scratchpad
 
   for_window [class="Lxappearance"] floating enable
   for_window [class="Seahorse"] floating enable
@@ -385,7 +386,6 @@
   bindsym $mod+r exec --no-startup-id qutebrowser -B "$HOME/.browser/Work" -C "$HOME/.config/qutebrowser/config.py" -s window.title_format " {perc}[Work]{title_sep}{current_title}" 
   bindsym $mod+t exec ${kitty}/bin/kitty -e zsh -ic yazi
   bindsym $mod+m exec $term -e btop
-  bindsym $mod+o exec --no-startup-id ~/projects/dejli/frontend/desktop/src-tauri/target/debug/dejli-desktop
 
   # Windows switching
 
