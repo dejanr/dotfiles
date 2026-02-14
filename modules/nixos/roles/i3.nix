@@ -48,8 +48,6 @@ in
       backend = "glx";
       vSync = true;
       settings = {
-        glx-no-stencil = true;
-        glx-no-rebind-pixmap = true;
         use-damage = true;
         # Disable effects for speed
         shadow = false;

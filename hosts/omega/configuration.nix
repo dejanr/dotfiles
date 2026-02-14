@@ -8,6 +8,10 @@
     ./hardware-configuration.nix
   ];
 
+  security.pki.certificateFiles = [
+    ./caddy-local-root.crt
+  ];
+
   virtualisation.podman.enable = true;
 
   # sst.dev

@@ -16,15 +16,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    xresources.properties = {
-      "Xft.dpi" = 98;
-      "Xft.antialias" = true;
-      "Xft.hinting" = true;
-      "Xft.hintstyle" = "hintfull";
-      "Xft.rgba" = "none";
-    };
+    home.file.".Xresources".text = ''
+      Xft.dpi: 98
+      Xft.antialias: true
+      Xft.hinting: true
+      Xft.hintstyle: hintfull
+      Xft.rgba: none
+    '';
 
-
+    xdg.configFile."picom/picom.conf".text = ''
+      backend = "glx";
+    '';
 
     home.packages = with pkgs; [
       acpi
