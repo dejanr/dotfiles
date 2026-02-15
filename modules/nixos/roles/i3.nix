@@ -68,6 +68,7 @@ in
       xdotool # inspect window title
       util-macros
       xcursorgen
+      dex
       xcursor-themes
       xrdb
       xsetroot
@@ -152,6 +153,7 @@ in
             ${pkgs.systemd}/bin/systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
             ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 
+            ${pkgs.dex}/bin/dex --autostart --environment i3 &
             ${pkgs.wm-wallpaper}/bin/wm-wallpaper &
             ${pkgs.xrdb}/bin/xrdb -merge ~/.Xresources &
             ${pkgs.xrdb}/bin/xrdb -merge /etc/X11/Xresources &

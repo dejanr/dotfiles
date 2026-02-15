@@ -56,7 +56,13 @@
     home.secrets.agenix.enable = true;
 
     # gui
-    home.gui.xdg.enable = true;
+    home.gui.xdg = {
+      enable = true;
+      autostart."1password" = {
+        name = "1Password";
+        exec = "1password --silent";
+      };
+    };
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;

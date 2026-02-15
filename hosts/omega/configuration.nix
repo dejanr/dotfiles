@@ -53,7 +53,7 @@
 
   age.secrets.github_runner_token_dejli.file = ../../secrets/github_runner_token_dejli.age;
 
-  nix.settings.trusted-users = [ "github-runner-dejli" ];
+  nix.settings.trusted-users = [ "github-runner" ];
 
   services = {
     openssh = {
@@ -102,6 +102,9 @@
       replace = true;
       url = "https://github.com/dejli/dejli";
       tokenFile = "/run/agenix/github_runner_token_dejli";
+      user = "github-runner";
+      group = "github-runner";
+      workDir = "/var/lib/github-runner/dejli/work";
       extraLabels = [ "nix" ];
       extraPackages = with pkgs; [
         nix
@@ -109,10 +112,21 @@
         pnpm
         git
       ];
+      serviceOverrides = {
+        TimeoutStartSec = "5min";
+        Restart = lib.mkForce "on-failure";
+        RestartSec = "15s";
+      };
     };
   };
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+
+  users.groups.github-runner = { };
+  users.users.github-runner = {
+    isSystemUser = true;
+    group = "github-runner";
+  };
 
   # Set RØDE VideoMic Me-C+ as default mic
   services.pipewire.wireplumber.extraConfig."10-default-source" = {
