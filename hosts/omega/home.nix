@@ -73,6 +73,7 @@
     apps.ghostty.enable = true;
 
     # cli
+    home.cli.codex.enable = true;
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
     home.cli.jujutsu.enable = true;

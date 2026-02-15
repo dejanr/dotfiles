@@ -27,27 +27,7 @@ let
       ];
   };
 
-  buildScript = pkgs.writeText "build-extension.mjs" ''
-    import { readFile } from "node:fs/promises";
-    import { createRequire } from "node:module";
-    import { resolve } from "node:path";
-
-    const cwd = process.cwd();
-    const require = createRequire(resolve(cwd, "..", "package.json"));
-    const { build } = require("esbuild");
-    const packageJson = JSON.parse(await readFile(resolve(cwd, "package.json"), "utf8"));
-    const peerDeps = Object.keys(packageJson.peerDependencies ?? {});
-
-    await build({
-      entryPoints: [resolve(cwd, "index.ts")],
-      outfile: resolve(cwd, "dist/index.js"),
-      bundle: true,
-      platform: "node",
-      format: "esm",
-      target: "node18",
-      external: ["@mariozechner/*", ...peerDeps],
-    });
-  '';
+  buildScript = pkgs.writeText "build-extension.mjs" (builtins.readFile (extensions-src + "/nix/scripts/build.mjs"));
 in
 pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "pi-mono-extensions";

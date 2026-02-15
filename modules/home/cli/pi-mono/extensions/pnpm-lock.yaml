@@ -102,19 +102,7 @@ importers:
         specifier: '*'
         version: 0.34.47
 
-  notify:
-    dependencies:
-      '@mariozechner/pi-coding-agent':
-        specifier: '*'
-        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
-
-  permission-gate:
-    dependencies:
-      '@mariozechner/pi-coding-agent':
-        specifier: '*'
-        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
-
-  pi-mermaid:
+  mermaid:
     dependencies:
       '@mariozechner/pi-coding-agent':
         specifier: '*'
@@ -128,6 +116,18 @@ importers:
       mermaid:
         specifier: 11.12.2
         version: 11.12.2
+
+  notify:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
+
+  permission-gate:
+    dependencies:
+      '@mariozechner/pi-coding-agent':
+        specifier: '*'
+        version: 0.49.3(ws@8.19.0)(zod@3.25.76)
 
   prompt-model:
     dependencies:
