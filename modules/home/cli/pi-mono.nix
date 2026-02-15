@@ -29,7 +29,7 @@ let
     lastChangelogVersion = packageJson.version;
     defaultProvider = "openai-codex";
     defaultModel = "gpt-5.3-codex";
-    defaultThinkingLevel = "medium";
+    defaultThinkingLevel = "high";
   };
 
   keybindings = {
