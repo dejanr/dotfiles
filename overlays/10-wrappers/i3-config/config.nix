@@ -59,7 +59,6 @@
   new_window none
 
   # change container layout (stacked, tabbed, default)
-  bindsym $mod+Shift+i layout stacking
   # bindsym $mod+Shift+u layout tabbed
   # bindsym $mod+Shift+y layout default
 
@@ -209,11 +208,9 @@
   for_window [class="Albion-Online"] border normal 0
   for_window [class="Albion-Online"] border pixel 0
 
-  for_window [class="Dejli-desktop"] mark dejli-desktop
   for_window [class="Dejli-desktop"] floating enable
   for_window [class="Dejli-desktop"] resize set 1024 768
   for_window [class="Dejli-desktop"] move position center
-  for_window [class="Dejli-desktop"] move scratchpad
 
   for_window [class="Lxappearance"] floating enable
   for_window [class="Seahorse"] floating enable

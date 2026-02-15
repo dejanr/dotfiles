@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -55,6 +56,13 @@
   nix.settings.trusted-users = [ "github-runner-dejli" ];
 
   services = {
+    openssh = {
+      openFirewall = false;
+      settings = {
+        AllowUsers = [ "dejanr" ];
+      };
+    };
+
     caddy = {
       enable = true;
       virtualHosts = {
@@ -104,6 +112,8 @@
     };
   };
 
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+
   # Set RØDE VideoMic Me-C+ as default mic
   services.pipewire.wireplumber.extraConfig."10-default-source" = {
     "monitor.alsa.rules" = [
@@ -131,4 +141,9 @@
       virtualisation.enable = true;
     };
   };
+
+  users.users.dejanr.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUqC/zpHXN8XkBVnvxG5oJyXqoKSvdXhNP7xyj1JvCA iphone"
+
+  ];
 }
