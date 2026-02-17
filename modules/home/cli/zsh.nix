@@ -75,6 +75,8 @@ in
             export GROQ_API_KEY=$(cat ${config.age.secrets.groq_api_key.path})
             export ELEVENLABS_API_KEY=$(cat ${config.age.secrets.elevenlabs_api_key.path})
             export EXA_API_KEY=$(cat ${config.age.secrets.exa_api_key.path})
+            export HUGGINGFACE_HUB_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
+            export HF_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
           '';
           darwinExports = ''
             ${darwinPath}
