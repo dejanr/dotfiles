@@ -45,7 +45,7 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-ByEQnCH1cnjBF/lhxlbO7BtwJ/eruwAiobOmPWCVfEQ=";
+    hash = "sha256-RSvI+0tCkzPQFkyXT+4HwwsOxzN2DftuP3Iaa54rroE=";
   };
 
   buildPhase = ''
