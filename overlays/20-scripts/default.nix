@@ -6,6 +6,11 @@ self: super:
     pkgs = super;
   };
 
+  comfy-model = import ./comfy-model {
+    inherit (super) ;
+    pkgs = super;
+  };
+
   wm-lock = import ./wm-lock {
     inherit (super) ;
     pkgs = super;

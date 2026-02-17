@@ -25,6 +25,7 @@ in
     networking.extraHosts = hostsContent + ''
       127.0.0.1 dej.li.dev
       127.0.0.1 dejan.ranisavljevic.com.dev
+      127.0.0.1 comfyui.dev
     '';
   };
 }

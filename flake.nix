@@ -26,6 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    comfyui-nix = {
+      url = "github:utensils/comfyui-nix";
+    };
+
     nur = {
       url = "github:nix-community/NUR";
     };
@@ -134,6 +138,7 @@
             nix-gaming.nixosModules.pipewireLowLatency
             agenix.nixosModules.default
             disko.nixosModules.disko
+            inputs.comfyui-nix.nixosModules.default
             ./modules/nixos/default.nix
             (./. + "/hosts/${hostConfig}/configuration.nix")
             home-manager.nixosModules.home-manager

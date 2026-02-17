@@ -90,6 +90,13 @@ in
   codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
 
+  # Wrap comfy-ui-cuda launcher to expose CUDA runtime libs for nodes that dlopen()
+  comfy-ui-cuda-wrapped =
+    if super.stdenv.isLinux && super.stdenv.hostPlatform.isx86_64 then
+      super.callPackage ./comfy-ui { }
+    else
+      super.comfy-ui;
+
   qutebrowser-unstable =
     let
       mainSrc = super.fetchFromGitHub {

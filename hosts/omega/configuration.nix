@@ -15,6 +15,10 @@
 
   virtualisation.podman.enable = true;
 
+  environment.systemPackages = [
+    pkgs.comfy-model
+  ];
+
   # sst.dev
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -43,12 +47,6 @@
     Host dejli
         Hostname dejli
         User dejanr
-        LocalForward 3000 localhost:3000
-        LocalForward 8080 localhost:8080
-        LocalForward 8090 localhost:8090
-        LocalForward 4000 localhost:4000
-        LocalForward 4001 localhost:4001
-        LocalForward 6006 localhost:6006
   '';
 
   age.secrets.github_runner_token_dejli.file = ../../secrets/github_runner_token_dejli.age;
@@ -63,27 +61,95 @@
       };
     };
 
+    comfyui = {
+      enable = true;
+      cuda = true;
+      package = pkgs.comfy-ui-cuda-wrapped;
+      enableManager = true;
+      user = "dejanr";
+      group = "users";
+      createUser = false;
+      dataDir = "/home/dejanr/.config/comfy-ui";
+      listenAddress = "127.0.0.1";
+      port = 8188;
+      environment = {
+        PYTHONPATH = "${pkgs.python312Packages."rotary-embedding-torch"}/${pkgs.python312.sitePackages}";
+        AUX_ANNOTATOR_CKPTS_PATH = "/home/dejanr/.config/comfy-ui/models/annotators";
+        AUX_USE_SYMLINKS = "false";
+      };
+      customNodes = {
+        ComfyUI-SeedVR2_VideoUpscaler = pkgs.fetchFromGitHub {
+          owner = "numz";
+          repo = "ComfyUI-SeedVR2_VideoUpscaler";
+          rev = "4490bd1f482e026674543386bb2a4d176da245b9";
+          hash = "sha256-6nsqFflLw9vYH/du35ET46fdAm1NMjjTe2bA8JmaBE4=";
+        };
+        comfyui_controlnet_aux = pkgs.fetchFromGitHub {
+          owner = "Fannovel16";
+          repo = "comfyui_controlnet_aux";
+          rev = "95a13e2e5d8f8ae57583fbebb0be1f670889858b";
+          hash = "sha256-5ZyU+mqxNTb/Gl+x5htFeYuI148niW0VIzvt0p60r+4=";
+        };
+        rgthree-comfy = pkgs.fetchFromGitHub {
+          owner = "rgthree";
+          repo = "rgthree-comfy";
+          rev = "8ff50e4521881eca1fe26aec9615fc9362474931";
+          hash = "sha256-MueLFV5gaK6vPI0BEPxL3ZueOK2eFcZzajLyo95HrOE=";
+        };
+        ComfyUI-GGUF = pkgs.fetchFromGitHub {
+          owner = "city96";
+          repo = "ComfyUI-GGUF";
+          rev = "6ea2651e7df66d7585f6ffee804b20e92fb38b8a";
+          hash = "sha256-/ZwecgxTTMo9J1whdEJci8lEkOy/yP+UmjbpOAA3BvU=";
+        };
+        PuLID_ComfyUI = pkgs.fetchFromGitHub {
+          owner = "cubiq";
+          repo = "PuLID_ComfyUI";
+          rev = "93e0c4c226b87b23c0009d671978bad0e77289ff";
+          hash = "sha256-gzAqb8rNIKBOR41tPWMM1kUoKOQTOHtPIdS0Uv1Keac=";
+        };
+      };
+    };
+
     caddy = {
       enable = true;
       virtualHosts = {
         "dej.li.dev" = {
           extraConfig = ''
             tls internal
+            handle /swagger {
+              redir /swagger/ 308
+            }
+            handle_path /swagger/* {
+              reverse_proxy localhost:43104
+            }
+            handle /api/swagger.json {
+              reverse_proxy localhost:43104
+            }
+            handle /auth/swagger.json {
+              reverse_proxy localhost:43104
+            }
             handle /auth/* {
-              reverse_proxy localhost:3001
+              reverse_proxy localhost:43101
             }
             handle /api/* {
-              reverse_proxy localhost:3002
+              reverse_proxy localhost:43102
             }
             handle {
-              reverse_proxy localhost:3000
+              reverse_proxy localhost:43100
             }
           '';
         };
         "dejan.ranisavljevic.com.dev" = {
           extraConfig = ''
             tls internal
-            reverse_proxy localhost:3003
+            reverse_proxy localhost:43103
+          '';
+        };
+        "comfyui.dev" = {
+          extraConfig = ''
+            tls internal
+            reverse_proxy localhost:8188
           '';
         };
       };
@@ -104,7 +170,6 @@
       tokenFile = "/run/agenix/github_runner_token_dejli";
       user = "github-runner";
       group = "github-runner";
-      workDir = "/var/lib/github-runner/dejli/work";
       extraLabels = [ "nix" ];
       extraPackages = with pkgs; [
         nix
@@ -119,6 +184,7 @@
       };
     };
   };
+
 
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
