@@ -137,8 +137,8 @@
       dev.enable = true;
       i3.enable = true;
       desktop.enable = true;
-      #games.enable = true;
-      #multimedia.enable = true;
+      games.enable = true;
+      multimedia.enable = true;
       services.enable = true;
     };
   };
