@@ -5,6 +5,9 @@
     settings = {
       preset = "helix";
       expand = 0;
+      icons = {
+        colors = false;
+      };
       spec = [
         {
           __unkeyed-1 = "<leader>f";
