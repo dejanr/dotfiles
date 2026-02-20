@@ -43,12 +43,8 @@ in
       s3fs
 
       # AI and coding assistants
-      aider-chat
-      code-cursor
-      opencode
       claude-code
       gemini-cli
-      codex
       mermaid-cli
 
       # Network tools

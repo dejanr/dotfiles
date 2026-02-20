@@ -206,6 +206,7 @@
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
+        framework = mkSystem inputs.nixpkgs "x86_64-linux" "framework" "framework";
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega" "omega";
         dejli = mkSystem inputs.nixpkgs "aarch64-linux" "dejli" "dejli";
         m910q1 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q1";

@@ -27,7 +27,9 @@ let
       ];
   };
 
-  buildScript = pkgs.writeText "build-extension.mjs" (builtins.readFile (extensions-src + "/nix/scripts/build.mjs"));
+  buildScript = pkgs.writeText "build-extension.mjs" (
+    builtins.readFile (extensions-src + "/nix/scripts/build.mjs")
+  );
 in
 pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "pi-mono-extensions";
@@ -45,7 +47,7 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-RSvI+0tCkzPQFkyXT+4HwwsOxzN2DftuP3Iaa54rroE=";
+    hash = "sha256-W6/ZFCRO63/HtBpQgkQuLhvuFbyyncYVW1Z56S6jk2E=";
   };
 
   buildPhase = ''
