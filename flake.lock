@@ -941,11 +941,11 @@
     "pi-mono": {
       "flake": false,
       "locked": {
-        "lastModified": 1771355078,
-        "narHash": "sha256-zk0mdikqPwa6zjaVp5qf6OOVcCXWj9wmxbBzdnt3WOg=",
+        "lastModified": 1771768678,
+        "narHash": "sha256-BvLQ0X7hyjVHVcPtEG8swfe3N8ErqAGVAP6rrPB/Rj4=",
         "owner": "badlogic",
         "repo": "pi-mono",
-        "rev": "4ba3e5be229a570187d8efbef5c14c0d5ce40dcc",
+        "rev": "316c2afe38d34a352474b852b95195be266709cb",
         "type": "github"
       },
       "original": {
