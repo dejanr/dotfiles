@@ -21,11 +21,38 @@ in
     enable = mkEnableOption "custom hosts file";
   };
 
-  config = mkIf cfg.enable {
-    networking.extraHosts = hostsContent + ''
-      127.0.0.1 dej.li.dev
-      127.0.0.1 dejan.ranisavljevic.com.dev
-      127.0.0.1 comfyui.dev
-    '';
-  };
+  config = mkIf cfg.enable (
+    mkMerge [
+      {
+        security.pki.certificateFiles = [
+          ../../../certs/caddy-local-root.crt
+        ];
+
+        networking.extraHosts = hostsContent + ''
+          127.0.0.1 dej.li.dev
+          127.0.0.1 dejan.ranisavljevic.com.dev
+          127.0.0.1 comfyui.dev
+        '';
+      }
+      (mkIf config.services.caddy.enable {
+        age.secrets.caddy_local_root_key = {
+          file = ../../../secrets/caddy_local_root_key.age;
+          owner = config.services.caddy.user;
+          group = config.services.caddy.group;
+          mode = "0400";
+        };
+
+        services.caddy.globalConfig = ''
+          pki {
+            ca local {
+              root {
+                cert ${../../../certs/caddy-local-root.crt}
+                key ${config.age.secrets.caddy_local_root_key.path}
+              }
+            }
+          }
+        '';
+      })
+    ]
+  );
 }
