@@ -57,5 +57,8 @@
 
     # Auto reload files changed outside of vim
     autoread = true;
+
+    # Enable project-local .nvim.lua files (requires :trust per project)
+    exrc = true;
   };
 }
