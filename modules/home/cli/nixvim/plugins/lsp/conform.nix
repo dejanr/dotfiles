@@ -6,15 +6,15 @@
     settings = {
       formatters_by_ft = {
         css = [ "prettier" ];
-        go = [ "gofumpt" "goimports" ];
+        go = [ "treefmt" "gofumpt" "goimports" ];
         html = [ "prettier" ];
         javascript = [ "prettier" ];
         typescript = [ "prettier" ];
         typescriptreact = [ "prettier" ];
         json = [ "prettier" ];
-        lua = [ "stylua" ];
+        lua = [ "treefmt" "stylua" ];
         markdown = [ "prettier" "markdownlint" ];
-        nix = [ "nixfmt" ];
+        nix = [ "treefmt" "nixfmt" ];
         python = [ "isort" "black" ];
         terraform = [ "terraform_fmt" ];
         yaml = [ "prettier" ];
@@ -31,11 +31,62 @@
             ignore_errors = true;
           };
         };
+
+        treefmt = {
+          command = "treefmt";
+          args = [ "--stdin" "$FILENAME" "--quiet" ];
+          stdin = true;
+          condition.__raw = ''
+            function(_, ctx)
+              return vim.fs.find({ "treefmt.toml", ".treefmt.toml" }, {
+                upward = true,
+                path = ctx.dirname,
+              })[1] ~= nil
+            end
+          '';
+        };
+
+        gofumpt.condition.__raw = ''
+          function(_, ctx)
+            return vim.fs.find({ "treefmt.toml", ".treefmt.toml" }, {
+              upward = true,
+              path = ctx.dirname,
+            })[1] == nil
+          end
+        '';
+
+        goimports.condition.__raw = ''
+          function(_, ctx)
+            return vim.fs.find({ "treefmt.toml", ".treefmt.toml" }, {
+              upward = true,
+              path = ctx.dirname,
+            })[1] == nil
+          end
+        '';
+
+        stylua.condition.__raw = ''
+          function(_, ctx)
+            return vim.fs.find({ "treefmt.toml", ".treefmt.toml" }, {
+              upward = true,
+              path = ctx.dirname,
+            })[1] == nil
+          end
+        '';
+
+        nixfmt.condition.__raw = ''
+          function(_, ctx)
+            return vim.fs.find({ "treefmt.toml", ".treefmt.toml" }, {
+              upward = true,
+              path = ctx.dirname,
+            })[1] == nil
+          end
+        '';
       };
     };
   };
 
   extraPackages = with pkgs; [
+    treefmt
     nodePackages.prettier
     gofumpt
     gotools
