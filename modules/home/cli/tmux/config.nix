@@ -45,6 +45,11 @@
 
   # Window bindings
   bind C-s last-window
+
+  # demo-it shortcuts
+  bind -N "demo-it next" Space run-shell -b 'demo-it next >/dev/null 2>&1'
+  bind -N "demo-it prev" BSpace run-shell -b 'demo-it prev >/dev/null 2>&1'
+
   bind < swap-window -t :-
   bind > swap-window -t :+
   bind -r ( select-window -t :-

@@ -13,6 +13,8 @@
     slack
   ];
 
+  config.services.demo-it.enable = true;
+
   config.modules = {
     home.common.packages.enable = true;
 

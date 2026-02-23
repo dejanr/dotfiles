@@ -78,6 +78,10 @@
       url = "github:badlogic/pi-mono";
       flake = false;
     };
+
+    demo-it = {
+      url = "git+ssh://git@github.com/dejanr/demo-it.git";
+    };
   };
 
   outputs =
@@ -165,6 +169,7 @@
                   agenix.homeManagerModules.default
                   stylix.homeModules.stylix
                   nixvim.homeModules.nixvim
+                  inputs.demo-it.homeManagerModules.default
                 ];
               };
             }
@@ -181,7 +186,7 @@
           nixvimModule = {
             pkgs = nixpkgs.legacyPackages.${system};
             module = import ./modules/home/cli/nixvim;
-            extraSpecialArgs = { };
+            extraSpecialArgs = { inherit inputs; };
           };
         in
         nixvim'.makeNixvimWithModule nixvimModule;
@@ -245,6 +250,7 @@
                     agenix.homeManagerModules.default
                     stylix.homeModules.stylix
                     nixvim.homeModules.nixvim
+                    inputs.demo-it.homeManagerModules.default
                   ];
                 };
                 nixpkgs.overlays = [ nur.overlays.default ] ++ overlays;
