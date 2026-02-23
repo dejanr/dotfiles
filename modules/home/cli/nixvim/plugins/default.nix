@@ -6,6 +6,7 @@
     ./ui/nvim-tree.nix
     ./ui/which-key.nix
     ./ui/zen-mode.nix
+    ./ui/presenting.nix
     ./ui/dressing.nix
     ./editor/telescope.nix
     ./editor/treesitter.nix
