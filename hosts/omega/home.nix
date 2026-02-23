@@ -66,7 +66,6 @@
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;
-    home.gui.browser.qutebrowser.gpu = "nvidia";
 
     # apps
     apps.kitty.enable = true;
@@ -84,7 +83,8 @@
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
     home.cli.pi-mono.enable = true;
-    home.cli.pi-mono.voiceInput.device = "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback";
+    home.cli.pi-mono.voiceInput.device =
+      "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback";
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

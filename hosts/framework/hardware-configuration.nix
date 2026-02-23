@@ -167,7 +167,6 @@ in
       enable = true;
       enable32Bit = true;
       extraPackages = with pkgs; [
-        nvidia-vaapi-driver
         libva-vdpau-driver
         libvdpau-va-gl
       ];
@@ -213,7 +212,6 @@ in
       };
 
       screenSection = ''
-        Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
         Option         "AllowIndirectGLXProtocol" "off"
         Option         "TripleBuffer" "on"
       '';

@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig ? null,
   ...
 }:
 
@@ -9,6 +10,16 @@ with lib;
 
 let
   cfg = config.modules.home.gui.browser.qutebrowser;
+  osConfig' = if osConfig == null then { } else osConfig;
+  xserverVideoDrivers = attrByPath [ "services" "xserver" "videoDrivers" ] [ ] osConfig';
+  hasXDriver = driver: elem driver xserverVideoDrivers;
+  detectedGpu =
+    if hasAttrByPath [ "hardware" "asahi" ] osConfig' then "apple"
+    else if hasXDriver "nvidia" then "nvidia"
+    else if hasXDriver "amdgpu" || hasXDriver "ati" || attrByPath [ "hardware" "amdgpu" "initrd" "enable" ] false osConfig' then "amd"
+    else if hasXDriver "intel" || hasXDriver "i915" then "intel"
+    else "none";
+  effectiveGpu = if cfg.gpu == "auto" then detectedGpu else cfg.gpu;
 
   generateHomepage =
     name: font: config: # html
@@ -42,16 +53,16 @@ in
     enable = mkEnableOption "qutebrowser";
 
     gpu = mkOption {
-      type = types.enum [ "nvidia" "apple" "intel" "amd" "none" ];
-      default = "none";
-      description = "GPU vendor for hardware acceleration flags";
+      type = types.enum [ "auto" "nvidia" "apple" "intel" "amd" "none" ];
+      default = "auto";
+      description = "GPU vendor for hardware acceleration flags. Uses host auto-detection by default.";
     };
   };
 
   config = mkIf cfg.enable (
     let
       qutebrowserPkg =
-        if cfg.gpu == "nvidia" then pkgs.qutebrowser-nvidia
+        if effectiveGpu == "nvidia" then pkgs.qutebrowser-nvidia
         else pkgs.qutebrowser-unstable;
     in
     {
@@ -59,7 +70,7 @@ in
     home.sessionVariables = {
       QT_QPA_PLATFORM = "xcb";
       QSG_RHI_BACKEND = "opengl";
-    } // optionalAttrs (cfg.gpu == "nvidia") {
+    } // optionalAttrs (effectiveGpu == "nvidia") {
       LIBVA_DRIVER_NAME = "nvidia";
       NVD_BACKEND = "direct";
       MOZ_DISABLE_RDD_SANDBOX = "1";
@@ -118,8 +129,8 @@ in
           apple = "";
           none = "";
         };
-        enableFeatures = gpuFeatures.${cfg.gpu};
-        disableFeatures = gpuDisableFeatures.${cfg.gpu};
+        enableFeatures = gpuFeatures.${effectiveGpu};
+        disableFeatures = gpuDisableFeatures.${effectiveGpu};
         enableFeaturesArg = optionalString (enableFeatures != "") "'enable-features=${enableFeatures}',";
         disableFeaturesArg = optionalString (disableFeatures != "") "'disable-features=${disableFeatures}',";
       in
