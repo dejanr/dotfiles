@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 
@@ -33,6 +34,7 @@ in
       vimAlias = true;
       vimdiffAlias = true;
 
+      _module.args.inputs = inputs;
       imports = [ ./nixvim ];
     };
   };

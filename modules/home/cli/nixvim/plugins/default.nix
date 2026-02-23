@@ -20,6 +20,7 @@
     ./editor/nvimux.nix
     ./editor/mdx.nix
     ./editor/pi-mono.nix
+    ./editor/demo-it.nix
     ./lsp/lspconfig.nix
     ./lsp/conform.nix
     ./completion/blink-cmp.nix
