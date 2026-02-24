@@ -1,5 +1,5 @@
 binds {
-    Mod+Return hotkey-overlay-title="Open terminal" { spawn "ghostty" "+new-window"; }
+    Mod+Return hotkey-overlay-title="Open terminal" { spawn-sh "ghostty +new-window || ghostty"; }
     Mod+W hotkey-overlay-title="Open Personal browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Personal\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\""; }
     Mod+E hotkey-overlay-title="Open Futurice browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Futurice\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Futurice]{title_sep}{current_title}\""; }
     Mod+R hotkey-overlay-title="Open Work browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Work\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\""; }
