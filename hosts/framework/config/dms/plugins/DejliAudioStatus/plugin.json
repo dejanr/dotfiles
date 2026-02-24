@@ -1,0 +1,11 @@
+{
+  "id": "dejliAudioStatus",
+  "name": "Dejli Audio",
+  "description": "Toggle dejli-audio and show recording status",
+  "version": "1.0.0",
+  "author": "dejanr",
+  "type": "widget",
+  "capabilities": ["dankbar-widget", "control-center"],
+  "component": "./DejliAudioStatusWidget.qml",
+  "icon": "mic"
+}

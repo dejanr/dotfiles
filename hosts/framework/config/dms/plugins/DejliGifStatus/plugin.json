@@ -1,0 +1,11 @@
+{
+  "id": "dejliGifStatus",
+  "name": "Dejli GIF",
+  "description": "Toggle dejli-gif and show recording status",
+  "version": "1.0.0",
+  "author": "dejanr",
+  "type": "widget",
+  "capabilities": ["dankbar-widget", "control-center"],
+  "component": "./DejliGifStatusWidget.qml",
+  "icon": "videocam"
+}

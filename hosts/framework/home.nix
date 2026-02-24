@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -61,12 +62,21 @@
   config.xdg.configFile = {
     "DankMaterialShell/settings.json" = {
       force = true;
-      source = ./config/dms/settings.json;
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/settings.json";
     };
     "DankMaterialShell/plugin_settings.json" = {
       force = true;
-      source = ./config/dms/plugin_settings.json;
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/plugin_settings.json";
     };
+  };
+
+  config.home.file."dms-session" = {
+    force = true;
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
+    target = ".local/state/DankMaterialShell/session.json";
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

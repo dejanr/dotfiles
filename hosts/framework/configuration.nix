@@ -107,7 +107,7 @@
       enable = true;
       openFirewall = true;
       useRoutingFeatures = "both";
-      extraUpFlags = [ "--ssh" ];
+      extraUpFlags = [ "--ssh" "--operator=dejanr" ];
       extraSetFlags = [ "--advertise-exit-node" ];
     };
   };
@@ -139,6 +139,12 @@
     systemd = {
       enable = true;
       target = "niri.service";
+    };
+    plugins = {
+      DejliAudioStatus.src = ./config/dms/plugins/DejliAudioStatus;
+      DejliGifStatus.src = ./config/dms/plugins/DejliGifStatus;
+      DejliScreenshotAction.src = ./config/dms/plugins/DejliScreenshotAction;
+      Tailscale.src = ./config/dms/plugins/Tailscale;
     };
   };
 

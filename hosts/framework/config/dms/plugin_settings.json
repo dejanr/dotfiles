@@ -1,1 +1,17 @@
-{}
+{
+  "dejliAudioStatus": {
+    "enabled": true
+  },
+  "dejliGifStatus": {
+    "enabled": true
+  },
+  "dejliScreenshotAction": {
+    "enabled": true
+  },
+  "tailscale": {
+    "enabled": true,
+    "refreshInterval": 5,
+    "upCommand": "tailscale up",
+    "downCommand": "tailscale down --accept-risk=lose-ssh"
+  }
+}

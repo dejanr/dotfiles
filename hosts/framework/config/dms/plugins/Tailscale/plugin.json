@@ -1,0 +1,15 @@
+{
+  "id": "tailscale",
+  "name": "Tailscale Manager",
+  "description": "Widget for managing tailscale connection",
+  "version": "1.0.0",
+  "author": "Cooper Glavin",
+  "icon": "widgets",
+  "type": "widget",
+  "component": "./TailscaleWidget.qml",
+  "settings": "./TailscaleSettings.qml",
+  "permissions": [
+    "settings_read",
+    "settings_write"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "dejliScreenshotAction",
+  "name": "Dejli Screenshot",
+  "description": "Take a region screenshot and copy to clipboard",
+  "version": "1.0.0",
+  "author": "dejanr",
+  "type": "widget",
+  "capabilities": ["dankbar-widget", "control-center"],
+  "component": "./DejliScreenshotActionWidget.qml",
+  "icon": "photo_camera"
+}

@@ -113,6 +113,26 @@
       "id": "darkMode",
       "enabled": true,
       "width": 50
+    },
+    {
+      "id": "plugin_tailscale",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "plugin_dejliScreenshotAction",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "plugin_dejliGifStatus",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "plugin_dejliAudioStatus",
+      "enabled": true,
+      "width": 50
     }
   ],
   "showWorkspaceIndex": false,
@@ -440,7 +460,11 @@
       ],
       "rightWidgets": [
         "systemTray",
+        "tailscale",
         "clipboard",
+        "dejliScreenshotAction",
+        "dejliGifStatus",
+        "dejliAudioStatus",
         "cpuUsage",
         "memUsage",
         "notificationButton",
