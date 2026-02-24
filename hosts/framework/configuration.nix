@@ -132,7 +132,7 @@
   programs.niri = {
     enable = true;
     useNautilus = false;
-    package = pkgs.niri-unstable;
+    package = pkgs.niri;
   };
 
   programs.dank-material-shell = {
