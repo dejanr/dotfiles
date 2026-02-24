@@ -132,6 +132,7 @@
   programs.niri = {
     enable = true;
     useNautilus = false;
+    package = pkgs.niri-unstable;
   };
 
   programs.dank-material-shell = {
@@ -146,20 +147,16 @@
       DejliScreenshotAction.src = ./config/dms/plugins/DejliScreenshotAction;
       Tailscale.src = ./config/dms/plugins/Tailscale;
     };
+    greeter = {
+      enable = true;
+      compositor.name = "niri";
+      configHome = "/home/dejanr";
+    };
   };
 
   services.greetd = {
     enable = true;
-    settings = {
-      initial_session = {
-        command = "${pkgs.niri}/bin/niri-session";
-        user = "dejanr";
-      };
-      default_session = {
-        command = "${pkgs.niri}/bin/niri-session";
-        user = "dejanr";
-      };
-    };
+    settings.default_session.user = "greeter";
   };
 
   services.power-profiles-daemon.enable = lib.mkForce false;

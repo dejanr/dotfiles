@@ -87,6 +87,11 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -149,6 +154,7 @@
             disko.nixosModules.disko
             inputs.comfyui-nix.nixosModules.default
             inputs.dms.nixosModules.dank-material-shell
+            inputs.dms.nixosModules.greeter
             ./modules/nixos/default.nix
             (./. + "/hosts/${hostConfig}/configuration.nix")
             home-manager.nixosModules.home-manager
@@ -160,6 +166,7 @@
                 nixos-apple-silicon.overlays.default
                 nur.overlays.default
                 devenv.overlays.default
+                inputs.niri.overlays.niri
               ]
               ++ overlays;
               home-manager = {
