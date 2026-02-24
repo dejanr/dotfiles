@@ -1,176 +1,187 @@
 { pkgs }:
 
 let
-  slop = "${pkgs.slop}/bin/slop";
   ffmpeg = "${(pkgs.ffmpeg-full.override { withXcb = true; })}/bin/ffmpeg";
+  wfRecorder = "${pkgs.wf-recorder}/bin/wf-recorder";
+  slurp = "${pkgs.slurp}/bin/slurp";
+  slop = "${pkgs.slop}/bin/slop";
+  wlCopy = "${pkgs.wl-clipboard}/bin/wl-copy";
+  xclip = "${pkgs.xclip}/bin/xclip";
+  notifySend = "${pkgs.libnotify}/bin/notify-send";
 in
 ''
   #!/usr/bin/env bash
 
-  #!/usr/bin/env bash
-  #
-  #   dejli-gif is a screen recorder that records a selected screen area and encodes it into a GIF.
-  #
-  #   Gifs are stored in ~/archive/dejli-gifs
+  set -euo pipefail
 
-  stty -echoctl # Don't print ^C when pressing Ctrl+C
+  STATE_FILE="/tmp/dejli-gif.state"
+  ARCHIVE_DIR="$HOME/archive/dejli-gifs"
 
-  function log() {
-    local level="$1" message="$2" exit_on_fail="''${3:-false}"
-    local color=""
+  action="toggle"
 
-    case "$level" in
-      ERROR) color="\033[0;31m" ;;
-      SUCCESS) color="\033[0;32m" ;;
-      INFO) color="\033[0;36m" ;;
-    esac
-
-    echo -e "''${color}''${level}:\033[0m $message"
-
-    [[ "$exit_on_fail" == true ]] && exit 1
+  notify() {
+    ${notifySend} -a "dejli-gif" "$1" "$2" 2>/dev/null || true
   }
 
-  PID_FILE="/tmp/dejli-gif.pid"
-  OUTPUT_FILE=$(eval echo "~/archive/dejli-gifs/$(date +%Y%m%d_%H%M%S).gif")
+  is_recording() {
+    [[ -f "$STATE_FILE" ]] || return 1
+    # shellcheck disable=SC1090
+    source "$STATE_FILE"
+    [[ -n "''${RECORDER_PID:-}" ]] && kill -0 "''${RECORDER_PID}" 2>/dev/null
+  }
 
-  mkdir -p $(dirname "$OUTPUT_FILE")
-
-  TEMP_DIRECTORY=$(mktemp -d 2>/dev/null) || log "ERROR" "Could not create temporary directory" true
-  log "INFO" "Created temporary directory $TEMP_DIRECTORY"
-
-  function kill_previous_instances() {
-    local script_name=$(basename "$0")
-
-    local script_pids
-    script_pids=$(pgrep -f "$script_name" | grep -vw "$$") # Exclude the current script's process ID
-
-    if [[ -n "$script_pids" ]]; then
-      log "INFO" "Found running script instances: $script_pids"
-      for pid in $script_pids; do
-        log "INFO" "Stopping script process (PID: $pid)..."
-        kill "$pid" 2>/dev/null
-        wait "$pid" 2>/dev/null || true
-      done
-      log "SUCCESS" "Stopped all previous instances of $script_name."
-    else
-      log "INFO" "No previous script instances found."
-    fi
-
-    # Kill any leftover FFmpeg processes using the PID file
-    if [[ -f "$PID_FILE" ]]; then
-      local ffmpeg_pid
-      ffmpeg_pid=$(cat "$PID_FILE")
-      if kill -0 "$ffmpeg_pid" 2>/dev/null; then
-        log "INFO" "Stopping leftover FFmpeg process (PID: $ffmpeg_pid)..."
-        kill "$ffmpeg_pid" 2>/dev/null
-        wait "$ffmpeg_pid" 2>/dev/null || true
-        log "SUCCESS" "Stopped leftover FFmpeg process."
-      else
-        log "INFO" "No leftover FFmpeg process found in PID file."
+  cleanup_state() {
+    if [[ -f "$STATE_FILE" ]]; then
+      # shellcheck disable=SC1090
+      source "$STATE_FILE" || true
+      if [[ -n "''${TEMP_DIR:-}" && -d "''${TEMP_DIR}" ]]; then
+        rm -rf "''${TEMP_DIR}" || true
       fi
-      rm -f "$PID_FILE"
-      log "INFO" "Removed PID file."
+      rm -f "$STATE_FILE"
     fi
   }
 
-  function get_geometry() {
-    log "INFO" "Select the area to record using your mouse..."
-    local raw_geometry
-    raw_geometry=$(${slop}) || log "ERROR" "No area selected. Exiting." true
-    log "INFO" "Raw geometry: $raw_geometry"
-
-    IFS=+x read -r w h x y <<< "$raw_geometry"
-    w=$((w + w % 2))
-    h=$((h + h % 2))
-    [[ -z "$w" || -z "$h" || -z "$x" || -z "$y" ]] && log "ERROR" "Invalid geometry: x=$x, y=$y, width=$w, height=$h" true
-    log "INFO" "Parsed geometry: x=$x, y=$y, width=$w, height=$h"
-  }
-
-  function record() {
-    ${ffmpeg} -f x11grab -s "''${w}x''${h}" -i ":0.0+''${x},''${y}" \
-      -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -loglevel "quiet" -r 30 \
-      -preset veryslow -crf 0 "$TEMP_DIRECTORY/intermediate.mp4" &
-
-    FFMPEG_PID="$!"
-    echo "$FFMPEG_PID" > "$PID_FILE"
-
-    log "INFO" "Started recording (PID: $FFMPEG_PID). Press Esc to stop."
-
-    trap stop_recording INT
-    wait_for_esc
-  }
-
-  function stop_recording() {
-    if [[ -n "$FFMPEG_PID" ]] && kill -0 "$FFMPEG_PID" 2>/dev/null; then
-      log "INFO" "Stopping recording..."
-      kill "$FFMPEG_PID"
-      wait "$FFMPEG_PID" 2>/dev/null
-      log "SUCCESS" "Recording saved to $TEMP_DIRECTORY/intermediate.mp4"
-      FFMPEG_PID="" # Clear the PID to prevent repeated attempts
-    else
-      log "INFO" "Recording process already stopped."
-    fi
-  }
-
-  function wait_for_esc() {
-    while true; do
-      # Check if PID_FILE is missing or if the process with the PID in PID_FILE is no longer running
-      if [[ ! -f "$PID_FILE" ]]; then
-        log "ERROR" "PID_FILE is missing. Stopping recording."
-        stop_recording
-        break
-      fi
-
-      local pid_in_file
-      pid_in_file=$(cat "$PID_FILE" 2>/dev/null)
-      if [[ -z "$pid_in_file" || ! -e /proc/"$pid_in_file" ]]; then
-        log "ERROR" "Process with PID $pid_in_file is no longer running. Stopping recording."
-        stop_recording
-        break
-      fi
-
-      # Use non-blocking read to check for user input
-      if read -t 1 -n 1 key; then
-        if [[ "$key" == $'\e' ]]; then
-          stop_recording
-          break
-        fi
-      fi
-
-      sleep 1
+  parse_args() {
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --start) action="start"; shift ;;
+        --stop) action="stop"; shift ;;
+        --toggle) action="toggle"; shift ;;
+        -h|--help)
+          echo "Usage: dejli-gif [--start|--stop|--toggle]"
+          exit 0
+          ;;
+        *)
+          echo "Unknown option: $1" >&2
+          exit 1
+          ;;
+      esac
     done
   }
 
-  function encode() {
-    ${ffmpeg} -i "$TEMP_DIRECTORY/intermediate.mp4" \
-      -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
-      "$TEMP_DIRECTORY/final.gif" || log "ERROR" "Failed to encode GIF" true
-    log "SUCCESS" "Encoded final GIF to $TEMP_DIRECTORY/final.gif"
+  start_recording() {
+    mkdir -p "$ARCHIVE_DIR"
+
+    local temp_dir
+    temp_dir=$(mktemp -d)
+
+    local output_file="$ARCHIVE_DIR/$(date +%Y%m%d_%H%M%S).gif"
+    local intermediate="$temp_dir/intermediate.mkv"
+
+    local mode="x11"
+    local recorder_pid
+
+    if [[ "''${XDG_SESSION_TYPE:-}" == "wayland" || -n "''${WAYLAND_DISPLAY:-}" ]]; then
+      mode="wayland"
+      local region
+      region=$(${slurp}) || {
+        rm -rf "$temp_dir"
+        exit 0
+      }
+      [[ -n "$region" ]] || {
+        rm -rf "$temp_dir"
+        exit 0
+      }
+
+      ${wfRecorder} -g "$region" -f "$intermediate" >/dev/null 2>&1 &
+      recorder_pid=$!
+    else
+      local selection
+      selection=$(${slop} -f "%x %y %w %h") || {
+        rm -rf "$temp_dir"
+        exit 0
+      }
+      [[ -n "$selection" ]] || {
+        rm -rf "$temp_dir"
+        exit 0
+      }
+
+      local x y w h
+      read -r x y w h <<< "$selection"
+      w=$((w - w % 2))
+      h=$((h - h % 2))
+
+      if [[ "$w" -le 0 || "$h" -le 0 ]]; then
+        rm -rf "$temp_dir"
+        exit 0
+      fi
+
+      ${ffmpeg} -loglevel error -f x11grab -video_size "''${w}x''${h}" -framerate 30 -i ":0.0+''${x},''${y}" -y "$intermediate" >/dev/null 2>&1 &
+      recorder_pid=$!
+    fi
+
+    cat > "$STATE_FILE" <<EOF
+RECORDER_PID=$recorder_pid
+MODE="$mode"
+TEMP_DIR="$temp_dir"
+INTERMEDIATE="$intermediate"
+OUTPUT_FILE="$output_file"
+EOF
+
+    notify "GIF recording started" "Select done. Press Mod+Shift+P again to stop."
   }
 
-  function deliver() {
-    mv "$TEMP_DIRECTORY/final.gif" "$OUTPUT_FILE" || log "ERROR" "Failed to save final GIF" true
-    log "SUCCESS" "Final GIF saved to $OUTPUT_FILE"
+  stop_recording() {
+    if ! [[ -f "$STATE_FILE" ]]; then
+      notify "GIF recording" "No active recording"
+      exit 0
+    fi
 
-    echo -n "file://$OUTPUT_FILE" | xclip -sel clip -t text/uri-list || log "ERROR" "Failed to copy GIF URI to clipboard" false
-    log "SUCCESS" "GIF copied to clipboard"
+    # shellcheck disable=SC1090
+    source "$STATE_FILE"
+
+    if [[ -n "''${RECORDER_PID:-}" ]] && kill -0 "$RECORDER_PID" 2>/dev/null; then
+      kill -INT "$RECORDER_PID" 2>/dev/null || true
+      wait "$RECORDER_PID" 2>/dev/null || true
+    fi
+
+    if ! [[ -s "$INTERMEDIATE" ]]; then
+      cleanup_state
+      notify "GIF recording failed" "No video captured"
+      exit 1
+    fi
+
+    ${ffmpeg} -loglevel error -y -i "$INTERMEDIATE" \
+      -vf "fps=15,split[s0][s1];[s0]palettegen=max_colors=256[p];[s1][p]paletteuse=dither=floyd_steinberg" \
+      "$OUTPUT_FILE"
+
+    if [[ "''${MODE}" == "wayland" ]]; then
+      printf 'file://%s\n' "$OUTPUT_FILE" | ${wlCopy} --type text/uri-list
+    else
+      printf 'file://%s\n' "$OUTPUT_FILE" | ${xclip} -selection clipboard -t text/uri-list
+    fi
+
+    cleanup_state
+    notify "GIF saved" "$OUTPUT_FILE"
   }
 
-  function cleanup() {
-    rm -rf "$TEMP_DIRECTORY"
-    rm -f "$PID_FILE"
-    log "INFO" "Deleted temporary directory $TEMP_DIRECTORY"
+  main() {
+    parse_args "$@"
+
+    if ! is_recording && [[ -f "$STATE_FILE" ]]; then
+      cleanup_state
+    fi
+
+    case "$action" in
+      start)
+        if is_recording; then
+          notify "GIF recording" "Already recording"
+        else
+          start_recording
+        fi
+        ;;
+      stop)
+        stop_recording
+        ;;
+      toggle)
+        if is_recording; then
+          stop_recording
+        else
+          start_recording
+        fi
+        ;;
+    esac
   }
 
-  function main() {
-    kill_previous_instances
-    get_geometry
-    record
-    encode
-    deliver
-    cleanup
-    exit 0
-  }
-
-  main
+  main "$@"
 ''

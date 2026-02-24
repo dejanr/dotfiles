@@ -1,16 +1,32 @@
 { pkgs }:
 
 let
+  grim = "${pkgs.grim}/bin/grim";
+  slurp = "${pkgs.slurp}/bin/slurp";
+  wlCopy = "${pkgs.wl-clipboard}/bin/wl-copy";
   slop = "${pkgs.slop}/bin/slop";
   shotgun = "${pkgs.shotgun}/bin/shotgun";
+  xclip = "${pkgs.xclip}/bin/xclip";
 in
 ''
-  #!/usr/bin/env sh
+  #!/usr/bin/env bash
 
-  OUTPUT_FILE=$(eval echo "~/archive/dejli-screenshots/$(date +%Y%m%d_%H%M%S).png")
-  SELECTION=$(${slop})
+  set -euo pipefail
 
-  mkdir -p $(dirname "$OUTPUT_FILE")
+  OUTPUT_DIR="$HOME/archive/dejli-screenshots"
+  OUTPUT_FILE="$OUTPUT_DIR/$(date +%Y%m%d_%H%M%S).png"
 
-  ${shotgun} -f png -g $SELECTION - | tee "$OUTPUT_FILE" | xclip -t 'image/png' -selection clipboard
+  mkdir -p "$OUTPUT_DIR"
+
+  if [[ "''${XDG_SESSION_TYPE:-}" == "wayland" || -n "''${WAYLAND_DISPLAY:-}" ]]; then
+    SELECTION=$(${slurp}) || exit 0
+    [[ -n "$SELECTION" ]] || exit 0
+
+    ${grim} -g "$SELECTION" - | tee "$OUTPUT_FILE" | ${wlCopy} --type image/png >/dev/null
+  else
+    SELECTION=$(${slop}) || exit 0
+    [[ -n "$SELECTION" ]] || exit 0
+
+    ${shotgun} -f png -g "$SELECTION" - | tee "$OUTPUT_FILE" | ${xclip} -t image/png -selection clipboard >/dev/null
+  fi
 ''

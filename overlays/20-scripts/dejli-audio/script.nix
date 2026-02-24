@@ -3,180 +3,224 @@
 let
   ffmpeg = "${pkgs.ffmpeg-full}/bin/ffmpeg";
   pactl = "${pkgs.pulseaudio}/bin/pactl";
-  notify-send = "${pkgs.libnotify}/bin/notify-send";
+  notifySend = "${pkgs.libnotify}/bin/notify-send";
+  wlCopy = "${pkgs.wl-clipboard}/bin/wl-copy";
   xclip = "${pkgs.xclip}/bin/xclip";
 in
 ''
   #!/usr/bin/env bash
-  #
-  #   dejli-audio — records mic + system output into a combined audio file.
-  #
-  #   Usage:
-  #     dejli-audio              Record using default source + default sink monitor
-  #     dejli-audio --toggle     Stop if already recording, start otherwise (for keybinds)
-  #     dejli-audio --list       List available audio sources
-  #     dejli-audio --source X   Record using source X instead of default
-  #
-  #   Audio is stored in ~/archive/dejli-audio
 
-  stty -echoctl 2>/dev/null || true
+  set -euo pipefail
 
   PID_FILE="/tmp/dejli-audio.pid"
+  STATE_FILE="/tmp/dejli-audio.state"
   ARCHIVE_DIR="$HOME/archive/dejli-audio"
-  OUTPUT_FILE="$ARCHIVE_DIR/$(date +%Y%m%d_%H%M%S).wav"
-  SOURCE_OVERRIDE=""
-  TOGGLE_MODE=false
 
-  function log() {
-    local level="$1" message="$2"
-    local color=""
-    case "$level" in
-      ERROR)   color="\033[0;31m" ;;
-      SUCCESS) color="\033[0;32m" ;;
-      INFO)    color="\033[0;36m" ;;
-    esac
-    echo -e "''${color}''${level}:\033[0m $message"
+  action="toggle"
+  source_override=""
+
+  notify() {
+    ${notifySend} -a "dejli-audio" "$1" "$2" 2>/dev/null || true
   }
 
-  function notify() {
-    ${notify-send} -a "dejli-audio" "$1" "$2" 2>/dev/null || true
+  is_wayland() {
+    [[ "''${XDG_SESSION_TYPE:-}" == "wayland" || -n "''${WAYLAND_DISPLAY:-}" ]]
   }
 
-  function list_sources() {
-    echo "Available audio sources:"
-    ${pactl} list sources short 2>/dev/null | while read -r id name driver fmt state; do
-      local desc
-      desc=$(${pactl} list sources 2>/dev/null | grep -A1 "Name: $name" | grep "Description:" | sed 's/.*Description: //')
-      printf "  %-60s %s\n" "$name" "$desc"
-    done
-  }
+  copy_uri_to_clipboard() {
+    local output_file="$1"
+    local uri
+    uri=$(printf 'file://%s\n' "$output_file")
 
-  function is_recording() {
-    [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null
-  }
-
-  function stop_existing() {
-    if [[ -f "$PID_FILE" ]]; then
-      local pid
-      pid=$(cat "$PID_FILE")
-      if kill -0 "$pid" 2>/dev/null; then
-        kill "$pid" 2>/dev/null
-        wait "$pid" 2>/dev/null || true
-        log "SUCCESS" "Stopped recording (PID: $pid)"
-        notify "Recording stopped" "Audio saved"
-      fi
-      rm -f "$PID_FILE"
+    if is_wayland; then
+      printf '%s' "$uri" | ${wlCopy} --type text/uri-list 2>/dev/null || true
+    else
+      printf '%s' "$uri" | ${xclip} -selection clipboard -t text/uri-list 2>/dev/null || true
     fi
   }
 
-  function kill_previous_instances() {
-    local script_name
-    script_name=$(basename "$0")
-    local pids
-    pids=$(pgrep -f "$script_name" | grep -vw "$$" || true)
-
-    for pid in $pids; do
-      kill "$pid" 2>/dev/null
-      wait "$pid" 2>/dev/null || true
-    done
-
-    stop_existing
+  cleanup_state() {
+    rm -f "$PID_FILE" "$STATE_FILE"
   }
 
-  function record() {
-    local mic_source
-    mic_source="''${SOURCE_OVERRIDE:-$(${pactl} get-default-source 2>/dev/null)}"
-    local output_monitor
-    output_monitor="$(${pactl} get-default-sink 2>/dev/null).monitor"
+  is_recording() {
+    if [[ -f "$STATE_FILE" ]]; then
+      # shellcheck disable=SC1090
+      source "$STATE_FILE"
+      if [[ -n "''${FFMPEG_PID:-}" ]] && kill -0 "''${FFMPEG_PID}" 2>/dev/null; then
+        return 0
+      fi
+    fi
 
-    if [[ -z "$mic_source" ]]; then
-      log "ERROR" "No mic source found"
-      notify "Recording failed" "No mic source found"
-      exit 1
+    if [[ -f "$PID_FILE" ]]; then
+      local pid
+      pid=$(cat "$PID_FILE" 2>/dev/null || true)
+      if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+        return 0
+      fi
+    fi
+
+    return 1
+  }
+
+  list_sources() {
+    echo "Available audio sources:"
+    ${pactl} list sources short 2>/dev/null | awk '{print "  " $2}'
+  }
+
+  resolve_sources() {
+    local mic_source sink monitor
+
+    mic_source="''${source_override:-$(${pactl} get-default-source 2>/dev/null || true)}"
+    sink="$(${pactl} get-default-sink 2>/dev/null || true)"
+
+    if [[ -z "$mic_source" || -z "$sink" ]]; then
+      echo "Could not resolve default PulseAudio source/sink" >&2
+      return 1
+    fi
+
+    monitor="''${sink}.monitor"
+
+    printf '%s\n%s\n' "$mic_source" "$monitor"
+  }
+
+  start_recording() {
+    if is_recording; then
+      notify "Audio recording" "Already recording"
+      return 0
     fi
 
     mkdir -p "$ARCHIVE_DIR"
 
-    log "INFO" "Mic: $mic_source"
-    log "INFO" "Output: $output_monitor"
-    notify "Recording started" "Mic: $mic_source\nPress Esc to stop"
+    local output_file
+    output_file="$ARCHIVE_DIR/$(date +%Y%m%d_%H%M%S).wav"
+
+    local mic_source monitor
+    readarray -t resolved < <(resolve_sources)
+    mic_source="''${resolved[0]:-}"
+    monitor="''${resolved[1]:-}"
+
+    if [[ -z "$mic_source" || -z "$monitor" ]]; then
+      notify "Audio recording failed" "No valid source/sink monitor found"
+      return 1
+    fi
 
     ${ffmpeg} \
-      -loglevel quiet \
+      -loglevel error \
       -f pulse -i "$mic_source" \
-      -f pulse -i "$output_monitor" \
-      -filter_complex "amix=inputs=2:duration=longest" \
-      -y "$OUTPUT_FILE" &
+      -f pulse -i "$monitor" \
+      -filter_complex "amix=inputs=2:duration=longest:dropout_transition=2" \
+      -c:a pcm_s16le \
+      -y "$output_file" >/dev/null 2>&1 &
 
     local ffmpeg_pid="$!"
+
+    cat > "$STATE_FILE" <<EOF
+FFMPEG_PID=$ffmpeg_pid
+OUTPUT_FILE="$output_file"
+MIC_SOURCE="$mic_source"
+MONITOR_SOURCE="$monitor"
+EOF
+
     echo "$ffmpeg_pid" > "$PID_FILE"
 
-    log "INFO" "Recording (PID: $ffmpeg_pid). Press Esc to stop."
-
-    trap 'stop_recording' INT TERM
-    wait_for_stop "$ffmpeg_pid"
+    notify "Audio recording started" "Mic: $mic_source"
   }
 
-  function stop_recording() {
-    if [[ -f "$PID_FILE" ]]; then
-      local pid
-      pid=$(cat "$PID_FILE")
-      if kill -0 "$pid" 2>/dev/null; then
-        kill "$pid" 2>/dev/null
-        wait "$pid" 2>/dev/null || true
-      fi
-      rm -f "$PID_FILE"
+  stop_recording() {
+    if ! is_recording; then
+      cleanup_state
+      notify "Audio recording" "No active recording"
+      return 0
     fi
 
-    if [[ -f "$OUTPUT_FILE" && -s "$OUTPUT_FILE" ]]; then
-      log "SUCCESS" "Saved: $OUTPUT_FILE"
-      echo -n "file://$OUTPUT_FILE" | ${xclip} -sel clip -t text/uri-list 2>/dev/null || true
-      notify "Recording saved" "$OUTPUT_FILE"
+    local ffmpeg_pid=""
+    local output_file=""
+
+    if [[ -f "$STATE_FILE" ]]; then
+      # shellcheck disable=SC1090
+      source "$STATE_FILE"
+      ffmpeg_pid="''${FFMPEG_PID:-}"
+      output_file="''${OUTPUT_FILE:-}"
+    fi
+
+    if [[ -z "$ffmpeg_pid" && -f "$PID_FILE" ]]; then
+      ffmpeg_pid=$(cat "$PID_FILE" 2>/dev/null || true)
+    fi
+
+    if [[ -n "$ffmpeg_pid" ]] && kill -0 "$ffmpeg_pid" 2>/dev/null; then
+      kill -INT "$ffmpeg_pid" 2>/dev/null || true
+      wait "$ffmpeg_pid" 2>/dev/null || true
+    fi
+
+    cleanup_state
+
+    if [[ -n "$output_file" && -s "$output_file" ]]; then
+      copy_uri_to_clipboard "$output_file"
+      notify "Audio saved" "$output_file"
     else
-      log "ERROR" "Recording produced no output"
-      notify "Recording failed" "No output file"
+      notify "Audio recording failed" "No output file"
+      return 1
     fi
   }
 
-  function wait_for_stop() {
-    local pid="$1"
-    while kill -0 "$pid" 2>/dev/null; do
-      if read -t 1 -n 1 key 2>/dev/null; then
-        if [[ "$key" == $'\e' ]]; then
-          stop_recording
-          return
-        fi
-      fi
-    done
-    # ffmpeg exited on its own
-    stop_recording
-  }
-
-  function parse_args() {
+  parse_args() {
     while [[ $# -gt 0 ]]; do
       case "$1" in
-        --toggle)  TOGGLE_MODE=true; shift ;;
-        --list)    list_sources; exit 0 ;;
-        --source)  SOURCE_OVERRIDE="$2"; shift 2 ;;
-        -h|--help)
-          echo "Usage: dejli-audio [--toggle] [--list] [--source NAME]"
+        --start)
+          action="start"
+          shift
+          ;;
+        --stop)
+          action="stop"
+          shift
+          ;;
+        --toggle)
+          action="toggle"
+          shift
+          ;;
+        --list)
+          list_sources
           exit 0
           ;;
-        *) log "ERROR" "Unknown option: $1"; exit 1 ;;
+        --source)
+          source_override="$2"
+          shift 2
+          ;;
+        -h|--help)
+          echo "Usage: dejli-audio [--start|--stop|--toggle] [--source <name>] [--list]"
+          exit 0
+          ;;
+        *)
+          echo "Unknown option: $1" >&2
+          exit 1
+          ;;
       esac
     done
   }
 
-  function main() {
+  main() {
     parse_args "$@"
 
-    if [[ "$TOGGLE_MODE" == true ]] && is_recording; then
-      stop_existing
-      exit 0
+    if ! is_recording; then
+      cleanup_state
     fi
 
-    kill_previous_instances
-    record
+    case "$action" in
+      start)
+        start_recording
+        ;;
+      stop)
+        stop_recording
+        ;;
+      toggle)
+        if is_recording; then
+          stop_recording
+        else
+          start_recording
+        fi
+        ;;
+    esac
   }
 
   main "$@"
