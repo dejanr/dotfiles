@@ -45,7 +45,7 @@
     map super+ctrl+n        scroll_to_prompt 1
 
   # Window
-    hide_window_decorations titlebar-only
+    hide_window_decorations yes
     confirm_os_window_close 0
     macos_quit_when_last_window_closed yes
 

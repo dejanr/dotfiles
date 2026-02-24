@@ -82,6 +82,11 @@
     demo-it = {
       url = "git+ssh://git@github.com/dejanr/demo-it.git";
     };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -143,6 +148,7 @@
             agenix.nixosModules.default
             disko.nixosModules.disko
             inputs.comfyui-nix.nixosModules.default
+            inputs.dms.nixosModules.dank-material-shell
             ./modules/nixos/default.nix
             (./. + "/hosts/${hostConfig}/configuration.nix")
             home-manager.nixosModules.home-manager

@@ -67,17 +67,14 @@ in
     in
     {
 
-    home.sessionVariables = {
-      QT_QPA_PLATFORM = "xcb";
-      QSG_RHI_BACKEND = "opengl";
-    } // optionalAttrs (effectiveGpu == "nvidia") {
+    home.sessionVariables = optionalAttrs (effectiveGpu == "nvidia") {
       LIBVA_DRIVER_NAME = "nvidia";
       NVD_BACKEND = "direct";
       MOZ_DISABLE_RDD_SANDBOX = "1";
     };
 
     home.shellAliases = {
-      qutebrowser = "qutebrowser -B ~/.browser/Personal";
+      qutebrowser = "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B ~/.browser/Personal";
     };
 
     xdg.mimeApps.defaultApplications = {
@@ -93,11 +90,13 @@ in
 
     programs.qutebrowser.settings = {
       window.transparent = false;
+      window.hide_decoration = true;
       auto_save.session = false;
       # Set window/UI background colors early to prevent artifacts
       colors.tabs.bar.bg = config.lib.stylix.colors.withHashtag.base00;
       colors.statusbar.normal.bg = config.lib.stylix.colors.withHashtag.base00;
       colors.completion.even.bg = config.lib.stylix.colors.withHashtag.base00;
+      colors.webpage.bg = config.lib.stylix.colors.withHashtag.base00;
 
       # === PERFORMANCE SETTINGS ===
       # Faster scrolling

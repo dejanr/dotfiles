@@ -11,8 +11,10 @@
 
   virtualisation.podman.enable = true;
 
-  environment.systemPackages = [
-    #pkgs.comfy-model
+  environment.systemPackages = with pkgs; [
+    # comfy-model
+    xwayland-satellite
+    wl-clipboard
   ];
 
   # sst.dev
@@ -127,11 +129,40 @@
     ];
   };
 
+  programs.niri = {
+    enable = true;
+    useNautilus = false;
+  };
+
+  programs.dank-material-shell = {
+    enable = true;
+    systemd = {
+      enable = true;
+      target = "niri.service";
+    };
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session = {
+        command = "${pkgs.niri}/bin/niri-session";
+        user = "dejanr";
+      };
+      default_session = {
+        command = "${pkgs.niri}/bin/niri-session";
+        user = "dejanr";
+      };
+    };
+  };
+
+  services.power-profiles-daemon.enable = lib.mkForce false;
+  services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
+
   modules.nixos = {
     roles = {
       hosts.enable = true;
       dev.enable = true;
-      i3.enable = true;
       desktop.enable = true;
       games.enable = true;
       multimedia.enable = true;

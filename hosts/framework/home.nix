@@ -1,9 +1,12 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [ ../../modules/home/default.nix ];
 
-  # TODO: move this, reorganize
   config.home.file."npmrc".text = ''
     prefix = ~/.npm-packages
   '';
@@ -18,10 +21,8 @@
   config.modules = {
     home.common.packages.enable = true;
 
-    # secrets
     home.secrets.agenix.enable = true;
 
-    # gui
     home.gui.xdg = {
       enable = true;
       autostart."1password" = {
@@ -31,12 +32,14 @@
     };
     home.gui.desktop.enable = true;
     home.gui.browser.qutebrowser.enable = true;
+    home.gui.niri = {
+      enable = true;
+      defaultsOutOfStore = false;
+    };
 
-    # apps
     apps.kitty.enable = true;
     apps.ghostty.enable = true;
 
-    # cli
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
     home.cli.dev.enable = true;
@@ -47,6 +50,23 @@
     home.cli.pi-mono.enable = true;
     home.cli.pi-mono.voiceInput.device =
       "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback";
+  };
+
+  config.services.cliphist = {
+    enable = true;
+    systemdTargets = [ "niri.service" ];
+  };
+
+
+  config.xdg.configFile = {
+    "DankMaterialShell/settings.json" = {
+      force = true;
+      source = ./config/dms/settings.json;
+    };
+    "DankMaterialShell/plugin_settings.json" = {
+      force = true;
+      source = ./config/dms/plugin_settings.json;
+    };
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

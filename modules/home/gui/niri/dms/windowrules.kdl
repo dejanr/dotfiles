@@ -1,0 +1,210 @@
+window-rule {
+    open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^kitty$"#
+}
+
+window-rule {
+    match is-window-cast-target=true
+
+    focus-ring {
+        on
+        width 3
+        active-color "#ff4d6d"
+        inactive-color "#a1002b"
+    }
+
+    border {
+        on
+        width 2
+        active-color "#ff4d6d"
+        inactive-color "#a1002b"
+    }
+
+    shadow {
+        color "#a1002b70"
+    }
+}
+
+window-rule {
+    match app-id=r#"^Pronterface\.py$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^Cura$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^\.slic3r\.pl-wrapped$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^Slack$"#
+    open-on-workspace "10"
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+}
+
+window-rule {
+    match app-id=r#"^teams-for-linux$"#
+    open-on-workspace "10"
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+}
+
+window-rule {
+    match app-id=r#"^discord$"#
+    open-on-workspace "7"
+}
+
+window-rule {
+    match app-id=r#"^Mail$"#
+    open-on-workspace "9"
+}
+
+window-rule {
+    match app-id=r#"^Daily$"#
+    open-on-workspace "9"
+}
+
+window-rule {
+    match app-id=r#"^pyfa\.py$"#
+    open-on-workspace "6"
+}
+
+window-rule {
+    match app-id=r#"^eve-online\.exe$"#
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id=r#"^exefile\.exe$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match title="Google Meet"
+    open-on-workspace "11"
+}
+
+window-rule {
+    match title="Google Calendar"
+    open-on-workspace "9"
+}
+
+window-rule {
+    match title="Gmail"
+    open-on-workspace "9"
+}
+
+window-rule {
+    match title="Steam"
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id=r#"^Albion-Online$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^Qemu-kvm$"#
+    open-on-workspace "3"
+}
+
+window-rule {
+    match app-id=r#"^l2\.exe$"#
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id=r#"^entropia\.exe$"#
+    open-on-workspace "6"
+}
+
+window-rule {
+    match app-id=r#"^jetbrains-studio$"#
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1426050$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1170950$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1371580$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1284210$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_2429640$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1172710$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_8500$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_0$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_2344320$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^clientloader\.exe$"#
+    open-on-workspace "6"
+}
+
+window-rule {
+    match app-id=r#"^rn_fusebox\.html$"#
+    open-on-workspace "3"
+}
+
+window-rule {
+    match app-id=r#"^dev-nohus-rift-MainKt$"#
+    open-on-workspace "7"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1063730$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_1808500$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^explorer\.exe$"#
+    open-on-workspace "5"
+}

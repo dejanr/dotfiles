@@ -1,0 +1,78 @@
+binds {
+    Mod+Return hotkey-overlay-title="Open terminal" { spawn "ghostty" "+new-window"; }
+    Mod+W hotkey-overlay-title="Open Personal browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Personal\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\""; }
+    Mod+E hotkey-overlay-title="Open Futurice browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Futurice\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Futurice]{title_sep}{current_title}\""; }
+    Mod+R hotkey-overlay-title="Open Work browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Work\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\""; }
+    Mod+T hotkey-overlay-title="Open file manager" { spawn "kitty" "-e" "zsh" "-ic" "yazi"; }
+    Mod+D hotkey-overlay-title="Application launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Mod+P hotkey-overlay-title="Screenshot" { spawn "dejli-screenshot"; }
+    Mod+Shift+P hotkey-overlay-title="Screen recording" { spawn "dejli-gif"; }
+
+    Mod+Q repeat=false hotkey-overlay-title="Close window" { close-window; }
+    Mod+H { focus-column-left; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
+
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+L { move-column-right; }
+
+    Mod+F { fullscreen-window; }
+    Mod+Shift+F hotkey-overlay-title="Float top-right 50%" {
+        spawn-sh "niri msg action move-window-to-floating; niri msg action set-window-width \"50%\"; niri msg action set-window-height \"50%\"; niri msg action move-floating-window -x +100000 -y -100000; niri msg action move-floating-window -x -64 -y +64";
+    }
+    Mod+Shift+Space hotkey-overlay-title="Toggle floating centered" { spawn "niri-toggle-floating-centered"; }
+    Mod+Space { switch-focus-between-floating-and-tiling; }
+    Mod+S { toggle-column-tabbed-display; }
+    Mod+Shift+Y hotkey-overlay-title="Overview" { toggle-overview; }
+    Mod+Y hotkey-overlay-title="Toggle 50% / maximized" { spawn "niri-toggle-two-pane"; }
+    Mod+Shift+C hotkey-overlay-title="Cast focused window" { set-dynamic-cast-window; }
+    Mod+Shift+M hotkey-overlay-title="Cast focused monitor" { set-dynamic-cast-monitor; }
+    Mod+Shift+X hotkey-overlay-title="Clear cast target" { clear-dynamic-cast-target; }
+
+    Mod+N hotkey-overlay-title="Notifications" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+Comma hotkey-overlay-title="Settings" { spawn "dms" "ipc" "call" "settings" "toggle"; }
+    Mod+V hotkey-overlay-title="Clipboard" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    Mod+M hotkey-overlay-title="Process list" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
+    Mod+Escape hotkey-overlay-title="Power menu" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    Mod+Alt+L allow-when-locked=true hotkey-overlay-title="Lock screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPause allow-when-locked=true { spawn-sh "playerctl pause"; }
+    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+
+    Mod+1 { focus-workspace "1"; }
+    Mod+2 { focus-workspace "2"; }
+    Mod+3 { focus-workspace "3"; }
+    Mod+4 { focus-workspace "4"; }
+    Mod+5 { focus-workspace "5"; }
+    Mod+6 { focus-workspace "6"; }
+    Mod+7 { focus-workspace "7"; }
+    Mod+8 { focus-workspace "8"; }
+    Mod+9 { focus-workspace "9"; }
+    Mod+0 { focus-workspace "10"; }
+
+    Mod+Shift+1 { move-column-to-workspace "1" focus=true; }
+    Mod+Shift+2 { move-column-to-workspace "2" focus=true; }
+    Mod+Shift+3 { move-column-to-workspace "3" focus=true; }
+    Mod+Shift+4 { move-column-to-workspace "4" focus=true; }
+    Mod+Shift+5 { move-column-to-workspace "5" focus=true; }
+    Mod+Shift+6 { move-column-to-workspace "6" focus=true; }
+    Mod+Shift+7 { move-column-to-workspace "7" focus=true; }
+    Mod+Shift+8 { move-column-to-workspace "8" focus=true; }
+    Mod+Shift+9 { move-column-to-workspace "9" focus=true; }
+    Mod+Shift+0 { move-column-to-workspace "10" focus=true; }
+
+    Mod+A { focus-workspace-previous; }
+    Alt+Tab { focus-column-right; }
+
+    Mod+Shift+I { spawn "input-remapper-control" "--command" "start" "--device" "Keyboardio Atreus" "--preset" "lineage"; }
+    Mod+Shift+U { spawn "input-remapper-control" "--command" "stop" "--device" "Keyboardio Atreus"; }
+}

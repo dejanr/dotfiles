@@ -1,0 +1,71 @@
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+
+    touchpad {
+        dwt
+        natural-scroll
+    }
+}
+
+environment {
+    XDG_CURRENT_DESKTOP "niri"
+    QT_QPA_PLATFORM "wayland"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    NIXOS_OZONE_WL "1"
+}
+
+spawn-at-startup "xwayland-satellite"
+
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
+workspace "6"
+workspace "7"
+workspace "8"
+workspace "9"
+workspace "10" {
+    layout {
+        default-column-width { proportion 0.5; }
+        preset-column-widths {
+            proportion 0.5
+        }
+    }
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+animations {
+    off
+}
+
+overview {
+    zoom 0.25
+}
+
+layer-rule {
+    match namespace="^quickshell$"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="dms:blurwallpaper"
+    place-within-backdrop true
+}
+
+include "dms/defaults/layout.kdl"
+include "dms/defaults/alttab.kdl"
+include "dms/defaults/colors.kdl"
+include "dms/defaults/outputs.kdl"
+include "dms/defaults/wpblur.kdl"
+include "dms/defaults/cursor.kdl"
+
+include "dms/windowrules.kdl"
+include "dms/binds.kdl"
