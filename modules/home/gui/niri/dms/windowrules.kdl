@@ -60,6 +60,17 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^1password$"#
+    exclude title=r#"^Quick Access.*$"#
+    open-floating true
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+    default-column-width { fixed 1200; }
+    default-window-height { fixed 900; }
+}
+
+window-rule {
     match app-id=r#"^discord$"#
     open-on-workspace "7"
 }

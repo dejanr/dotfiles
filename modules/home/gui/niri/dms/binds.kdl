@@ -5,6 +5,7 @@ binds {
     Mod+R hotkey-overlay-title="Open Work browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Work\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\""; }
     Mod+T hotkey-overlay-title="Open file manager" { spawn "kitty" "-e" "zsh" "-ic" "yazi"; }
     Mod+D hotkey-overlay-title="Application launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Ctrl+Shift+Space hotkey-overlay-title="1Password Quick Access" { spawn "1password" "--quick-access"; }
     Mod+P hotkey-overlay-title="Screenshot" { spawn "dejli-screenshot"; }
     Mod+Shift+P hotkey-overlay-title="Screen recording" { spawn "dejli-gif"; }
 
