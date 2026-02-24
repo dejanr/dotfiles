@@ -29,6 +29,10 @@ in
       "sd_mod"
     ];
 
+    initrd.secrets = {
+      "/etc/zfs/keys/zpool.key" = "/etc/zfs/keys/zpool.key";
+    };
+
     kernelModules = [
       "kvm-amd"
       "virtio"
