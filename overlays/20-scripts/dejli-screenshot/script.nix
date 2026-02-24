@@ -8,6 +8,7 @@ let
   shotgun = "${pkgs.shotgun}/bin/shotgun";
   xclip = "${pkgs.xclip}/bin/xclip";
 in
+# bash
 ''
   #!/usr/bin/env bash
 
