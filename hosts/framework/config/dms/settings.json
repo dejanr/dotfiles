@@ -137,7 +137,7 @@
   ],
   "showWorkspaceIndex": false,
   "showWorkspaceName": true,
-  "showWorkspacePadding": true,
+  "showWorkspacePadding": false,
   "workspaceScrolling": false,
   "showWorkspaceApps": false,
   "workspaceDragReorder": true,
@@ -450,7 +450,15 @@
       "showOnLastDisplay": true,
       "leftWidgets": [
         "launcherButton",
+        {
+          "id": "spacer",
+          "size": 8
+        },
         "workspaceSwitcher",
+        {
+          "id": "spacer",
+          "size": 8
+        },
         "focusedWindow"
       ],
       "centerWidgets": [

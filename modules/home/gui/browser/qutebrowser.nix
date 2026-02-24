@@ -64,6 +64,9 @@ in
       qutebrowserPkg =
         if effectiveGpu == "nvidia" then pkgs.qutebrowser-nvidia
         else pkgs.qutebrowser-unstable;
+      webpageBg =
+        if config.stylix.polarity == "dark" then config.lib.stylix.colors.withHashtag.base07
+        else config.lib.stylix.colors.withHashtag.base00;
     in
     {
 
@@ -96,7 +99,7 @@ in
       colors.tabs.bar.bg = config.lib.stylix.colors.withHashtag.base00;
       colors.statusbar.normal.bg = config.lib.stylix.colors.withHashtag.base00;
       colors.completion.even.bg = config.lib.stylix.colors.withHashtag.base00;
-      colors.webpage.bg = config.lib.stylix.colors.withHashtag.base00;
+      colors.webpage.bg = webpageBg;
 
       # === PERFORMANCE SETTINGS ===
       # Faster scrolling
