@@ -236,8 +236,6 @@
       ltex = {
         enable = true;
         filetypes = [
-          "bibtex"
-          "markdown"
           "latex"
           "tex"
         ];

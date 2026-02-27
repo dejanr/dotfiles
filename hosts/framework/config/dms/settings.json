@@ -250,7 +250,7 @@
   "networkPreference": "auto",
   "iconTheme": "System Default",
   "cursorSettings": {
-    "theme": "System Default",
+    "theme": "Adwaita",
     "size": 24,
     "niri": {
       "hideWhenTyping": false,
