@@ -47,10 +47,6 @@
         User dejanr
   '';
 
-  age.secrets.github_runner_token_dejli.file = ../../secrets/github_runner_token_dejli.age;
-
-  nix.settings.trusted-users = [ "github-runner" ];
-
   services = {
     openssh = {
       openFirewall = false;
