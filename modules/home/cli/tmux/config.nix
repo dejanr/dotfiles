@@ -47,8 +47,8 @@
   bind C-s last-window
 
   # demo-it shortcuts
-  bind -N "demo-it next" Space run-shell -b '"''${DEMO_IT_PATH:-demo-it}" next >/dev/null 2>&1'
-  bind -N "demo-it prev" BSpace run-shell -b '"''${DEMO_IT_PATH:-demo-it}" prev >/dev/null 2>&1'
+  bind -N "demo-it next" Space run-shell -b 'out=$("''${DEMO_IT_PATH:-demo-it}" next 2>&1); code=$?; [ "$code" -eq 0 ] || tmux display-message "demo-it next failed: $(printf "%s" "$out" | tr "\n" " ")"'
+  bind -N "demo-it prev" BSpace run-shell -b 'out=$("''${DEMO_IT_PATH:-demo-it}" prev 2>&1); code=$?; [ "$code" -eq 0 ] || tmux display-message "demo-it prev failed: $(printf "%s" "$out" | tr "\n" " ")"'
 
   bind < swap-window -t :-
   bind > swap-window -t :+
