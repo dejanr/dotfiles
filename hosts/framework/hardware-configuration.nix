@@ -37,10 +37,6 @@ in
       "kvm-amd"
       "virtio"
       "v4l2loopback"
-      "vfio"
-      "vfio_pci"
-      "vfio_iommu_type1"
-      "virtio"
     ];
 
     kernelPackages = kernelPackages;
@@ -55,9 +51,9 @@ in
     };
 
     kernelParams = [
-      "amd_iommu=on"
-      "iommu=pt"
-      "iommu=1"
+      "amd_iommu=off"
+      "amdgpu.gttsize=126976"
+      "ttm.pages_limit=32505856"
       "quiet"
       "udev.log_level=3"
       "splash"
