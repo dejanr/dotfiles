@@ -47,8 +47,8 @@
   bind C-s last-window
 
   # demo-it shortcuts
-  bind -N "demo-it next" Space run-shell -b '"''${DEMO_IT_PATH:-demo-it}" --run-id "''${DEMO_IT_RUN_ID:-demo-it}" --socket "''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}" next >/dev/null 2>&1'
-  bind -N "demo-it prev" BSpace run-shell -b '"''${DEMO_IT_PATH:-demo-it}" --run-id "''${DEMO_IT_RUN_ID:-demo-it}" --socket "''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}" prev >/dev/null 2>&1'
+  bind -N "demo-it next" Space run-shell -b '"''${DEMO_IT_PATH:-demo-it}" next >/dev/null 2>&1'
+  bind -N "demo-it prev" BSpace run-shell -b '"''${DEMO_IT_PATH:-demo-it}" prev >/dev/null 2>&1'
 
   bind < swap-window -t :-
   bind > swap-window -t :+
