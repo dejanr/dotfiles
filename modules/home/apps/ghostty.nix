@@ -61,6 +61,8 @@ in
         resize-overlay = "never";
         term = "xterm-ghostty";
         window-vsync = true;
+      } // lib.optionalAttrs stdenv.isLinux {
+        async-backend = "epoll";
       };
       themes = {
         stylix = {
