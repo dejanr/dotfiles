@@ -47,8 +47,8 @@
   bind C-s last-window
 
   # demo-it shortcuts
-  bind -N "demo-it next" Space run-shell -b 'DEMO_IT_SOCKET="''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}" demo-it next >/dev/null 2>&1'
-  bind -N "demo-it prev" BSpace run-shell -b 'DEMO_IT_SOCKET="''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}" demo-it prev >/dev/null 2>&1'
+  bind -N "demo-it next" Space run-shell -b 'DEMO_IT_BIN="''${DEMO_IT_PATH:-demo-it}"; DEMO_IT_RUN_ID="#{@demo_it_run_id}"; DEMO_IT_SOCKET_PATH="#{@demo_it_socket}"; [ -n "$DEMO_IT_RUN_ID" ] || DEMO_IT_RUN_ID=demo-it; [ -n "$DEMO_IT_SOCKET_PATH" ] || DEMO_IT_SOCKET_PATH="''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}"; "$DEMO_IT_BIN" --run-id "$DEMO_IT_RUN_ID" --socket "$DEMO_IT_SOCKET_PATH" next >/dev/null 2>&1'
+  bind -N "demo-it prev" BSpace run-shell -b 'DEMO_IT_BIN="''${DEMO_IT_PATH:-demo-it}"; DEMO_IT_RUN_ID="#{@demo_it_run_id}"; DEMO_IT_SOCKET_PATH="#{@demo_it_socket}"; [ -n "$DEMO_IT_RUN_ID" ] || DEMO_IT_RUN_ID=demo-it; [ -n "$DEMO_IT_SOCKET_PATH" ] || DEMO_IT_SOCKET_PATH="''${DEMO_IT_SOCKET:-$HOME/.local/state/demo-it/demo-it.sock}"; "$DEMO_IT_BIN" --run-id "$DEMO_IT_RUN_ID" --socket "$DEMO_IT_SOCKET_PATH" prev >/dev/null 2>&1'
 
   bind < swap-window -t :-
   bind > swap-window -t :+

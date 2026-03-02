@@ -26,10 +26,6 @@ in
       printing.extraConf = ''
         DefaultEncryption Never
       '';
-      avahi.enable = true;
-      avahi.publish.enable = true;
-      avahi.publish.userServices = true;
-      avahi.nssmdns4 = true;
       passSecretService.enable = true;
 
       mpd.enable = true;
@@ -76,6 +72,8 @@ in
             "1.0.0.1#one.one.one.one" # Cloudflare backup
           ];
           DNSOverTLS = "opportunistic";
+          LLMNR = "true";
+          MulticastDNS = "true";
         };
       };
 

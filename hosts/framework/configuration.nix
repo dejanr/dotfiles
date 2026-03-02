@@ -48,6 +48,8 @@
   '';
 
   services = {
+    printing.enable = lib.mkForce false;
+
     openssh = {
       openFirewall = false;
       settings = {
@@ -153,6 +155,12 @@
   services.greetd = {
     enable = true;
     settings.default_session.user = "greeter";
+  };
+
+  systemd.user.services = {
+    pipewire.unitConfig.ConditionUser = lib.mkForce "!@system";
+    pipewire-pulse.unitConfig.ConditionUser = lib.mkForce "!@system";
+    wireplumber.unitConfig.ConditionUser = lib.mkForce "!@system";
   };
 
   services.power-profiles-daemon.enable = lib.mkForce false;
