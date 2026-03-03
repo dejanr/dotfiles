@@ -71,6 +71,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^li\.dej\.desktop$"#
+    open-floating true
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+}
+
+window-rule {
     match app-id=r#"^discord$"#
     open-on-workspace "7"
 }

@@ -144,10 +144,6 @@
   bindsym $mod+Shift+9 move container to workspace $workspace9; workspace $workspace9
   bindsym $mod+Shift+0 move container to workspace $workspace10; workspace $workspace10
 
-  # L2
-  bindsym $mod+Shift+y exec --no-startup-id input-remapper-control --command start --device "Keyboardio Atreus" --preset lineage
-  bindsym $mod+Shift+u exec --no-startup-id input-remapper-control --command stop --device "Keyboardio Atreus"
-
   # Workspace Monitors
   workspace $workspace1 output $monitor1
   workspace $workspace2 output $monitor1

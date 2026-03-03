@@ -59,8 +59,6 @@ in
 
       accounts-daemon.enable = true;
 
-      input-remapper.enable = true;
-
       resolved = {
         enable = true;
         settings.Resolve = {
