@@ -20,6 +20,7 @@ in
   "elevenlabs_api_key.age".publicKeys = userKeys;
   "exa_api_key.age".publicKeys = userKeys;
   "huggingface_api_key.age".publicKeys = userKeys;
+  "openai_api_key.age".publicKeys = userKeys;
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;
 }
