@@ -13,7 +13,8 @@ let
   dejliNiriShortcutsDefault = ''
     binds {
         Mod+O repeat=false hotkey-overlay-title="Toggle dejli" { spawn "dejli-desktop" "--toggle"; }
-        Mod+Shift+I repeat=false hotkey-overlay-title="dejli insert voice toggle" { spawn "dejli-desktop" "--voice-insert-toggle"; }
+        Mod+Shift+I repeat=false hotkey-overlay-title="dejli insert voice start" { spawn "dejli-desktop" "--voice-insert-start"; }
+        Mod+Shift+I release=true allow-invalidation=false hotkey-overlay-title="dejli insert voice stop" { spawn "dejli-desktop" "--voice-insert-stop"; }
     }
   '';
 
@@ -68,7 +69,8 @@ let
     exec /home/dejanr/projects/dejli/frontend/desktop/src/target/release/dejli-desktop "$@"
   '';
 
-  defaultsSource = file:
+  defaultsSource =
+    file:
     if cfg.defaultsOutOfStore then
       config.lib.file.mkOutOfStoreSymlink "${cfg.defaultsDirectory}/${file}"
     else
@@ -124,14 +126,14 @@ in
     };
 
     home.activation.ensureDejliNiriShortcuts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      state_file="${dejliNiriShortcutsStatePath}"
-      state_dir="$(dirname "$state_file")"
-      mkdir -p "$state_dir"
-      if [ ! -f "$state_file" ]; then
-        cat > "$state_file" <<'EOF'
-${dejliNiriShortcutsDefault}
-EOF
-      fi
+            state_file="${dejliNiriShortcutsStatePath}"
+            state_dir="$(dirname "$state_file")"
+            mkdir -p "$state_dir"
+            if [ ! -f "$state_file" ]; then
+              cat > "$state_file" <<'EOF'
+      ${dejliNiriShortcutsDefault}
+      EOF
+            fi
     '';
 
     xdg.configFile = {

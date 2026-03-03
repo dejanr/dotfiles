@@ -105,7 +105,10 @@
       enable = true;
       openFirewall = true;
       useRoutingFeatures = "both";
-      extraUpFlags = [ "--ssh" "--operator=dejanr" ];
+      extraUpFlags = [
+        "--ssh"
+        "--operator=dejanr"
+      ];
       extraSetFlags = [ "--advertise-exit-node" ];
     };
   };
@@ -130,7 +133,7 @@
   programs.niri = {
     enable = true;
     useNautilus = false;
-    package = pkgs.niri;
+    package = pkgs.niri-release-keybinds;
   };
 
   programs.dank-material-shell = {
