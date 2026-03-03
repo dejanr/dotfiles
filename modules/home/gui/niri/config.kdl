@@ -9,6 +9,8 @@ input {
         dwt
         natural-scroll
     }
+
+    focus-follows-mouse
 }
 
 environment {
