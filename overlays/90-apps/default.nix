@@ -135,6 +135,12 @@ in
 
     postPatch = ''
       patchShebangs resources/niri-session
+      substituteInPlace resources/niri.service \
+        --replace-fail "ExecStart=niri --session" "ExecStart=$out/bin/niri --session"
+      substituteInPlace resources/niri-session \
+        --replace-fail "exec niri --session" "exec $out/bin/niri --session"
+      substituteInPlace resources/niri.desktop \
+        --replace-fail "Exec=niri-session" "Exec=$out/bin/niri-session"
       substituteInPlace resources/niri.service --replace '/usr/bin' "$out/bin" || true
       substituteInPlace resources/niri.service --replace '/usr' "$out" || true
     '';

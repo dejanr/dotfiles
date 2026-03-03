@@ -25,5 +25,6 @@ in
     age.secrets.elevenlabs_api_key.file = ../../../secrets/elevenlabs_api_key.age;
     age.secrets.exa_api_key.file = ../../../secrets/exa_api_key.age;
     age.secrets.huggingface_api_key.file = ../../../secrets/huggingface_api_key.age;
+    age.secrets.openai_api_key.file = ../../../secrets/openai_api_key.age;
   };
 }
