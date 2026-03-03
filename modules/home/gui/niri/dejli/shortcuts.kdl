@@ -1,0 +1,4 @@
+binds {
+    Mod+O repeat=false hotkey-overlay-title="Toggle dejli" { spawn "dejli-desktop" "--toggle"; }
+    Mod+Shift+I repeat=false hotkey-overlay-title="dejli insert voice toggle" { spawn "dejli-desktop" "--voice-insert-toggle"; }
+}

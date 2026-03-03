@@ -71,3 +71,4 @@ include "dms/defaults/cursor.kdl"
 
 include "dms/windowrules.kdl"
 include "dms/binds.kdl"
+include "dejli/shortcuts.kdl"

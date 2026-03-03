@@ -9,6 +9,14 @@ with lib;
 let
   cfg = config.modules.home.gui.niri;
 
+  dejliNiriShortcutsStatePath = "${config.home.homeDirectory}/.local/state/dejli/niri-shortcuts.kdl";
+  dejliNiriShortcutsDefault = ''
+    binds {
+        Mod+O repeat=false hotkey-overlay-title="Toggle dejli" { spawn "dejli-desktop" "--toggle"; }
+        Mod+Shift+I repeat=false hotkey-overlay-title="dejli insert voice toggle" { spawn "dejli-desktop" "--voice-insert-toggle"; }
+    }
+  '';
+
   toggleTwoPaneScript = pkgs.writeShellScriptBin "niri-toggle-two-pane" ''
     set -eu
 
@@ -56,6 +64,10 @@ let
     fi
   '';
 
+  dejliDesktopScript = pkgs.writeShellScriptBin "dejli-desktop" ''
+    exec /home/dejanr/projects/dejli/frontend/desktop/src/target/release/dejli-desktop "$@"
+  '';
+
   defaultsSource = file:
     if cfg.defaultsOutOfStore then
       config.lib.file.mkOutOfStoreSymlink "${cfg.defaultsDirectory}/${file}"
@@ -101,6 +113,7 @@ in
     home.packages = [
       toggleTwoPaneScript
       toggleFloatingCenteredScript
+      dejliDesktopScript
     ];
 
     home.sessionVariables = mkIf cfg.setSessionVariables {
@@ -109,6 +122,17 @@ in
       NIXOS_OZONE_WL = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
+
+    home.activation.ensureDejliNiriShortcuts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      state_file="${dejliNiriShortcutsStatePath}"
+      state_dir="$(dirname "$state_file")"
+      mkdir -p "$state_dir"
+      if [ ! -f "$state_file" ]; then
+        cat > "$state_file" <<'EOF'
+${dejliNiriShortcutsDefault}
+EOF
+      fi
+    '';
 
     xdg.configFile = {
       "niri/config.kdl" = {
@@ -122,6 +146,10 @@ in
       "niri/dms/windowrules.kdl" = {
         force = true;
         source = cfg.windowRulesFile;
+      };
+      "niri/dejli/shortcuts.kdl" = {
+        force = true;
+        source = config.lib.file.mkOutOfStoreSymlink dejliNiriShortcutsStatePath;
       };
 
       "niri/dms/defaults/layout.kdl" = {
