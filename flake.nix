@@ -35,7 +35,6 @@
     };
 
     nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";

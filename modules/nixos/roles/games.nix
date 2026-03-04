@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
@@ -36,40 +37,50 @@ in
       };
     }
 
-    (mkIf isX86 {
-      environment.systemPackages = with pkgs; [
-        wine
-        dxvk
-        wineprefix-preparer
-        appimage-run
-        winetricks-git
-        cabextract
-        libstrangle
-      ];
+    (mkIf isX86 (
+      let
+        nixGamingPkgs = inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system};
+      in
+      {
+        environment.systemPackages =
+          with pkgs;
+          [
+            appimage-run
+            cabextract
+            libstrangle
+          ]
+          ++ (with nixGamingPkgs; [
+            dxvk
+            vkd3d-proton
+            wine-tkg
+            wineprefix-preparer
+            winetricks-git
+          ]);
 
-      programs = {
-        steam = {
-          enable = true;
-          protontricks.enable = true;
-          gamescopeSession.enable = true;
-          extraPackages = with pkgs; [ libstrangle ];
-          remotePlay.openFirewall = true;
-          dedicatedServer.openFirewall = true;
-          package = pkgs.steam.override {
-            extraPkgs = (
-              pkgs: with pkgs; [
-                gamemode
-              ]
-            );
+        programs = {
+          steam = {
+            enable = true;
+            protontricks.enable = true;
+            gamescopeSession.enable = true;
+            extraPackages = with pkgs; [ libstrangle ];
+            remotePlay.openFirewall = true;
+            dedicatedServer.openFirewall = true;
+            package = pkgs.steam.override {
+              extraPkgs = (
+                pkgs: with pkgs; [
+                  gamemode
+                ]
+              );
+            };
+          };
+          gamescope = {
+            enable = true;
+            capSysNice = true;
           };
         };
-        gamescope = {
-          enable = true;
-          capSysNice = true;
-        };
-      };
 
-      hardware.steam-hardware.enable = true;
-    })
+        hardware.steam-hardware.enable = true;
+      }
+    ))
   ]);
 }
