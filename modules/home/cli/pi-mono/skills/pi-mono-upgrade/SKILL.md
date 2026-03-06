@@ -61,21 +61,25 @@ cd modules/home/cli/pi-mono/extensions
 pnpm install
 ```
 
-### 6. Test Build (Determines If Hashes Need Updating)
+### 6. Test Builds (Determines If Hashes Need Updating)
 
 **Always build individual packages, never toplevel:**
 
 ```bash
 nix build .#pi-mono-coding-agent 2>&1 | tail -20
+nix build .#pi-mono-extensions 2>&1 | tail -30
 ```
 
-**If build succeeds:** Hashes are already correct. Skip to step 8.
+Interpret results:
 
-**If hash mismatch error:** Continue to step 7.
+- **Both builds succeed:** hashes are correct, continue to step 8.
+- **Hash mismatch (`specified` vs `got`)**: continue to step 7 for the failing derivation.
+- **`ERR_PNPM_NO_OFFLINE_TARBALL` (extensions build):** continue to step 7 (extensions hash refresh flow).
+- **Chroot/store error:** run `nix-collect-garbage -d` and retry.
 
-**If chroot/store error:** Run `nix-collect-garbage -d` and retry.
+### 7. Update Hashes (Only for Failing Derivation)
 
-### 7. Update Hashes (Only If Step 6 Failed)
+#### Coding agent hash (`package.nix`)
 
 Set invalid hash in `modules/home/cli/pi-mono/nix/package.nix`:
 
@@ -89,16 +93,41 @@ Build and capture correct hash:
 nix build .#pi-mono-coding-agent 2>&1 | grep "got:"
 ```
 
-Update `package.nix` with the hash from `got:` line.
+Update `package.nix` with the hash from the `got:` line.
 
-Repeat for extensions if needed:
+#### Extensions hash (`extensions.nix`)
+
+For extensions, set empty hash in `modules/home/cli/pi-mono/nix/extensions.nix`:
+
+```nix
+hash = "";
+```
+
+Then build and capture the `got:` hash:
 
 ```bash
-# Set invalid hash in extensions.nix, then:
 nix build .#pi-mono-extensions 2>&1 | grep "got:"
 ```
 
-### 8. Apply and Verify
+Update `extensions.nix` with the captured hash.
+
+### 8. Sanity-check Changed Files
+
+```bash
+git status --short
+```
+
+Expected changed files for a normal upgrade:
+
+- `flake.lock`
+- `modules/home/cli/pi-mono/extensions/package.json`
+- `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml`
+- `modules/home/cli/pi-mono/nix/package.nix`
+- `modules/home/cli/pi-mono/nix/extensions.nix`
+
+### 9. Apply and Verify
+
+**Ask for user confirmation before running system switch commands.**
 
 ```bash
 # NixOS
@@ -109,6 +138,14 @@ nix run nix-darwin -- switch --flake .#
 
 # Verify
 pi --version
+```
+
+Optional diagnostic (non-blocking for the version bump itself):
+
+```bash
+cd modules/home/cli/pi-mono/extensions
+pnpm run typecheck
+# pnpm run lint may fail due to local parser/config differences; treat as follow-up work
 ```
 
 ## Files to Update
@@ -166,6 +203,19 @@ hash mismatch in fixed-output derivation
 ```
 
 **Fix:** Copy hash from `got:` line to the relevant file.
+
+### ERR_PNPM_NO_OFFLINE_TARBALL
+
+```
+ERR_PNPM_NO_OFFLINE_TARBALL
+A package is missing from the store but cannot download it in offline mode.
+```
+
+**Fix (extensions):**
+
+1. Set `pnpmDeps.hash = "";` in `modules/home/cli/pi-mono/nix/extensions.nix`
+2. Run `nix build .#pi-mono-extensions 2>&1 | grep "got:"`
+3. Copy the `got: sha256-...` value back to `pnpmDeps.hash`
 
 ### Chroot/Store Error
 
