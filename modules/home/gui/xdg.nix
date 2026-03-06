@@ -44,6 +44,12 @@ in
       default = { };
       description = "XDG autostart desktop entries";
     };
+
+    disabledAutostartEntries = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "System autostart desktop entries to mask in ~/.config/autostart.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -84,6 +90,18 @@ in
           X-GNOME-Autostart-enabled=${if entry.enabled then "true" else "false"}
         '';
       }
-    ) cfg.autostart;
+    ) cfg.autostart
+    // listToAttrs (
+      map (entryName:
+        nameValuePair "autostart/${entryName}" {
+          text = ''
+            [Desktop Entry]
+            Type=Application
+            Hidden=true
+            X-GNOME-Autostart-enabled=false
+          '';
+        }
+      ) cfg.disabledAutostartEntries
+    );
   };
 }

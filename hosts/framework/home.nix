@@ -30,6 +30,10 @@
         name = "1Password";
         exec = "1password --silent";
       };
+      disabledAutostartEntries = [
+        "caffeine.desktop"
+        "pulseaudio.desktop"
+      ];
     };
     home.gui.desktop.enable = true;
     home.gui.browser.qutebrowser.enable = true;

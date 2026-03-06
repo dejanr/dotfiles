@@ -60,7 +60,7 @@ in
     services.minidlna = {
       enable = true;
       settings = {
-        media_Dir = [ "/home/dejanr/downloads" ];
+        media_dir = [ "/home/dejanr/downloads" ];
       };
     };
 
