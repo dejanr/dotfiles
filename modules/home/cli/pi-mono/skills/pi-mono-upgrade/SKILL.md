@@ -61,6 +61,8 @@ cd modules/home/cli/pi-mono/extensions
 pnpm install
 ```
 
+Do **not** use destructive cleanup (`rm -rf`) as a default recovery step. If dependency resolution appears stale, prefer `pnpm install --force`.
+
 ### 6. Test Builds (Determines If Hashes Need Updating)
 
 **Always build individual packages, never toplevel:**
@@ -145,6 +147,10 @@ Optional diagnostic (non-blocking for the version bump itself):
 ```bash
 cd modules/home/cli/pi-mono/extensions
 pnpm run typecheck
+# If types look stale after version bumps, refresh resolution without deleting folders:
+pnpm install --force
+# Optionally pin all workspace resolutions explicitly:
+pnpm up -r @mariozechner/pi-ai@<target-version> @mariozechner/pi-coding-agent@<target-version> @mariozechner/pi-tui@<target-version>
 # pnpm run lint may fail due to local parser/config differences; treat as follow-up work
 ```
 
@@ -216,6 +222,29 @@ A package is missing from the store but cannot download it in offline mode.
 1. Set `pnpmDeps.hash = "";` in `modules/home/cli/pi-mono/nix/extensions.nix`
 2. Run `nix build .#pi-mono-extensions 2>&1 | grep "got:"`
 3. Copy the `got: sha256-...` value back to `pnpmDeps.hash`
+
+### Stale Workspace Type Resolution
+
+Symptoms (after dependency bump):
+
+```
+Property 'hasUI' does not exist on type 'AbortSignal'
+Type 'AgentToolUpdateCallback<...>' is not assignable to type 'AbortSignal'
+```
+
+**Cause:** workspace packages are still resolving older `@mariozechner/*` types.
+
+**Fix:**
+
+```bash
+cd modules/home/cli/pi-mono/extensions
+pnpm install --force
+# If still stale, force workspace package versions:
+pnpm up -r @mariozechner/pi-ai@<target-version> @mariozechner/pi-coding-agent@<target-version> @mariozechner/pi-tui@<target-version>
+pnpm run typecheck
+```
+
+Do not use `rm -rf` as the first recovery step.
 
 ### Chroot/Store Error
 
