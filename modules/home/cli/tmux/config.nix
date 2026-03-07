@@ -15,6 +15,7 @@
 
   # Extended keys (Ctrl+Shift combos)
   set -g extended-keys on
+  set -g extended-keys-format csi-u
 
   # Terminal features with synchronized rendering
   set -as terminal-features ',xterm-ghostty:RGB:clipboard:strikethrough:usstyle:overline:sync'
