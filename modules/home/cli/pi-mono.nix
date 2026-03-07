@@ -28,7 +28,7 @@ let
   settings = {
     lastChangelogVersion = packageJson.version;
     defaultProvider = "openai-codex";
-    defaultModel = "gpt-5.3-codex";
+    defaultModel = "gpt-5.4";
     defaultThinkingLevel = "high";
   };
 
