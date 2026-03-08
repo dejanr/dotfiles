@@ -4,7 +4,7 @@ binds {
     Mod+E hotkey-overlay-title="Open Futurice browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Futurice\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Futurice]{title_sep}{current_title}\""; }
     Mod+R hotkey-overlay-title="Open Work browser" { spawn-sh "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B \"$HOME/.browser/Work\" -C \"$HOME/.config/qutebrowser/config.py\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\""; }
     Mod+T hotkey-overlay-title="Open file manager" { spawn "kitty" "-e" "zsh" "-ic" "yazi"; }
-    Mod+D hotkey-overlay-title="Application launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Mod+D hotkey-overlay-title="Application launcher" { spawn "dms-shell-ipc" "spotlight" "toggle"; }
     Ctrl+Shift+Space hotkey-overlay-title="1Password Quick Access" { spawn "1password" "--quick-access"; }
     Mod+P hotkey-overlay-title="Screenshot" { spawn "dejli-screenshot"; }
     Mod+Shift+P hotkey-overlay-title="Screen recording" { spawn "dejli-gif"; }
@@ -33,17 +33,17 @@ binds {
     Mod+Shift+M hotkey-overlay-title="Cast focused monitor" { set-dynamic-cast-monitor; }
     Mod+Shift+X hotkey-overlay-title="Clear cast target" { clear-dynamic-cast-target; }
 
-    Mod+N hotkey-overlay-title="Notifications" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
-    Mod+Comma hotkey-overlay-title="Settings" { spawn "dms" "ipc" "call" "settings" "toggle"; }
-    Mod+V hotkey-overlay-title="Clipboard" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
-    Mod+M hotkey-overlay-title="Process list" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
-    Mod+Escape hotkey-overlay-title="Power menu" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
-    Mod+Alt+L allow-when-locked=true hotkey-overlay-title="Lock screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    Mod+N hotkey-overlay-title="Notifications" { spawn "dms-shell-ipc" "notifications" "toggle"; }
+    Mod+Comma hotkey-overlay-title="Settings" { spawn "dms-shell-ipc" "settings" "toggle"; }
+    Mod+V hotkey-overlay-title="Clipboard" { spawn "dms-shell-ipc" "clipboard" "toggle"; }
+    Mod+M hotkey-overlay-title="Process list" { spawn "dms-shell-ipc" "processlist" "toggle"; }
+    Mod+Escape hotkey-overlay-title="Power menu" { spawn "dms-shell-ipc" "powermenu" "toggle"; }
+    Mod+Alt+L allow-when-locked=true hotkey-overlay-title="Lock screen" { spawn "dms-shell-ipc" "lock" "lock"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
-    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
-    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms-shell-ipc" "audio" "increment" "3"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms-shell-ipc" "audio" "decrement" "3"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms-shell-ipc" "audio" "mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms-shell-ipc" "audio" "micmute"; }
     XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
     XF86AudioPause allow-when-locked=true { spawn-sh "playerctl pause"; }
     XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }

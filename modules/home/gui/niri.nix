@@ -64,6 +64,29 @@ let
     fi
   '';
 
+  dmsShellIpcScript = pkgs.writeShellScriptBin "dms-shell-ipc" ''
+    set -eu
+
+    runtime_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+    qs_bin="${pkgs.quickshell}/bin/qs"
+
+    newest_pid_file="$(find "$runtime_dir" -maxdepth 1 -type f -name 'danklinux-*.pid' -printf '%T@ %p\n' 2>/dev/null | sort -nr | awk 'NR == 1 { print $2 }')"
+
+    if [ -z "$newest_pid_file" ]; then
+      echo "No DMS Quickshell pid file found in $runtime_dir" >&2
+      exit 1
+    fi
+
+    qs_pid="$(cat "$newest_pid_file")"
+
+    if ! kill -0 "$qs_pid" 2>/dev/null; then
+      echo "DMS Quickshell pid $qs_pid is not running" >&2
+      exit 1
+    fi
+
+    exec "$qs_bin" ipc --pid "$qs_pid" call "$@"
+  '';
+
   dejliDesktopScript = pkgs.writeShellScriptBin "dejli-desktop" ''
     exec /home/dejanr/projects/dejli/frontend/desktop/src/target/release/dejli-desktop "$@"
   '';
@@ -114,6 +137,7 @@ in
     home.packages = [
       toggleTwoPaneScript
       toggleFloatingCenteredScript
+      dmsShellIpcScript
       dejliDesktopScript
     ];
 

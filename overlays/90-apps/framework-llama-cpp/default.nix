@@ -6,9 +6,13 @@
   stdenv,
 }:
 
+let
+  rocmPackages' = rocmPackages.gfx1151;
+in
 (llama-cpp.override {
   rocmSupport = true;
   rpcSupport = true;
+  rocmPackages = rocmPackages';
   rocmGpuTargets = [ "gfx1151" ];
 }).overrideAttrs (oldAttrs: {
   pname = "framework-llama-cpp";
@@ -41,7 +45,7 @@
   # Mirror the Strix Halo toolbox HIP tuning: pin the ROCm path explicitly and
   # raise the local unroll threshold for gfx1151 kernels.
   cmakeFlagsArray = (oldAttrs.cmakeFlagsArray or [ ]) ++ [
-    "-DCMAKE_HIP_FLAGS=--rocm-path=${rocmPackages.clr} -mllvm --amdgpu-unroll-threshold-local=600"
+    "-DCMAKE_HIP_FLAGS=--rocm-path=${rocmPackages'.clr} -mllvm --amdgpu-unroll-threshold-local=600"
   ];
 
   nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ makeWrapper ];
