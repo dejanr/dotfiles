@@ -89,6 +89,7 @@ in
 
   codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
+  framework-llama-cpp = super.callPackage ./framework-llama-cpp { };
 
   # Wrap comfy-ui-cuda launcher to expose CUDA runtime libs for nodes that dlopen()
   comfy-ui-cuda-wrapped =

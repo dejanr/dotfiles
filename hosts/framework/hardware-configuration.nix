@@ -51,7 +51,7 @@ in
     };
 
     kernelParams = [
-      "amd_iommu=off"
+      "iommu=pt"
       "amdgpu.gttsize=126976"
       "ttm.pages_limit=32505856"
       "quiet"
