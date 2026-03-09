@@ -36,6 +36,8 @@
 
     nix-gaming.url = "github:fufexan/nix-gaming";
 
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       flake = false;

@@ -9,13 +9,15 @@
 
 let
   hostName = "framework";
-  kernelPackages = pkgs.linuxPackages_6_18;
+  kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  nixpkgs.overlays = [ inputs.nix-cachyos-kernel.overlays.pinned ];
+
   boot = {
-    zfs.package = pkgs.zfs_unstable;
+    zfs.package = config.boot.kernelPackages.zfs_cachyos;
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv6l-linux"
