@@ -67,7 +67,7 @@ let
   dmsShellIpcScript = pkgs.writeShellScriptBin "dms-shell-ipc" ''
     set -eu
 
-    runtime_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+    runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
     qs_bin="${pkgs.quickshell}/bin/qs"
 
     newest_pid_file="$(find "$runtime_dir" -maxdepth 1 -type f -name 'danklinux-*.pid' -printf '%T@ %p\n' 2>/dev/null | sort -nr | awk 'NR == 1 { print $2 }')"

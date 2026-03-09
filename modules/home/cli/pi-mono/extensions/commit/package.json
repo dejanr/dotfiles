@@ -9,8 +9,8 @@
     ]
   },
   "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "*",
-    "@mariozechner/pi-tui": "*",
+    "@mariozechner/pi-coding-agent": "0.57.1",
+    "@mariozechner/pi-tui": "0.57.1",
     "@sinclair/typebox": "*"
   },
   "scripts": {

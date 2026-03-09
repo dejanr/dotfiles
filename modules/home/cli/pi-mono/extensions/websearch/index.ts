@@ -5,7 +5,11 @@
  * Requires EXA_API_KEY environment variable.
  */
 
-import { type ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import {
+  type AgentToolUpdateCallback,
+  type ExtensionAPI,
+  type ExtensionContext,
+} from "@mariozechner/pi-coding-agent";
 import { Container, Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
 import type { Exa } from "exa-js";
@@ -92,7 +96,13 @@ export default function (pi: ExtensionAPI) {
     description: DESCRIPTION,
     parameters: WebSearchParams,
 
-    async execute(_toolCallId, params, signal, onUpdate, _ctx) {
+    async execute(
+      _toolCallId,
+      params,
+      signal: AbortSignal | undefined,
+      onUpdate: AgentToolUpdateCallback<WebSearchDetails> | undefined,
+      _ctx: ExtensionContext,
+    ) {
       const apiKey = getApiKey();
       if (!apiKey) {
         return {

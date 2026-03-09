@@ -8,7 +8,12 @@
 
 import { Type } from "@sinclair/typebox";
 import { complete, type Api, type Model, type UserMessage } from "@mariozechner/pi-ai";
-import type { ExtensionAPI, ExtensionContext, SessionSwitchEvent } from "@mariozechner/pi-coding-agent";
+import type {
+	AgentToolUpdateCallback,
+	ExtensionAPI,
+	ExtensionContext,
+	SessionSwitchEvent,
+} from "@mariozechner/pi-coding-agent";
 import { compact } from "@mariozechner/pi-coding-agent";
 import { Container, type SelectItem, SelectList, Text } from "@mariozechner/pi-tui";
 import { DynamicBorder } from "@mariozechner/pi-coding-agent";
@@ -326,7 +331,13 @@ export default function loopExtension(pi: ExtensionAPI): void {
 		label: "Signal Loop Success",
 		description: "Stop the active loop when the breakout condition is satisfied. Only call this tool when explicitly instructed to do so by the user, tool or system prompt.",
 		parameters: Type.Object({}),
-		async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
+		async execute(
+			_toolCallId,
+			_params,
+			_signal: AbortSignal | undefined,
+			_onUpdate: AgentToolUpdateCallback<unknown> | undefined,
+			ctx: ExtensionContext,
+		) {
 			if (!loopState.active) {
 				return {
 					content: [{ type: "text", text: "No active loop is running." }],

@@ -3,7 +3,7 @@
  */
 
 import type { AssistantMessage } from "@mariozechner/pi-ai";
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, SessionMessageEntry } from "@mariozechner/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 
 export default function (pi: ExtensionAPI) {
@@ -17,12 +17,12 @@ export default function (pi: ExtensionAPI) {
 				render(width: number): string[] {
 					const messages = ctx.sessionManager
 						.getBranch()
+						.filter((entry): entry is SessionMessageEntry => entry.type === "message")
+						.map((entry) => entry.message)
 						.filter(
-							(e): e is { type: "message"; message: AssistantMessage } =>
-								e.type === "message" && e.message.role === "assistant",
-						)
-						.map((e) => e.message)
-						.filter((message) => message.stopReason !== "aborted");
+							(message): message is AssistantMessage =>
+								message.role === "assistant" && message.stopReason !== "aborted",
+						);
 
 					const lastMessage = messages[messages.length - 1];
 

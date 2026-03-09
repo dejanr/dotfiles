@@ -10,7 +10,7 @@
  *   /commit message  - Quick commit with provided message hint
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { AgentToolUpdateCallback, ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
 
@@ -33,7 +33,13 @@ export default function commit(pi: ExtensionAPI) {
 		label: "Debug Context",
 		description: "Debug tool to inspect the extension context",
 		parameters: Type.Object({}),
-		async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
+		async execute(
+			_toolCallId,
+			_params,
+			_signal: AbortSignal | undefined,
+			_onUpdate: AgentToolUpdateCallback<unknown> | undefined,
+			ctx: ExtensionContext,
+		) {
 			const debugInfo = {
 				hasUI: ctx.hasUI,
 				uiType: typeof ctx.ui,
@@ -149,7 +155,13 @@ ${COMMIT_FORMAT_GUIDE}`,
 			),
 		}),
 
-		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+		async execute(
+			_toolCallId,
+			params,
+			signal: AbortSignal | undefined,
+			_onUpdate: AgentToolUpdateCallback<unknown> | undefined,
+			ctx: ExtensionContext,
+		) {
 			if (!ctx.hasUI) {
 				return {
 					content: [{ type: "text", text: "Error: UI not available (running in non-interactive mode)" }],
