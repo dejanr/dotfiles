@@ -52,6 +52,7 @@
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
+    home.cli.codex.enable = true;
     home.cli.pi-mono.enable = true;
     home.cli.pi-mono.voiceInput.device =
       "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback";
@@ -70,7 +71,6 @@
     systemdTargets = [ "niri.service" ];
   };
 
-
   config.xdg.configFile = {
     "DankMaterialShell/settings.json" = {
       force = true;
@@ -83,15 +83,13 @@
     };
     "DankMaterialShell/plugin_settings.json" = {
       force = true;
-      source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/plugin_settings.json";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/plugin_settings.json";
     };
   };
 
   config.home.file."dms-session" = {
     force = true;
-    source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
     target = ".local/state/DankMaterialShell/session.json";
   };
 

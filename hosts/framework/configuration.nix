@@ -57,6 +57,8 @@
       };
     };
 
+    cloudflare-warp.enable = true;
+
     caddy = {
       enable = true;
       virtualHosts = {
@@ -135,6 +137,10 @@
     useNautilus = false;
     package = pkgs.niri-release-keybinds;
   };
+
+  programs.ydotool.enable = true;
+
+  users.users.dejanr.extraGroups = lib.mkAfter [ "ydotool" ];
 
   programs.dank-material-shell = {
     enable = true;

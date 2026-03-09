@@ -1,4 +1,6 @@
 {
+  config,
+  inputs,
   lib,
   pkgs,
   modulesPath,
