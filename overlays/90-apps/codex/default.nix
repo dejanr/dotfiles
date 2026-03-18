@@ -18,7 +18,7 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "codex";
-  version = "0.112.0";
+  version = "0.115.0";
 
   src = fetchFromGitHub {
     owner = "openai";
@@ -30,7 +30,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   sourceRoot = "${finalAttrs.src.name}/codex-rs";
 
   cargoLock = {
-    lockFile = ./Cargo.lock;
+    lockFile = "${finalAttrs.src}/codex-rs/Cargo.lock";
     allowBuiltinFetchGit = true;
   };
 
