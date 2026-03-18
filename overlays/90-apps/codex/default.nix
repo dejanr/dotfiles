@@ -13,7 +13,6 @@
   pkg-config,
   openssl,
   ripgrep,
-  versionCheckHook,
   installShellCompletions ? stdenv.buildPlatform.canExecute stdenv.hostPlatform,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -76,7 +75,19 @@ rustPlatform.buildRustPackage (finalAttrs: {
   '';
 
   doInstallCheck = true;
-  nativeInstallCheckInputs = [ versionCheckHook ];
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    export HOME="$PWD/fake-home"
+    mkdir -p "$HOME"
+    version_output="$($out/bin/codex --version)"
+    help_output="$($out/bin/codex --help)"
+
+    [[ "$version_output" == codex-cli\ * ]]
+    echo "$help_output" | grep -q '^Codex CLI$'
+
+    runHook postInstallCheck
+  '';
 
   meta = {
     description = "Lightweight coding agent that runs in your terminal";
