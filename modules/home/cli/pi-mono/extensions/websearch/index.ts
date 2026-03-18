@@ -94,6 +94,7 @@ export default function (pi: ExtensionAPI) {
     name: "websearch",
     label: "Web Search",
     description: DESCRIPTION,
+    promptSnippet: "Use websearch to search the web and return summarized results with cited URLs.",
     parameters: WebSearchParams,
 
     async execute(

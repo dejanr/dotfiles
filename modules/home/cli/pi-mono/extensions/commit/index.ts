@@ -144,6 +144,7 @@ When in doubt, leave a file out.`;
 		description: `Create a git commit with user review and approval. Use this tool when the user should confirm and potentially edit the commit message before committing. For automated commits where no user confirmation is needed, use the regular git commit command via bash instead.
 
 ${COMMIT_FORMAT_GUIDE}`,
+		promptSnippet: "Use git_commit_with_user_approval when you want the user to review or edit a proposed commit message before the commit is created.",
 		parameters: Type.Object({
 			message: Type.String({
 				description: "Proposed commit message (subject line, optionally followed by blank line and body)",
