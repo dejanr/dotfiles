@@ -136,6 +136,13 @@ window-rule {
 window-rule {
     match title="Elder Scrolls Online"
     open-on-workspace "5"
+    open-floating true
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+    default-floating-position x=0 y=0 relative-to="top"
+    default-column-width { proportion 1.0; }
+    default-window-height { proportion 1.0; }
 }
 
 window-rule {
