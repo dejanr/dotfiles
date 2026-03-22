@@ -11,6 +11,27 @@
         silent = true;
       };
     }
+    {
+      mode = "n";
+      key = "<leader>fp";
+      action.__raw = ''
+        function()
+          local path = vim.fn.expand("%")
+          if path == "" then
+            vim.notify("No file path available", vim.log.levels.WARN)
+            return
+          end
+
+          vim.fn.setreg("+", path)
+          vim.fn.setreg("*", path)
+          vim.notify("Yanked file path: " .. path)
+        end
+      '';
+      options = {
+        desc = "Yank file path";
+        silent = true;
+      };
+    }
 
     # Show diagnostics in float
     {
