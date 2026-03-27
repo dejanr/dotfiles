@@ -51,7 +51,6 @@ in
           ]
           ++ (with nixGamingPkgs; [
             dxvk
-            vkd3d-proton
             wine-tkg
             wineprefix-preparer
             winetricks-git

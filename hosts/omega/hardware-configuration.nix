@@ -219,11 +219,10 @@ in
 
     nvidia = {
       modesetting.enable = true;
-      # Enable power management to help with suspend/resume
       powerManagement.enable = true;
       powerManagement.finegrained = false;
-      open = true;
-      package = kernelPackages.nvidiaPackages.stable;
+      open = false;
+      package = kernelPackages.nvidiaPackages.latest;
     };
   };
 

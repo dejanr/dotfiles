@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -9,6 +10,21 @@
   ];
 
   virtualisation.podman.enable = true;
+
+  systemd.services.nvidia-power-limit = {
+    description = "Set NVIDIA GPU power limit";
+    after = [ "systemd-modules-load.service" ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ config.hardware.nvidia.package.bin ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      nvidia-smi -pm 1
+      nvidia-smi -pl 380
+    '';
+  };
 
   environment.systemPackages = [
     pkgs.comfy-model
@@ -154,10 +170,34 @@
       extraSetFlags = [ "--advertise-exit-node" ];
     };
 
+    sunshine = {
+      enable = true;
+      openFirewall = false;
+      capSysAdmin = true;
+      settings = {
+        upnp = "off";
+        origin_web_ui_allowed = "lan";
+        origin_pin_allowed = "lan";
+      };
+    };
   };
 
-
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+  networking.firewall.interfaces.tailscale0 = {
+    allowedTCPPorts = [
+      22
+      47984
+      47989
+      47990
+      48010
+    ];
+    allowedUDPPorts = [
+      47998
+      47999
+      48000
+      48002
+      48010
+    ];
+  };
 
   # Set RØDE VideoMic Me-C+ as default mic
   services.pipewire.wireplumber.extraConfig."10-default-source" = {

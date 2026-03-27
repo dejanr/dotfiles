@@ -191,6 +191,7 @@
   assign [class="dev-nohus-rift-MainKt"] $workspace7
   assign [class="steam_app_1063730"] $workspace5
   assign [class="steam_app_1808500"] $workspace5
+  assign [class="steam_app_306130"] $workspace5
   assign [class="explorer.exe"] $workspace5
 
   # fix graphics glitch
