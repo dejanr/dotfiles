@@ -16,7 +16,11 @@
     pkgs.raycast
     pkgs.llama-cpp
     pkgs.opencode
+    pkgs.python314Packages.mlx-lm
+    pkgs.python314Packages.mlx-vlm
   ];
+
+  config.services.demo-it.enable = true;
 
   config.modules = {
     home.common.packages.enable = true;

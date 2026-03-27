@@ -242,11 +242,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1772098237,
-        "narHash": "sha256-wTIVcy7LUqY0PFPk376FeoGNwjExTLSIIhYv6o1B2nE=",
+        "lastModified": 1772555463,
+        "narHash": "sha256-58w2bLh/f7wrsITfyfPDsBSC6Kr6CycGJGS5b0d1rqQ=",
         "ref": "refs/heads/main",
-        "rev": "5b0f37b5738db69b17b1fe0036613c5923900124",
-        "revCount": 19,
+        "rev": "1af088d0a26f5e2e54da88bc9cf2633e7af70b38",
+        "revCount": 42,
         "type": "git",
         "url": "ssh://git@github.com/dejanr/demo-it.git"
       },

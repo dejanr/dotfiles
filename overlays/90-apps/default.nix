@@ -91,6 +91,48 @@ in
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
   framework-llama-cpp = super.callPackage ./framework-llama-cpp { };
 
+  python314Packages = super.python314Packages.overrideScope (
+    pySelf: pySuper: {
+      mlx-lm = pySuper.mlx-lm.overridePythonAttrs (_old: rec {
+        version = "0.30.7";
+        src = super.fetchFromGitHub {
+          owner = "ml-explore";
+          repo = "mlx-lm";
+          tag = "v${version}";
+          hash = "sha256-Jc+JyReOH8Wja8sh9BvOO6X090xutKrVSbv+lEODPls=";
+        };
+      });
+
+      mlx-vlm = pySuper.mlx-vlm.overridePythonAttrs (old: rec {
+        version = "0.3.12";
+        src = super.fetchFromGitHub {
+          owner = "Blaizzy";
+          repo = "mlx-vlm";
+          tag = "v${version}";
+          hash = "sha256-vL3yAorgbwiwULYvsful4nDLTzlRWNR9cOXobJaZMi8=";
+        };
+
+        pythonRelaxDeps = (old.pythonRelaxDeps or [ ]) ++ [
+          "mlx-lm"
+          "transformers"
+        ];
+
+        dependencies =
+          let
+            replaceDep = dep:
+              if (dep.pname or "") == "mlx-lm" then
+                pySelf.mlx-lm
+              else
+                dep;
+          in
+          (builtins.map replaceDep old.dependencies) ++ [
+            pySelf.sentencepiece
+            pySelf.gradio
+          ];
+      });
+    }
+  );
+
   # Wrap comfy-ui-cuda launcher to expose CUDA runtime libs for nodes that dlopen()
   comfy-ui-cuda-wrapped =
     if super.stdenv.isLinux && super.stdenv.hostPlatform.isx86_64 then
