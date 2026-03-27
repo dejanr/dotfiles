@@ -5,6 +5,48 @@
   ...
 }:
 
+let
+  moonlightOmegaHost = "omega.cat-vimba.ts.net";
+  moonlightOmegaLanProfileArgs = [
+    "--resolution"
+    "2560x1600"
+    "--fps"
+    "120"
+    "--bitrate"
+    "80000"
+    "--display-mode"
+    "fullscreen"
+  ];
+  moonlightOmega4kProfileArgs = [
+    "--4K"
+    "--fps"
+    "120"
+    "--bitrate"
+    "120000"
+    "--display-mode"
+    "fullscreen"
+  ];
+
+  moonlightOmegaPair = pkgs.writeShellScriptBin "moonlight-omega-pair" ''
+    host=${lib.escapeShellArg moonlightOmegaHost}
+    exec ${pkgs.moonlight-qt}/bin/moonlight pair "$@" "$host"
+  '';
+
+  moonlightOmegaList = pkgs.writeShellScriptBin "moonlight-omega-list" ''
+    host=${lib.escapeShellArg moonlightOmegaHost}
+    exec ${pkgs.moonlight-qt}/bin/moonlight list "$@" "$host"
+  '';
+
+  moonlightOmegaDesktop = pkgs.writeShellScriptBin "moonlight-omega-desktop" ''
+    host=${lib.escapeShellArg moonlightOmegaHost}
+    exec ${pkgs.moonlight-qt}/bin/moonlight stream ${lib.escapeShellArgs moonlightOmegaLanProfileArgs} "$@" "$host" Desktop
+  '';
+
+  moonlightOmegaDesktop4k = pkgs.writeShellScriptBin "moonlight-omega-desktop-4k" ''
+    host=${lib.escapeShellArg moonlightOmegaHost}
+    exec ${pkgs.moonlight-qt}/bin/moonlight stream ${lib.escapeShellArgs moonlightOmega4kProfileArgs} "$@" "$host" Desktop
+  '';
+in
 {
   imports = [ ../../modules/home/default.nix ];
 
@@ -15,6 +57,11 @@
 
   config.home.packages = with pkgs; [
     slack
+    moonlight-qt
+    moonlightOmegaPair
+    moonlightOmegaList
+    moonlightOmegaDesktop
+    moonlightOmegaDesktop4k
   ];
 
   config.services.demo-it.enable = true;
@@ -91,6 +138,39 @@
     force = true;
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
     target = ".local/state/DankMaterialShell/session.json";
+  };
+
+  config.xdg.desktopEntries = {
+    moonlight-omega-desktop = {
+      name = "Moonlight Omega Desktop (LAN)";
+      exec = "moonlight-omega-desktop";
+      icon = "moonlight";
+      terminal = false;
+      categories = [
+        "Game"
+        "Network"
+      ];
+    };
+    moonlight-omega-desktop-4k = {
+      name = "Moonlight Omega Desktop (4K LAN)";
+      exec = "moonlight-omega-desktop-4k";
+      icon = "moonlight";
+      terminal = false;
+      categories = [
+        "Game"
+        "Network"
+      ];
+    };
+    moonlight-omega-pair = {
+      name = "Moonlight Pair Omega";
+      exec = "moonlight-omega-pair";
+      icon = "moonlight";
+      terminal = true;
+      categories = [
+        "Game"
+        "Network"
+      ];
+    };
   };
 
   config.home.stylix.theme = "catppuccin-mocha";
