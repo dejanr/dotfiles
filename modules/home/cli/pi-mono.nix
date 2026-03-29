@@ -89,7 +89,7 @@ in
 
     home.file = {
       ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
-      ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
+      # ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
       ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
       ".pi/agent/extensions".source = piMonoExtensionsPkg;
       ".pi/agent/skills".source = ./pi-mono/skills;

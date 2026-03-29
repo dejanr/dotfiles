@@ -61,6 +61,8 @@
   '';
 
   services = {
+    xserver.displayManager.autoLogin.user = "dejanr";
+
     openssh = {
       openFirewall = false;
       settings = {
