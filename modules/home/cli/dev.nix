@@ -16,6 +16,29 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.file = {
+      "npmrc" = {
+        text = ''
+          prefix = ~/.npm-packages
+        '';
+        target = ".npmrc";
+      };
+
+      "pnpmrc-security" = {
+        text = ''
+          minimum-release-age=10080
+        '';
+        target = if pkgs.stdenv.isDarwin then "Library/Preferences/pnpm/rc" else ".config/pnpm/rc";
+      };
+
+      "yarnrc-security" = {
+        text = ''
+          npmMinimalAgeGate: 7d
+        '';
+        target = ".yarnrc.yml";
+      };
+    };
+
     home.packages = with pkgs; [
       # Text processing and search
       ack

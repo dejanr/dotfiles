@@ -50,11 +50,6 @@ in
 {
   imports = [ ../../modules/home/default.nix ];
 
-  config.home.file."npmrc".text = ''
-    prefix = ~/.npm-packages
-  '';
-  config.home.file."npmrc".target = ".npmrc";
-
   config.home.packages = with pkgs; [
     slack
     moonlight-qt
