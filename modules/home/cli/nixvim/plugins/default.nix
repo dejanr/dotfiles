@@ -19,6 +19,7 @@
     ./editor/neoclip.nix
     ./editor/nvimux.nix
     ./editor/mdx.nix
+    ./editor/render-markdown.nix
     ./editor/pi-mono.nix
     ./editor/demo-it.nix
     ./lsp/lspconfig.nix

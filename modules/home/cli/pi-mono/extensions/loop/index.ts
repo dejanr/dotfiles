@@ -12,7 +12,6 @@ import type {
 	AgentToolUpdateCallback,
 	ExtensionAPI,
 	ExtensionContext,
-	SessionSwitchEvent,
 } from "@mariozechner/pi-coding-agent";
 import { compact } from "@mariozechner/pi-coding-agent";
 import { Container, type SelectItem, SelectList, Text } from "@mariozechner/pi-tui";
@@ -462,10 +461,6 @@ export default function loopExtension(pi: ExtensionAPI): void {
 	}
 
 	pi.on("session_start", async (_event, ctx) => {
-		await restoreLoopState(ctx);
-	});
-
-	pi.on("session_switch", async (_event: SessionSwitchEvent, ctx) => {
 		await restoreLoopState(ctx);
 	});
 }
