@@ -127,7 +127,6 @@ in
           in
           (builtins.map replaceDep old.dependencies) ++ [
             pySelf.sentencepiece
-            pySelf.gradio
           ];
       });
     }
