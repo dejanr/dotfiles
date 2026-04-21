@@ -173,7 +173,7 @@
     };
 
     sunshine = {
-      enable = true;
+      enable = false;
       openFirewall = false;
       capSysAdmin = true;
       settings = {
