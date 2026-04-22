@@ -23,7 +23,7 @@
   "mangoLayoutRadiusOverride": -1,
   "mangoLayoutBorderSize": -1,
   "use24HourClock": true,
-  "showSeconds": true,
+  "showSeconds": false,
   "padHours12Hour": false,
   "useFahrenheit": false,
   "windSpeedUnit": "kmh",

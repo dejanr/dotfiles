@@ -4,6 +4,28 @@
   ...
 }:
 
+let
+  jsonFormat = pkgs.formats.json { };
+  greeterCustomTheme = jsonFormat.generate "custom-theme.json" { };
+  greeterSettings = jsonFormat.generate "settings.json" {
+    currentThemeName = "purple";
+    currentThemeCategory = "generic";
+    customThemeFile = greeterCustomTheme;
+    use24HourClock = true;
+    showSeconds = false;
+  };
+  greeterSession = jsonFormat.generate "session.json" {
+    isLightMode = false;
+    doNotDisturb = false;
+    configVersion = 3;
+  };
+  greeterConfig = pkgs.runCommandLocal "dms-greeter-config" { } ''
+    mkdir -p "$out"
+    ln -s ${greeterCustomTheme} "$out/custom-theme.json"
+    ln -s ${greeterSettings} "$out/settings.json"
+    ln -s ${greeterSession} "$out/session.json"
+  '';
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -157,7 +179,10 @@
     greeter = {
       enable = true;
       compositor.name = "niri";
-      configHome = "/home/dejanr";
+      configFiles = [
+        "${greeterConfig}/settings.json"
+        "${greeterConfig}/session.json"
+      ];
     };
   };
 

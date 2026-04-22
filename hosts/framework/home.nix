@@ -116,12 +116,7 @@ in
   config.xdg.configFile = {
     "DankMaterialShell/settings.json" = {
       force = true;
-      text = builtins.toJSON (
-        (builtins.fromJSON (builtins.readFile ./config/dms/settings.json))
-        // {
-          showSeconds = false;
-        }
-      );
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/settings.json";
     };
     "DankMaterialShell/plugin_settings.json" = {
       force = true;
