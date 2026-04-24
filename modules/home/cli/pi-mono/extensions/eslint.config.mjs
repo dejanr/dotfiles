@@ -4,7 +4,7 @@ const coreModules = [
   "@mariozechner/pi-coding-agent",
   "@mariozechner/pi-ai",
   "@mariozechner/pi-tui",
-  "@sinclair/typebox",
+  "typebox",
 ];
 
 export default [
@@ -21,7 +21,7 @@ export default [
       "import/core-modules": coreModules,
       "import/ignore": [
         "^@mariozechner/",
-        "^@sinclair/typebox$",
+        "^typebox$",
       ],
     },
   },

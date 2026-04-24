@@ -11,7 +11,7 @@ import {
   type ExtensionContext,
 } from "@mariozechner/pi-coding-agent";
 import { Container, Text } from "@mariozechner/pi-tui";
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 import type { Exa } from "exa-js";
 
 function getApiKey(): string | undefined {

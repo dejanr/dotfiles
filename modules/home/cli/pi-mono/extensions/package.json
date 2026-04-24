@@ -10,15 +10,15 @@
     "check": "pnpm run lint && pnpm run typecheck"
   },
   "devDependencies": {
-    "@mariozechner/pi-ai": "0.68.1",
-    "@mariozechner/pi-coding-agent": "0.68.1",
-    "@mariozechner/pi-tui": "0.68.1",
-    "@sinclair/typebox": "^0.34.47",
+    "@mariozechner/pi-ai": "0.70.0",
+    "@mariozechner/pi-coding-agent": "0.70.0",
+    "@mariozechner/pi-tui": "0.70.0",
     "@types/node": "^22.10.5",
     "@types/ws": "^8.18.1",
     "esbuild": "^0.25.0",
     "eslint": "^9.20.0",
     "eslint-plugin-import": "^2.29.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typebox": "^1.1.24"
   }
 }

@@ -56,14 +56,14 @@ export default function (pi: ExtensionAPI) {
 
         const result = await ctx.newSession({
           parentSession: currentSessionFile ?? undefined,
+          withSession: async (nextCtx) => {
+            await nextCtx.sendUserMessage(COMMIT_PROMPT);
+          },
         });
 
         if (result.cancelled) {
           ctx.ui.notify("Cancelled", "info");
-          return;
         }
-
-        await pi.sendUserMessage(COMMIT_PROMPT);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Unknown error";

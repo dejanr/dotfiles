@@ -6,7 +6,7 @@
  * signal_loop_success tool.
  */
 
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 import { complete, type Api, type Model, type UserMessage } from "@mariozechner/pi-ai";
 import type {
 	AgentToolUpdateCallback,

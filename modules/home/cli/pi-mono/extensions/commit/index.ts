@@ -12,7 +12,7 @@
 
 import type { AgentToolUpdateCallback, ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Text } from "@mariozechner/pi-tui";
-import { Type } from "@sinclair/typebox";
+import { Type } from "typebox";
 
 const COMMIT_FORMAT_GUIDE = `
 Commit message format guidelines:
