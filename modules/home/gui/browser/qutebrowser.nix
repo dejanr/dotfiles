@@ -61,6 +61,16 @@ in
       qutebrowserPkg =
         if effectiveGpu == "nvidia" then pkgs.qutebrowser-nvidia
         else pkgs.qutebrowser-unstable;
+      wrappedQutebrowser = pkgs.symlinkJoin {
+        name = "${qutebrowserPkg.name}-wayland";
+        buildInputs = [ pkgs.makeWrapper ];
+        paths = [ qutebrowserPkg ];
+        postBuild = ''
+          wrapProgram "$out/bin/qutebrowser" \
+            --set QT_QPA_PLATFORM wayland \
+            --set QSG_RHI_BACKEND opengl
+        '';
+      };
     in
     {
 
@@ -71,7 +81,7 @@ in
     };
 
     home.shellAliases = {
-      qutebrowser = "QT_QPA_PLATFORM=wayland QSG_RHI_BACKEND=opengl qutebrowser -B ~/.browser/Personal";
+      qutebrowser = "qutebrowser -B ~/.browser/Personal";
     };
 
     xdg.mimeApps.defaultApplications = {
@@ -83,7 +93,7 @@ in
     };
 
     programs.qutebrowser.enable = true;
-    programs.qutebrowser.package = qutebrowserPkg;
+    programs.qutebrowser.package = wrappedQutebrowser;
 
     programs.qutebrowser.settings = {
       window.transparent = false;

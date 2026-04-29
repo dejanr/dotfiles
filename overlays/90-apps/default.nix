@@ -144,12 +144,12 @@ in
       mainSrc = super.fetchFromGitHub {
         owner = "qutebrowser";
         repo = "qutebrowser";
-        rev = "0774a08ef7294f1bfb9b5b51a2ce88a7128b843d"; # main 2026-02-10
-        hash = "sha256-wTluzB2KJ2IaPWNHBub2kDzHEhRhvFe0cS1vv4gnKVg=";
+        rev = "v3.7.0";
+        hash = "sha256-ydyfC7mNKA503VroQlXJWP/G1v2GHZ5x+Ib/5OCz5NU=";
       };
     in
-    super.qutebrowser.overrideAttrs (old: {
-      version = "3.6.3-unstable-2026-02-10";
+    super.qutebrowser.overrideAttrs (_old: {
+      version = "3.7.0";
       src = mainSrc;
     });
 
