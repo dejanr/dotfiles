@@ -62,13 +62,49 @@ in
         if effectiveGpu == "nvidia" then pkgs.qutebrowser-nvidia
         else pkgs.qutebrowser-unstable;
       wrappedQutebrowser = pkgs.symlinkJoin {
-        name = "${qutebrowserPkg.name}-wayland";
-        buildInputs = [ pkgs.makeWrapper ];
+        name = "${qutebrowserPkg.name}-session-aware";
         paths = [ qutebrowserPkg ];
         postBuild = ''
-          wrapProgram "$out/bin/qutebrowser" \
-            --set QT_QPA_PLATFORM wayland \
-            --set QSG_RHI_BACKEND opengl
+          rm "$out/bin/qutebrowser"
+          cat > "$out/bin/qutebrowser" <<'EOF'
+#!${pkgs.runtimeShell}
+export QSG_RHI_BACKEND=opengl
+
+if [ -n "''${WAYLAND_DISPLAY:-}" ] || [ "''${XDG_SESSION_TYPE:-}" = "wayland" ]; then
+  export QT_QPA_PLATFORM=wayland
+elif [ -n "''${DISPLAY:-}" ]; then
+  export QT_QPA_PLATFORM=xcb
+else
+  unset QT_QPA_PLATFORM
+fi
+
+default_basedir="$HOME/.browser/Personal"
+default_config="$HOME/.config/qutebrowser/config.py"
+has_basedir=0
+has_config=0
+
+for arg in "$@"; do
+  case "$arg" in
+    -B|--basedir|--basedir=*|-T|--temp-basedir)
+      has_basedir=1
+      ;;
+    -C|--config-py|--config-py=*)
+      has_config=1
+      ;;
+  esac
+done
+
+extra_args=()
+if [ "$has_basedir" -eq 0 ]; then
+  extra_args+=(--basedir "$default_basedir")
+fi
+if [ "$has_config" -eq 0 ]; then
+  extra_args+=(--config-py "$default_config")
+fi
+
+exec ${qutebrowserPkg}/bin/qutebrowser "''${extra_args[@]}" "$@"
+EOF
+          chmod +x "$out/bin/qutebrowser"
         '';
       };
     in
@@ -80,9 +116,7 @@ in
       MOZ_DISABLE_RDD_SANDBOX = "1";
     };
 
-    home.shellAliases = {
-      qutebrowser = "qutebrowser -B ~/.browser/Personal";
-    };
+    home.shellAliases = { };
 
     xdg.mimeApps.defaultApplications = {
       "text/html" = "org.qutebrowser.qutebrowser.desktop";
@@ -345,8 +379,7 @@ in
       config.bind('yf', 'hint links yank')
       config.bind('<Ctrl-Shift-i>', 'devtools')
 
-      # save quickmark
-      config.bind('<space>q', 'cmd-set-text -s :quickmark-add {url} "{title}"')
+      config.bind('<space>q', 'quickmark-save')
 
       # spawn external programs
       config.bind(',m', 'hint links spawn mpv {hint-url}')
@@ -469,6 +502,10 @@ in
       Gaming
     '';
 
+    home.file.".config/qutebrowser/qute-home.html".text =
+      generateHomepage "Personal" config.stylix.fonts.monospace.name
+        config;
+
     home.file.".browser/Personal/config/qute-home.html".text =
       generateHomepage "Personal" config.stylix.fonts.monospace.name
         config;
@@ -503,7 +540,7 @@ in
       "org.qutebrowser.qutebrowser" = {
         name = "qutebrowser";
         genericName = "Web Browser";
-        exec = "qutebrowser -B ${config.home.homeDirectory}/.browser/Personal %u";
+        exec = "qutebrowser %u";
         terminal = false;
         categories = [
           "Application"
