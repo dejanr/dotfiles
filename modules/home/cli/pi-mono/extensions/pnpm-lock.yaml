@@ -135,6 +135,15 @@ importers:
         specifier: 0.70.0
         version: 0.70.0
 
+  tenstorrent:
+    dependencies:
+      '@mariozechner/pi-ai':
+        specifier: 0.72.1
+        version: 0.72.1(ws@8.20.0)(zod@4.4.3)
+      '@mariozechner/pi-coding-agent':
+        specifier: 0.72.1
+        version: 0.72.1(ws@8.20.0)(zod@4.4.3)
+
   websearch:
     dependencies:
       '@mariozechner/pi-coding-agent':

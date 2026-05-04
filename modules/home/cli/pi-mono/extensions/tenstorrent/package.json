@@ -1,0 +1,18 @@
+{
+  "name": "pi-extension-tenstorrent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-ai": "0.72.1",
+    "@mariozechner/pi-coding-agent": "0.72.1"
+  },
+  "scripts": {
+    "build": "node ../../nix/scripts/build.mjs"
+  }
+}
