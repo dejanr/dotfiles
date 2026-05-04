@@ -96,8 +96,6 @@ in
     home.cli.yazi.enable = true;
     home.cli.codex.enable = true;
     home.cli.pi-mono.enable = true;
-    home.cli.pi-mono.voiceInput.device =
-      "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback";
 
     home.cli.llama-cpp = {
       enable = true;

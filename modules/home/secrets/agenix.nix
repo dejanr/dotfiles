@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     age.identityPaths = [ "/home/dejanr/.ssh/agenix" ];
     age.secrets.anthropic_api_key.file = ../../../secrets/anthropic_api_key.age;
+    age.secrets.aiand_api_key.file = ../../../secrets/aiand_api_key.age;
     age.secrets.deepseek_api_key.file = ../../../secrets/deepseek_api_key.age;
     age.secrets.groq_api_key.file = ../../../secrets/groq_api_key.age;
     age.secrets.gemini_api_key.file = ../../../secrets/gemini_api_key.age;

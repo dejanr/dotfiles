@@ -10,6 +10,7 @@ let
 in
 {
   "anthropic_api_key.age".publicKeys = userKeys;
+  "aiand_api_key.age".publicKeys = userKeys;
   "deepseek_api_key.age".publicKeys = userKeys;
   "groq_api_key.age".publicKeys = userKeys;
   "gemini_api_key.age".publicKeys = userKeys;

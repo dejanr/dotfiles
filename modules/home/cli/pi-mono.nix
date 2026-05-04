@@ -55,36 +55,14 @@ in
   options.modules.home.cli.pi-mono = {
     enable = mkEnableOption "pi-mono coding agent";
 
-    voiceInput = {
-      device = mkOption {
-        type = types.nullOr types.str;
-        default = null;
-        description = "PulseAudio/PipeWire input device for voice recording. Auto-detected if null.";
-        example = "alsa_input.platform-sound.HiFi__Headset__source";
-      };
+    providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-mono";
 
-      language = mkOption {
-        type = types.nullOr types.str;
-        default = null;
-        description = "ISO-639-1/3 language code for speech recognition.";
-        example = "en";
-      };
-    };
   };
 
   config = mkIf cfg.enable {
     home.packages = [
       piMono
       pkgs.beads
-    ];
-
-    home.sessionVariables = mkMerge [
-      (mkIf (cfg.voiceInput.device != null) {
-        PULSE_INPUT_DEVICE = cfg.voiceInput.device;
-      })
-      (mkIf (cfg.voiceInput.language != null) {
-        ELEVENLABS_LANGUAGE = cfg.voiceInput.language;
-      })
     ];
 
     home.file = {
