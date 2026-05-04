@@ -21,6 +21,8 @@ in
   "exa_api_key.age".publicKeys = userKeys;
   "huggingface_api_key.age".publicKeys = userKeys;
   "openai_api_key.age".publicKeys = userKeys;
+  "tenstorrent_api_key.age".publicKeys = userKeys;
+  "gh_token.age".publicKeys = userKeys;
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;
 }
