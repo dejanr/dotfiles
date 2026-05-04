@@ -93,14 +93,46 @@ in
 
   python314Packages = super.python314Packages.overrideScope (
     pySelf: pySuper: {
-      mlx-lm = pySuper.mlx-lm.overridePythonAttrs (_old: rec {
-        version = "0.30.7";
+      mlx = pySuper.mlx.overridePythonAttrs (old: rec {
+        version = "0.31.2";
+        src = super.fetchFromGitHub {
+          owner = "ml-explore";
+          repo = "mlx";
+          tag = "v${version}";
+          hash = "sha256-0Oxacz61WGWZrpWw+fMQjEQfwOx1l1L2d0kWl54/LrQ=";
+        };
+
+        patches = [
+          ./mlx/dont-fetch-nanobind.patch
+          ./mlx/dont-fetch-json.patch
+        ] ++ super.lib.optionals super.stdenv.hostPlatform.isDarwin [
+          (super.replaceVars ./mlx/darwin-build-fixes.patch {
+            sdkVersion = super.apple-sdk.version;
+          })
+        ];
+
+        nativeCheckInputs = (old.nativeCheckInputs or [ ]) ++ [
+          pySelf.psutil
+        ];
+      });
+
+      mlx-lm = pySuper.mlx-lm.overridePythonAttrs (old: rec {
+        version = "0.31.3";
         src = super.fetchFromGitHub {
           owner = "ml-explore";
           repo = "mlx-lm";
           tag = "v${version}";
-          hash = "sha256-Jc+JyReOH8Wja8sh9BvOO6X090xutKrVSbv+lEODPls=";
+          hash = "sha256-DPOJfsIucG8mWt4ZKenymCJo/i9Jw+a+iuIygIIYkA8=";
         };
+
+        dependencies =
+          let
+            replaceDep = dep:
+              if (dep.pname or "") == "mlx" then pySelf.mlx else dep;
+          in
+          (builtins.map replaceDep old.dependencies) ++ [
+            pySelf.sentencepiece
+          ];
       });
 
       mlx-vlm = pySuper.mlx-vlm.overridePythonAttrs (old: rec {
