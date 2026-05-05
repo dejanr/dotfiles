@@ -65,11 +65,11 @@ Do **not** use destructive cleanup (`rm -rf`) as a default recovery step. If dep
 
 ### 6. Test Builds (Determines If Hashes Need Updating)
 
-**Always build individual packages, never toplevel:**
+**Always build individual packages, never toplevel. Run build commands raw so `pi-bash-live-view` can show live progress; do not pipe long builds through `tail`, `grep`, `sed`, or similar filters.**
 
 ```bash
-nix build .#pi-mono-coding-agent 2>&1 | tail -20
-nix build .#pi-mono-extensions 2>&1 | tail -30
+nix build .#pi-mono-coding-agent
+nix build .#pi-mono-extensions
 ```
 
 Interpret results:
@@ -89,10 +89,10 @@ Set invalid hash in `modules/home/cli/pi-mono/nix/package.nix`:
 npmDepsHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 ```
 
-Build and capture correct hash:
+Build and capture correct hash from the raw command output:
 
 ```bash
-nix build .#pi-mono-coding-agent 2>&1 | grep "got:"
+nix build .#pi-mono-coding-agent
 ```
 
 Update `package.nix` with the hash from the `got:` line.
@@ -105,10 +105,10 @@ For extensions, set empty hash in `modules/home/cli/pi-mono/nix/extensions.nix`:
 hash = "";
 ```
 
-Then build and capture the `got:` hash:
+Then build and capture the `got:` hash from the raw command output:
 
 ```bash
-nix build .#pi-mono-extensions 2>&1 | grep "got:"
+nix build .#pi-mono-extensions
 ```
 
 Update `extensions.nix` with the captured hash.
@@ -220,8 +220,8 @@ A package is missing from the store but cannot download it in offline mode.
 **Fix (extensions):**
 
 1. Set `pnpmDeps.hash = "";` in `modules/home/cli/pi-mono/nix/extensions.nix`
-2. Run `nix build .#pi-mono-extensions 2>&1 | grep "got:"`
-3. Copy the `got: sha256-...` value back to `pnpmDeps.hash`
+2. Run `nix build .#pi-mono-extensions`
+3. Copy the `got: sha256-...` value from the raw command output back to `pnpmDeps.hash`
 
 ### Stale Workspace Type Resolution
 

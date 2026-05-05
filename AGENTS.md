@@ -158,6 +158,13 @@ secrets/
 
 Use `bd` for task tracking. See [beads documentation](https://github.com/steveyegge/beads).
 
+## Command Execution
+
+- For long-running or progress-heavy commands (`nix build`, rebuilds, package installs, tests), run the command directly with PTY/live output when available.
+- Do not pipe long-running commands through `tail`, `grep`, `head`, or `sed` while they run; those filters can buffer or hide output from `pi-bash-live-view`.
+- If output needs filtering, run the command first and inspect logs or captured output afterward.
+- Short, finite inspection commands may still use pipes when live progress is not useful.
+
 ## Guidelines
 
 - Follow existing Nix patterns in the codebase

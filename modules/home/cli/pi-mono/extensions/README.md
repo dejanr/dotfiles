@@ -65,6 +65,7 @@ pi -e ./modules/home/cli/pi-mono/extensions/<name>/index.ts
 
 Notes:
 - Dependencies shared across extensions should be declared at the workspace root (`package.json`).
+- Pin `@mariozechner/*` versions only in the workspace root; extension package peer dependencies should use `"*"` so local type resolution does not mix old pi-mono versions.
 - Runtime dependencies specific to an extension should be listed in that extension’s `package.json` under `dependencies`.
 - Peer dependencies are automatically marked as externals by the shared build script.
 - The final extension builds are packaged via Nix (`modules/home/cli/pi-mono/nix/extensions.nix`), but this workspace setup supports local development and testing too.
