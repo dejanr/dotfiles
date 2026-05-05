@@ -115,7 +115,10 @@ in
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.codex.enable = true;
-    home.cli.pi-mono.enable = true;
+    home.cli.pi-mono = {
+      enable = true;
+      providers.vllm.enable = true;
+    };
 
     home.cli.llama-cpp = {
       enable = true;

@@ -79,6 +79,7 @@
       enable = true;
       providers.aiand.enable = true;
       providers.tenstorrent.enable = true;
+      providers.vllm.enable = true;
     };
   };
 

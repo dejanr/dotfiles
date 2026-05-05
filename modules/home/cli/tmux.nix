@@ -10,6 +10,17 @@ with lib;
 let
   cfg = config.modules.home.cli.tmux;
   colors = config.lib.stylix.colors;
+
+  tmuxNewWorktree = pkgs.writeShellApplication {
+    name = "tmux-new-worktree";
+    runtimeInputs = with pkgs; [
+      coreutils
+      git
+      gnused
+      tmux
+    ];
+    text = builtins.readFile ./tmux/new-worktree.sh;
+  };
 in
 {
   options.modules.home.cli.tmux = {
@@ -17,6 +28,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ tmuxNewWorktree ];
+
     programs.tmux = {
       enable = true;
       sensibleOnTop = false;
@@ -33,7 +46,7 @@ in
       customPaneNavigationAndResize = true;
       resizeAmount = 5;
 
-      extraConfig = import ./tmux/config.nix { inherit colors; };
+      extraConfig = import ./tmux/config.nix { inherit colors tmuxNewWorktree; };
     };
   };
 }

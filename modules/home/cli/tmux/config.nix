@@ -1,4 +1,4 @@
-{ colors }:
+{ colors, tmuxNewWorktree }:
 ''
   # Timing
   set -sg repeat-time 600
@@ -29,7 +29,7 @@
   # Reduce redraw frequency and flicker
   set -sg status-interval 5
   set -g remain-on-exit off
-  
+
   # Don't wrap searches
   set -g wrap-search off
 
@@ -109,8 +109,9 @@
 
   unbind [
   unbind p
-  bind y switch-client -T paste-prefix
-  bind -T paste-prefix p paste-buffer
+  unbind f
+  bind p paste-buffer
+  bind -N "new git worktree window" f command-prompt -p "Worktree idea" 'set-option -gq @new_worktree_description "%%%" ; run-shell -b -c "#{pane_current_path}" "${tmuxNewWorktree}/bin/tmux-new-worktree --from-tmux-option \"#{pane_current_path}\""'
 
   # Terminal keys
   set-window-option -g xterm-keys on

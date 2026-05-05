@@ -67,6 +67,23 @@ let
     };
   };
 
+  vllmModels = {
+    vllm = {
+      baseUrl = "http://localhost:8080/v1";
+      api = "openai-completions";
+      apiKey = "vllm";
+      compat = {
+        supportsDeveloperRole = false;
+        supportsReasoningEffort = false;
+        supportsStore = false;
+        supportsStrictMode = false;
+        maxTokensField = "max_tokens";
+        thinkingFormat = "qwen-chat-template";
+      };
+      models = [ ];
+    };
+  };
+
   aiandModels = {
     aiand = {
       baseUrl = "https://api.aiand.com/v1";
@@ -118,7 +135,8 @@ let
 
   customProviders =
     optionalAttrs cfg.providers.tenstorrent.enable tenstorrentModels
-    // optionalAttrs cfg.providers.aiand.enable aiandModels;
+    // optionalAttrs cfg.providers.aiand.enable aiandModels
+    // optionalAttrs cfg.providers.vllm.enable vllmModels;
 
   keybindings = {
     cursorUp = [
@@ -145,6 +163,7 @@ in
 
     providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-mono";
     providers.aiand.enable = mkEnableOption "ai& models for pi-mono";
+    providers.vllm.enable = mkEnableOption "local vLLM models for pi-mono";
 
   };
 
