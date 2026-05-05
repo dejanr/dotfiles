@@ -84,6 +84,7 @@
   # Activity (disabled to reduce flicker)
   setw -g monitor-activity off
   set -g visual-activity off
+  set -g focus-events on
   set -g visual-bell off
   set -g visual-silence off
 
@@ -108,7 +109,8 @@
 
   unbind [
   unbind p
-  bind p paste-buffer
+  bind y switch-client -T paste-prefix
+  bind -T paste-prefix p paste-buffer
 
   # Terminal keys
   set-window-option -g xterm-keys on
@@ -130,8 +132,12 @@
   setw -g window-status-activity-style "underscore,fg=#${colors.base04},bg=#${colors.base00}"
   setw -g window-status-separator ""
   setw -g window-status-style "NONE,fg=#${colors.base04},bg=#${colors.base00}"
-  setw -g window-status-format "#[default] #I | #W #F "
-  setw -g window-status-current-format "#[fg=#${colors.base00},bg=#${colors.base04},bold] #I | #W #F "
+  setw -g window-status-format "#[default] #{?#{==:#{@pi_running},1},#[fg=#${colors.base0A}]· #[default],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}]· #[default],}}#I | #W #F "
+  setw -g window-status-current-format "#[fg=#${colors.base00},bg=#${colors.base04},bold] #{?#{==:#{@pi_running},1},#[fg=#${colors.base0A}#,bg=#${colors.base04}#,nobold]· #[fg=#${colors.base00}#,bg=#${colors.base04}#,bold],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}#,bg=#${colors.base04}#,nobold]· #[fg=#${colors.base00}#,bg=#${colors.base04}#,bold],}}#I | #W #F "
+
+  set-hook -g client-focus-in 'set-window-option @pi_unread 0'
+  set-hook -g after-select-window 'set-window-option @pi_unread 0'
+  set-hook -g after-select-pane 'set-window-option @pi_unread 0'
 
   # direnv cleanup
   set-option -g update-environment "DIRENV_DIFF DIRENV_DIR DIRENV_WATCHES"

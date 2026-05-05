@@ -1,3 +1,4 @@
+import tsParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
 
 const coreModules = [
@@ -10,6 +11,13 @@ const coreModules = [
 export default [
   {
     files: ["**/*.ts"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     plugins: {
       import: importPlugin,
     },
