@@ -137,7 +137,14 @@ in
     };
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+  networking.firewall = {
+    allowedTCPPorts = [ 22000 ];
+    allowedUDPPorts = [
+      22000
+      21027
+    ];
+    interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+  };
 
   # Set RØDE VideoMic Me-C+ as default mic
   services.pipewire.wireplumber.extraConfig."10-default-source" = {

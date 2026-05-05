@@ -60,6 +60,25 @@ in
   ];
 
   config.services.demo-it.enable = true;
+  config.services.syncthing = {
+    enable = true;
+    overrideDevices = true;
+    overrideFolders = true;
+    settings = {
+      devices.synology = {
+        id = "HAVMQIE-3WREVQZ-QP7QXMO-OP353KV-275FFVH-2P3CX2D-SJZVMB2-3PL5EAP";
+      };
+
+      folders.obsidian = {
+        path = "~/documents/notes/main";
+        id = "data1";
+        label = "Obsidian Main";
+        devices = [ "synology" ];
+      };
+
+      options.urAccepted = -1;
+    };
+  };
 
   config.modules = {
     home.common.packages.enable = true;
@@ -86,6 +105,7 @@ in
 
     apps.kitty.enable = true;
     apps.ghostty.enable = true;
+    apps.obsidian.enable = true;
 
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
@@ -126,6 +146,16 @@ in
     force = true;
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
     target = ".local/state/DankMaterialShell/session.json";
+  };
+
+  config.home.file."obsidian-syncthing-ignore" = {
+    force = true;
+    target = "${config.programs.obsidian.vaults.main.target}/.stignore";
+    text = ''
+      /.obsidian
+      /reMarkable/.remarkable-sync-state.json
+      (?d).DS_Store
+    '';
   };
 
   config.xdg.desktopEntries = {

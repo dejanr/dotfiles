@@ -36,6 +36,8 @@ let
     );
 in
 {
+  mkObsidianPlugin = super.callPackage ./mk-obsidian-plugin.nix { };
+
   arc-theme = super.arc-theme.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags or [ ] ++ [
       "--disable-light"
@@ -90,6 +92,9 @@ in
   codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
   framework-llama-cpp = super.callPackage ./framework-llama-cpp { };
+  obsidian-plugin-remarkable-sync = super.callPackage ./obsidian-plugin-remarkable-sync {
+    inherit (self) mkObsidianPlugin;
+  };
 
   python314Packages = super.python314Packages.overrideScope (
     pySelf: pySuper: {

@@ -21,12 +21,19 @@
   ];
 
   config.services.demo-it.enable = true;
+  config.services.syncthing = {
+    enable = true;
+    overrideDevices = false;
+    overrideFolders = false;
+    settings.options.urAccepted = -1;
+  };
 
   config.modules = {
     home.common.packages.enable = true;
 
     # apps
     apps.kitty.enable = true;
+    apps.obsidian.enable = true;
 
     # cli
     home.cli.direnv.enable = true;
