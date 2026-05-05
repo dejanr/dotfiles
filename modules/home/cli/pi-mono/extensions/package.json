@@ -10,10 +10,10 @@
     "check": "pnpm run lint && pnpm run typecheck"
   },
   "devDependencies": {
-    "@mariozechner/pi-agent-core": "0.72.1",
-    "@mariozechner/pi-ai": "0.72.1",
-    "@mariozechner/pi-coding-agent": "0.72.1",
-    "@mariozechner/pi-tui": "0.72.1",
+    "@mariozechner/pi-agent-core": "0.73.0",
+    "@mariozechner/pi-ai": "0.73.0",
+    "@mariozechner/pi-coding-agent": "0.73.0",
+    "@mariozechner/pi-tui": "0.73.0",
     "@types/node": "^22.10.5",
     "@types/ws": "^8.18.1",
     "esbuild": "^0.25.0",

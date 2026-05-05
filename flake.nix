@@ -211,6 +211,9 @@
           pkgs = nixpkgs.legacyPackages.${system};
           pi-mono-src = inputs.pi-mono;
         };
+        pi-bash-live-view = import ./modules/home/cli/pi-mono/nix/extensions/pi-bash-live-view.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+        };
         pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {
           pkgs = nixpkgs.legacyPackages.${system};
           extensions-src = self + "/modules/home/cli/pi-mono";

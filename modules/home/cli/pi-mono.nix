@@ -21,6 +21,14 @@ let
   piMono = piMonoPkg { inherit pkgs pi-mono-src; };
 
   piMonoExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-extensions;
+  piBashLiveViewPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-bash-live-view;
+  piExtensionsPkg = pkgs.runCommand "pi-extensions" { } ''
+    mkdir -p $out
+    for path in ${piMonoExtensionsPkg}/*; do
+      ln -s "$path" "$out/$(basename "$path")"
+    done
+    ln -s ${piBashLiveViewPkg} $out/bash-live-view
+  '';
 
   promptFiles = builtins.readDir ./pi-mono/prompts;
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;
@@ -150,7 +158,7 @@ in
       ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
       # ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
       ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
-      ".pi/agent/extensions".source = piMonoExtensionsPkg;
+      ".pi/agent/extensions".source = piExtensionsPkg;
       ".pi/agent/skills".source = ./pi-mono/skills;
       ".pi/agent/themes/dejanr.json".source = ./pi-mono/themes/dejanr.json;
     }

@@ -1,0 +1,24 @@
+{
+  "name": "pi-extension-terminal-signals",
+  "version": "1.0.0",
+  "description": "Adapted from pi-terminal-signals by Lucas Meijer.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Lucas Meijer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmeijer/pi-terminal-signals.git"
+  },
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "build": "node ../../nix/scripts/build.mjs"
+  }
+}

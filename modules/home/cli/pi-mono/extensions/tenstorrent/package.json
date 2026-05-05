@@ -9,8 +9,8 @@
     ]
   },
   "peerDependencies": {
-    "@mariozechner/pi-ai": "0.72.1",
-    "@mariozechner/pi-coding-agent": "0.72.1"
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-coding-agent": "*"
   },
   "scripts": {
     "build": "node ../../nix/scripts/build.mjs"
