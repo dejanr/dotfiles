@@ -74,6 +74,7 @@ in
   };
 
   beads = super.callPackage ./beads { };
+  hunk = super.callPackage ./hunk { };
   pulumi = super.callPackage ./pulumi { };
   opencode = super.callPackage ./opencode { };
   rift = super.callPackage ./rift { };

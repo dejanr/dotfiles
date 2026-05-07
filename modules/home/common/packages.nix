@@ -8,6 +8,10 @@
 with lib;
 let
   cfg = config.modules.home.common.packages;
+  hunkPackage = pkgs.hunk.override {
+    colorScheme = import (../../themes + "/${config.home.stylix.theme}");
+    themeName = "stylix";
+  };
 in
 {
   options.modules.home.common.packages = {
@@ -15,6 +19,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    xdg.configFile."hunk/config.toml".text = ''
+      theme = "stylix"
+    '';
+
     home.packages = with pkgs; [
       bat
       # broken: devenv
@@ -22,6 +30,7 @@ in
       ripgrep
       eza
       htop
+      hunkPackage
       pass
       gnupg
       unzip
