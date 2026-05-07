@@ -2,12 +2,23 @@
 
 pkgs.writeShellApplication {
   name = "qwen36-mtp-server";
-  runtimeInputs = [ pkgs.omega-llama-cpp-mtp ];
+  runtimeInputs = [ pkgs.omega-llama-cpp-mtp pkgs.curl ];
   text = ''
     model="''${QWEN36_MTP_MODEL:-$HOME/.local/share/llama-cpp/models/Qwen3.6-27B-MTP-Q4_K_M.gguf}"
     if [ "$#" -gt 0 ]; then
       model="$1"
       shift
+    fi
+
+    # Download model if not present
+    if [ ! -f "$model" ]; then
+      echo "Model not found at: $model"
+      echo "Downloading Qwen3.6-27B-MTP-Q4_K_M.gguf (~17 GB)..."
+      mkdir -p "$(dirname "$model")"
+      curl -L --progress-bar \\
+        "https://huggingface.co/froggeric/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M-mtp.gguf" \\
+        -o "$model"
+      echo "Download complete."
     fi
 
     kv_dir="''${QWEN36_MTP_KV_DIR:-$HOME/.local/state/llama-cpp/kv_cache/qwen3.6-27b-mtp}"
