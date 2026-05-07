@@ -80,6 +80,8 @@
               includeInlayFunctionLikeReturnTypeHints = true;
               includeInlayEnumMemberValueHints = true;
               importModuleSpecifierPreference = "non-relative";
+              jsxAttributeCompletionStyle = "auto";
+              quotePreference = "double";
             };
           };
         };

@@ -13,6 +13,23 @@
     local cond = require('nvim-autopairs.conds')
 
     local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
+    local jsx_filetypes = { javascriptreact = true, typescriptreact = true }
+
+    local function is_jsx_attribute_assignment(opts)
+      if not jsx_filetypes[vim.bo[opts.bufnr].filetype] then
+        return false
+      end
+
+      local before_cursor = opts.line:sub(1, opts.col - 1)
+      local tag = before_cursor:match('<[%a_$][^>]*$')
+      if not tag then
+        return false
+      end
+
+      local open_braces = select(2, tag:gsub('{', '''))
+      local close_braces = select(2, tag:gsub('}', '''))
+      return open_braces == close_braces
+    end
 
     npairs.add_rules({
       Rule(' ', ' ')
@@ -49,6 +66,11 @@
 
     npairs.add_rules({
       Rule('=', ''')
+        :with_pair(function(opts)
+          if is_jsx_attribute_assignment(opts) then
+            return false
+          end
+        end)
         :with_pair(cond.not_inside_quote())
         :with_pair(function(opts)
           local last_char = opts.line:sub(opts.col - 1, opts.col - 1)
