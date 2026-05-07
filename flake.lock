@@ -1473,11 +1473,11 @@
     "pi-mono": {
       "flake": false,
       "locked": {
-        "lastModified": 1777927475,
-        "narHash": "sha256-yULoBblKIkN4MWQx2qYFaApn3aES87k1DuhVHNs7WdI=",
+        "lastModified": 1778149289,
+        "narHash": "sha256-Eet+OSBgf+ItM9cEJASuja1CC8mUQDmIvYzabVrJvcs=",
         "owner": "badlogic",
         "repo": "pi-mono",
-        "rev": "bb25a3944c0a8747c99d4360d71eb659554d65a1",
+        "rev": "801db80b65210b25462bce1700675e073fe3dbe5",
         "type": "github"
       },
       "original": {
