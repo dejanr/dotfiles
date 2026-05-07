@@ -84,6 +84,38 @@ let
     };
   };
 
+  llamaCppModels = {
+    llama-cpp = {
+      baseUrl = cfg.providers.llama-cpp.baseUrl;
+      api = "openai-completions";
+      apiKey = "llama-cpp";
+      compat = {
+        supportsDeveloperRole = false;
+        supportsReasoningEffort = false;
+        supportsStore = false;
+        supportsStrictMode = false;
+        maxTokensField = "max_tokens";
+        thinkingFormat = "qwen-chat-template";
+      };
+      models = [
+        {
+          id = "qwen3.6-27b-mtp";
+          name = "Qwen3.6 27B MTP Q4_K_M (llama.cpp)";
+          reasoning = true;
+          input = [ "text" ];
+          contextWindow = 100000;
+          maxTokens = 8192;
+          cost = {
+            input = 0;
+            output = 0;
+            cacheRead = 0;
+            cacheWrite = 0;
+          };
+        }
+      ];
+    };
+  };
+
   aiandModels = {
     aiand = {
       baseUrl = "https://api.aiand.com/v1";
@@ -136,7 +168,8 @@ let
   customProviders =
     optionalAttrs cfg.providers.tenstorrent.enable tenstorrentModels
     // optionalAttrs cfg.providers.aiand.enable aiandModels
-    // optionalAttrs cfg.providers.vllm.enable vllmModels;
+    // optionalAttrs cfg.providers.vllm.enable vllmModels
+    // optionalAttrs cfg.providers.llama-cpp.enable llamaCppModels;
 
   keybindings = {
     cursorUp = [
@@ -164,7 +197,14 @@ in
     providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-mono";
     providers.aiand.enable = mkEnableOption "ai& models for pi-mono";
     providers.vllm.enable = mkEnableOption "local vLLM models for pi-mono";
-
+    providers.llama-cpp = {
+      enable = mkEnableOption "local llama.cpp models for pi-mono";
+      baseUrl = mkOption {
+        type = types.str;
+        default = "http://localhost:8181/v1";
+        description = "OpenAI-compatible llama.cpp server base URL.";
+      };
+    };
   };
 
   config = mkIf cfg.enable {

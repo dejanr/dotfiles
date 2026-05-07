@@ -11,6 +11,11 @@
 
   virtualisation.podman.enable = true;
 
+  nixpkgs.config = {
+    cudaCapabilities = [ "8.6" ];
+    cudaForwardCompat = false;
+  };
+
   systemd.services.nvidia-power-limit = {
     description = "Set NVIDIA GPU power limit";
     after = [ "systemd-modules-load.service" ];
@@ -187,6 +192,7 @@
   networking.firewall.interfaces.tailscale0 = {
     allowedTCPPorts = [
       22
+      8181
       47984
       47989
       47990

@@ -118,6 +118,10 @@ in
     home.cli.pi-mono = {
       enable = true;
       providers.vllm.enable = true;
+      providers.llama-cpp = {
+        enable = true;
+        baseUrl = "http://omega.cat-vimba.ts.net:8181/v1";
+      };
     };
 
     home.cli.llama-cpp = {

@@ -1,10 +1,11 @@
 { pkgs, ... }:
-
 {
+
   imports = [ ../../modules/home/default.nix ];
 
   config.home.packages = with pkgs; [
     slack
+    qwen36-mtp-server
   ];
 
   config.xdg.desktopEntries.eve-online = {
@@ -75,11 +76,20 @@
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
+    home.cli.llama-cpp = {
+      enable = true;
+      package = pkgs.omega-llama-cpp-mtp;
+      gpuLayers = 99;
+      threads = 8;
+      flashAttention = true;
+      noMmap = true;
+    };
     home.cli.pi-mono = {
       enable = true;
       providers.aiand.enable = true;
       providers.tenstorrent.enable = true;
       providers.vllm.enable = true;
+      providers.llama-cpp.enable = true;
     };
   };
 
