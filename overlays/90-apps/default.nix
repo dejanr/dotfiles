@@ -92,6 +92,7 @@ in
   codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
   framework-llama-cpp = super.callPackage ./framework-llama-cpp { };
+  omega-llama-cpp-mtp = super.callPackage ./omega-llama-cpp-mtp { };
   obsidian-plugin-remarkable-sync = super.callPackage ./obsidian-plugin-remarkable-sync {
     inherit (self) mkObsidianPlugin;
   };
@@ -110,7 +111,8 @@ in
         patches = [
           ./mlx/dont-fetch-nanobind.patch
           ./mlx/dont-fetch-json.patch
-        ] ++ super.lib.optionals super.stdenv.hostPlatform.isDarwin [
+        ]
+        ++ super.lib.optionals super.stdenv.hostPlatform.isDarwin [
           (super.replaceVars ./mlx/darwin-build-fixes.patch {
             sdkVersion = super.apple-sdk.version;
           })
@@ -132,10 +134,10 @@ in
 
         dependencies =
           let
-            replaceDep = dep:
-              if (dep.pname or "") == "mlx" then pySelf.mlx else dep;
+            replaceDep = dep: if (dep.pname or "") == "mlx" then pySelf.mlx else dep;
           in
-          (builtins.map replaceDep old.dependencies) ++ [
+          (builtins.map replaceDep old.dependencies)
+          ++ [
             pySelf.sentencepiece
           ];
       });
@@ -156,13 +158,10 @@ in
 
         dependencies =
           let
-            replaceDep = dep:
-              if (dep.pname or "") == "mlx-lm" then
-                pySelf.mlx-lm
-              else
-                dep;
+            replaceDep = dep: if (dep.pname or "") == "mlx-lm" then pySelf.mlx-lm else dep;
           in
-          (builtins.map replaceDep old.dependencies) ++ [
+          (builtins.map replaceDep old.dependencies)
+          ++ [
             pySelf.sentencepiece
           ];
       });
