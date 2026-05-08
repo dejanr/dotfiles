@@ -70,7 +70,26 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preInstall
 
     for dir in */; do
-      [ -f "$dir/dist/index.js" ] && mkdir -p "$out/$dir" && cp -r "$dir"/{dist,package.json} "$out/$dir/"
+      if [ -f "$dir/dist/index.js" ]; then
+        mkdir -p "$out/$dir"
+        cp -r "$dir"/{dist,package.json} "$out/$dir/"
+
+        extraFiles=$(node -e '
+          const fs = require("fs");
+          const path = process.argv[1];
+          const pkg = JSON.parse(fs.readFileSync(path, "utf8"));
+          for (const file of pkg.files ?? []) console.log(file);
+        ' "$dir/package.json")
+
+        if [ -n "$extraFiles" ]; then
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            cp -r "$dir/$file" "$out/$dir/"
+          done <<EOF
+$extraFiles
+EOF
+        fi
+      fi
     done
 
     runHook postInstall

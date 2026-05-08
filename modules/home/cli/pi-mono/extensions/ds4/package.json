@@ -1,0 +1,20 @@
+{
+  "name": "pi-extension-ds4",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "files": [
+    "vendor"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "build": "node ../../nix/scripts/build.mjs"
+  }
+}

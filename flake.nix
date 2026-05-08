@@ -214,6 +214,9 @@
         pi-bash-live-view = import ./modules/home/cli/pi-mono/nix/extensions/pi-bash-live-view.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
+        pi-mono-ds4 = import ./modules/home/cli/pi-mono/nix/ds4.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+        };
         pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {
           pkgs = nixpkgs.legacyPackages.${system};
           extensions-src = self + "/modules/home/cli/pi-mono";

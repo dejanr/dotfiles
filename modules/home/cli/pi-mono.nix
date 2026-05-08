@@ -22,12 +22,14 @@ let
 
   piMonoExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-extensions;
   piBashLiveViewPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-bash-live-view;
+  piMonoDs4Pkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-ds4;
   piExtensionsPkg = pkgs.runCommand "pi-extensions" { } ''
     mkdir -p $out
     for path in ${piMonoExtensionsPkg}/*; do
       ln -s "$path" "$out/$(basename "$path")"
     done
     ln -s ${piBashLiveViewPkg} $out/bash-live-view
+    ${optionalString pkgs.stdenv.isDarwin ''ln -s ${piMonoDs4Pkg} $out/ds4-runtime''}
   '';
 
   promptFiles = builtins.readDir ./pi-mono/prompts;
@@ -211,6 +213,8 @@ in
     home.packages = [
       piMono
       pkgs.beads
+    ] ++ optionals pkgs.stdenv.isDarwin [
+      piMonoDs4Pkg
     ];
 
     home.file = {
