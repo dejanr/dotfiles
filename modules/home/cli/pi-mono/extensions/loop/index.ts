@@ -7,15 +7,15 @@
  */
 
 import { Type } from "typebox";
-import { complete, type Api, type Model, type UserMessage } from "@mariozechner/pi-ai";
+import { complete, type Api, type Model, type UserMessage } from "@earendil-works/pi-ai";
 import type {
 	AgentToolUpdateCallback,
 	ExtensionAPI,
 	ExtensionContext,
-} from "@mariozechner/pi-coding-agent";
-import { compact } from "@mariozechner/pi-coding-agent";
-import { Container, type SelectItem, SelectList, Text } from "@mariozechner/pi-tui";
-import { DynamicBorder } from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-coding-agent";
+import { compact } from "@earendil-works/pi-coding-agent";
+import { Container, type SelectItem, SelectList, Text } from "@earendil-works/pi-tui";
+import { DynamicBorder } from "@earendil-works/pi-coding-agent";
 
 type LoopMode = "tests" | "custom" | "self";
 

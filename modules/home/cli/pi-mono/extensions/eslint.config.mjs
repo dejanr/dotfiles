@@ -2,9 +2,9 @@ import tsParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
 
 const coreModules = [
-  "@mariozechner/pi-coding-agent",
-  "@mariozechner/pi-ai",
-  "@mariozechner/pi-tui",
+  "@earendil-works/pi-coding-agent",
+  "@earendil-works/pi-ai",
+  "@earendil-works/pi-tui",
   "typebox",
 ];
 
@@ -28,7 +28,7 @@ export default [
     settings: {
       "import/core-modules": coreModules,
       "import/ignore": [
-        "^@mariozechner/",
+        "^@earendil-works/",
         "^typebox$",
       ],
     },

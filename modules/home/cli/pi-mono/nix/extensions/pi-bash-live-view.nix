@@ -30,15 +30,19 @@ pkgs.buildNpmPackage rec {
     cp -r node_modules $out/
     rm -rf $out/node_modules/@mariozechner $out/node_modules/.bin
 
+    substituteInPlace $out/index.ts $out/pty-execute.ts $out/truncate.ts $out/widget.ts \
+      --replace-fail '@mariozechner/pi-coding-agent' '@earendil-works/pi-coding-agent'
+
     node <<'EOF'
     const fs = require("node:fs");
     const packagePath = process.env.out + "/package.json";
     const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
     packageJson.peerDependencies = {
       ...packageJson.peerDependencies,
-      "@mariozechner/pi-coding-agent": "*",
+      "@earendil-works/pi-coding-agent": "*",
     };
     delete packageJson.dependencies["@mariozechner/pi-coding-agent"];
+    delete packageJson.dependencies["@earendil-works/pi-coding-agent"];
     fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2) + "\n");
     EOF
 

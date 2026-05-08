@@ -47,13 +47,13 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-C6oZ9LDNtIxn1XHpwdCKU6GXsWxjH3PuzTSuJqbH/2o=";
+    hash = "sha256-FbEH/Oixcp/VICpkN+hzE8xA3Gak0uUTEWVLAkad9TA=";
   };
 
   buildPhase = ''
     runHook preBuild
 
-    declaredVersion=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).devDependencies['@mariozechner/pi-coding-agent']")
+    declaredVersion=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).devDependencies['@earendil-works/pi-coding-agent']")
     if [ "${piVersion}" != "$declaredVersion" ]; then
       echo "ERROR: pi-mono version mismatch (input: ${piVersion}, declared: $declaredVersion)" >&2
       exit 1

@@ -15,7 +15,7 @@ Upgrade the pi-mono coding agent package in a Nix-based dotfiles repository.
 ```bash
 # Current vs latest - run both in parallel
 pi --version
-curl -s "https://api.github.com/repos/badlogic/pi-mono/tags?per_page=1" | jq -r '.[0].name'
+curl -s "https://api.github.com/repos/earendil-works/pi/tags?per_page=1" | jq -r '.[0].name'
 ```
 
 If already on latest, **stop here** - no upgrade needed.
@@ -26,7 +26,7 @@ Only fetch the relevant portion of CHANGELOG between current and target versions
 
 ```bash
 CURRENT=$(pi --version)
-curl -s "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/CHANGELOG.md" | \
+curl -s "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/CHANGELOG.md" | \
   sed -n "/## \[${TARGET#v}/,/## \[${CURRENT}/p"
 ```
 
@@ -50,14 +50,14 @@ Check if versions need updating:
 
 ```bash
 # Check current declared version
-grep "@mariozechner/pi-coding-agent" modules/home/cli/pi-mono/extensions/package.json
+grep "@earendil-works/pi-coding-agent" modules/home/cli/pi-mono/extensions/package.json
 ```
 
 If version differs from target, update `package.json` and regenerate lockfile:
 
 ```bash
 cd modules/home/cli/pi-mono/extensions
-# Edit package.json to update @mariozechner/* versions
+# Edit package.json to update @earendil-works/* versions
 pnpm install
 ```
 
@@ -150,7 +150,7 @@ pnpm run typecheck
 # If types look stale after version bumps, refresh resolution without deleting folders:
 pnpm install --force
 # Optionally pin all workspace resolutions explicitly:
-pnpm up -r @mariozechner/pi-ai@<target-version> @mariozechner/pi-coding-agent@<target-version> @mariozechner/pi-tui@<target-version>
+pnpm up -r @earendil-works/pi-ai@<target-version> @earendil-works/pi-coding-agent@<target-version> @earendil-works/pi-tui@<target-version>
 # pnpm run lint may fail due to local parser/config differences; treat as follow-up work
 ```
 
@@ -160,7 +160,7 @@ pnpm up -r @mariozechner/pi-ai@<target-version> @mariozechner/pi-coding-agent@<t
 |------|----------------|
 | `flake.lock` | `nix flake update pi-mono` |
 | `modules/home/cli/pi-mono/extensions/*.ts` | Breaking API changes (if any) |
-| `modules/home/cli/pi-mono/extensions/package.json` | `@mariozechner/*` versions |
+| `modules/home/cli/pi-mono/extensions/package.json` | `@earendil-works/*` versions |
 | `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install` |
 | `modules/home/cli/pi-mono/nix/package.nix` | `npmDepsHash` (if build fails) |
 | `modules/home/cli/pi-mono/nix/extensions.nix` | `hash` in `pnpmDeps` (if build fails) |
@@ -198,7 +198,7 @@ RPC `get_commands` response renamed `"template"` to `"prompt"`.
 ERROR: pi-mono version mismatch (input: X.Y.Z, declared: A.B.C)
 ```
 
-**Fix:** Update `@mariozechner/*` in `extensions/package.json` to match input version, run `pnpm install`.
+**Fix:** Update `@earendil-works/*` in `extensions/package.json` to match input version, run `pnpm install`.
 
 ### Hash Mismatch
 
@@ -232,7 +232,7 @@ Property 'hasUI' does not exist on type 'AbortSignal'
 Type 'AgentToolUpdateCallback<...>' is not assignable to type 'AbortSignal'
 ```
 
-**Cause:** workspace packages are still resolving older `@mariozechner/*` types.
+**Cause:** workspace packages are still resolving older `@earendil-works/*` types.
 
 **Fix:**
 
@@ -240,7 +240,7 @@ Type 'AgentToolUpdateCallback<...>' is not assignable to type 'AbortSignal'
 cd modules/home/cli/pi-mono/extensions
 pnpm install --force
 # If still stale, force workspace package versions:
-pnpm up -r @mariozechner/pi-ai@<target-version> @mariozechner/pi-coding-agent@<target-version> @mariozechner/pi-tui@<target-version>
+pnpm up -r @earendil-works/pi-ai@<target-version> @earendil-works/pi-coding-agent@<target-version> @earendil-works/pi-tui@<target-version>
 pnpm run typecheck
 ```
 

@@ -15,5 +15,5 @@ await build({
   platform: "node",
   format: "esm",
   target: "node18",
-  external: ["@mariozechner/*", ...peerDependencies],
+  external: ["@earendil-works/*", ...peerDependencies],
 });

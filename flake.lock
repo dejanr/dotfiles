@@ -1473,16 +1473,16 @@
     "pi-mono": {
       "flake": false,
       "locked": {
-        "lastModified": 1778149289,
-        "narHash": "sha256-Eet+OSBgf+ItM9cEJASuja1CC8mUQDmIvYzabVrJvcs=",
-        "owner": "badlogic",
-        "repo": "pi-mono",
-        "rev": "801db80b65210b25462bce1700675e073fe3dbe5",
+        "lastModified": 1778194578,
+        "narHash": "sha256-XKC56np16p6tIAy3CrsopsXsaPQF2iMFXya3DV1Te9A=",
+        "owner": "earendil-works",
+        "repo": "pi",
+        "rev": "0bcaab4206a3ddbdba60cef2ce61497797f22a0b",
         "type": "github"
       },
       "original": {
-        "owner": "badlogic",
-        "repo": "pi-mono",
+        "owner": "earendil-works",
+        "repo": "pi",
         "type": "github"
       }
     },

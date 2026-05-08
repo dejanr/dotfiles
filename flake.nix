@@ -76,7 +76,7 @@
     };
 
     pi-mono = {
-      url = "github:badlogic/pi-mono";
+      url = "github:earendil-works/pi";
       flake = false;
     };
 

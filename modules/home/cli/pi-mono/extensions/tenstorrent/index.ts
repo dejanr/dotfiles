@@ -10,8 +10,8 @@ import {
   type TextContent,
   type ThinkingContent,
   type ToolCall,
-} from "@mariozechner/pi-ai";
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-ai";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const TENSTORRENT_API = "tenstorrent-openai";
 const OPENAI_COMPLETIONS_API = "openai-completions";

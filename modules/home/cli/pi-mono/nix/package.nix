@@ -12,7 +12,11 @@ pkgs.buildNpmPackage {
 
   src = pi-mono-src;
 
-  npmDepsHash = "sha256-z+K+JAxmd8tk57GVUpuzS54YuMUzodkj6Djl6M2WujI=";
+  npmDepsHash = "sha256-UfmMEYs4Oc7YczI8cykyUMRHMvKY+O352yVGxTL51+g=";
+  npmDepsFetcherVersion = 2;
+
+  # Refresh upstream package-lock metadata so Nix can prefetch a complete offline npm cache.
+  patches = [ ./package-lock-refresh.patch ];
 
   nodejs = pkgs.nodejs_24;
 

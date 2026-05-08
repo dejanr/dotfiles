@@ -5,7 +5,7 @@
  * The new session is linked to the parent for context tracking.
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const COMMIT_PROMPT = `# Commit Changes
 
