@@ -79,8 +79,6 @@ in
       };
     };
 
-    cloudflare-warp.enable = true;
-
     caddy = {
       enable = true;
       virtualHosts = {
