@@ -8,10 +8,6 @@
 with lib;
 let
   cfg = config.modules.home.common.packages;
-  hunkPackage = pkgs.hunk.override {
-    colorScheme = import (../../themes + "/${config.home.stylix.theme}");
-    themeName = "stylix";
-  };
 in
 {
   options.modules.home.common.packages = {
@@ -30,7 +26,6 @@ in
       ripgrep
       eza
       htop
-      hunkPackage
       pass
       gnupg
       unzip
