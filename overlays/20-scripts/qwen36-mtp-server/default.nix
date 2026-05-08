@@ -15,9 +15,7 @@ pkgs.writeShellApplication {
       echo "Model not found at: $model"
       echo "Downloading Qwen3.6-27B-MTP-Q4_K_M.gguf (~17 GB)..."
       mkdir -p "$(dirname "$model")"
-      curl -L --progress-bar \\
-        "https://huggingface.co/froggeric/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M-mtp.gguf" \\
-        -o "$model"
+      curl -L --progress-bar "https://huggingface.co/froggeric/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M-mtp.gguf" -o "$model"
       echo "Download complete."
     fi
 

@@ -58,6 +58,6 @@ self: super:
 
   qwen36-mtp-server = import ./qwen36-mtp-server {
     inherit (super);
-    pkgs = super;
+    pkgs = self;
   };
 }
