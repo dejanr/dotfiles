@@ -6,16 +6,32 @@
     settings = {
       formatters_by_ft = {
         css = [ "prettier" ];
-        go = [ "treefmt" "gofumpt" "goimports" ];
+        go = [
+          "treefmt"
+          "gofumpt"
+          "goimports"
+        ];
         html = [ "prettier" ];
         javascript = [ "prettier" ];
         typescript = [ "prettier" ];
         typescriptreact = [ "prettier" ];
         json = [ "prettier" ];
-        lua = [ "treefmt" "stylua" ];
-        markdown = [ "prettier" "markdownlint" ];
-        nix = [ "treefmt" "nixfmt" ];
-        python = [ "isort" "black" ];
+        lua = [
+          "treefmt"
+          "stylua"
+        ];
+        markdown = [
+          "prettier"
+          "markdownlint"
+        ];
+        nix = [
+          "treefmt"
+          "nixfmt"
+        ];
+        python = [
+          "isort"
+          "black"
+        ];
         terraform = [ "terraform_fmt" ];
         yaml = [ "prettier" ];
       };
@@ -34,7 +50,11 @@
 
         treefmt = {
           command = "treefmt";
-          args = [ "--stdin" "$FILENAME" "--quiet" ];
+          args = [
+            "--stdin"
+            "$FILENAME"
+            "--quiet"
+          ];
           stdin = true;
           condition.__raw = ''
             function(_, ctx)
@@ -87,7 +107,7 @@
 
   extraPackages = with pkgs; [
     treefmt
-    nodePackages.prettier
+    prettier
     gofumpt
     gotools
     stylua

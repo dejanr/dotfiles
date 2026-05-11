@@ -12,16 +12,13 @@
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxPackages_6_18;
-  deviceIDs = [
-    "0000:34:00.0"
-    "0000:34:00.1"
-  ];
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
     zfs.package = pkgs.zfs_unstable;
+    zfs.forceImportRoot = false;
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv6l-linux"
@@ -39,14 +36,6 @@ in
       "usb_storage"
       "sd_mod"
     ];
-    initrd.preDeviceCommands = ''
-      DEVS="0000:34:00.0 0000:34:00.1"
-      for DEV in $DEVS; do
-        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
-      done
-      modprobe -i vfio-pci
-    '';
-
     kernelModules = [
       "kvm-amd"
       "tun"
@@ -81,7 +70,6 @@ in
       "splash"
       "hugepagesz=1GB"
       "loglevel=3"
-      ("vfio-pci.ids=" + lib.concatStringsSep "," deviceIDs)
       "nvidia-drm.modeset=1"
     ];
 
@@ -97,7 +85,8 @@ in
       options kvm-amd nested=1
       options kvm ignore_msrs=1
       options kvm report_ignored_msrs=0
-      options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+      options nvidia_modeset vblank_sem_control=0
+      options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
     '';
 
     initrd.supportedFilesystems = [ ];
@@ -229,7 +218,6 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
-    useDHCP = true;
     dhcpcd.enable = false;
     hostId = "8425e349";
     hostName = "${hostName}";

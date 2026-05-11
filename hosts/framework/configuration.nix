@@ -34,7 +34,6 @@ in
   virtualisation.podman.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # comfy-model
     xwayland-satellite
     wl-clipboard
   ];
@@ -112,12 +111,6 @@ in
           extraConfig = ''
             tls internal
             reverse_proxy localhost:43103
-          '';
-        };
-        "comfyui.dev" = {
-          extraConfig = ''
-            tls internal
-            reverse_proxy localhost:8188
           '';
         };
       };

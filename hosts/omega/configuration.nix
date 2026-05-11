@@ -32,7 +32,6 @@
   };
 
   environment.systemPackages = [
-    pkgs.comfy-model
   ];
 
   # sst.dev
@@ -75,56 +74,6 @@
       };
     };
 
-    comfyui = {
-      enable = true;
-      cuda = true;
-      package = pkgs.comfy-ui-cuda-wrapped;
-      enableManager = true;
-      user = "dejanr";
-      group = "users";
-      createUser = false;
-      dataDir = "/home/dejanr/.config/comfy-ui";
-      listenAddress = "127.0.0.1";
-      port = 8188;
-      environment = {
-        PYTHONPATH = "${pkgs.python312Packages."rotary-embedding-torch"}/${pkgs.python312.sitePackages}";
-        AUX_ANNOTATOR_CKPTS_PATH = "/home/dejanr/.config/comfy-ui/models/annotators";
-        AUX_USE_SYMLINKS = "false";
-      };
-      customNodes = {
-        ComfyUI-SeedVR2_VideoUpscaler = pkgs.fetchFromGitHub {
-          owner = "numz";
-          repo = "ComfyUI-SeedVR2_VideoUpscaler";
-          rev = "4490bd1f482e026674543386bb2a4d176da245b9";
-          hash = "sha256-6nsqFflLw9vYH/du35ET46fdAm1NMjjTe2bA8JmaBE4=";
-        };
-        comfyui_controlnet_aux = pkgs.fetchFromGitHub {
-          owner = "Fannovel16";
-          repo = "comfyui_controlnet_aux";
-          rev = "95a13e2e5d8f8ae57583fbebb0be1f670889858b";
-          hash = "sha256-5ZyU+mqxNTb/Gl+x5htFeYuI148niW0VIzvt0p60r+4=";
-        };
-        rgthree-comfy = pkgs.fetchFromGitHub {
-          owner = "rgthree";
-          repo = "rgthree-comfy";
-          rev = "8ff50e4521881eca1fe26aec9615fc9362474931";
-          hash = "sha256-MueLFV5gaK6vPI0BEPxL3ZueOK2eFcZzajLyo95HrOE=";
-        };
-        ComfyUI-GGUF = pkgs.fetchFromGitHub {
-          owner = "city96";
-          repo = "ComfyUI-GGUF";
-          rev = "6ea2651e7df66d7585f6ffee804b20e92fb38b8a";
-          hash = "sha256-/ZwecgxTTMo9J1whdEJci8lEkOy/yP+UmjbpOAA3BvU=";
-        };
-        PuLID_ComfyUI = pkgs.fetchFromGitHub {
-          owner = "cubiq";
-          repo = "PuLID_ComfyUI";
-          rev = "93e0c4c226b87b23c0009d671978bad0e77289ff";
-          hash = "sha256-gzAqb8rNIKBOR41tPWMM1kUoKOQTOHtPIdS0Uv1Keac=";
-        };
-      };
-    };
-
     caddy = {
       enable = true;
       virtualHosts = {
@@ -158,12 +107,6 @@
           extraConfig = ''
             tls internal
             reverse_proxy localhost:43103
-          '';
-        };
-        "comfyui.dev" = {
-          extraConfig = ''
-            tls internal
-            reverse_proxy localhost:8188
           '';
         };
       };
