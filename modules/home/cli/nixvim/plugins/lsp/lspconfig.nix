@@ -8,12 +8,9 @@
       silent = true;
       diagnostic = {
         "<space>d" = "open_float";
-        "<space><left>" = "goto_prev";
-        "<space><right>" = "goto_next";
         "<leader><ctrl>q" = "setloclist";
       };
       lspBuf = {
-        "K" = "hover";
         "gra" = "code_action";
         "grn" = "rename";
         "grr" = "references";
@@ -22,7 +19,6 @@
         "gri" = "implementation";
         "grt" = "type_definition";
         "grf" = "format";
-        "grk" = "signature_help";
         "grs" = "document_symbol";
         "grwa" = "add_workspace_folder";
         "grwr" = "remove_workspace_folder";
@@ -352,25 +348,18 @@
       { "│", "FloatBorder" },
     }
 
-    local handlers = {
-      ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-      ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-    }
-
-    local lspconfig = require('lspconfig')
-    for _, server in pairs(lspconfig.util.available_servers()) do
-      local config = lspconfig[server]
-      if config then
-        config.handlers = vim.tbl_extend("force", config.handlers or {}, handlers)
-      end
-    end
+    local lsp_float_opts = { border = border }
 
     vim.diagnostic.config({
       virtual_text = {
         prefix = "",
       },
       jump = {
-        float = true,
+        on_jump = function(diagnostic, bufnr)
+          if diagnostic then
+            vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor" })
+          end
+        end,
       },
       float = { border = "single" },
       signs = {
@@ -401,6 +390,22 @@
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
       callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        vim.keymap.set("n", "K", function()
+          vim.lsp.buf.hover(lsp_float_opts)
+        end, { buffer = ev.buf, silent = true, desc = "LSP hover" })
+
+        vim.keymap.set("n", "grk", function()
+          vim.lsp.buf.signature_help(lsp_float_opts)
+        end, { buffer = ev.buf, silent = true, desc = "LSP signature help" })
+
+        vim.keymap.set("n", "<space><left>", function()
+          vim.diagnostic.jump({ count = -1 })
+        end, { buffer = ev.buf, silent = true, desc = "Previous diagnostic" })
+
+        vim.keymap.set("n", "<space><right>", function()
+          vim.diagnostic.jump({ count = 1 })
+        end, { buffer = ev.buf, silent = true, desc = "Next diagnostic" })
+
         if client.server_capabilities.documentSymbolProvider then
           vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
         end

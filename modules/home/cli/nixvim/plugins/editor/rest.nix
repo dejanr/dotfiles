@@ -4,6 +4,14 @@
     rest-nvim
   ];
 
+  extraLuaPackages =
+    luaPkgs: with luaPkgs; [
+      fidget-nvim
+      mimetypes
+      nvim-nio
+      xml2lua
+    ];
+
   extraConfigLua = ''
     require('rest-nvim').setup({
       result_split_horizontal = false,
