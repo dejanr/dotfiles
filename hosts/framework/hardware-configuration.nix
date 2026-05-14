@@ -187,7 +187,6 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   networking = {
-    useDHCP = true;
     dhcpcd.enable = false;
     hostId = "8425e349";
     hostName = "${hostName}";

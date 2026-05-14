@@ -70,6 +70,7 @@ in
 
   services = {
     printing.enable = lib.mkForce false;
+    flatpak.enable = true;
 
     openssh = {
       openFirewall = false;
@@ -128,6 +129,17 @@ in
     };
   };
 
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    path = [ pkgs.flatpak ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    '';
+  };
+
   networking.firewall = {
     allowedTCPPorts = [ 22000 ];
     allowedUDPPorts = [
@@ -137,19 +149,34 @@ in
     interfaces.tailscale0.allowedTCPPorts = [ 22 ];
   };
 
-  # Set RØDE VideoMic Me-C+ as default mic
-  services.pipewire.wireplumber.extraConfig."10-default-source" = {
-    "monitor.alsa.rules" = [
-      {
-        matches = [
-          { "node.name" = "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback"; }
-        ];
-        actions.update-props = {
-          "priority.session" = 2500;
-          "priority.driver" = 2500;
-        };
-      }
-    ];
+  services.pipewire.wireplumber.extraConfig = {
+    "10-default-source" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            { "node.name" = "alsa_input.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.mono-fallback"; }
+          ];
+          actions.update-props = {
+            "priority.session" = 2500;
+            "priority.driver" = 2500;
+          };
+        }
+      ];
+    };
+
+    "10-default-sink" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            { "node.name" = "alsa_output.pci-0000_c2_00.1.hdmi-stereo-extra1"; }
+          ];
+          actions.update-props = {
+            "priority.session" = 3000;
+            "priority.driver" = 3000;
+          };
+        }
+      ];
+    };
   };
 
   programs.niri = {

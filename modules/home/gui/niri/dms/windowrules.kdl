@@ -147,7 +147,13 @@ window-rule {
 
 window-rule {
     match app-id=r#"^Albion-Online$"#
+    match app-id=r#"^steam_app_761890$"#
+    match title=r#"^Albion Online Client$"#
     open-on-workspace "5"
+    open-floating true
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
 }
 
 window-rule {
