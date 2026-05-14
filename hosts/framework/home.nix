@@ -52,6 +52,7 @@ in
 
   config.home.packages = with pkgs; [
     slack
+    discord
     moonlight-qt
     moonlightOmegaPair
     moonlightOmegaList
