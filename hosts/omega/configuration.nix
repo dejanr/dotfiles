@@ -31,7 +31,27 @@
     '';
   };
 
+  systemd.services."lg-tv-input@" = {
+    description = "Switch LG TV input to %i";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    unitConfig = {
+      StartLimitBurst = 8;
+      StartLimitIntervalSec = "30s";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      Restart = "on-failure";
+      RestartSec = "2s";
+      StateDirectory = "lg-tv-input";
+      StateDirectoryMode = "0700";
+      Environment = "LG_TV_INPUT_KEY_FILE=/var/lib/lg-tv-input/client-key.json";
+      ExecStart = "${pkgs.lg-tv-input}/bin/lg-tv-input --host 192.168.1.178 %i";
+    };
+  };
+
   environment.systemPackages = [
+    pkgs.lg-tv-input
   ];
 
   # sst.dev
@@ -66,6 +86,11 @@
 
   services = {
     xserver.displayManager.autoLogin.user = "dejanr";
+
+    udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1209", ATTR{idProduct}=="2303", RUN+="${config.systemd.package}/bin/systemctl --no-block start lg-tv-input@HDMI_1.service"
+      ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="1209/2303/*", RUN+="${config.systemd.package}/bin/systemctl --no-block start lg-tv-input@HDMI_3.service"
+    '';
 
     openssh = {
       openFirewall = false;

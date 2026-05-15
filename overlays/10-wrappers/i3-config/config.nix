@@ -205,6 +205,11 @@
   for_window [class="Albion-Online"] border normal 0
   for_window [class="Albion-Online"] border pixel 0
 
+  for_window [class="qutebrowser" title=".*OpenRadar - Radar.*"] move container to workspace $workspace5
+  for_window [class="qutebrowser" title=".*OpenRadar - Radar.*"] floating enable
+  for_window [class="qutebrowser" title=".*OpenRadar - Radar.*"] resize set 1102 2215
+  for_window [class="qutebrowser" title=".*OpenRadar - Radar.*"] move window to position 2768 24
+
   for_window [class="Dejli-desktop"] floating enable
   for_window [class="Dejli-desktop"] resize set 1024 768
   for_window [class="Dejli-desktop"] move position center

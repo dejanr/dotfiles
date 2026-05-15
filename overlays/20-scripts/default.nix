@@ -57,7 +57,12 @@ self: super:
   };
 
   qwen36-mtp-server = import ./qwen36-mtp-server {
-    inherit (super);
+    inherit (super) ;
+    pkgs = self;
+  };
+
+  lg-tv-input = import ./lg-tv-input {
+    inherit (super) ;
     pkgs = self;
   };
 }
