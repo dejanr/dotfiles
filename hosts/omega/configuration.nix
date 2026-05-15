@@ -86,6 +86,7 @@
 
   services = {
     xserver.displayManager.autoLogin.user = "dejanr";
+    flatpak.enable = true;
 
     udev.extraRules = ''
       ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1209", ATTR{idProduct}=="2303", RUN+="${config.systemd.package}/bin/systemctl --no-block start lg-tv-input@HDMI_1.service"
@@ -155,6 +156,17 @@
         origin_pin_allowed = "lan";
       };
     };
+  };
+
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    path = [ pkgs.flatpak ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    '';
   };
 
   networking.firewall.interfaces.tailscale0 = {
