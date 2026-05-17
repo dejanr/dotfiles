@@ -12,11 +12,8 @@ pkgs.buildNpmPackage {
 
   src = pi-mono-src;
 
-  npmDepsHash = "sha256-UfmMEYs4Oc7YczI8cykyUMRHMvKY+O352yVGxTL51+g=";
+  npmDepsHash = "sha256-vQdV59PAzY1DzGoaNYBXS+3fhqM6yCJ6YzTmr7nuQmk=";
   npmDepsFetcherVersion = 2;
-
-  # Refresh upstream package-lock metadata so Nix can prefetch a complete offline npm cache.
-  patches = [ ./package-lock-refresh.patch ];
 
   nodejs = pkgs.nodejs_24;
 
@@ -43,9 +40,9 @@ pkgs.buildNpmPackage {
   preBuild = ''
     export PATH="$PWD/node_modules/.bin:$PATH"
 
-    # Skip generate-models (needs network) - use committed models.generated.ts
+    # Skip model generation (needs network) - use committed generated model files
     substituteInPlace packages/ai/package.json \
-      --replace-fail '"build": "npm run generate-models && tsgo' '"build": "tsgo'
+      --replace-fail '"build": "npm run generate-models && npm run generate-image-models && tsgo' '"build": "tsgo'
   '';
 
   npmBuildScript = "build";
