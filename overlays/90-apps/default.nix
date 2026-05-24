@@ -196,6 +196,25 @@ in
     }
   );
 
+  xwayland-satellite = super.xwayland-satellite.overrideAttrs (
+    final: _old: {
+      version = "0.8.1-unstable-2026-05-23";
+
+      src = super.fetchFromGitHub {
+        owner = "Supreeeme";
+        repo = "xwayland-satellite";
+        rev = "a879e5e0896a326adc79c474bf457b8b99011027";
+        hash = "sha256-wToKwH7IgWdGLMSIWksEDs4eumR6UbbsuPQ42r0oTXQ=";
+      };
+
+      cargoDeps = super.rustPlatform.fetchCargoVendor {
+        src = final.src;
+        name = "${final.pname}-${final.version}";
+        hash = "sha256-jbEihJYcOwFeDiMYlOtaS8GlunvSze80iWahDj1qDrs=";
+      };
+    }
+  );
+
   niri-release-keybinds = super.rustPlatform.buildRustPackage (finalAttrs: {
     pname = "niri";
     version = "25.11-release-keybinds";
