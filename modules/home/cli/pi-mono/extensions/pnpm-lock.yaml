@@ -5,27 +5,27 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@earendil-works/pi-agent-core': 0.75.4
-  '@earendil-works/pi-ai': 0.75.4
-  '@earendil-works/pi-coding-agent': 0.75.4
-  '@earendil-works/pi-tui': 0.75.4
+  '@earendil-works/pi-agent-core': 0.75.5
+  '@earendil-works/pi-ai': 0.75.5
+  '@earendil-works/pi-coding-agent': 0.75.5
+  '@earendil-works/pi-tui': 0.75.5
 
 importers:
 
   .:
     devDependencies:
       '@earendil-works/pi-agent-core':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-ai':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
       '@types/node':
         specifier: ^22.10.5
         version: 22.19.7
@@ -54,23 +54,23 @@ importers:
   answer:
     dependencies:
       '@earendil-works/pi-ai':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
 
   commit:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
       typebox:
         specifier: '*'
         version: 1.1.31
@@ -78,44 +78,44 @@ importers:
   commit-all:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   cwd-history:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   direnv:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   ds4:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   footer:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   loop:
     dependencies:
       '@earendil-works/pi-ai':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
       typebox:
         specifier: '*'
         version: 1.1.31
@@ -123,56 +123,56 @@ importers:
   permission-gate:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   prompt-model:
     dependencies:
       '@earendil-works/pi-agent-core':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-ai':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
 
   review:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
 
   tenstorrent:
     dependencies:
       '@earendil-works/pi-ai':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   terminal-signals:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@4.4.3)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@4.4.3)
 
   websearch:
     dependencies:
       '@earendil-works/pi-coding-agent':
-        specifier: 0.75.4
-        version: 0.75.4(ws@8.20.1)(zod@3.25.76)
+        specifier: 0.75.5
+        version: 0.75.5(ws@8.20.1)(zod@3.25.76)
       '@earendil-works/pi-tui':
-        specifier: 0.75.4
-        version: 0.75.4
+        specifier: 0.75.5
+        version: 0.75.5
       exa-js:
         specifier: ^1.10.2
         version: 1.10.2(ws@8.20.1)
@@ -293,22 +293,22 @@ packages:
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
     engines: {node: '>=6.9.0'}
 
-  '@earendil-works/pi-agent-core@0.75.4':
-    resolution: {integrity: sha512-cGYbysb4EqUf0B28OeqFq2ppm1XF3bYBOP71q9dv38yf/UJfzMjiXBeNelrcio+QWIoVrW+xzYm7sMzYIUc9Og==}
+  '@earendil-works/pi-agent-core@0.75.5':
+    resolution: {integrity: sha512-LHygOgsW2pgXKb3IkXkOAeZPovHr9VF+EixgXVsDNuB4jmhEOXgshy/zksZ7slkUAx10OQ9W1Ed/2jsnhd1NqA==}
     engines: {node: '>=22.19.0'}
 
-  '@earendil-works/pi-ai@0.75.4':
-    resolution: {integrity: sha512-m/w8Hh3vQ0rAycwJiJWdzkypkn4295f4eq/966lDRy8aX5sk6bgYXH8TQmL16TO7Uwc7MbJG0QoyFHgX8RqXUQ==}
-    engines: {node: '>=22.19.0'}
-    hasBin: true
-
-  '@earendil-works/pi-coding-agent@0.75.4':
-    resolution: {integrity: sha512-Fb+FRo08b5H9pYKbQJ708/5OKL0+K/yclhfCMEhrBzSPTZZ4c85nY1YsBo4qwL20ohBMlBezHMRuHzcJ1ylEoQ==}
+  '@earendil-works/pi-ai@0.75.5':
+    resolution: {integrity: sha512-zf1F5kXk1pqZeFShXOqq9ibUk8QdtRoLCDPAjO+hj44e3EUs9/GFO2qnhTC5+JA2uwVCx+WCNe1PiCjlBYWm5w==}
     engines: {node: '>=22.19.0'}
     hasBin: true
 
-  '@earendil-works/pi-tui@0.75.4':
-    resolution: {integrity: sha512-PDhKU7u6fmEcvHUFHzrRwGc/Ytokj/hO+X4RPf+MWKEGpvg3B1vHv88Ee+Dy33004tYkQF5YeXV4btJZcp5x1g==}
+  '@earendil-works/pi-coding-agent@0.75.5':
+    resolution: {integrity: sha512-O3CCQDYy28D4uwtP6zZkdEwzHN6X22v49Sb0+SZTC7x37V/YfmogrWPiaFoWeoc2hmdKhSATI7ZAK5bQbJG5NA==}
+    engines: {node: '>=22.19.0'}
+    hasBin: true
+
+  '@earendil-works/pi-tui@0.75.5':
+    resolution: {integrity: sha512-LkXUM1/49pvzzeI39Y5wjBMlgafcCf67HCLhB9Z7yuXHy4XgT+VqxWcZVW5hBdhQsHZd0znjJotfGH1BzxMfiA==}
     engines: {node: '>=22.19.0'}
 
   '@esbuild/aix-ppc64@0.25.12':
@@ -1362,9 +1362,6 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  koffi@2.16.2:
-    resolution: {integrity: sha512-owU0MRwv6xkrVqCd+33uw6BaYppkTRXbO/rVdJNI2dvZG0gzyRhYwW25eWtc5pauwK8TGh3AbkFONSezdykfSA==}
-
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -2045,9 +2042,9 @@ snapshots:
 
   '@babel/runtime@7.29.2': {}
 
-  '@earendil-works/pi-agent-core@0.75.4(ws@8.20.1)(zod@3.25.76)':
+  '@earendil-works/pi-agent-core@0.75.5(ws@8.20.1)(zod@3.25.76)':
     dependencies:
-      '@earendil-works/pi-ai': 0.75.4(ws@8.20.1)(zod@3.25.76)
+      '@earendil-works/pi-ai': 0.75.5(ws@8.20.1)(zod@3.25.76)
       ignore: 7.0.5
       typebox: 1.1.38
       yaml: 2.9.0
@@ -2059,9 +2056,9 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-agent-core@0.75.4(ws@8.20.1)(zod@4.4.3)':
+  '@earendil-works/pi-agent-core@0.75.5(ws@8.20.1)(zod@4.4.3)':
     dependencies:
-      '@earendil-works/pi-ai': 0.75.4(ws@8.20.1)(zod@4.4.3)
+      '@earendil-works/pi-ai': 0.75.5(ws@8.20.1)(zod@4.4.3)
       ignore: 7.0.5
       typebox: 1.1.38
       yaml: 2.9.0
@@ -2073,12 +2070,13 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-ai@0.75.4(ws@8.20.1)(zod@3.25.76)':
+  '@earendil-works/pi-ai@0.75.5(ws@8.20.1)(zod@3.25.76)':
     dependencies:
       '@anthropic-ai/sdk': 0.91.1(zod@3.25.76)
       '@aws-sdk/client-bedrock-runtime': 3.1048.0
       '@google/genai': 1.52.0
       '@mistralai/mistralai': 2.2.1
+      '@smithy/node-http-handler': 4.7.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       openai: 6.26.0(ws@8.20.1)(zod@3.25.76)
@@ -2092,12 +2090,13 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-ai@0.75.4(ws@8.20.1)(zod@4.4.3)':
+  '@earendil-works/pi-ai@0.75.5(ws@8.20.1)(zod@4.4.3)':
     dependencies:
       '@anthropic-ai/sdk': 0.91.1(zod@4.4.3)
       '@aws-sdk/client-bedrock-runtime': 3.1048.0
       '@google/genai': 1.52.0
       '@mistralai/mistralai': 2.2.1
+      '@smithy/node-http-handler': 4.7.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       openai: 6.26.0(ws@8.20.1)(zod@4.4.3)
@@ -2111,11 +2110,11 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-coding-agent@0.75.4(ws@8.20.1)(zod@3.25.76)':
+  '@earendil-works/pi-coding-agent@0.75.5(ws@8.20.1)(zod@3.25.76)':
     dependencies:
-      '@earendil-works/pi-agent-core': 0.75.4(ws@8.20.1)(zod@3.25.76)
-      '@earendil-works/pi-ai': 0.75.4(ws@8.20.1)(zod@3.25.76)
-      '@earendil-works/pi-tui': 0.75.4
+      '@earendil-works/pi-agent-core': 0.75.5(ws@8.20.1)(zod@3.25.76)
+      '@earendil-works/pi-ai': 0.75.5(ws@8.20.1)(zod@3.25.76)
+      '@earendil-works/pi-tui': 0.75.5
       '@silvia-odwyer/photon-node': 0.3.4
       chalk: 5.6.2
       cross-spawn: 7.0.6
@@ -2140,11 +2139,11 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-coding-agent@0.75.4(ws@8.20.1)(zod@4.4.3)':
+  '@earendil-works/pi-coding-agent@0.75.5(ws@8.20.1)(zod@4.4.3)':
     dependencies:
-      '@earendil-works/pi-agent-core': 0.75.4(ws@8.20.1)(zod@4.4.3)
-      '@earendil-works/pi-ai': 0.75.4(ws@8.20.1)(zod@4.4.3)
-      '@earendil-works/pi-tui': 0.75.4
+      '@earendil-works/pi-agent-core': 0.75.5(ws@8.20.1)(zod@4.4.3)
+      '@earendil-works/pi-ai': 0.75.5(ws@8.20.1)(zod@4.4.3)
+      '@earendil-works/pi-tui': 0.75.5
       '@silvia-odwyer/photon-node': 0.3.4
       chalk: 5.6.2
       cross-spawn: 7.0.6
@@ -2169,12 +2168,10 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-tui@0.75.4':
+  '@earendil-works/pi-tui@0.75.5':
     dependencies:
       get-east-asian-width: 1.6.0
       marked: 15.0.12
-    optionalDependencies:
-      koffi: 2.16.2
 
   '@esbuild/aix-ppc64@0.25.12':
     optional: true
@@ -3316,9 +3313,6 @@ snapshots:
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
-
-  koffi@2.16.2:
-    optional: true
 
   levn@0.4.1:
     dependencies:

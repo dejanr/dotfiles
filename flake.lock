@@ -1473,11 +1473,11 @@
     "pi-mono": {
       "flake": false,
       "locked": {
-        "lastModified": 1779389045,
-        "narHash": "sha256-8tHQW53wJZIGdjQuz/znz28uEO84l7yTHPjpLM/gI14=",
+        "lastModified": 1779837100,
+        "narHash": "sha256-7L0BbrkaouToFKEzwkdwRewPq7kJvlEBIQJXtAyUX8c=",
         "owner": "earendil-works",
         "repo": "pi",
-        "rev": "b0c5554902ac94edc36b99e62318a327aa88d2da",
+        "rev": "26f1e00f713ddea52a6d9981906b30326a0c0dba",
         "type": "github"
       },
       "original": {
