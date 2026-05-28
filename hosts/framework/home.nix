@@ -58,6 +58,7 @@ in
     moonlightOmegaList
     moonlightOmegaDesktop
     moonlightOmegaDesktop4k
+    claude-code
   ];
 
   config.services.demo-it.enable = true;
