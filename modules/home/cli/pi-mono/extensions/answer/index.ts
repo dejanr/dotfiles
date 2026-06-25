@@ -15,7 +15,7 @@ import {
   type Model,
   type Api,
   type UserMessage,
-} from "@earendil-works/pi-ai";
+} from "@earendil-works/pi-ai/compat";
 import type {
   ExtensionAPI,
   ExtensionContext,

@@ -2,7 +2,7 @@
  * Custom Footer Extension - shows working directory, git branch, model, context usage, and extension statuses
  */
 
-import type { AssistantMessage } from "@earendil-works/pi-ai";
+import type { AssistantMessage } from "@earendil-works/pi-ai/compat";
 import type { ExtensionAPI, SessionMessageEntry } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 

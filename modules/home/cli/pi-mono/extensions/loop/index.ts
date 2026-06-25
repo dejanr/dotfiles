@@ -7,7 +7,7 @@
  */
 
 import { Type } from "typebox";
-import { complete, type Api, type Model, type UserMessage } from "@earendil-works/pi-ai";
+import { complete, type Api, type Model, type UserMessage } from "@earendil-works/pi-ai/compat";
 import type {
 	AgentToolUpdateCallback,
 	ExtensionAPI,

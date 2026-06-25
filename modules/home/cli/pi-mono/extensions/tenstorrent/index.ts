@@ -10,7 +10,7 @@ import {
   type TextContent,
   type ThinkingContent,
   type ToolCall,
-} from "@earendil-works/pi-ai";
+} from "@earendil-works/pi-ai/compat";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const TENSTORRENT_API = "tenstorrent-openai";
