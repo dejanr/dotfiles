@@ -9,7 +9,7 @@ binds {
     Mod+P hotkey-overlay-title="Screenshot" { spawn "dejli-screenshot"; }
     Mod+Shift+P hotkey-overlay-title="Screen recording" { spawn "dejli-gif"; }
 
-    Mod+Q repeat=false hotkey-overlay-title="Close window" { close-window; }
+    Mod+Q repeat=false allow-inhibiting=false hotkey-overlay-title="Close window" { close-window; }
     Mod+H { focus-column-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }
