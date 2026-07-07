@@ -49,16 +49,16 @@ binds {
     XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
     XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
 
-    Mod+1 { focus-workspace "1"; }
-    Mod+2 { focus-workspace "2"; }
-    Mod+3 { focus-workspace "3"; }
-    Mod+4 { focus-workspace "4"; }
-    Mod+5 { focus-workspace "5"; }
-    Mod+6 { focus-workspace "6"; }
-    Mod+7 { focus-workspace "7"; }
-    Mod+8 { focus-workspace "8"; }
-    Mod+9 { focus-workspace "9"; }
-    Mod+0 { focus-workspace "10"; }
+    Mod+1 allow-inhibiting=false { focus-workspace "1"; }
+    Mod+2 allow-inhibiting=false { focus-workspace "2"; }
+    Mod+3 allow-inhibiting=false { focus-workspace "3"; }
+    Mod+4 allow-inhibiting=false { focus-workspace "4"; }
+    Mod+5 allow-inhibiting=false { focus-workspace "5"; }
+    Mod+6 allow-inhibiting=false { focus-workspace "6"; }
+    Mod+7 allow-inhibiting=false { focus-workspace "7"; }
+    Mod+8 allow-inhibiting=false { focus-workspace "8"; }
+    Mod+9 allow-inhibiting=false { focus-workspace "9"; }
+    Mod+0 allow-inhibiting=false { focus-workspace "10"; }
 
     Mod+Shift+1 { move-column-to-workspace "1" focus=true; }
     Mod+Shift+2 { move-column-to-workspace "2" focus=true; }
@@ -71,7 +71,7 @@ binds {
     Mod+Shift+9 { move-column-to-workspace "9" focus=true; }
     Mod+Shift+0 { move-column-to-workspace "10" focus=true; }
 
-    Mod+A { focus-workspace-previous; }
+    Mod+A allow-inhibiting=false { focus-workspace-previous; }
     Alt+Tab { focus-column-right; }
 
 }
