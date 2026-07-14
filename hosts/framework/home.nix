@@ -99,6 +99,7 @@ in
       ];
     };
     home.gui.desktop.enable = true;
+    home.gui.geforce-now.enable = true;
     home.gui.browser.qutebrowser.enable = true;
     home.gui.niri = {
       enable = true;
