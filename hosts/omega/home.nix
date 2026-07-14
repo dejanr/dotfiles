@@ -84,6 +84,7 @@
       providers.vllm.enable = true;
       providers.llama-cpp.enable = true;
     };
+    home.gui.geforce-now.enable = true;
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

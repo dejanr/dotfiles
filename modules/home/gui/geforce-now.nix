@@ -18,6 +18,7 @@ let
     runtimeInputs = [
       pkgs.libnotify
       pkgs.niri
+      pkgs.xdotool
       pkgs.ydotool
     ];
     text = ''

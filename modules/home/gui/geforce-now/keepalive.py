@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -101,13 +103,29 @@ def click_continue_button(target):
     return bool(cdp_evaluate(target["webSocketDebuggerUrl"], expression))
 
 
-def focus_geforce_window():
-    try:
-        output = subprocess.check_output(["niri", "msg", "-j", "windows"], text=True, timeout=2)
-    except (FileNotFoundError, subprocess.SubprocessError):
+def command_exists(command):
+    return shutil.which(command) is not None
+
+
+def is_x11_session():
+    session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
+    return session_type == "x11" or bool(os.environ.get("DISPLAY") and not os.environ.get("WAYLAND_DISPLAY"))
+
+
+def run_output(command, timeout=2):
+    return subprocess.check_output(command, text=True, stderr=subprocess.DEVNULL, timeout=timeout)
+
+
+def focus_niri_window():
+    if not command_exists("niri"):
         return False
 
-    windows = json.loads(output)
+    try:
+        output = run_output(["niri", "msg", "-j", "windows"])
+        windows = json.loads(output)
+    except (json.JSONDecodeError, subprocess.SubprocessError):
+        return False
+
     for window in windows:
         title = window.get("title") or ""
         app_id = window.get("app_id") or ""
@@ -117,15 +135,84 @@ def focus_geforce_window():
     return False
 
 
-def send_activity_pulse(dry_run):
+def x11_window_name(window_id):
+    try:
+        return run_output(["xdotool", "getwindowname", window_id]).strip()
+    except subprocess.SubprocessError:
+        return ""
+
+
+def x11_search(*args):
+    if not command_exists("xdotool") or not os.environ.get("DISPLAY"):
+        return []
+
+    try:
+        output = run_output(["xdotool", "search", "--onlyvisible", *args])
+    except subprocess.SubprocessError:
+        return []
+    return [window_id for window_id in output.splitlines() if window_id]
+
+
+def x11_candidate_window_ids():
+    window_ids = x11_search("--class", "chrome|chromium") + x11_search("--name", "GeForce NOW|geforcenow|GeForce")
+    return list(dict.fromkeys(window_ids))
+
+
+def focus_x11_window(target):
+    title = (target or {}).get("title", "").strip().lower()
+    title_patterns = ["geforce now", "geforcenow"]
+    if title and title not in ["loading", "new tab"]:
+        title_patterns.insert(0, title)
+
+    for window_id in x11_candidate_window_ids():
+        window_name = x11_window_name(window_id).lower()
+        if not any(pattern in window_name for pattern in title_patterns):
+            continue
+
+        try:
+            result = subprocess.run(
+                ["xdotool", "windowactivate", "--sync", window_id],
+                check=False,
+                stderr=subprocess.DEVNULL,
+                timeout=2,
+            )
+        except subprocess.SubprocessError:
+            continue
+        if result.returncode == 0:
+            return True
+    return False
+
+
+def focus_geforce_window(target):
+    if is_x11_session():
+        focus_backends = [focus_x11_window, lambda target: focus_niri_window()]
+    else:
+        focus_backends = [lambda target: focus_niri_window(), focus_x11_window]
+    return any(focus_backend(target) for focus_backend in focus_backends)
+
+
+def send_x11_mouse_pulse():
+    subprocess.run(["xdotool", "mousemove_relative", "--", "1", "0"], check=True)
+    time.sleep(0.15)
+    subprocess.run(["xdotool", "mousemove_relative", "--", "-1", "0"], check=True)
+
+
+def send_ydotool_mouse_pulse():
+    subprocess.run(["ydotool", "mousemove", "--", "1", "0"], check=True)
+    time.sleep(0.15)
+    subprocess.run(["ydotool", "mousemove", "--", "-1", "0"], check=True)
+
+
+def send_activity_pulse(dry_run, target=None):
     if dry_run:
         print("dry-run: would focus GeForce NOW and send mouse pulse")
         return
 
-    focus_geforce_window()
-    subprocess.run(["ydotool", "mousemove", "--", "1", "0"], check=True)
-    time.sleep(0.15)
-    subprocess.run(["ydotool", "mousemove", "--", "-1", "0"], check=True)
+    focus_geforce_window(target)
+    if is_x11_session() and command_exists("xdotool"):
+        send_x11_mouse_pulse()
+        return
+    send_ydotool_mouse_pulse()
 
 
 def notify(message):
@@ -175,14 +262,14 @@ def main():
                     snippet = warning_snippet(text, warning_re)
                     print(f"warning in {target.get('title', 'GeForce NOW')}: {snippet}")
                     clicked = False if args.dry_run else click_continue_button(target)
-                    send_activity_pulse(args.dry_run)
+                    send_activity_pulse(args.dry_run, target)
                     notify("Idle warning detected; clicked continue." if clicked else "Idle warning detected; sent activity pulse.")
                     last_pulse_at = now
                     continue
 
                 if args.pulse_interval > 0 and is_stream_target(target) and now - last_pulse_at >= args.pulse_interval:
                     print(f"sent periodic activity pulse to {target.get('title', 'GeForce NOW')}")
-                    send_activity_pulse(args.dry_run)
+                    send_activity_pulse(args.dry_run, target)
                     last_pulse_at = now
         except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
             print(f"Could not connect to Chrome CDP at {args.cdp_url}: {error}", file=sys.stderr)
