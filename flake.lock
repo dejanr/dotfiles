@@ -244,15 +244,15 @@
       "locked": {
         "lastModified": 1775807411,
         "narHash": "sha256-C4J7gI9FIRphGgwkEJXJWUldVTN1WwR975nRK+Cl7OE=",
-        "ref": "refs/heads/main",
+        "owner": "dejanr",
+        "repo": "demo-it",
         "rev": "86b3477a3bf44ba6be75fd41dd653aefbc999fbd",
-        "revCount": 45,
-        "type": "git",
-        "url": "ssh://git@github.com/dejanr/demo-it.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/dejanr/demo-it.git"
+        "owner": "dejanr",
+        "repo": "demo-it",
+        "type": "github"
       }
     },
     "devenv": {

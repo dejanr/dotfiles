@@ -122,33 +122,20 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" = {
-    device = "root/root";
-    fsType = "zfs";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/90ce2d6c-b484-4be2-b5af-cca923deb919";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/377B-0904";
-    fsType = "vfat";
-    options = [
-      "fmask=0022"
-      "dmask=0022"
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/7136-45B9";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/00ec3f8f-c119-4ec3-9d3b-6a477af0d807"; }
     ];
-  };
-
-  fileSystems."/home" = {
-    device = "root/home";
-    fsType = "zfs";
-  };
-
-  fileSystems."/persist" = {
-    device = "root/persist";
-    fsType = "zfs";
-  };
-
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/7e1abd78-4a0d-4151-b29d-f46cf8503e6d"; }
-  ];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";

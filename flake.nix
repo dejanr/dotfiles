@@ -81,7 +81,7 @@
     };
 
     demo-it = {
-      url = "git+ssh://git@github.com/dejanr/demo-it.git";
+      url = "github:dejanr/demo-it";
     };
 
     dms = {
