@@ -24,13 +24,6 @@
     categories = [ "Utility" ];
   };
 
-  config.xdg.desktopEntries.rift = {
-    name = "Rift";
-    exec = "${pkgs.steam-run}/bin/steam-run ${pkgs.rift}/usr/lib/nohus/rift/bin/rift";
-    icon = "utilities-terminal";
-    categories = [ "Utility" ];
-  };
-
   config.xdg.desktopEntries.darkfall-roa = {
     name = "Darkfall: Rise of Agon";
     exec = "${pkgs.writeShellScript "darkfall-roa" ''
