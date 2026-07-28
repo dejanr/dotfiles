@@ -7,6 +7,19 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^MO2 Radar$"# title=r#"^MO2 Radar$"#
+    open-on-workspace "5"
+    open-floating true
+    open-focused false
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+    default-column-width { fixed 720; }
+    default-window-height { fixed 720; }
+    default-floating-position x=20 y=20 relative-to="top-right"
+}
+
+window-rule {
     match is-window-cast-target=true
 
     focus-ring {
