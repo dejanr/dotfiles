@@ -14,9 +14,9 @@ window-rule {
     open-maximized false
     open-maximized-to-edges false
     open-fullscreen false
-    default-column-width { fixed 720; }
-    default-window-height { fixed 720; }
-    default-floating-position x=20 y=20 relative-to="top-right"
+    default-column-width { fixed 576; }
+    default-window-height { fixed 576; }
+    default-floating-position x=20 y=20 relative-to="bottom-right"
 }
 
 window-rule {
