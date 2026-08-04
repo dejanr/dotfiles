@@ -239,11 +239,11 @@
       };
       darwinConfigurations =
         let
-          username = "dejan.ranisavljevic";
+          username = "d509506";
           system = "aarch64-darwin";
         in
         {
-          "mbp-work" = nix-darwin.lib.darwinSystem {
+          "BFG-043974" = nix-darwin.lib.darwinSystem {
             inherit system;
             specialArgs = {
               inherit inputs system importsFrom;

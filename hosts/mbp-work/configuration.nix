@@ -7,7 +7,7 @@
 }:
 
 let
-  username = "dejan.ranisavljevic";
+  username = "d509506";
   githubKeys = builtins.fetchurl {
     name = "github-ssh-keys";
     url = "https://api.github.com/users/${username}/keys";
