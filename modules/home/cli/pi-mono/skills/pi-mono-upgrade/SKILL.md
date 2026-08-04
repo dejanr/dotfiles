@@ -65,7 +65,7 @@ Do **not** use destructive cleanup (`rm -rf`) as a default recovery step. If dep
 
 ### 6. Test Builds (Determines If Hashes Need Updating)
 
-**Always build individual packages, never toplevel. Run build commands raw so `pi-bash-live-view` can show live progress; do not pipe long builds through `tail`, `grep`, `sed`, or similar filters.**
+**Always build individual packages, never toplevel. Run build commands raw; do not pipe long builds through `tail`, `grep`, `sed`, or similar filters.**
 
 ```bash
 nix build .#pi-mono-coding-agent
