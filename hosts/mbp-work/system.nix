@@ -62,7 +62,7 @@
           orientation = "left";
           show-recents = false;
           showhidden = true;
-          static-only = true;
+          static-only = false;
           tilesize = 84;
         };
 
