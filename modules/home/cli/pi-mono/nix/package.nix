@@ -5,14 +5,18 @@ let
     builtins.readFile (pi-mono-src + "/packages/coding-agent/package.json")
   );
   version = packageJson.version;
+  releaseSource = pkgs.fetchzip {
+    url = "https://github.com/earendil-works/pi/releases/download/v${version}/pi-${version}-source.tar.gz";
+    hash = "sha256-6gN1KVzpEGI8wx5oYmoNwtU4sfw4ZCAWanXmmnlLQ2E=";
+  };
 in
 pkgs.buildNpmPackage {
   pname = "pi-mono-coding-agent";
   inherit version;
 
-  src = pi-mono-src;
+  src = releaseSource;
 
-  npmDepsHash = "sha256-Ro2ovgqH6EpFb20M5DvcP6KIxXZPHcjeEdo1Sh4JbDM=";
+  npmDepsHash = "sha256-9UNt/vgx9ZHtzaL8vPGVsVZYuF9eVF2pAtAK799C9WA=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24;
@@ -40,9 +44,9 @@ pkgs.buildNpmPackage {
   preBuild = ''
     export PATH="$PWD/node_modules/.bin:$PATH"
 
-    # Skip model generation (needs network) - use committed generated model files
+    # Skip model generation (needs network) - release source includes generated model files
     substituteInPlace packages/ai/package.json \
-      --replace-fail '"build": "npm run generate-models && npm run generate-image-models && tsgo' '"build": "tsgo'
+      --replace-fail '"build": "npm run generate-models && npm run build:offline"' '"build": "npm run build:offline"'
   '';
 
   npmBuildScript = "build";

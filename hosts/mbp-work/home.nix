@@ -14,8 +14,11 @@
     pkgs.slack
     pkgs.tailscale
     pkgs.raycast
-    pkgs.llama-cpp
-    pkgs.opencode
+    pkgs.mkcert
+    pkgs.nss
+    pkgs.postman
+    pkgs.glab
+    pkgs.pm2
   ];
 
   config.services.demo-it.enable = true;

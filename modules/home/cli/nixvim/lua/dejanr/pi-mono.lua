@@ -30,7 +30,7 @@ local function find_pi_pane()
   end
 
   local cmd = string.format(
-    "tmux list-panes -s -t '%s' -F '#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_command}' 2>/dev/null",
+    "tmux list-panes -s -t '%s' -F '#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_command}\t#{pane_title}\t#{@pi_pane_running}\t#{@pi_running}' 2>/dev/null",
     session
   )
   local handle = io.popen(cmd)
@@ -42,9 +42,14 @@ local function find_pi_pane()
   handle:close()
 
   for line in output:gmatch("[^\n]+") do
-    local target, pane_cmd = line:match("^([^\t]+)\t(.+)$")
-    if target and pane_cmd and pane_cmd:match("^pi$") then
-      return target
+    local target, pane_cmd, pane_title, pi_pane_running, pi_running = line:match("^([^\t]+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)$")
+    if target then
+      local is_pi_command = pane_cmd == "pi" or pane_cmd == "p"
+      local is_pi_title = pane_title:match("^π") or pane_title:match("^[Pp]i")
+      local has_pi_signal = pi_pane_running == "1" or pi_running == "1"
+      if is_pi_command or is_pi_title or has_pi_signal then
+        return target
+      end
     end
   end
 
