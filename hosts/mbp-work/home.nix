@@ -18,6 +18,7 @@
     pkgs.nss
     pkgs.postman
     pkgs.glab
+    pkgs.microsoft-rush
     pkgs.pm2
   ];
 

@@ -79,6 +79,7 @@ in
   opencode = super.callPackage ./opencode { };
   rift = super.callPackage ./rift { };
   meshcommander = super.callPackage ./meshcommander { };
+  microsoft-rush = super.callPackage ./microsoft-rush { };
 
   jeveassets = super.callPackage ./jeveassets/default.nix {
     inherit (super)

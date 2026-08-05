@@ -1,0 +1,8 @@
+{
+  "name": "microsoft-rush-nix-wrapper",
+  "version": "5.178.0",
+  "private": true,
+  "dependencies": {
+    "@microsoft/rush": "5.178.0"
+  }
+}
