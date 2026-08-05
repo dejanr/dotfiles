@@ -20,6 +20,7 @@
     pkgs.glab
     pkgs.microsoft-rush
     pkgs.pm2
+    pkgs.mongosh
   ];
 
   config.services.demo-it.enable = true;
