@@ -100,7 +100,24 @@ in
           }
           {
             "if".app-name-regex-substring = "Calendar";
-            run = ["layout floating" "move-node-to-workspace 4"];
+            run = [
+              "layout floating"
+              "move-node-to-workspace 4"
+            ];
+          }
+          {
+            "if".app-name-regex-substring = "Outlook";
+            run = [
+              "layout floating"
+              "move-node-to-workspace 4"
+            ];
+          }
+          {
+            "if".app-name-regex-substring = "Teams";
+            run = [
+              "layout floating"
+              "move-node-to-workspace 4"
+            ];
           }
           {
             "if".app-name-regex-substring = "Simulator";
@@ -108,11 +125,17 @@ in
           }
           {
             "if".app-name-regex-substring = "Messages";
-            run = ["layout floating" "move-node-to-workspace 5"];
+            run = [
+              "layout floating"
+              "move-node-to-workspace 5"
+            ];
           }
           {
             "if".app-name-regex-substring = "Slack";
-            run = ["layout floating" "move-node-to-workspace 5"];
+            run = [
+              "layout floating"
+              "move-node-to-workspace 5"
+            ];
           }
         ];
       };
