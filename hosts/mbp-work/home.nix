@@ -38,6 +38,9 @@
     apps.kitty.enable = true;
     apps.obsidian.enable = true;
 
+    # secrets
+    home.secrets.agenix.enable = true;
+
     # cli
     home.cli.direnv.enable = true;
     home.cli.dev.enable = true;

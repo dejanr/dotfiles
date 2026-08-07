@@ -14,10 +14,15 @@ in
 {
   options.modules.home.secrets.agenix = {
     enable = mkEnableOption "agenix";
+    identityPaths = mkOption {
+      type = types.listOf types.str;
+      default = [ "${config.home.homeDirectory}/.ssh/agenix" ];
+      description = "SSH private keys used to decrypt agenix secrets.";
+    };
   };
 
   config = mkIf cfg.enable {
-    age.identityPaths = [ "/home/dejanr/.ssh/agenix" ];
+    age.identityPaths = cfg.identityPaths;
     age.secrets.anthropic_api_key.file = ../../../secrets/anthropic_api_key.age;
     age.secrets.aiand_api_key.file = ../../../secrets/aiand_api_key.age;
     age.secrets.deepseek_api_key.file = ../../../secrets/deepseek_api_key.age;
