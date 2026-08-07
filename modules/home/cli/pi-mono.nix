@@ -37,8 +37,8 @@ let
 
   settings = {
     lastChangelogVersion = packageJson.version;
-    defaultProvider = "openai-codex";
-    defaultModel = "gpt-5.5";
+    defaultProvider = "cursor";
+    defaultModel = "gpt-5.6-sol";
     defaultThinkingLevel = "high";
   };
 
