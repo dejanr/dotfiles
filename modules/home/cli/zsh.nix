@@ -68,8 +68,11 @@ in
         let
           linuxExports = ''
             ${nixosPath}
-          ''
-          + optionalString (config.modules.home.secrets.agenix.enable or false) ''
+          '';
+          darwinExports = ''
+            ${darwinPath}
+          '';
+          secretExports = optionalString (config.modules.home.secrets.agenix.enable or false) ''
             export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropic_api_key.path})
             export AIAND_API_KEY=$(cat ${config.age.secrets.aiand_api_key.path})
             export DEEPSEEK_API_KEY=$(cat ${config.age.secrets.deepseek_api_key.path})
@@ -82,9 +85,6 @@ in
             export HUGGINGFACE_HUB_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
             export HF_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
           '';
-          darwinExports = ''
-            ${darwinPath}
-          '';
         in
         ''
           if [[ -n $SSH_CONNECTION ]]; then
@@ -94,6 +94,7 @@ in
           fi
 
           ${if pkgs.stdenv.isDarwin then darwinExports else linuxExports}
+          ${secretExports}
 
           if [ -f /opt/homebrew/bin/brew ]; then
               eval "$(/opt/homebrew/bin/brew shellenv)"
