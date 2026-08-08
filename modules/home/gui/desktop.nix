@@ -25,7 +25,8 @@ in
     '';
 
     xdg.configFile."picom/picom.conf".text = ''
-      backend = "glx";
+      # Mesa 26's GLX/EGL paths black-screen GFX12 (RX 9000) GPUs.
+      backend = "xrender";
     '';
 
     home.packages = with pkgs; [

@@ -11,26 +11,6 @@
 
   virtualisation.podman.enable = true;
 
-  nixpkgs.config = {
-    cudaCapabilities = [ "8.6" ];
-    cudaForwardCompat = false;
-  };
-
-  systemd.services.nvidia-power-limit = {
-    description = "Set NVIDIA GPU power limit";
-    after = [ "systemd-modules-load.service" ];
-    wantedBy = [ "multi-user.target" ];
-    path = [ config.hardware.nvidia.package.bin ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      nvidia-smi -pm 1
-      nvidia-smi -pl 380
-    '';
-  };
-
   systemd.services."lg-tv-input@" = {
     description = "Switch LG TV input to %i";
     after = [ "network-online.target" ];
@@ -85,7 +65,7 @@
   '';
 
   services = {
-    xserver.displayManager.autoLogin.user = "dejanr";
+    displayManager.autoLogin.user = "dejanr";
     flatpak.enable = true;
 
     udev.extraRules = ''
@@ -214,6 +194,8 @@
       virtualisation.enable = true;
     };
   };
+
+  users.users.dejanr.extraGroups = [ "render" ];
 
   users.users.dejanr.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUqC/zpHXN8XkBVnvxG5oJyXqoKSvdXhNP7xyj1JvCA iphone"

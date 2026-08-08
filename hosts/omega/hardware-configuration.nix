@@ -5,10 +5,6 @@
   ...
 }:
 
-# IOMMU Group 42:
-# 	35:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106 [GeForce GTX 1060 6GB] [10de:1c03] (rev a1)
-# 	35:00.1 Audio device [0403]: NVIDIA Corporation GP106 High Definition Audio Controller [10de:10f1] (rev a1)
-
 let
   hostName = "omega";
   kernelPackages = pkgs.linuxPackages_6_18;
@@ -23,11 +19,7 @@ in
       "aarch64-linux"
       "armv6l-linux"
     ];
-    initrd.kernelModules = [
-      "nvidia"
-      "nvidia_modeset"
-      "nvidia_drm"
-    ];
+    initrd.kernelModules = [ ];
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
@@ -70,13 +62,9 @@ in
       "splash"
       "hugepagesz=1GB"
       "loglevel=3"
-      "nvidia-drm.modeset=1"
     ];
 
-    blacklistedKernelModules = [
-      "fbcon"
-      "nouveau"
-    ];
+    blacklistedKernelModules = [ "fbcon" ];
 
     extraModprobeConfig = ''
       options it87 force_id=0x8628
@@ -85,8 +73,6 @@ in
       options kvm-amd nested=1
       options kvm ignore_msrs=1
       options kvm report_ignored_msrs=0
-      options nvidia_modeset vblank_sem_control=0
-      options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
     '';
 
     initrd.supportedFilesystems = [ ];
@@ -122,20 +108,23 @@ in
     tmp.cleanOnBoot = true;
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/90ce2d6c-b484-4be2-b5af-cca923deb919";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/90ce2d6c-b484-4be2-b5af-cca923deb919";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/7136-45B9";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/00ec3f8f-c119-4ec3-9d3b-6a477af0d807"; }
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/7136-45B9";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
     ];
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/00ec3f8f-c119-4ec3-9d3b-6a477af0d807"; }
+  ];
 
   fileSystems."/mnt/synology/inbox" = {
     device = "100.69.35.105:/volume1/inbox";
@@ -178,28 +167,20 @@ in
       amd.updateMicrocode = true;
     };
 
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+    };
+
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = with pkgs; [
-        nvidia-vaapi-driver
-        libva-vdpau-driver
-        libvdpau-va-gl
-      ];
     };
 
     firmware = [ pkgs.linux-firmware ];
 
     enableRedistributableFirmware = true;
     enableAllFirmware = true;
-
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      powerManagement.finegrained = false;
-      open = false;
-      package = kernelPackages.nvidiaPackages.legacy_580;
-    };
   };
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
@@ -226,16 +207,14 @@ in
     '';
 
     xserver = {
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "amdgpu" ];
 
       displayManager = {
         xserverArgs = [ "-dpi 92" ];
       };
 
       screenSection = ''
-        Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
         Option         "AllowIndirectGLXProtocol" "off"
-        Option         "TripleBuffer" "on"
       '';
 
       # Disable DPMS to prevent display sleep issues with TV
@@ -249,8 +228,6 @@ in
       deviceSection = ''
         Option  "DRI" "3"
         Option  "TearFree" "true"
-        # Use legacy DPMS instead of modesetting for better TV compatibility
-        Option  "HardDPMS" "false"
       '';
     };
 
@@ -290,10 +267,6 @@ in
     vulkan-tools
     libglvnd
   ];
-
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
 
   nix.settings.max-jobs = lib.mkDefault 8;
 }

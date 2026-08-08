@@ -45,7 +45,8 @@ in
     # Compositor for vsync, no tearing, and better rendering
     services.picom = {
       enable = true;
-      backend = "glx";
+      # Mesa 26's GLX/EGL paths black-screen GFX12 (RX 9000) GPUs.
+      backend = "xrender";
       vSync = true;
       settings = {
         use-damage = true;

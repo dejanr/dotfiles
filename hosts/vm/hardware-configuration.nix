@@ -29,7 +29,7 @@
   # X configuration
   services.xserver.enable = true;
 
-  services.xserver.displayManager.autoLogin.user = "dejanr";
+  services.displayManager.autoLogin.user = "dejanr";
   services.xserver.videoDrivers = [ "qxl" ];
 
   # For copy/paste to work

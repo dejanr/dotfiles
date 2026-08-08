@@ -60,7 +60,6 @@ in
           steam = {
             enable = true;
             protontricks.enable = true;
-            gamescopeSession.enable = true;
             extraPackages = with pkgs; [ libstrangle ];
             remotePlay.openFirewall = true;
             dedicatedServer.openFirewall = true;

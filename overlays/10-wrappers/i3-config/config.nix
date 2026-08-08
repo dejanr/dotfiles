@@ -193,6 +193,7 @@
   assign [class="steam_app_1808500"] $workspace5
   assign [class="steam_app_306130"] $workspace5
   assign [class="explorer.exe"] $workspace5
+  assign [title="^Mortal Online 2  $"] $workspace5
 
   # fix graphics glitch
   new_window none
@@ -208,6 +209,12 @@
   for_window [class="Dejli-desktop"] floating enable
   for_window [class="Dejli-desktop"] resize set 1024 768
   for_window [class="Dejli-desktop"] move position center
+  for_window [class="^MO2 Radar$"] move container to workspace $workspace5
+  for_window [class="^MO2 Radar$"] floating enable
+  for_window [class="^MO2 Radar$"] move position 3264 1584
+  for_window [title="^Mortal Online 2  $"] fullscreen disable
+  for_window [title="^Mortal Online 2  $"] floating disable
+  for_window [title="^Mortal Online 2  $"] border pixel 0
 
   for_window [class="Lxappearance"] floating enable
   for_window [class="Seahorse"] floating enable
@@ -307,9 +314,8 @@
   for_window [class="steam_app_1426050"] resize set 3440 1420
   for_window [class="steam_app_1426050"] move window to position 0 -20
   for_window [class="steam_app_1170950"] fullscreen disable
-  for_window [class="steam_app_1170950"] floating enable
-  for_window [class="steam_app_1170950"] resize set 3440 1440
-  for_window [class="steam_app_1170950"] move window to position 0 20
+  for_window [class="steam_app_1170950"] floating disable
+  for_window [class="steam_app_1170950"] border pixel 0
   for_window [class="entropia.exe"] floating enable
   for_window [class="entropia.exe"] resize set 1920 1420
   for_window [class="entropia.exe"] move window to position 760 20
