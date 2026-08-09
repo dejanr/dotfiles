@@ -15,7 +15,7 @@ window-rule {
     open-maximized-to-edges false
     open-fullscreen false
     default-column-width { fixed 576; }
-    default-window-height { fixed 576; }
+    default-window-height { fixed 616; }
     default-floating-position x=20 y=20 relative-to="bottom-right"
 }
 

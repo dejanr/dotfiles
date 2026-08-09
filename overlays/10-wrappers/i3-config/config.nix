@@ -211,7 +211,8 @@
   for_window [class="Dejli-desktop"] move position center
   for_window [class="^MO2 Radar$"] move container to workspace $workspace5
   for_window [class="^MO2 Radar$"] floating enable
-  for_window [class="^MO2 Radar$"] move position 3264 1584
+  for_window [class="^MO2 Radar$"] resize set 576 616
+  for_window [class="^MO2 Radar$"] move position 3244 1524
   for_window [title="^Mortal Online 2  $"] fullscreen disable
   for_window [title="^Mortal Online 2  $"] floating disable
   for_window [title="^Mortal Online 2  $"] border pixel 0
