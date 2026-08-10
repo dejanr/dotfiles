@@ -30,7 +30,7 @@ in
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
-    skhdConfig = "cmd - return : /etc/profiles/per-user/dejan.ranisavljevic/bin/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
+    skhdConfig = "cmd - return : ${pkgs.kitty}/bin/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
   };
 
   users = {
