@@ -6,6 +6,7 @@
   config.home.packages = with pkgs; [
     slack
     qwen36-mtp-server
+    microsoft-rush
   ];
 
   config.xdg.desktopEntries.eve-online = {
