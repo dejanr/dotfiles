@@ -38,7 +38,7 @@ let
   settings = {
     lastChangelogVersion = packageJson.version;
     defaultProvider = "cursor";
-    defaultModel = "gpt-5.6-sol";
+    defaultModel = "cursor-grok-4.5";
     defaultThinkingLevel = "high";
   };
 
