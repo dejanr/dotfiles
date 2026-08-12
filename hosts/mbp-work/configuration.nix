@@ -58,6 +58,7 @@ in
     pkgs.gnupg
     pkgs.mosh
     pkgs.ripgrep
+    pkgs.sentry-cli
     pkgs.kitty
     pkgs.skhd
     pkgs.claude-code

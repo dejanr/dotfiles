@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -8,6 +9,16 @@
     ../../modules/home/default.nix
     ../../modules/darwin/gui/aerospace.nix
   ];
+
+  # Determinate Nix manages Nix itself; avoid adding upstream Nix to PATH.
+  config.nix.enable = false;
+
+  # Work around Home Manager's Determinate-only options.json context warning.
+  # https://github.com/nix-community/home-manager/issues/7935
+  config.manual.manpages.enable = false;
+
+  config.xdg.configFile."karabiner".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/mbp-work/karabiner";
 
   config.programs.bun.enable = true;
   config.home.packages = [

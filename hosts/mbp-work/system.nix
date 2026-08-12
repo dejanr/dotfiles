@@ -264,12 +264,6 @@
         defaults write com.apple.screensaver askForPassword -int 1
         defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-        echo "Allow apps from anywhere"
-        SPCTL=$(spctl --status)
-        if ! [ "$SPCTL" = "assessments disabled" ]; then
-        sudo spctl --master-disable
-        fi
-
         #################
         # General UI/UX #
         #################
