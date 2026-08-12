@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -33,6 +34,11 @@
     pkgs.pm2
     pkgs.mongosh
   ];
+
+  config.age.secrets.burda_sentry_cli_token.file = ../../secrets/burda_sentry_cli_token.age;
+  config.programs.zsh.initContent = lib.mkAfter ''
+    export SENTRY_AUTH_TOKEN=$(cat ${config.age.secrets.burda_sentry_cli_token.path})
+  '';
 
   config.services.demo-it.enable = true;
   config.services.syncthing = {

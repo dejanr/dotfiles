@@ -25,6 +25,7 @@ in
   "openai_api_key.age".publicKeys = userKeys;
   "tenstorrent_api_key.age".publicKeys = userKeys;
   "gh_token.age".publicKeys = userKeys;
+  "burda_sentry_cli_token.age".publicKeys = userKeys;
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;
 }
