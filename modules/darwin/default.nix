@@ -4,15 +4,15 @@
 }:
 
 let
-  username = "dejanr";
+  username = "d509506";
 in
 {
   nix = {
     enable = false;
     settings = {
-      allowed-users = [ "dejanr" ];
+      allowed-users = [ username ];
       trusted-users = [
-        "${username}"
+        username
         "root"
       ];
 
@@ -60,11 +60,4 @@ in
   };
 
   programs.zsh.enable = true;
-
-  users.users."${username}" = {
-    description = "Dejan Ranisavljevic";
-    name = username;
-    home = "/Users/${username}";
-    shell = pkgs.zsh;
-  };
 }

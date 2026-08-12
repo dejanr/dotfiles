@@ -8,11 +8,6 @@
 
 let
   username = "d509506";
-  githubKeys = builtins.fetchurl {
-    name = "github-ssh-keys";
-    url = "https://api.github.com/users/${username}/keys";
-    sha256 = "100g2bckwqiaamwynd1k8hjw5vgi83lc5bf10blpnci6p1cr6i8z";
-  };
 in
 {
   imports = [
@@ -27,19 +22,30 @@ in
 
   time.timeZone = "Europe/Berlin";
 
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      PubkeyAuthentication yes
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      ChallengeResponseAuthentication no
+      PermitRootLogin no
+    '';
+  };
+
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
     skhdConfig = "cmd - return : ${pkgs.kitty}/bin/kitty --start-as maximized --single-instance -d ~ &> /dev/null\n\r";
   };
 
-  users = {
-    users = {
-      "dejan.ranisavljevic" = {
-        home = "/Users/dejan.ranisavljevic";
-        shell = pkgs.zsh;
-      };
-    };
+  users.users.${username} = {
+    name = username;
+    home = "/Users/${username}";
+    shell = pkgs.zsh;
+    openssh.authorizedKeys.keyFiles = [
+      inputs.ssh-keys.outPath
+    ];
   };
 
   environment.systemPackages = [
