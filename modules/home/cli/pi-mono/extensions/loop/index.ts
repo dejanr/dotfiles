@@ -7,7 +7,7 @@
  */
 
 import { Type } from "typebox";
-import { complete, type Api, type Model, type UserMessage } from "@earendil-works/pi-ai/compat";
+import { complete, type Api, type Model, type ProviderHeaders, type UserMessage } from "@earendil-works/pi-ai/compat";
 import type {
 	AgentToolUpdateCallback,
 	ExtensionAPI,
@@ -37,6 +37,15 @@ const LOOP_PRESETS = [
 const LOOP_STATE_ENTRY = "loop-state";
 
 const HAIKU_MODEL_ID = "claude-haiku-4-5";
+
+function headersForCompact(headers?: ProviderHeaders): Record<string, string> | undefined {
+	if (!headers) return undefined;
+	const record: Record<string, string> = {};
+	for (const [key, value] of Object.entries(headers)) {
+		if (value !== null) record[key] = value;
+	}
+	return record;
+}
 
 const SUMMARY_SYSTEM_PROMPT = `You summarize loop breakout conditions for a status widget.
 Return a concise phrase (max 6 words) that says when the loop should stop.
@@ -91,7 +100,7 @@ function getConditionText(mode: LoopMode, condition?: string): string {
 
 async function selectSummaryModel(
 	ctx: ExtensionContext,
-): Promise<{ model: Model<Api>; apiKey: string; headers?: Record<string, string> } | null> {
+): Promise<{ model: Model<Api>; apiKey: string; headers?: ProviderHeaders } | null> {
 	if (!ctx.model) return null;
 
 	if (ctx.model.provider === "anthropic") {
@@ -429,7 +438,7 @@ export default function loopExtension(pi: ExtensionAPI): void {
 				event.preparation,
 				ctx.model,
 				auth.apiKey,
-				auth.headers,
+				headersForCompact(auth.headers),
 				instructionParts,
 				event.signal,
 			);
