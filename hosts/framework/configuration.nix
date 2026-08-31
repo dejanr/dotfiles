@@ -25,18 +25,27 @@ let
     ln -s ${greeterSettings} "$out/settings.json"
     ln -s ${greeterSession} "$out/session.json"
   '';
+  podmanDockerCompat = pkgs.writeShellScriptBin "docker" ''
+    exec ${lib.getExe pkgs.podman} --remote --url unix:///run/podman/podman.sock "$@"
+  '';
 in
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerSocket.enable = true;
+  };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
+    podmanDockerCompat
+  ]
+  ++ (with pkgs; [
     xwayland-satellite
     wl-clipboard
-  ];
+  ]);
 
   # sst.dev
   programs.nix-ld.enable = true;
@@ -187,7 +196,10 @@ in
 
   programs.ydotool.enable = true;
 
-  users.users.dejanr.extraGroups = lib.mkAfter [ "ydotool" ];
+  users.users.dejanr.extraGroups = lib.mkAfter [
+    "podman"
+    "ydotool"
+  ];
 
   programs.dank-material-shell = {
     enable = true;

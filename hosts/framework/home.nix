@@ -58,7 +58,10 @@ in
     moonlightOmegaList
     moonlightOmegaDesktop
     moonlightOmegaDesktop4k
-    claude-code
+    # poluted global pkgs by projects, fix those projects
+    microsoft-rush
+    jira-cli-go
+    pm2
   ];
 
   config.services.demo-it.enable = true;

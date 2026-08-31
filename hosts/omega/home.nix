@@ -7,6 +7,7 @@
     slack
     qwen36-mtp-server
     microsoft-rush
+    jira-cli-go
   ];
 
   config.xdg.desktopEntries.eve-online = {
