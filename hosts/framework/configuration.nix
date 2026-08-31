@@ -153,6 +153,8 @@ in
     };
   };
 
+  systemd.services.caddy.wantedBy = lib.mkForce [ ];
+
   systemd.services.flatpak-repo = {
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
@@ -165,6 +167,7 @@ in
   };
 
   networking.firewall = {
+    trustedInterfaces = [ "podman0" ];
     allowedTCPPorts = [ 22000 ];
     allowedUDPPorts = [
       22000
