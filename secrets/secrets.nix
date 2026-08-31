@@ -27,4 +27,5 @@ in
   "burda_sentry_cli_token.age".publicKeys = userKeys;
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;
+  "work_hosts.age".publicKeys = caddyKeys;
 }
