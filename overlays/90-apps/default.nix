@@ -91,7 +91,6 @@ in
       ;
   };
 
-  codex = super.callPackage ./codex { };
   ultra-llama-cpp = super.callPackage ./ultra-llama-cpp { };
   framework-llama-cpp = super.callPackage ./framework-llama-cpp { };
   omega-llama-cpp-mtp = super.callPackage ./omega-llama-cpp-mtp { };

@@ -19,6 +19,11 @@ in
 {
   options.modules.nixos.roles.hosts = {
     enable = mkEnableOption "custom hosts file";
+    blocklist.enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to include the StevenBlack hosts blocklist";
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -27,7 +32,7 @@ in
         ../../../certs/caddy-local-root.crt
       ];
 
-      networking.extraHosts = hostsContent + ''
+      networking.extraHosts = optionalString cfg.blocklist.enable hostsContent + ''
         127.0.0.1 dej.li.dev
         127.0.0.1 dejan.ranisavljevic.com.dev
       '';

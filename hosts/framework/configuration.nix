@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -33,6 +34,20 @@ in
   imports = [
     ./hardware-configuration.nix
   ];
+
+  age.secrets.work_hosts.file = ../../secrets/work_hosts.age;
+
+  system.activationScripts.workHosts = {
+    deps = [
+      "agenix"
+      "etc"
+    ];
+    text = ''
+      install -m 0644 /etc/static/hosts /run/hosts
+      cat ${config.age.secrets.work_hosts.path} >> /run/hosts
+      ln -sfn /run/hosts /etc/hosts
+    '';
+  };
 
   virtualisation.podman = {
     enable = true;
@@ -239,7 +254,10 @@ in
 
   modules.nixos = {
     roles = {
-      hosts.enable = true;
+      hosts = {
+        enable = true;
+        blocklist.enable = false;
+      };
       dev.enable = true;
       desktop.enable = true;
       games.enable = true;

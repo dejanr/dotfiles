@@ -61,6 +61,7 @@ in
     # poluted global pkgs by projects, fix those projects
     microsoft-rush
     jira-cli-go
+    google-cloud-sdk
     pm2
   ];
 
@@ -120,14 +121,9 @@ in
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
-    home.cli.codex.enable = true;
     home.cli.pi-mono = {
       enable = true;
       providers.vllm.enable = true;
-      providers.llama-cpp = {
-        enable = true;
-        baseUrl = "http://omega.cat-vimba.ts.net:8181/v1";
-      };
     };
 
     home.cli.llama-cpp = {
