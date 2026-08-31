@@ -18,7 +18,6 @@ in
   "qutebrowser_quickmarks.age".publicKeys = userKeys;
   "qutebrowser_bookmarks_personal.age".publicKeys = userKeys;
   "qutebrowser_bookmarks_work.age".publicKeys = userKeys;
-  "qutebrowser_bookmarks_futurice.age".publicKeys = userKeys;
   "elevenlabs_api_key.age".publicKeys = userKeys;
   "exa_api_key.age".publicKeys = userKeys;
   "huggingface_api_key.age".publicKeys = userKeys;

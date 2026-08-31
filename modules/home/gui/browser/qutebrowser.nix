@@ -497,7 +497,6 @@ EOF
 
     home.file.".config/qutebrowser/containers".text = ''
       Personal
-      Futurice
       Work
       Gaming
     '';
@@ -509,9 +508,6 @@ EOF
     home.file.".browser/Personal/config/qute-home.html".text =
       generateHomepage "Personal" config.stylix.fonts.monospace.name
         config;
-    home.file.".browser/Futurice/config/qute-home.html".text =
-      generateHomepage "Futurice" config.stylix.fonts.monospace.name
-        config;
     home.file.".browser/Work/config/qute-home.html".text =
       generateHomepage "Work" config.stylix.fonts.monospace.name
         config;
@@ -521,8 +517,6 @@ EOF
 
     home.file.".browser/Personal/config/config.py".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
-    home.file.".browser/Futurice/config/config.py".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
     home.file.".browser/Work/config/config.py".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/config.py";
 
@@ -530,8 +524,6 @@ EOF
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.browser/Personal";
 
     home.file.".browser/Personal/config/userscripts".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
-    home.file.".browser/Futurice/config/userscripts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
     home.file.".browser/Work/config/userscripts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
