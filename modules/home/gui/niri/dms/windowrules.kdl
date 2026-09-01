@@ -70,6 +70,7 @@ window-rule {
     open-maximized false
     open-maximized-to-edges false
     open-fullscreen false
+    default-column-width { proportion 0.5; }
 }
 
 window-rule {

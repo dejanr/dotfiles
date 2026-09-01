@@ -37,8 +37,8 @@ let
 
   settings = {
     lastChangelogVersion = packageJson.version;
-    defaultProvider = "cursor";
-    defaultModel = "cursor-grok-4.5";
+    defaultProvider = "openai-codex";
+    defaultModel = "gpt-5.6-sol";
     defaultThinkingLevel = "high";
   };
 

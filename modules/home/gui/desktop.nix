@@ -9,6 +9,13 @@ with lib;
 let
   cfg = config.modules.home.gui.desktop;
 
+  teamsForLinux = pkgs.teams-for-linux.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      ${pkgs.jq}/bin/jq '.desktopName = "teams-for-linux.desktop"' package.json > package.json.tmp
+      mv package.json.tmp package.json
+    '';
+  });
+
 in
 {
   options.modules.home.gui.desktop = {
@@ -77,7 +84,7 @@ in
       xsettingsd
       zathura
       rmview
-      teams-for-linux
+      teamsForLinux
 
       # Themes
       arc-icon-theme
