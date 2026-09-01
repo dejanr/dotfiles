@@ -26,7 +26,11 @@ let
     ln -s ${greeterSettings} "$out/settings.json"
     ln -s ${greeterSession} "$out/session.json"
   '';
+  podmanDockerConfig = pkgs.writeTextDir "config.json" ''
+    { "auths": { } }
+  '';
   podmanDockerCompat = pkgs.writeShellScriptBin "docker" ''
+    export DOCKER_CONFIG="''${DOCKER_CONFIG:-${podmanDockerConfig}}"
     exec ${lib.getExe pkgs.podman} --remote --url unix:///run/podman/podman.sock "$@"
   '';
 in
@@ -53,6 +57,14 @@ in
     enable = true;
     dockerSocket.enable = true;
   };
+
+  security.pki.certificateFiles = [
+    ../../certs/ctf-local-root.crt
+  ];
+
+  systemd.tmpfiles.rules = [
+    "d /tmp/localstack 0777 root root -"
+  ];
 
   environment.systemPackages = [
     podmanDockerCompat
