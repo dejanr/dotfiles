@@ -17,6 +17,12 @@ let
     }
   '';
 
+  portalNiriUnit = ''
+    [Unit]
+    After=niri.service
+    PartOf=niri.service
+  '';
+
   toggleTwoPaneScript = pkgs.writeShellScriptBin "niri-toggle-two-pane" ''
     set -eu
 
@@ -176,6 +182,8 @@ in
         force = true;
         source = config.lib.file.mkOutOfStoreSymlink dejliNiriShortcutsStatePath;
       };
+      "systemd/user/xdg-desktop-portal.service.d/niri.conf".text = portalNiriUnit;
+      "systemd/user/xdg-desktop-portal-gnome.service.d/niri.conf".text = portalNiriUnit;
 
       "niri/dms/defaults/layout.kdl" = {
         force = true;
