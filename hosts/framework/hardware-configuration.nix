@@ -18,6 +18,7 @@ in
 
   boot = {
     zfs.package = config.boot.kernelPackages.zfs_cachyos;
+    zfs.forceImportRoot = false;
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv6l-linux"
