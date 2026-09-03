@@ -154,9 +154,19 @@ secrets/
 2. Run `cd secrets && agenix -i ~/.ssh/agenix -e <name>.age`
 3. Reference in modules via `config.age.secrets.<name>.path`
 
-## Task Tracking
+## Agent skills
 
-Use `bd` for task tracking. See [beads documentation](https://github.com/steveyegge/beads).
+### Issue tracker
+
+Issues are tracked in this repository's GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Triage uses the five default canonical labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Domain documentation uses a single-context layout. See `docs/agents/domain.md`.
 
 ## Command Execution
 
