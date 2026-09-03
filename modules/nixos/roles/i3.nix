@@ -50,6 +50,7 @@ in
       vSync = true;
       settings = {
         use-damage = true;
+        unredir-if-possible = true;
         # Disable effects for speed
         shadow = false;
         fading = false;

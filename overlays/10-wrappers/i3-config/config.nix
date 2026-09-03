@@ -167,6 +167,8 @@
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
   assign [class="eve-online.exe"] $workspace4
+  assign [class="^tera europe classic[+] launcher[.]exe$"] $workspace4
+  assign [class="^tera[.]exe$"] $workspace5
   assign [class="exefile.exe"] $workspace5
   assign [title="Google Meet"] $workspace11
   assign [title="Google Calendar"] $workspace9

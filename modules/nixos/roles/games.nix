@@ -32,7 +32,7 @@ in
         enable = true;
         enableRenice = true;
         settings = {
-          general.renice = -20;
+          general.renice = 10;
         };
       };
     }
@@ -42,6 +42,8 @@ in
         nixGamingPkgs = inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system};
       in
       {
+        boot.kernelModules = [ "ntsync" ];
+
         environment.systemPackages =
           with pkgs;
           [

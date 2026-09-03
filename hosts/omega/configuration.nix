@@ -167,8 +167,7 @@
     ];
   };
 
-  # Set RØDE VideoMic Me-C+ as default mic
-  services.pipewire.wireplumber.extraConfig."10-default-source" = {
+  services.pipewire.wireplumber.extraConfig."10-default-audio" = {
     "monitor.alsa.rules" = [
       {
         matches = [
@@ -178,6 +177,18 @@
           "priority.session" = 2500;
           "priority.driver" = 2500;
         };
+      }
+      {
+        matches = [
+          { "node.name" = "alsa_output.pci-0000_0d_00.1.hdmi-stereo-extra3"; }
+        ];
+        actions.update-props."priority.session" = 1400;
+      }
+      {
+        matches = [
+          { "node.name" = "alsa_output.usb-R__DE_R__DE_VideoMic_Me-C__A37AFAC5-00.analog-stereo"; }
+        ];
+        actions.update-props."node.disabled" = true;
       }
     ];
   };
@@ -195,7 +206,10 @@
     };
   };
 
-  users.users.dejanr.extraGroups = [ "render" ];
+  users.users.dejanr.extraGroups = [
+    "gamemode"
+    "render"
+  ];
 
   users.users.dejanr.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUqC/zpHXN8XkBVnvxG5oJyXqoKSvdXhNP7xyj1JvCA iphone"
