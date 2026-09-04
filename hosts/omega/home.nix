@@ -18,6 +18,20 @@
     categories = [ "Game" ];
   };
 
+  config.xdg.desktopEntries.horizonxi = {
+    name = "HorizonXI";
+    exec = "${pkgs.writeShellScript "horizonxi" ''
+      export WINEPREFIX="/home/dejanr/games/horizonxi"
+      export WINEARCH=win64
+      export WINEDEBUG=-all
+      cd "$WINEPREFIX/drive_c/users/dejanr/AppData/Local/HorizonXI_Launcher"
+      exec gamemoderun wine ./HorizonXI-Launcher.exe
+    ''}";
+    icon = "5373_HorizonXI-Launcher.0";
+    terminal = false;
+    categories = [ "Game" ];
+  };
+
   config.xdg.desktopEntries.workspace-eve = {
     name = "Workspace For Eve";
     exec = "${pkgs.wm-workspace}/bin/wm-workspace \"6: \" \"GeLaTe\" \"Hachi\" \"Vorah\"";
