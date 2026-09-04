@@ -23,6 +23,11 @@ in
   };
 
   config = mkIf cfg.enable {
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications."application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
+    };
+
     home.file.".Xresources".text = ''
       Xft.dpi: 98
       Xft.antialias: true
