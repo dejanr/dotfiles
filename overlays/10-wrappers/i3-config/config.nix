@@ -167,6 +167,9 @@
   assign [class="Daily"] $workspace9
   assign [class="pyfa.py"] $workspace6
   assign [class="eve-online.exe"] $workspace4
+  assign [title="^HorizonXI Launcher$"] $workspace4
+  assign [title="^.*HorizonXI.*Ashita-cli[.]exe$"] $workspace4
+  assign [class="^horizon-loader[.]exe$"] $workspace5
   assign [class="^tera europe classic[+] launcher[.]exe$"] $workspace4
   assign [class="^tera[.]exe$"] $workspace5
   assign [class="exefile.exe"] $workspace5

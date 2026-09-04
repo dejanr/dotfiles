@@ -24,7 +24,14 @@
       export WINEPREFIX="/home/dejanr/games/horizonxi"
       export WINEARCH=win64
       export WINEDEBUG=-all
-      cd "$WINEPREFIX/drive_c/users/dejanr/AppData/Local/HorizonXI_Launcher"
+
+      launcherRoot="$WINEPREFIX/drive_c/users/dejanr/AppData/Local/HorizonXI_Launcher"
+      for bundle in "$launcherRoot"/app-*/resources/app/.webpack/main/index.js; do
+        [ -f "$bundle" ] || continue
+        ${pkgs.perl}/bin/perl -0pi -e 's/use_interface_bypass = 0\\nuse_playonline_encryption_override/use_interface_bypass = 1\\nuse_playonline_encryption_override/' "$bundle"
+      done
+
+      cd "$launcherRoot"
       exec gamemoderun wine ./HorizonXI-Launcher.exe
     ''}";
     icon = "5373_HorizonXI-Launcher.0";
