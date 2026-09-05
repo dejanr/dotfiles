@@ -35,6 +35,8 @@ in
           general.renice = 10;
         };
       };
+
+      services.joycond.enable = true;
     }
 
     (mkIf isX86 (
@@ -59,6 +61,10 @@ in
           ]);
 
         programs = {
+          opengamepadui = {
+            enable = true;
+            inputplumber.enable = true;
+          };
           steam = {
             enable = true;
             protontricks.enable = true;

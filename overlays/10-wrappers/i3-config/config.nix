@@ -169,7 +169,7 @@
   assign [class="eve-online.exe"] $workspace4
   assign [title="^HorizonXI Launcher$"] $workspace4
   assign [title="^.*HorizonXI.*Ashita-cli[.]exe$"] $workspace4
-  assign [class="^horizon-loader[.]exe$"] $workspace5
+  assign [class="horizon-loader.exe"] $workspace5
   assign [class="^tera europe classic[+] launcher[.]exe$"] $workspace4
   assign [class="^tera[.]exe$"] $workspace5
   assign [class="exefile.exe"] $workspace5
@@ -354,6 +354,7 @@
   for_window [class="explorer.exe"] resize set 3440 1440
   for_window [class="explorer.exe"] move window to position 0 0
   for_window [class="explorer.exe"] floating disable
+  for_window [class="horizon-loader.exe"] fullscreen disable
 
   # Widow Colours
   #                         border  background text    indicator
