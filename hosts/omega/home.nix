@@ -24,6 +24,13 @@
       export WINEPREFIX="/home/dejanr/games/horizonxi"
       export WINEARCH=win64
       export WINEDEBUG=-all
+      export GAMEID=umu-horizonxi
+      export PROTONPATH="${pkgs.proton-ge-bin.steamcompattool}"
+
+      fontsDir="$WINEPREFIX/drive_c/windows/Fonts"
+      if [ ! -e "$fontsDir/segoeui.ttf" ]; then
+        ln -sfn tahoma.ttf "$fontsDir/segoeui.ttf"
+      fi
 
       launcherRoot="$WINEPREFIX/drive_c/users/dejanr/AppData/Local/HorizonXI_Launcher"
       for bundle in "$launcherRoot"/app-*/resources/app/.webpack/main/index.js; do
@@ -32,7 +39,7 @@
       done
 
       cd "$launcherRoot"
-      exec gamemoderun wine ./HorizonXI-Launcher.exe
+      exec ${pkgs.gamemode}/bin/gamemoderun ${pkgs.umu-launcher}/bin/umu-run ./HorizonXI-Launcher.exe
     ''}";
     icon = "5373_HorizonXI-Launcher.0";
     terminal = false;

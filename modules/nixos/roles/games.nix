@@ -61,10 +61,6 @@ in
           ]);
 
         programs = {
-          opengamepadui = {
-            enable = true;
-            inputplumber.enable = true;
-          };
           steam = {
             enable = true;
             protontricks.enable = true;
