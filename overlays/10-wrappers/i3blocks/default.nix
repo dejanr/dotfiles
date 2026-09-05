@@ -10,6 +10,7 @@
   maim,
   xclip,
   pulseaudio,
+  systemd,
 }:
 let
   config = import ./config.nix {
@@ -21,6 +22,7 @@ let
       maim
       xclip
       pulseaudio
+      systemd
       ;
   };
   execPath = "bin";

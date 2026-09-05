@@ -6,6 +6,7 @@
   maim,
   xclip,
   pulseaudio,
+  systemd,
 }:
 let
   bluetooth-headset = writeScript "bluetooth-headset" (import ./scripts/bluetooth-headset.nix { });
@@ -13,6 +14,11 @@ let
   dejli-script = writeScript "audio" (import ./scripts/dejli-script.nix { });
   app-audio = writeScript "app-audio" (import ./scripts/app-audio.nix { inherit pulseaudio; });
   exit-node = writeScript "exit-node" (import ./scripts/exit-node.nix { });
+  joycon-gamepad = writeScript "joycon-gamepad" (
+    import ./scripts/joycon-gamepad.nix {
+      inherit colors libnotify systemd;
+    }
+  );
 in
 ''
   full_text=|
@@ -51,6 +57,13 @@ in
   # command=${bluetooth-headset} "14:3F:A6:A3:47:F3"
   # label=
   # color=${colors.foreground}
+
+  [seperator]
+
+  [joycon-gamepad]
+  command=${joycon-gamepad}
+  interval=5
+  label= 
 
   [seperator]
 

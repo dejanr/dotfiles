@@ -44,6 +44,7 @@ self: super:
       maim
       xclip
       pulseaudio
+      systemd
       ;
   };
 

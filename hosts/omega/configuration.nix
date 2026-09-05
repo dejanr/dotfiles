@@ -11,6 +11,8 @@
 
   virtualisation.podman.enable = true;
 
+  hardware.bluetooth.settings.General.FastConnectable = true;
+
   systemd.services."lg-tv-input@" = {
     description = "Switch LG TV input to %i";
     after = [ "network-online.target" ];
