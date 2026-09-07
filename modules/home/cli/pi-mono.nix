@@ -23,12 +23,14 @@ let
   piMonoExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-extensions;
   piMonoDs4Pkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-ds4;
   piCursorProviderPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-cursor-provider;
+  piUsageBarsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-usage-bars;
   piExtensionsPkg = pkgs.runCommand "pi-extensions" { } ''
     mkdir -p $out
     for path in ${piMonoExtensionsPkg}/*; do
       ln -s "$path" "$out/$(basename "$path")"
     done
     ln -s ${piCursorProviderPkg} $out/cursor-provider
+    ln -s ${piUsageBarsPkg} $out/usage-bars
     ${optionalString pkgs.stdenv.isDarwin "ln -s ${piMonoDs4Pkg} $out/ds4-runtime"}
   '';
 

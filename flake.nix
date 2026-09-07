@@ -214,7 +214,10 @@
         pi-mono-ds4 = import ./modules/home/cli/pi-mono/nix/ds4.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
-        pi-cursor-provider = import ./modules/home/cli/pi-mono/nix/cursor-provider.nix {
+        pi-cursor-provider = import ./modules/home/cli/pi-mono/nix/extensions/cursor-provider.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+        };
+        pi-usage-bars = import ./modules/home/cli/pi-mono/nix/extensions/usage-bars.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
         pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {

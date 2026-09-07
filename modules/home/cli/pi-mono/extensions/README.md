@@ -51,6 +51,31 @@ Example `package.json`:
 }
 ```
 
+## External Extensions
+
+Third-party extensions are packaged separately under `../nix/extensions/`, exposed in
+`flake.nix`, and linked into `~/.pi/agent/extensions/` by `../../pi-mono.nix`.
+Keep their upstream sources pinned rather than copying them into this workspace.
+
+- `cursor-provider.nix`: Cursor provider integration.
+- `usage-bars.nix`: [pi-usage-bars](https://github.com/hknet/pi-usage-bars), providing
+  quota/balance status and `/usage`. It uses Pi's existing provider credentials
+  and status API, so it works with our custom footer without replacing it.
+  Polling runs every two minutes in interactive mode; long statuses may be
+  truncated by the single-line footer.
+
+Build and try usage bars without activating Home Manager:
+
+```bash
+nix build .#pi-usage-bars --no-link --print-out-paths
+pi -e <printed-store-path>
+```
+
+After Home Manager activation, restart Pi or use `/reload`. Authenticate supported
+providers with `/login`, then run `/usage`. To update the package, change its
+version, source revision, and hash in `../nix/extensions/usage-bars.nix`, then rebuild.
+Pi's core packages remain external to the bundle and are supplied by Pi at load time.
+
 ## Testing Extensions
 
 - **Typecheck:** `pnpm run typecheck`
