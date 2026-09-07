@@ -26,6 +26,7 @@
       export WINEDEBUG=-all
       export GAMEID=umu-horizonxi
       export PROTONPATH="${pkgs.proton-ge-bin.steamcompattool}"
+      export PROTON_USE_XALIA=0
 
       fontsDir="$WINEPREFIX/drive_c/windows/Fonts"
       if [ ! -e "$fontsDir/segoeui.ttf" ]; then
@@ -35,6 +36,7 @@
       launcherRoot="$WINEPREFIX/drive_c/users/dejanr/AppData/Local/HorizonXI_Launcher"
       for bundle in "$launcherRoot"/app-*/resources/app/.webpack/main/index.js; do
         [ -f "$bundle" ] || continue
+        ${pkgs.nodejs}/bin/node ${./horizonxi/patch-launcher.cjs} "$bundle" || exit 1
         ${pkgs.perl}/bin/perl -0pi -e 's/use_interface_bypass = 0\\nuse_playonline_encryption_override/use_interface_bypass = 1\\nuse_playonline_encryption_override/' "$bundle"
       done
 
