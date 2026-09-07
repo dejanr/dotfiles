@@ -1,125 +1,137 @@
 ---
 name: pi-mono-upgrade
-description: "Upgrade pi-mono coding agent in NixOS/nix-darwin dotfiles. Updates flake input, package hashes, extension dependencies, and applies breaking changes to local extensions. Mechanical task - use Sonnet."
+description: "Upgrade pi-mono coding agent in NixOS/nix-darwin dotfiles. Updates flake input, release-source and dependency hashes, extension dependencies, and applies breaking changes to local extensions. Mechanical task - use Sonnet."
 model: anthropic/claude-sonnet-4-5
 ---
 
 # Pi-mono Upgrade Skill
 
-Upgrade the pi-mono coding agent package in a Nix-based dotfiles repository.
+Upgrade the repository's Nix packages, verify them, then ask before activation. Do not commit unless requested.
 
-## Upgrade Workflow
+## 1. Preflight
 
-### 1. Check If Upgrade Needed
+Run from the repository root. Record these versions separately; carry recorded values into later commands rather than assuming shell variables persist between tool calls.
 
 ```bash
-# Current vs latest - run both in parallel
+git status --short
 pi --version
-curl -s "https://api.github.com/repos/earendil-works/pi/tags?per_page=1" | jq -r '.[0].name'
+nix eval --raw .#pi-mono-coding-agent.version
+curl -fsSL 'https://api.github.com/repos/earendil-works/pi/releases/latest' | jq -r '.tag_name'
+(cd modules/home/cli/pi-mono/extensions && pnpm config get minimum-release-age)
 ```
 
-If already on latest, **stop here** - no upgrade needed.
+- **Installed version:** `pi --version`; may lag an already-updated repository.
+- **Repository version:** the evaluated package version; use this as the changelog baseline.
+- **Target version:** latest stable release, unless the user requests another version.
 
-### 2. Check Breaking Changes
+If repository and installed versions already match the target, stop. If only the repository matches, verify its package/dependency consistency and builds, then offer activation rather than repeating the bump. Preserve existing user changes.
 
-Only fetch the relevant portion of CHANGELOG between current and target versions:
+Read `nix/package.nix`, `nix/extensions.nix`, and `extensions/package.json` under `modules/home/cli/pi-mono/`, plus the extensions README. Check both root devDependencies and overrides, and relevant Home Manager integration when packaging changes.
+
+The repository configures a seven-day pnpm release-age policy. Check whether the target is old enough before installing. If it is blocked, **ask before making an exception**; do not silently disable the policy. With explicit approval, a one-command exception is:
 
 ```bash
-CURRENT=$(pi --version)
-curl -s "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/CHANGELOG.md" | \
-  sed -n "/## \[${TARGET#v}/,/## \[${CURRENT}/p"
+(cd modules/home/cli/pi-mono/extensions && pnpm install --config.minimum-release-age=0)
 ```
 
-Look for `### Breaking Changes` sections. If none exist between versions, skip step 3.
+This bypasses the age check for the entire invocation, including transitive dependencies; it does not change the persistent policy.
 
-### 3. Apply Breaking Changes to Local Extensions (if any)
+## 2. Review Compatibility and Update Versions
 
-Extensions are in `modules/home/cli/pi-mono/extensions/`.
+Fetch `packages/coding-agent/CHANGELOG.md` from the **target release tag**, not `main`. Inspect only the range from the repository version to the target. Check API removals and changed behavior as well as headings labeled breaking changes. Search local extension usage before deciding migration is unnecessary.
 
-See [Known Breaking Changes Reference](#known-breaking-changes-reference) below for specific migration patterns.
-
-### 4. Update Flake Input
+For affected integrations, read the relevant Pi API docs and examples before editing. Avoid unrelated documentation and extension refactors.
 
 ```bash
 nix flake update pi-mono
+nix eval --raw .#pi-mono-coding-agent.version
 ```
 
-### 5. Update Extensions package.json
+The input tracks the default branch, not the release tag. Confirm its resulting package version matches the chosen target; reconcile any mismatch before proceeding.
 
-Check if versions need updating:
+Update all root `@earendil-works/*` version pins in `extensions/package.json`, including **devDependencies and pnpm overrides**. Keep extension peer dependencies as `"*"`; do not introduce per-extension version pins.
 
 ```bash
-# Check current declared version
-grep "@earendil-works/pi-coding-agent" modules/home/cli/pi-mono/extensions/package.json
+(cd modules/home/cli/pi-mono/extensions && pnpm install)
 ```
 
-If version differs from target, update `package.json` and regenerate lockfile:
+Every workspace command must explicitly select the extensions directory. Use the approved age exception instead of the normal install only when needed.
+
+## 3. Refresh All Changed Hashes Before Verification Builds
+
+There are **three** independent fixed-output hashes:
+
+| File under `modules/home/cli/pi-mono/` | Hash | Refresh when |
+|---|---|---|
+| `nix/package.nix` | `releaseSource.hash` | Release archive changes |
+| `nix/package.nix` | `npmDepsHash` | Release dependency lockfile changes |
+| `nix/extensions.nix` | `pnpmDeps.hash` | Extension dependency lockfile changes |
+
+**A successful build with an old source hash does not prove an upgrade.** Nix can reuse the cached old archive even when the URL and derivation version change.
+
+Prefetch the new archive first (set `TARGET` to the recorded tag, including `v`):
 
 ```bash
-cd modules/home/cli/pi-mono/extensions
-# Edit package.json to update @earendil-works/* versions
-pnpm install
+nix store prefetch-file --unpack --json \
+  "https://github.com/earendil-works/pi/releases/download/${TARGET}/pi-${TARGET#v}-source.tar.gz"
 ```
 
-Do **not** use destructive cleanup (`rm -rf`) as a default recovery step. If dependency resolution appears stale, prefer `pnpm install --force`.
+Copy the returned `hash` into `releaseSource.hash`. This unpacked hash matches the current `fetchzip` configuration. Inspect the returned store path's `packages/coding-agent/package.json` to confirm its version matches the target. If archive layout or fetch options change, obtain the hash through the actual fetchzip derivation instead.
 
-### 6. Test Builds (Determines If Hashes Need Updating)
-
-**Always build individual packages, never toplevel. Run build commands raw; do not pipe long builds through `tail`, `grep`, `sed`, or similar filters.**
-
-```bash
-nix build .#pi-mono-coding-agent
-nix build .#pi-mono-extensions
-```
-
-Interpret results:
-
-- **Both builds succeed:** hashes are correct, continue to step 8.
-- **Hash mismatch (`specified` vs `got`)**: continue to step 7 for the failing derivation.
-- **`ERR_PNPM_NO_OFFLINE_TARBALL` (extensions build):** continue to step 7 (extensions hash refresh flow).
-- **Chroot/store error:** run `nix-collect-garbage -d` and retry.
-
-### 7. Update Hashes (Only for Failing Derivation)
-
-#### Coding agent hash (`package.nix`)
-
-Set invalid hash in `modules/home/cli/pi-mono/nix/package.nix`:
+For a normal release bump, invalidate `npmDepsHash` upfront unless the release dependency lockfile is known to be unchanged:
 
 ```nix
 npmDepsHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 ```
 
-Build and capture correct hash from the raw command output:
+If the extension dependency lockfile changed, set `pnpmDeps.hash` in `extensions.nix` to `""`.
+
+Collect dependency hashes in **one Nix invocation**, using `--keep-going` so independent fetches can both report mismatches:
 
 ```bash
-nix build .#pi-mono-coding-agent
+nix build .#pi-mono-coding-agent .#pi-mono-extensions --no-link --keep-going
 ```
 
-Update `package.nix` with the hash from the `got:` line.
+Match each `got: sha256-...` to its failing derivation and update the corresponding hash. These mismatches are expected discovery steps, not verification failures. Do not repeatedly try unchanged stale hashes first.
 
-#### Extensions hash (`extensions.nix`)
+## 4. Build and Verify
 
-For extensions, set empty hash in `modules/home/cli/pi-mono/nix/extensions.nix`:
-
-```nix
-hash = "";
-```
-
-Then build and capture the `got:` hash from the raw command output:
+**Build individual packages, never the system toplevel.** Use one Nix invocation rather than concurrent Nix processes that can contend for the evaluation cache. Run long commands directly with live output when available; do not pipe them through `tail`, `grep`, or similar filters.
 
 ```bash
-nix build .#pi-mono-extensions
+nix build .#pi-mono-coding-agent .#pi-mono-extensions --no-link --print-out-paths
 ```
 
-Update `extensions.nix` with the captured hash.
-
-### 8. Sanity-check Changed Files
+Identify the printed coding-agent output path, then verify that exact artifact—not the still-installed `pi`:
 
 ```bash
+PI_BUILD='<printed-coding-agent-path>'
+"$PI_BUILD/bin/pi" --version
+node --input-type=module -e '
+  const pi = await import(process.argv[1]);
+  if (typeof pi.createAgentSession !== "function") throw new Error("Missing SDK export");
+  console.log("SDK import OK");
+' "$PI_BUILD/lib/pi-mono/packages/coding-agent/dist/index.js"
+```
+
+Run extension diagnostics independently of build success; they can run in parallel with the Nix build:
+
+```bash
+(cd modules/home/cli/pi-mono/extensions && pnpm run typecheck)
+(cd modules/home/cli/pi-mono/extensions && pnpm run lint)
+```
+
+Investigate failures enough to distinguish upgrade regressions from unrelated configuration/vendor issues. Report the latter without expanding upgrade scope. A lint rerun excluding an unrelated vendor directory is supplemental, not a full lint pass.
+
+## 5. Review and Offer Activation
+
+```bash
+git diff --check
+git diff --stat
 git status --short
 ```
 
-Expected changed files for a normal upgrade:
+Expected upgrade files:
 
 - `flake.lock`
 - `modules/home/cli/pi-mono/extensions/package.json`
@@ -127,139 +139,31 @@ Expected changed files for a normal upgrade:
 - `modules/home/cli/pi-mono/nix/package.nix`
 - `modules/home/cli/pi-mono/nix/extensions.nix`
 
-### 9. Apply and Verify
+Review handwritten changes and dependency changes selectively; avoid dumping the entire lockfile diff by default. Ensure no placeholder hashes remain. Summarize build, runtime, and diagnostic results separately.
 
-**Ask for user confirmation before running system switch commands.**
+**Ask for user confirmation before running a system switch.** After approval, use the appropriate command:
 
 ```bash
-# NixOS
 sudo nixos-rebuild switch --flake .#
+```
 
-# Darwin
+```bash
 nix run nix-darwin -- switch --flake .#
-
-# Verify
-pi --version
 ```
 
-Optional diagnostic (non-blocking for the version bump itself):
+After activation, run `pi --version` again. Do not imply the running session was upgraded merely because the new package built.
 
-```bash
-cd modules/home/cli/pi-mono/extensions
-pnpm run typecheck
-# If types look stale after version bumps, refresh resolution without deleting folders:
-pnpm install --force
-# Optionally pin all workspace resolutions explicitly:
-pnpm up -r @earendil-works/pi-ai@<target-version> @earendil-works/pi-coding-agent@<target-version> @earendil-works/pi-tui@<target-version>
-# pnpm run lint may fail due to local parser/config differences; treat as follow-up work
-```
+## Recovery Notes
 
-## Files to Update
+- **Version mismatch:** Align the input version and root dependency/override pins, then regenerate the extension lockfile.
+- **Outdated `npmDepsHash`:** Invalidate it and collect the `got:` hash as above.
+- **`ERR_PNPM_NO_OFFLINE_TARBALL`:** Refresh `pnpmDeps.hash` with `""`, collect its hash, and rebuild.
+- **Stale workspace types:** Check resolved versions, then try `(cd modules/home/cli/pi-mono/extensions && pnpm install --force)`, respecting the release-age policy. Keep version pins centralized; do not start with destructive cleanup.
+- **Chroot/store errors:** Inspect the failing derivation and logs, then retry if transient. Do not automatically run `nix-collect-garbage -d`: it deletes old generations. Ask before destructive store maintenance.
 
-| File | What to Update |
-|------|----------------|
-| `flake.lock` | `nix flake update pi-mono` |
-| `modules/home/cli/pi-mono/extensions/*.ts` | Breaking API changes (if any) |
-| `modules/home/cli/pi-mono/extensions/package.json` | `@earendil-works/*` versions |
-| `modules/home/cli/pi-mono/extensions/pnpm-lock.yaml` | `pnpm install` |
-| `modules/home/cli/pi-mono/nix/package.nix` | `npmDepsHash` (if build fails) |
-| `modules/home/cli/pi-mono/nix/extensions.nix` | `hash` in `pnpmDeps` (if build fails) |
+## Historical API Migrations
 
-## Known Breaking Changes Reference
+Consult only when crossing these versions:
 
-### v0.51.0 - Tool Execute Signature
-
-Parameter order changed from `(id, params, onUpdate, ctx, signal)` to `(id, params, signal, onUpdate, ctx)`.
-
-**Find affected code:**
-```bash
-rg "execute\(.*onUpdate.*ctx.*signal" modules/home/cli/pi-mono/extensions/
-```
-
-**Fix:** Swap `signal` and `onUpdate` parameters:
-
-```typescript
-// Before
-async execute(_toolCallId, params, _onUpdate, ctx, signal) {
-
-// After  
-async execute(_toolCallId, params, signal, _onUpdate, ctx) {
-```
-
-### v0.51.3 - SlashCommandSource Type
-
-RPC `get_commands` response renamed `"template"` to `"prompt"`.
-
-## Common Errors
-
-### Version Mismatch
-
-```
-ERROR: pi-mono version mismatch (input: X.Y.Z, declared: A.B.C)
-```
-
-**Fix:** Update `@earendil-works/*` in `extensions/package.json` to match input version, run `pnpm install`.
-
-### Hash Mismatch
-
-```
-hash mismatch in fixed-output derivation
-  specified: sha256-...
-  got:       sha256-...
-```
-
-**Fix:** Copy hash from `got:` line to the relevant file.
-
-### ERR_PNPM_NO_OFFLINE_TARBALL
-
-```
-ERR_PNPM_NO_OFFLINE_TARBALL
-A package is missing from the store but cannot download it in offline mode.
-```
-
-**Fix (extensions):**
-
-1. Set `pnpmDeps.hash = "";` in `modules/home/cli/pi-mono/nix/extensions.nix`
-2. Run `nix build .#pi-mono-extensions`
-3. Copy the `got: sha256-...` value from the raw command output back to `pnpmDeps.hash`
-
-### Stale Workspace Type Resolution
-
-Symptoms (after dependency bump):
-
-```
-Property 'hasUI' does not exist on type 'AbortSignal'
-Type 'AgentToolUpdateCallback<...>' is not assignable to type 'AbortSignal'
-```
-
-**Cause:** workspace packages are still resolving older `@earendil-works/*` types.
-
-**Fix:**
-
-```bash
-cd modules/home/cli/pi-mono/extensions
-pnpm install --force
-# If still stale, force workspace package versions:
-pnpm up -r @earendil-works/pi-ai@<target-version> @earendil-works/pi-coding-agent@<target-version> @earendil-works/pi-tui@<target-version>
-pnpm run typecheck
-```
-
-Do not use `rm -rf` as the first recovery step.
-
-### Chroot/Store Error
-
-```
-error: getting status of '...drv.chroot/root/nix/store/...': No such file or directory
-```
-
-**Fix:** 
-```bash
-nix-collect-garbage -d
-# Then retry the build
-```
-
-### Tool Fails with "no-ui"
-
-**Cause:** Tool execute signature not updated after v0.51.0 breaking change.
-
-**Fix:** Update execute signature (see v0.51.0 above).
+- **0.51.0:** Tool execute parameters changed from `(id, params, onUpdate, ctx, signal)` to `(id, params, signal, onUpdate, ctx)`. Incorrect ordering can make UI tools report `no-ui` or resolve `ctx` as an `AbortSignal`.
+- **0.51.3:** RPC `get_commands` source changed from `"template"` to `"prompt"`.
