@@ -59,6 +59,7 @@ in
     moonlightOmegaDesktop
     moonlightOmegaDesktop4k
     # poluted global pkgs by projects, fix those projects
+    glab
     microsoft-rush
     jira-cli-go
     google-cloud-sdk

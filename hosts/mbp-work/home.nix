@@ -33,6 +33,7 @@
     pkgs.microsoft-rush
     pkgs.pm2
     pkgs.mongosh
+    pkgs.google-cloud-sdk
   ];
 
   config.age.secrets.burda_sentry_cli_token.file = ../../secrets/burda_sentry_cli_token.age;
