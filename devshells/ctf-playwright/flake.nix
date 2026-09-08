@@ -9,6 +9,8 @@
       forEachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
         "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
       ];
       environments = forEachSystem (
         system:
@@ -19,6 +21,8 @@
           browserEnvironment = {
             PLAYWRIGHT_BROWSERS_PATH = "${driver.browsers}";
             PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+          }
+          // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
             PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "1";
             PLAYWRIGHT_HOST_PLATFORM_OVERRIDE =
               if system == "x86_64-linux" then "ubuntu24.04-x64" else "ubuntu24.04-arm64";

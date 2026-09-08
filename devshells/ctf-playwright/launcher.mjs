@@ -61,6 +61,7 @@ export function inspectInstallation(root, expected) {
   const playwrightManifestPath = testRequire.resolve('playwright/package.json');
   const playwrightRequire = createRequire(playwrightManifestPath);
   const coreManifestPath = playwrightRequire.resolve('playwright-core/package.json');
+  const { hostPlatform } = playwrightRequire(join(dirname(coreManifestPath), 'lib/server/utils/hostPlatform.js'));
 
   validateVersions(
     expected,
@@ -71,7 +72,7 @@ export function inspectInstallation(root, expected) {
       'playwright-core': readJson(coreManifestPath).version,
     },
     readJson(join(dirname(coreManifestPath), 'browsers.json')).browsers,
-    process.env.PLAYWRIGHT_HOST_PLATFORM_OVERRIDE,
+    hostPlatform,
   );
 
   const playwright = projectRequire('@playwright/test');
@@ -122,7 +123,7 @@ async function main([configPath, ...args]) {
 Run from a CTF checkout. Checks the installed runner against the pinned Nix browsers.
 --check prints versions and executable paths without starting browsers or CTF services.
 --smoke launches all three browsers, or the selected browser, without contacting CTF services.
-This Nixpkgs pin supports headed Chromium/Firefox; WebKit is headless only.
+Supports Linux and macOS 14+. On Linux, this Nixpkgs pin supports headless WebKit only.
 All other arguments are forwarded to rush e2e. Use rush e2e -h for its options.`);
     return;
   }
@@ -142,7 +143,7 @@ All other arguments are forwarded to rush e2e. Use rush e2e -h for its options.`
   if (args[0] === '--check') {
     const rush = readJson(join(root, 'rush.json'));
     console.log(`Rush ${rush.rushVersion}; pnpm ${rush.pnpmVersion} (CTF bootstrap)`);
-    console.log(`Platform: ${process.env.PLAYWRIGHT_HOST_PLATFORM_OVERRIDE}`);
+    console.log(`Platform: ${process.env.PLAYWRIGHT_HOST_PLATFORM_OVERRIDE ?? `${process.platform}-${process.arch}`}`);
     for (const engine of engines) {
       console.log(`${engine}: ${playwright[engine].executablePath()}`);
     }

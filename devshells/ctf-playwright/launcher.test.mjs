@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { test } from 'node:test';
@@ -24,7 +24,7 @@ function write(path, content) {
 }
 
 function project(t) {
-  const root = mkdtempSync(join(tmpdir(), 'ctf playwright '));
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'ctf playwright ')));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   write(join(root, 'rush.json'), { rushVersion: '5.166.0', pnpmVersion: '10.27.0' });
   write(join(root, 'framework/e2e-tests/playwright/package.json'), {
@@ -42,6 +42,10 @@ function installFixture(root) {
     'module.exports = Object.fromEntries(["chromium", "firefox", "webkit"].map(name => [name, { executablePath: () => process.execPath }]));',
   );
   write(join(root, 'node_modules/playwright-core/browsers.json'), { browsers: metadata });
+  write(
+    join(root, 'node_modules/playwright-core/lib/server/utils/hostPlatform.js'),
+    'exports.hostPlatform = "mac15-arm64";',
+  );
 }
 
 test('smoke checks default to all engines headlessly and allow a selected headed engine', () => {
@@ -101,6 +105,27 @@ test('checks platform-specific WebKit overrides', () => {
     /webkit requires revision 2092/,
   );
   validateVersions(expected, '1.56.1', {}, browsers, 'ubuntu24.04-x64');
+});
+
+test('accepts current macOS browser revisions on Intel and Apple Silicon', () => {
+  for (const platform of ['mac14', 'mac14-arm64', 'mac15', 'mac15-arm64']) {
+    validateVersions(expected, '1.56.1', {}, metadata, platform);
+  }
+});
+
+test('validates the detected platform against older macOS browser overrides', (t) => {
+  const root = project(t);
+  installFixture(root);
+  write(
+    join(root, 'node_modules/playwright-core/lib/server/utils/hostPlatform.js'),
+    'exports.hostPlatform = "mac13-arm64";',
+  );
+  write(join(root, 'node_modules/playwright-core/browsers.json'), {
+    browsers: metadata.map((entry) =>
+      entry.name === 'webkit' ? { ...entry, revisionOverrides: { 'mac13-arm64': '2140' } } : entry,
+    ),
+  });
+  assert.throws(() => inspectInstallation(root, expected), /webkit requires revision 2140; Nix provides 2215/);
 });
 
 test('reports missing dependencies without trying to download them', (t) => {
