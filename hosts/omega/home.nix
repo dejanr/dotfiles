@@ -27,6 +27,15 @@
       export GAMEID=umu-horizonxi
       export PROTONPATH="${pkgs.proton-ge-bin.steamcompattool}"
       export PROTON_USE_XALIA=0
+      export PROTON_DXVK_D3D8=0
+      export PROTON_USE_WINED3D=0
+      export WINEDLLOVERRIDES="*d3d8=b"
+      unset DXVK_HUD
+
+      proxyDir="$HOME/games/ffxi/HorizonXI/Game/bootloader"
+      if [ -f "$proxyDir/d3d8.dll" ] && [ -f "$proxyDir/d3d8.ini" ]; then
+        export WINEDLLOVERRIDES="*d3d8=n;d3d9=n"
+      fi
 
       fontsDir="$WINEPREFIX/drive_c/windows/Fonts"
       if [ ! -e "$fontsDir/segoeui.ttf" ]; then
@@ -44,6 +53,24 @@
       exec ${pkgs.gamemode}/bin/gamemoderun ${pkgs.umu-launcher}/bin/umu-run ./HorizonXI-Launcher.exe
     ''}";
     icon = "5373_HorizonXI-Launcher.0";
+    terminal = false;
+    categories = [ "Game" ];
+  };
+
+  config.xdg.desktopEntries.soulframe = {
+    name = "Soulframe";
+    exec = "${pkgs.writeShellScript "soulframe" ''
+      export WINEPREFIX="$HOME/games/soulframe"
+      export WINEARCH=win64
+      export WINEDEBUG=-all
+      export GAMEID=umu-soulframe
+      export PROTONPATH="${pkgs.proton-ge-bin.steamcompattool}"
+      export PROTON_USE_XALIA=0
+
+      cd "$WINEPREFIX/drive_c/users/steamuser/AppData/Local/Soulframe/Downloaded/Public/Tools" || exit 1
+      exec ${pkgs.gamemode}/bin/gamemoderun ${pkgs.umu-launcher}/bin/umu-run ./Launcher.exe -nocef
+    ''}";
+    icon = "wine";
     terminal = false;
     categories = [ "Game" ];
   };
