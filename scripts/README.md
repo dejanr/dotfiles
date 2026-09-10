@@ -1,5 +1,72 @@
 # Maintenance scripts
 
+## Temporarily hide local files
+
+Pass files or directories to `git-local-ignore`, then pass the same paths to
+`git-local-restore` to make changes visible again. Restore never restores,
+deletes, or overwrites working-tree files.
+
+```bash
+git-local-ignore .agents AGENTS.md docs/agents
+git-local-restore .agents AGENTS.md docs/agents
+
+git-local-ignore "notes with spaces.md" local-config.json
+git-local-restore "notes with spaces.md" local-config.json
+
+git-local-show
+git-local-show | git-local-restore
+
+git-local-show > local-paths.txt
+git-local-restore < local-paths.txt
+```
+
+`git-local-show` prints sorted, unique paths relative to the current directory,
+one per line, without headings. It lists skip-worktree paths and root-anchored
+literal exclude rules in the format written by `git-local-ignore`, including
+compatible manually added rules. Directory rules and skipped descendants may
+both appear. Global ignores, `.gitignore` rules, and wildcard local exclude rules
+are not listed or removed by this pipeline.
+
+With no arguments, `git-local-restore` reads redirected or piped stdin. It reads
+and validates the whole list before changing metadata. Empty input is a no-op;
+blank lines are skipped, but spaces and backslashes in paths are preserved.
+Use saved lists from the same directory where they were produced.
+Use `|` to pipe between commands: `git-local-show > git-local-restore` would
+instead create or overwrite a file named `git-local-restore`.
+
+Paths are literal (no Git pathspecs or glob expansion), relative to the current
+directory, or absolute within the working tree. Quote shell metacharacters.
+Directories include their tracked descendants. Missing paths are accepted for
+deleted files or future untracked files. Ignore requires at least one path;
+restore accepts arguments or stdin. Use `--help` for usage and `--` before paths
+named like options. Newlines and carriage returns in paths are unsupported.
+The repository root,
+Git metadata, and paths outside the working tree are refused.
+
+All three commands are installed by the Git Home Manager module. Before
+rebuilding, run them directly from `~/.dotfiles/scripts/`.
+Once installed, `git local-ignore`, `git local-restore`, and `git local-show`
+work too.
+
+Untracked files use Git's local `info/exclude`; tracked files use `skip-worktree`.
+Repeated calls do not duplicate exclude rules. Restore removes all exact matching
+exclude rules (with or without a trailing slash) and clears the selected
+skip-worktree flags, including those set manually before using these scripts.
+Other patterns and paths are left alone. Linked worktrees share exclude rules
+but have separate index flags; run restore in every worktree where you ran ignore.
+
+Run `git-local-restore` with the same paths before switching branches, merging,
+or pulling. This is a convenience, not a protection against commits: staged
+changes remain visible, and Git may clear skip-worktree flags. Sparse checkouts
+are refused because Git manages those flags itself. Other ignore rules may still
+hide these files after restore.
+
+Run the focused tests with:
+
+```bash
+python3 -m unittest discover -s scripts/tests -p 'test_git_local_files.py' -v
+```
+
 ## Shared Bluetooth pairing for Windows/Linux dual boot
 
 `sync-bluetooth-keys.py` copies Windows **Classic Bluetooth** link keys into existing

@@ -8,6 +8,19 @@
 with lib;
 let
   cfg = config.modules.home.cli.git;
+  localFileCommand =
+    action:
+    pkgs.writeShellApplication {
+      name = "git-local-${action}";
+      runtimeInputs = with pkgs; [
+        coreutils
+        git
+        gnugrep
+      ];
+      text = builtins.readFile ../../../scripts/git-local-common.sh + ''
+        git_local_files ${action} "$@"
+      '';
+    };
 
 in
 {
@@ -15,6 +28,12 @@ in
     enable = mkEnableOption "git";
   };
   config = mkIf cfg.enable {
+    home.packages = [
+      (localFileCommand "ignore")
+      (localFileCommand "restore")
+      (localFileCommand "show")
+    ];
+
     programs.delta = {
       enable = true;
       enableGitIntegration = true;
