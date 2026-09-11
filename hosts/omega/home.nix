@@ -8,6 +8,7 @@
     qwen36-mtp-server
     microsoft-rush
     jira-cli-go
+    glab
   ];
 
   config.xdg.desktopEntries.eve-online = {
