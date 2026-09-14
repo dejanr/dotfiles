@@ -9,6 +9,30 @@ with lib;
 
 let
   cfg = config.modules.darwin.gui.aerospace;
+  cycleAppWindows = pkgs.writeShellApplication {
+    name = "aerospace-cycle-app-windows";
+    runtimeInputs = [
+      pkgs.aerospace
+      pkgs.jq
+    ];
+    text = ''
+      read -r windowId appPid workspace <<< "$(aerospace list-windows --focused --format '%{window-id} %{app-pid} %{workspace}')"
+      [[ -n "$windowId" ]] || exit 0
+
+      windows=$(aerospace list-windows --workspace "$workspace" --pid "$appPid" --json)
+      target=$(jq -r --argjson current "$windowId" --argjson step "''${1:-1}" '
+        sort_by(."window-id") | map(."window-id")
+        | index($current) as $index
+        | if length < 2 or $index == null then empty
+          else .[($index + $step + length) % length]
+          end
+      ' <<< "$windows")
+
+      if [[ -n "$target" ]]; then
+        aerospace focus --window-id "$target"
+      fi
+    '';
+  };
 in
 {
   options.modules.darwin.gui.aerospace = {
@@ -42,6 +66,9 @@ in
         };
 
         mode.main.binding = {
+          cmd-backtick = "exec-and-forget ${lib.getExe cycleAppWindows}";
+          cmd-shift-backtick = "exec-and-forget ${lib.getExe cycleAppWindows} -1";
+
           cmd-shift-j = "focus down";
           cmd-shift-k = "focus up";
           cmd-shift-l = "focus right";
