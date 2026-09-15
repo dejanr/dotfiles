@@ -9,6 +9,9 @@ let
   cfg = config.modules.home.cli.halogen;
   quote = value: builtins.toJSON (lib.replaceStrings [ "%" ] [ "%%" ] value);
   useToken = cfg.download && cfg.hfTokenFile != null;
+  credentialServices = lib.optional (
+    useToken && config.systemd.user.services ? agenix
+  ) "agenix.service";
   tokenSource = lib.replaceStrings [ "\${XDG_RUNTIME_DIR}" ] [ "%t" ] (
     lib.replaceStrings [ "%" ] [ "%%" ] cfg.hfTokenFile
   );
@@ -99,7 +102,11 @@ let
     };
 
   quadlet = lib.generators.toINI { listsAsDuplicateKeys = true; } {
-    Unit.Description = "Halogen Qwen3.8 Flash Next local inference";
+    Unit = {
+      Description = "Halogen Qwen3.8 Flash Next local inference";
+      After = credentialServices;
+      Requires = credentialServices;
+    };
     Container = {
       Image = quote cfg.image;
       ContainerName = "halogen";

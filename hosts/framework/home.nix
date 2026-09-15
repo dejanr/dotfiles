@@ -130,6 +130,7 @@ in
 
     home.cli.halogen = {
       enable = true;
+      autoStart = false;
       contextSize = 262144;
       hfTokenFile = config.age.secrets.huggingface_api_key.path;
     };
