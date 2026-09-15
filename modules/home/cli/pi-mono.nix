@@ -120,6 +120,47 @@ let
     };
   };
 
+  halogenModels = {
+    halogen = {
+      baseUrl = cfg.providers.halogen.baseUrl;
+      api = "openai-completions";
+      apiKey = "halogen";
+      compat = {
+        supportsDeveloperRole = false;
+        supportsReasoningEffort = true;
+        supportsStore = false;
+        supportsStrictMode = false;
+        supportsUsageInStreaming = true;
+        maxTokensField = "max_tokens";
+        thinkingFormat = "qwen";
+        requiresReasoningContentOnAssistantMessages = true;
+      };
+      models = [
+        {
+          id = "halogen-qwen3.8-flash-next";
+          name = "Qwen3.8 Flash Next (Halogen)";
+          reasoning = true;
+          thinkingLevelMap = {
+            minimal = "low";
+            low = "low";
+            medium = "medium";
+            high = "xhigh";
+            xhigh = "xhigh";
+          };
+          input = [ "text" ];
+          contextWindow = cfg.providers.halogen.contextWindow;
+          maxTokens = cfg.providers.halogen.maxTokens;
+          cost = {
+            input = 0;
+            output = 0;
+            cacheRead = 0;
+            cacheWrite = 0;
+          };
+        }
+      ];
+    };
+  };
+
   aiandModels = {
     aiand = {
       baseUrl = "https://api.aiand.com/v1";
@@ -173,7 +214,8 @@ let
     optionalAttrs cfg.providers.tenstorrent.enable tenstorrentModels
     // optionalAttrs cfg.providers.aiand.enable aiandModels
     // optionalAttrs cfg.providers.vllm.enable vllmModels
-    // optionalAttrs cfg.providers.llama-cpp.enable llamaCppModels;
+    // optionalAttrs cfg.providers.llama-cpp.enable llamaCppModels
+    // optionalAttrs cfg.providers.halogen.enable halogenModels;
 
   keybindings = {
     cursorUp = [
@@ -201,6 +243,27 @@ in
     providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-mono";
     providers.aiand.enable = mkEnableOption "ai& models for pi-mono";
     providers.vllm.enable = mkEnableOption "local vLLM models for pi-mono";
+    providers.halogen = {
+      enable = mkEnableOption "local Halogen models for pi-mono";
+      baseUrl = mkOption {
+        type = types.str;
+        default = "http://127.0.0.1:${toString config.modules.home.cli.halogen.port}/v1";
+        defaultText = literalExpression ''"http://127.0.0.1:''${toString config.modules.home.cli.halogen.port}/v1"'';
+        description = "OpenAI-compatible Halogen server base URL.";
+      };
+      contextWindow = mkOption {
+        type = types.ints.positive;
+        default = config.modules.home.cli.halogen.contextSize;
+        defaultText = literalExpression "config.modules.home.cli.halogen.contextSize";
+        description = "Context window matching the Halogen server configuration.";
+      };
+      maxTokens = mkOption {
+        type = types.ints.positive;
+        default = config.modules.home.cli.halogen.maxTokens;
+        defaultText = literalExpression "config.modules.home.cli.halogen.maxTokens";
+        description = "Output token limit matching the Halogen server configuration.";
+      };
+    };
     providers.llama-cpp = {
       enable = mkEnableOption "local llama.cpp models for pi-mono";
       baseUrl = mkOption {

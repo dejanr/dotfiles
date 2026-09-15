@@ -125,6 +125,13 @@ in
     home.cli.pi-mono = {
       enable = true;
       providers.vllm.enable = true;
+      providers.halogen.enable = true;
+    };
+
+    home.cli.halogen = {
+      enable = true;
+      contextSize = 262144;
+      hfTokenFile = config.age.secrets.huggingface_api_key.path;
     };
 
     home.cli.llama-cpp = {

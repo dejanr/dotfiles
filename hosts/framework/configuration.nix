@@ -58,6 +58,8 @@ in
     dockerSocket.enable = true;
   };
 
+  boot.kernelParams = lib.optional config.home-manager.users.dejanr.modules.home.cli.halogen.enable "zfs.zfs_arc_max=8589934592";
+
   security.pki.certificateFiles = [
     ../../certs/ctf-local-root.crt
   ];
@@ -226,10 +228,22 @@ in
 
   programs.ydotool.enable = true;
 
-  users.users.dejanr.extraGroups = lib.mkAfter [
-    "podman"
-    "ydotool"
-  ];
+  users.users.dejanr.uid = 1000;
+
+  systemd.services."user@${toString config.users.users.dejanr.uid}" =
+    lib.mkIf config.home-manager.users.dejanr.modules.home.cli.halogen.enable
+      {
+        overrideStrategy = "asDropin";
+        serviceConfig.LimitMEMLOCK = "infinity";
+      };
+
+  users.users.dejanr.extraGroups = lib.mkAfter (
+    [
+      "podman"
+      "ydotool"
+    ]
+    ++ lib.optional config.home-manager.users.dejanr.modules.home.cli.halogen.enable "render"
+  );
 
   programs.dank-material-shell = {
     enable = true;
