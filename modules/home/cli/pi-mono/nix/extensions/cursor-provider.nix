@@ -4,8 +4,8 @@ let
   upstreamSrc = pkgs.fetchFromGitHub {
     owner = "offbynan";
     repo = "pi-cursor-provider";
-    rev = "84faa1dd2c3ce306547961c67b5c4194ca7c57ac";
-    hash = "sha256-wBqW4QPEj+6YRmSn3C3UnwGziGZAXZP7zZ0vlu6YIoU=";
+    rev = "a89ac0ff34d1d6209f5a40a0b362cce0eea5915c";
+    hash = "sha256-yewdodOFSeG6SHQ6Mpi10j57LYcLD6WzIAFro6p3xAc=";
   };
 
   packageJson = builtins.fromJSON (builtins.readFile (upstreamSrc + "/package.json"));
@@ -63,7 +63,7 @@ pkgs.buildNpmPackage {
   inherit (packageJson) version;
   inherit src;
 
-  npmDepsHash = "sha256-JMyD8phC+mS1/nwom99pYdkbNuV8Jrs76vYbPwVf1Vo=";
+  npmDepsHash = "sha256-N2Uz6ZbWTvBOYdiYl6zJUoZfyIJRg3KsJj+xYp3Bg48=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24;
