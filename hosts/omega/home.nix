@@ -122,6 +122,7 @@
     # cli
     home.cli.direnv.enable = true;
     home.cli.git.enable = true;
+    home.cli.hunk.enable = true;
     home.cli.jujutsu.enable = true;
     home.cli.dev.enable = true;
     home.cli.nixvim.enable = true;

@@ -15,10 +15,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile."hunk/config.toml".text = ''
-      theme = "stylix"
-    '';
-
     home.packages = with pkgs; [
       bat
       # broken: devenv

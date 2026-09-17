@@ -63,6 +63,7 @@
     home.cli.direnv.enable = true;
     home.cli.dev.enable = true;
     home.cli.git.enable = true;
+    home.cli.hunk.enable = true;
     home.cli.nixvim.enable = true;
     home.cli.opencode.enable = true;
     home.cli.pi-mono.enable = true;
