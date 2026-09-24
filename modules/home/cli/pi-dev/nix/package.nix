@@ -1,22 +1,22 @@
-{ pkgs, pi-mono-src }:
+{ pkgs, pi-dev-src }:
 
 let
   packageJson = builtins.fromJSON (
-    builtins.readFile (pi-mono-src + "/packages/coding-agent/package.json")
+    builtins.readFile (pi-dev-src + "/packages/coding-agent/package.json")
   );
   version = packageJson.version;
   releaseSource = pkgs.fetchzip {
     url = "https://github.com/earendil-works/pi/releases/download/v${version}/pi-${version}-source.tar.gz";
-    hash = "sha256-xMT9mCn9KIDyfKYzi8Esf2NV3UYtoL98dEuKXPlSSkU=";
+    hash = "sha256-KXlSWaburxruZ46qWO6Dg3gNDrFahQNT7Ud7WyfoiKk=";
   };
 in
 pkgs.buildNpmPackage {
-  pname = "pi-mono-coding-agent";
+  pname = "pi-dev-coding-agent";
   inherit version;
 
   src = releaseSource;
 
-  npmDepsHash = "sha256-au70hBfSpB97fZ9KnYre/Oollix8ccHOEIFKMyb2O4Q=";
+  npmDepsHash = "sha256-2LdwgFkOEkRZ7MqfWmBSj7cy9WUWHklEOED9c4BwmHE=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24;
@@ -54,16 +54,16 @@ pkgs.buildNpmPackage {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/lib/pi-mono
+    mkdir -p $out/lib/pi-dev
 
-    cp -r packages $out/lib/pi-mono/
-    cp -r node_modules $out/lib/pi-mono/
-    cp package.json $out/lib/pi-mono/
+    cp -r packages $out/lib/pi-dev/
+    cp -r node_modules $out/lib/pi-dev/
+    cp package.json $out/lib/pi-dev/
 
     mkdir -p $out/bin
     cat > $out/bin/pi << EOF
     #!/usr/bin/env node
-    import("$out/lib/pi-mono/packages/coding-agent/dist/cli.js");
+    import("$out/lib/pi-dev/packages/coding-agent/dist/cli.js");
     EOF
 
     chmod +x $out/bin/pi

@@ -130,7 +130,7 @@
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
-    home.cli.pi-mono = {
+    home.cli.pi-dev = {
       enable = true;
       providers.aiand.enable = true;
       providers.tenstorrent.enable = true;

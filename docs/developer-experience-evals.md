@@ -338,10 +338,10 @@ Model optimization should start with a quality/cost frontier across a few fixed 
 
 Existing integration points:
 
-- `modules/home/cli/pi-mono.nix` installs the Pi package and exposes global instructions, skills, extensions, and settings through Home Manager.
-- `modules/home/cli/pi-mono/AGENTS.md` and `modules/home/cli/pi-mono/skills/` are the source-controlled instruction assets.
-- `modules/home/cli/pi-mono/skills/improve-skill/SKILL.md` already describes extracting Pi/Claude/Codex sessions and proposing improvements. It does **not** currently gate changes on executable evals. Treat it as a source of candidate tasks/edits, not evidence of improvement.
-- `modules/home/cli/pi-mono/nix/package.nix` builds Pi from pinned release source; Harbor's stock adapter instead installs an npm package. Matching the model alone will not reproduce the local setup. [L1][H2]
+- `modules/home/cli/pi-dev.nix` installs the Pi package and exposes global instructions, skills, extensions, and settings through Home Manager.
+- `modules/home/cli/pi-dev/AGENTS.md` and `modules/home/cli/pi-dev/skills/` are the source-controlled instruction assets.
+- `modules/home/cli/pi-dev/skills/improve-skill/SKILL.md` already describes extracting Pi/Claude/Codex sessions and proposing improvements. It does **not** currently gate changes on executable evals. Treat it as a source of candidate tasks/edits, not evidence of improvement.
+- `modules/home/cli/pi-dev/nix/package.nix` builds Pi from pinned release source; Harbor's stock adapter instead installs an npm package. Matching the model alone will not reproduce the local setup. [L1][H2]
 
 For faithful local-setup evaluation:
 
@@ -394,5 +394,5 @@ Pin compatible releases/commits and smoke-test the exact combination before adop
 - [C1] [CodexOpt README, scoring and optimization behavior](https://github.com/SuperagenticAI/CodexOpt)
 - [R1] [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988)
 - [R2] [SkillsBench](https://arxiv.org/abs/2602.12670)
-- [L1] Local files inspected: `modules/home/cli/pi-mono.nix`, `modules/home/cli/pi-mono/nix/package.nix`, and `modules/home/cli/pi-mono/skills/improve-skill/SKILL.md`.
+- [L1] Local files inspected: `modules/home/cli/pi-dev.nix`, `modules/home/cli/pi-dev/nix/package.nix`, and `modules/home/cli/pi-dev/skills/improve-skill/SKILL.md`.
 - [L2] Installed Pi **0.85.1** documentation inspected in full: `README.md`, `docs/skills.md`, and `docs/environment-variables.md` under the installed package. [Upstream documentation](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/docs).

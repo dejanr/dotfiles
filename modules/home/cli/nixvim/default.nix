@@ -12,6 +12,6 @@
 
   extraFiles = {
     "lua/dejanr/utils.lua".source = ./lua/dejanr/utils.lua;
-    "lua/dejanr/pi-mono.lua".source = ./lua/dejanr/pi-mono.lua;
+    "lua/dejanr/pi-dev.lua".source = ./lua/dejanr/pi-dev.lua;
   };
 }

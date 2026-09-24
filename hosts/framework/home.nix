@@ -123,7 +123,7 @@ in
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
     home.cli.yazi.enable = true;
-    home.cli.pi-mono = {
+    home.cli.pi-dev = {
       enable = true;
       providers.vllm.enable = true;
       providers.halogen.enable = true;

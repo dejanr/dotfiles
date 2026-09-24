@@ -95,7 +95,7 @@ local function get_visual_selection()
 end
 
 local function send_to_tmux(target, text)
-  -- Clear any existing input in pi-mono first (Ctrl+A select all, then delete)
+  -- Clear any existing input in pi-dev first (Ctrl+A select all, then delete)
   os.execute(string.format("tmux send-keys -t '%s' C-a C-k", target))
 
   -- Use 3-step bracketed paste so pi treats content as pasted text,
@@ -138,7 +138,7 @@ function M.send_selection()
 
   local target = M.config.pane_target or find_pi_pane()
   if not target then
-    vim.notify("Could not find pi-mono tmux pane", vim.log.levels.ERROR)
+    vim.notify("Could not find pi-dev tmux pane", vim.log.levels.ERROR)
     return
   end
 
@@ -166,14 +166,14 @@ function M.send_selection()
         os.execute(string.format("tmux select-window -t '%s:%s'", session, window))
         os.execute(string.format("tmux select-pane -t '%s'", target))
       end
-      vim.notify(string.format("Sent to pi-mono (%s)", target), vim.log.levels.INFO)
+      vim.notify(string.format("Sent to pi-dev (%s)", target), vim.log.levels.INFO)
     end
   end)
 end
 
 function M.set_target(target)
   M.config.pane_target = target
-  vim.notify("Pi-mono target set to: " .. target, vim.log.levels.INFO)
+  vim.notify("Pi-dev target set to: " .. target, vim.log.levels.INFO)
 end
 
 function M.setup(opts)

@@ -1515,14 +1515,14 @@
         "type": "github"
       }
     },
-    "pi-mono": {
+    "pi-dev": {
       "flake": false,
       "locked": {
-        "lastModified": 1788647417,
-        "narHash": "sha256-DX+2MhfizQ6gG6KfgErIm2NtM56O2awPC2YZxcGHUwI=",
+        "lastModified": 1790250610,
+        "narHash": "sha256-6C0dmKYAXSz6egMtE6ebytoqQUZzdpW6SdPD5tnvCaQ=",
         "owner": "earendil-works",
         "repo": "pi",
-        "rev": "9767ba275f3e9a5ee0f5c5342249b629ab1b2282",
+        "rev": "481c7232f1e780d8a9fe30d6ac31329d973d0e8a",
         "type": "github"
       },
       "original": {
@@ -1573,7 +1573,7 @@
         "nixpkgs-mesa": "nixpkgs-mesa",
         "nixvim": "nixvim",
         "nur": "nur",
-        "pi-mono": "pi-mono",
+        "pi-dev": "pi-dev",
         "rust-overlay": "rust-overlay",
         "ssh-keys": "ssh-keys",
         "stylix": "stylix",

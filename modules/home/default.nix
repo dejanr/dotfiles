@@ -25,11 +25,11 @@
     exclude = [
       "config.nix"
       ./cli/nixvim
-      ./cli/pi-mono/extensions
-      ./cli/pi-mono/nix
-      ./cli/pi-mono/prompts
-      ./cli/pi-mono/flake.nix
-      ./cli/pi-mono/devenv.nix
+      ./cli/pi-dev/extensions
+      ./cli/pi-dev/nix
+      ./cli/pi-dev/prompts
+      ./cli/pi-dev/flake.nix
+      ./cli/pi-dev/devenv.nix
     ];
   };
 }

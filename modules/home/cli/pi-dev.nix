@@ -8,33 +8,33 @@
 
 with lib;
 let
-  cfg = config.modules.home.cli.pi-mono;
+  cfg = config.modules.home.cli.pi-dev;
   jsonFormat = pkgs.formats.json { };
 
-  pi-mono-src = inputs.pi-mono;
+  pi-dev-src = inputs.pi-dev;
 
   packageJson = builtins.fromJSON (
-    builtins.readFile (inputs.pi-mono + "/packages/coding-agent/package.json")
+    builtins.readFile (inputs.pi-dev + "/packages/coding-agent/package.json")
   );
 
-  piMonoPkg = import ./pi-mono/nix/package.nix;
-  piMono = piMonoPkg { inherit pkgs pi-mono-src; };
+  piDevPkg = import ./pi-dev/nix/package.nix;
+  piDev = piDevPkg { inherit pkgs pi-dev-src; };
 
-  piMonoExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-extensions;
-  piMonoDs4Pkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-mono-ds4;
+  piDevExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-dev-extensions;
+  piDevDs4Pkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-dev-ds4;
   piCursorProviderPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-cursor-provider;
   piUsageBarsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-usage-bars;
   piExtensionsPkg = pkgs.runCommand "pi-extensions" { } ''
     mkdir -p $out
-    for path in ${piMonoExtensionsPkg}/*; do
+    for path in ${piDevExtensionsPkg}/*; do
       ln -s "$path" "$out/$(basename "$path")"
     done
     ln -s ${piCursorProviderPkg} $out/cursor-provider
     ln -s ${piUsageBarsPkg} $out/usage-bars
-    ${optionalString pkgs.stdenv.isDarwin "ln -s ${piMonoDs4Pkg} $out/ds4-runtime"}
+    ${optionalString pkgs.stdenv.isDarwin "ln -s ${piDevDs4Pkg} $out/ds4-runtime"}
   '';
 
-  promptFiles = builtins.readDir ./pi-mono/prompts;
+  promptFiles = builtins.readDir ./pi-dev/prompts;
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;
 
   settings = {
@@ -237,14 +237,14 @@ let
 
 in
 {
-  options.modules.home.cli.pi-mono = {
-    enable = mkEnableOption "pi-mono coding agent";
+  options.modules.home.cli.pi-dev = {
+    enable = mkEnableOption "pi-dev coding agent";
 
-    providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-mono";
-    providers.aiand.enable = mkEnableOption "ai& models for pi-mono";
-    providers.vllm.enable = mkEnableOption "local vLLM models for pi-mono";
+    providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-dev";
+    providers.aiand.enable = mkEnableOption "ai& models for pi-dev";
+    providers.vllm.enable = mkEnableOption "local vLLM models for pi-dev";
     providers.halogen = {
-      enable = mkEnableOption "local Halogen models for pi-mono";
+      enable = mkEnableOption "local Halogen models for pi-dev";
       baseUrl = mkOption {
         type = types.str;
         default = "http://127.0.0.1:${toString config.modules.home.cli.halogen.port}/v1";
@@ -265,7 +265,7 @@ in
       };
     };
     providers.llama-cpp = {
-      enable = mkEnableOption "local llama.cpp models for pi-mono";
+      enable = mkEnableOption "local llama.cpp models for pi-dev";
       baseUrl = mkOption {
         type = types.str;
         default = "http://localhost:8181/v1";
@@ -276,20 +276,20 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [
-      piMono
+      piDev
       pkgs.beads
     ]
     ++ optionals pkgs.stdenv.isDarwin [
-      piMonoDs4Pkg
+      piDevDs4Pkg
     ];
 
     home.file = {
       ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;
       # ".pi/agent/keybindings.json".source = jsonFormat.generate "keybindings.json" keybindings;
-      ".pi/agent/AGENTS.md".source = ./pi-mono/AGENTS.md;
+      ".pi/agent/AGENTS.md".source = ./pi-dev/AGENTS.md;
       ".pi/agent/extensions".source = piExtensionsPkg;
-      ".pi/agent/skills".source = ./pi-mono/skills;
-      ".pi/agent/themes/dejanr.json".source = ./pi-mono/themes/dejanr.json;
+      ".pi/agent/skills".source = ./pi-dev/skills;
+      ".pi/agent/themes/dejanr.json".source = ./pi-dev/themes/dejanr.json;
     }
     // optionalAttrs (customProviders != { }) {
       ".pi/agent/models.json".source = jsonFormat.generate "models.json" {
@@ -299,7 +299,7 @@ in
     // (mapAttrs' (
       name: _:
       nameValuePair ".pi/agent/prompts/${name}" {
-        source = ./pi-mono/prompts/${name};
+        source = ./pi-dev/prompts/${name};
       }
     ) prompts);
   };

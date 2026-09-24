@@ -1,7 +1,7 @@
 {
   pkgs,
   extensions-src,
-  pi-mono-src,
+  pi-dev-src,
 }:
 
 let
@@ -9,7 +9,7 @@ let
   nodejs = pkgs.nodejs_24;
 
   piVersion =
-    (builtins.fromJSON (builtins.readFile (pi-mono-src + "/packages/coding-agent/package.json")))
+    (builtins.fromJSON (builtins.readFile (pi-dev-src + "/packages/coding-agent/package.json")))
     .version;
 
   extSrc = pkgs.lib.cleanSourceWith {
@@ -32,7 +32,7 @@ let
   );
 in
 pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
-  pname = "pi-mono-extensions";
+  pname = "pi-dev-extensions";
   version = "1.0.0";
 
   src = extSrc;
@@ -47,7 +47,7 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-OdLHz7Xh+M648Au/lb+eHZInF48roRsHB7zUbkdpf2I=";
+    hash = "sha256-xcgwfjjJRAyH1DFzMdOYxQVYCSlSj+cSVdgsns+lKRk=";
   };
 
   buildPhase = ''
@@ -55,7 +55,7 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
 
     declaredVersion=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).devDependencies['@earendil-works/pi-coding-agent']")
     if [ "${piVersion}" != "$declaredVersion" ]; then
-      echo "ERROR: pi-mono version mismatch (input: ${piVersion}, declared: $declaredVersion)" >&2
+      echo "ERROR: pi-dev version mismatch (input: ${piVersion}, declared: $declaredVersion)" >&2
       exit 1
     fi
 
@@ -67,31 +67,31 @@ pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
   '';
 
   installPhase = ''
-    runHook preInstall
+        runHook preInstall
 
-    for dir in */; do
-      if [ -f "$dir/dist/index.js" ]; then
-        mkdir -p "$out/$dir"
-        cp -r "$dir"/{dist,package.json} "$out/$dir/"
+        for dir in */; do
+          if [ -f "$dir/dist/index.js" ]; then
+            mkdir -p "$out/$dir"
+            cp -r "$dir"/{dist,package.json} "$out/$dir/"
 
-        extraFiles=$(node -e '
-          const fs = require("fs");
-          const path = process.argv[1];
-          const pkg = JSON.parse(fs.readFileSync(path, "utf8"));
-          for (const file of pkg.files ?? []) console.log(file);
-        ' "$dir/package.json")
+            extraFiles=$(node -e '
+              const fs = require("fs");
+              const path = process.argv[1];
+              const pkg = JSON.parse(fs.readFileSync(path, "utf8"));
+              for (const file of pkg.files ?? []) console.log(file);
+            ' "$dir/package.json")
 
-        if [ -n "$extraFiles" ]; then
-          while IFS= read -r file; do
-            [ -n "$file" ] || continue
-            cp -r "$dir/$file" "$out/$dir/"
-          done <<EOF
-$extraFiles
-EOF
-        fi
-      fi
-    done
+            if [ -n "$extraFiles" ]; then
+              while IFS= read -r file; do
+                [ -n "$file" ] || continue
+                cp -r "$dir/$file" "$out/$dir/"
+              done <<EOF
+    $extraFiles
+    EOF
+            fi
+          fi
+        done
 
-    runHook postInstall
+        runHook postInstall
   '';
 })

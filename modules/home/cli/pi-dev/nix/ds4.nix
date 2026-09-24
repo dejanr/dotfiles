@@ -50,12 +50,12 @@ let
   );
 in
 if !pkgs.stdenv.isDarwin then
-  pkgs.runCommandNoCC "pi-mono-ds4-unsupported" { } ''
+  pkgs.runCommandNoCC "pi-dev-ds4-unsupported" { } ''
     mkdir -p "$out"
   ''
 else
   pkgs.stdenv.mkDerivation {
-    pname = "pi-mono-ds4";
+    pname = "pi-dev-ds4";
     version = "0.1.0";
 
     src = source;

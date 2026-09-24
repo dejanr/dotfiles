@@ -1,5 +1,5 @@
 {
-  "name": "pi-mono-extensions",
+  "name": "pi-dev-extensions",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.26.1",
@@ -10,10 +10,10 @@
     "check": "pnpm run lint && pnpm run typecheck"
   },
   "devDependencies": {
-    "@earendil-works/pi-agent-core": "0.85.1",
-    "@earendil-works/pi-ai": "0.85.1",
-    "@earendil-works/pi-coding-agent": "0.85.1",
-    "@earendil-works/pi-tui": "0.85.1",
+    "@earendil-works/pi-agent-core": "0.87.1",
+    "@earendil-works/pi-ai": "0.87.1",
+    "@earendil-works/pi-coding-agent": "0.87.1",
+    "@earendil-works/pi-tui": "0.87.1",
     "@types/node": "^22.10.5",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/parser": "^8.59.2",
@@ -25,10 +25,10 @@
   },
   "pnpm": {
     "overrides": {
-      "@earendil-works/pi-agent-core": "0.85.1",
-      "@earendil-works/pi-ai": "0.85.1",
-      "@earendil-works/pi-coding-agent": "0.85.1",
-      "@earendil-works/pi-tui": "0.85.1"
+      "@earendil-works/pi-agent-core": "0.87.1",
+      "@earendil-works/pi-ai": "0.87.1",
+      "@earendil-works/pi-coding-agent": "0.87.1",
+      "@earendil-works/pi-tui": "0.87.1"
     }
   }
 }

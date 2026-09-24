@@ -29,7 +29,7 @@ This skill provides several tools in the `tools/` directory:
 If `./tools/...` fails, the tools live in the dotfiles repo:
 
 ```
-/home/dejanr/.dotfiles/modules/home/cli/pi-mono/skills/openscad/tools
+/home/dejanr/.dotfiles/modules/home/cli/pi-dev/skills/openscad/tools
 ```
 
 Use the full path or locate them with:

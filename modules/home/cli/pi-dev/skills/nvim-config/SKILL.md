@@ -35,7 +35,7 @@ nix run .#nvim
 Pi skills are managed by Nix from:
 
 ```text
-modules/home/cli/pi-mono/skills/<skill-name>/SKILL.md
+modules/home/cli/pi-dev/skills/<skill-name>/SKILL.md
 ```
 
 `~/.pi/agent/skills` is a read-only symlink into the built Home Manager profile.

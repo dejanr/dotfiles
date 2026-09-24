@@ -1,11 +1,11 @@
-# Pi-mono Extensions
+# Pi-dev Extensions
 
-This directory contains pi-mono extensions packaged as pnpm workspaces. Each extension lives in its own folder with an `index.ts` and `package.json`, and the workspace root provides shared TypeScript + ESLint configuration.
+This directory contains pi-dev extensions packaged as pnpm workspaces. Each extension lives in its own folder with an `index.ts` and `package.json`, and the workspace root provides shared TypeScript + ESLint configuration.
 
 ## Layout
 
 ```
-modules/home/cli/pi-mono/extensions/
+modules/home/cli/pi-dev/extensions/
 ├── package.json          # Workspace root (dev deps + scripts)
 ├── pnpm-workspace.yaml   # Workspace definition
 ├── tsconfig.json         # Shared TS config
@@ -18,7 +18,7 @@ modules/home/cli/pi-mono/extensions/
 ## Quick Start
 
 ```bash
-cd modules/home/cli/pi-mono/extensions
+cd modules/home/cli/pi-dev/extensions
 # Install workspace + extension deps
 pnpm install
 pnpm run typecheck
@@ -27,7 +27,7 @@ pnpm run lint
 
 ## Adding a New Extension
 
-1. Create a new folder under `modules/home/cli/pi-mono/extensions/<name>`.
+1. Create a new folder under `modules/home/cli/pi-dev/extensions/<name>`.
 2. Add an `index.ts` with a default export function.
 3. Add a `package.json` with a `pi.extensions` entry and the shared build script (`nix/scripts/build.mjs`).
 
@@ -54,7 +54,7 @@ Example `package.json`:
 ## External Extensions
 
 Third-party extensions are packaged separately under `../nix/extensions/`, exposed in
-`flake.nix`, and linked into `~/.pi/agent/extensions/` by `../../pi-mono.nix`.
+`flake.nix`, and linked into `~/.pi/agent/extensions/` by `../../pi-dev.nix`.
 Keep their upstream sources pinned rather than copying them into this workspace.
 
 - `cursor-provider.nix`: Cursor provider integration.
@@ -80,17 +80,17 @@ Pi's core packages remain external to the bundle and are supplied by Pi at load 
 
 - **Typecheck:** `pnpm run typecheck`
 - **Lint:** `pnpm run lint`
-- **Build all extensions:** `nix develop -c bash -lc "cd modules/home/cli/pi-mono/extensions && pnpm install && pnpm run build"`
+- **Build all extensions:** `nix develop -c bash -lc "cd modules/home/cli/pi-dev/extensions && pnpm install && pnpm run build"`
 
 To test an extension in pi:
 
 ```bash
-pi -e ./modules/home/cli/pi-mono/extensions/<name>/index.ts
+pi -e ./modules/home/cli/pi-dev/extensions/<name>/index.ts
 ```
 
 Notes:
 - Dependencies shared across extensions should be declared at the workspace root (`package.json`).
-- Pin `@earendil-works/*` versions only in the workspace root; extension package peer dependencies should use `"*"` so local type resolution does not mix old pi-mono versions.
+- Pin `@earendil-works/*` versions only in the workspace root; extension package peer dependencies should use `"*"` so local type resolution does not mix old pi-dev versions.
 - Runtime dependencies specific to an extension should be listed in that extension’s `package.json` under `dependencies`.
 - Peer dependencies are automatically marked as externals by the shared build script.
-- The final extension builds are packaged via Nix (`modules/home/cli/pi-mono/nix/extensions.nix`), but this workspace setup supports local development and testing too.
+- The final extension builds are packaged via Nix (`modules/home/cli/pi-dev/nix/extensions.nix`), but this workspace setup supports local development and testing too.

@@ -75,7 +75,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pi-mono = {
+    pi-dev = {
       url = "github:earendil-works/pi";
       flake = false;
     };
@@ -212,23 +212,23 @@
       packages = forEachSystem (system: {
         nvim = nixvimConfig system;
         default = nixvimConfig system;
-        pi-mono-coding-agent = import ./modules/home/cli/pi-mono/nix/package.nix {
+        pi-dev-coding-agent = import ./modules/home/cli/pi-dev/nix/package.nix {
           pkgs = nixpkgs.legacyPackages.${system};
-          pi-mono-src = inputs.pi-mono;
+          pi-dev-src = inputs.pi-dev;
         };
-        pi-mono-ds4 = import ./modules/home/cli/pi-mono/nix/ds4.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        pi-cursor-provider = import ./modules/home/cli/pi-mono/nix/extensions/cursor-provider.nix {
+        pi-dev-ds4 = import ./modules/home/cli/pi-dev/nix/ds4.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
-        pi-usage-bars = import ./modules/home/cli/pi-mono/nix/extensions/usage-bars.nix {
+        pi-cursor-provider = import ./modules/home/cli/pi-dev/nix/extensions/cursor-provider.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
-        pi-mono-extensions = import ./modules/home/cli/pi-mono/nix/extensions.nix {
+        pi-usage-bars = import ./modules/home/cli/pi-dev/nix/extensions/usage-bars.nix {
           pkgs = nixpkgs.legacyPackages.${system};
-          extensions-src = self + "/modules/home/cli/pi-mono";
-          pi-mono-src = inputs.pi-mono;
+        };
+        pi-dev-extensions = import ./modules/home/cli/pi-dev/nix/extensions.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+          extensions-src = self + "/modules/home/cli/pi-dev";
+          pi-dev-src = inputs.pi-dev;
         };
       });
       nixosConfigurations = {

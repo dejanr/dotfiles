@@ -20,7 +20,7 @@
     ./editor/nvimux.nix
     ./editor/mdx.nix
     ./editor/render-markdown.nix
-    ./editor/pi-mono.nix
+    ./editor/pi-dev.nix
     ./editor/demo-it.nix
     ./lsp/lspconfig.nix
     ./lsp/conform.nix

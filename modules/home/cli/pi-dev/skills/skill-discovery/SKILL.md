@@ -88,7 +88,7 @@ Install into the dotfiles source, then rebuild to activate.
 
 ```bash
 gh repo clone <owner>/<repo> /tmp/<repo>
-cp -r /tmp/<repo>/skills/<skill-name> ~/.dotfiles/modules/home/cli/pi-mono/skills/
+cp -r /tmp/<repo>/skills/<skill-name> ~/.dotfiles/modules/home/cli/pi-dev/skills/
 ```
 
 After copying, remind the user to rebuild (`sudo nixos-rebuild switch --flake ~/.dotfiles#` or `nix run nix-darwin -- switch --flake ~/.dotfiles#`) to activate the new skill.

@@ -4,12 +4,13 @@ import {
   streamSimple,
   type AssistantMessage,
   type AssistantMessageEventStream,
-  type Context,
+  type JsonObject,
   type Model,
   type SimpleStreamOptions,
   type TextContent,
   type ThinkingContent,
   type ToolCall,
+  type TranscriptContext,
 } from "@earendil-works/pi-ai/compat";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
@@ -30,9 +31,9 @@ function nonEmptyText(text: string): TextContent | undefined {
   return cleaned.trim().length > 0 ? { type: "text", text: cleaned } : undefined;
 }
 
-function parseToolCallArguments(rawJson: string): Record<string, unknown> {
+function parseToolCallArguments(rawJson: string): JsonObject {
   try {
-    return parseJsonWithRepair<Record<string, unknown>>(rawJson.trim());
+    return parseJsonWithRepair<JsonObject>(rawJson.trim());
   } catch {
     return {};
   }
@@ -79,7 +80,7 @@ function parseTenstorrentText(text: string): ParsedContentBlock[] {
   return blocks.length > 0 ? blocks : [{ type: "text", text }];
 }
 
-function normalizeTenstorrentContext(context: Context): Context {
+function normalizeTenstorrentContext(context: TranscriptContext): TranscriptContext {
   return {
     ...context,
     messages: context.messages.map((message) => {
@@ -156,7 +157,7 @@ function emitContentBlocks(stream: AssistantMessageEventStream, output: Assistan
 
 function streamTenstorrent(
   model: Model<string>,
-  context: Context,
+  context: TranscriptContext,
   options?: SimpleStreamOptions,
 ): AssistantMessageEventStream {
   const stream = createAssistantMessageEventStream();

@@ -39,7 +39,7 @@ Usage:
 Modes:
   generate    One-shot local generation (default)
   chat        Interactive local chat
-  server      Run a local OpenAI-compatible MLX server for pi-mono
+  server      Run a local OpenAI-compatible MLX server for pi-dev
   setup       Prepare the selected backend and exit
 
 General options:
@@ -410,7 +410,7 @@ case "$mode" in
     ;;
   server)
     if [[ -n "$system_prompt" ]]; then
-      echo "Warning: --system-prompt is ignored in server mode; pi-mono will send its own system prompt." >&2
+      echo "Warning: --system-prompt is ignored in server mode; pi-dev will send its own system prompt." >&2
     fi
 
     command=(
