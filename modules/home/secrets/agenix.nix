@@ -34,5 +34,6 @@ in
     age.secrets.openai_api_key.file = ../../../secrets/openai_api_key.age;
     age.secrets.tenstorrent_api_key.file = ../../../secrets/tenstorrent_api_key.age;
     age.secrets.gh_token.file = ../../../secrets/gh_token.age;
+    age.secrets.jira_api_token.file = ../../../secrets/jira_api_token.age;
   };
 }

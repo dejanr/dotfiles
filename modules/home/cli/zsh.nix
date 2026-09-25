@@ -82,6 +82,7 @@ in
             export OPENAI_API_KEY=$(cat ${config.age.secrets.openai_api_key.path})
             export TENSTORRENT_API_KEY=$(cat ${config.age.secrets.tenstorrent_api_key.path})
             export GH_TOKEN=$(cat ${config.age.secrets.gh_token.path})
+            export JIRA_API_TOKEN=$(cat ${config.age.secrets.jira_api_token.path})
             export HUGGINGFACE_HUB_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
             export HF_TOKEN=$(cat ${config.age.secrets.huggingface_api_key.path})
           '';
