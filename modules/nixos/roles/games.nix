@@ -36,7 +36,12 @@ in
         };
       };
 
-      services.joycond.enable = true;
+      services.joycond = {
+        enable = true;
+        package = pkgs.joycond.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [ ./joycond-combined-only.patch ];
+        });
+      };
     }
 
     (mkIf isX86 (

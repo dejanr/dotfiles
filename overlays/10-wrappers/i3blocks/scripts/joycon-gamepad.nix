@@ -45,7 +45,7 @@
     if ((failed)); then
       "$NOTIFY_SEND" -a i3blocks "Joy-Cons" "Wake both controllers and click again"
     else
-      "$NOTIFY_SEND" -a i3blocks "Joy-Cons" "Connected; press L + R to combine"
+      "$NOTIFY_SEND" -a i3blocks "Joy-Cons" "Connected; Joy-Cons combine automatically"
     fi
   }
 
