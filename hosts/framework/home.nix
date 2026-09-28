@@ -64,6 +64,7 @@ in
     jira-cli-go
     google-cloud-sdk
     pm2
+    mongosh
   ];
 
   config.services.demo-it.enable = true;

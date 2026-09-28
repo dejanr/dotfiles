@@ -9,6 +9,7 @@
     microsoft-rush
     jira-cli-go
     glab
+    mongosh
   ];
 
   config.xdg.desktopEntries.eve-online = {
