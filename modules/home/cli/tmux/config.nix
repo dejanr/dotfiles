@@ -140,8 +140,9 @@
   set-hook -g after-select-window 'set-window-option @pi_unread 0'
   set-hook -g after-select-pane 'set-window-option @pi_unread 0'
 
+  set-option -g update-environment "DISPLAY KRB5CCNAME MSYSTEM SSH_ASKPASS SSH_AUTH_SOCK SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY WAYLAND_DISPLAY XDG_RUNTIME_DIR DIRENV_DIFF DIRENV_DIR DIRENV_WATCHES"
+
   # direnv cleanup
-  set-option -g update-environment "DIRENV_DIFF DIRENV_DIR DIRENV_WATCHES"
   set-environment -gu DIRENV_DIFF
   set-environment -gu DIRENV_DIR
   set-environment -gu DIRENV_WATCHES
