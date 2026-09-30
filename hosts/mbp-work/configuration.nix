@@ -22,6 +22,8 @@ in
 
   time.timeZone = "Europe/Berlin";
 
+  security.pam.services.sudo_local.touchIdAuth = true;
+
   services.openssh = {
     enable = true;
     extraConfig = ''
