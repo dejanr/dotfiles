@@ -59,12 +59,8 @@ in
     moonlightOmegaDesktop
     moonlightOmegaDesktop4k
     # poluted global pkgs by projects, fix those projects
-    glab
-    microsoft-rush
-    jira-cli-go
     google-cloud-sdk
     pm2
-    mongosh
   ];
 
   config.services.demo-it.enable = true;

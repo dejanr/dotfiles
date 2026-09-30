@@ -26,55 +26,18 @@ let
     ln -s ${greeterSettings} "$out/settings.json"
     ln -s ${greeterSession} "$out/session.json"
   '';
-  podmanDockerConfig = pkgs.writeTextDir "config.json" ''
-    { "auths": { } }
-  '';
-  podmanDockerCompat = pkgs.writeShellScriptBin "docker" ''
-    export DOCKER_CONFIG="''${DOCKER_CONFIG:-${podmanDockerConfig}}"
-    exec ${lib.getExe pkgs.podman} --remote --url unix:///run/podman/podman.sock "$@"
-  '';
 in
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  age.secrets.work_hosts.file = ../../secrets/work_hosts.age;
-
-  system.activationScripts.workHosts = {
-    deps = [
-      "agenix"
-      "etc"
-    ];
-    text = ''
-      install -m 0644 /etc/static/hosts /run/hosts
-      cat ${config.age.secrets.work_hosts.path} >> /run/hosts
-      ln -sfn /run/hosts /etc/hosts
-    '';
-  };
-
-  virtualisation.podman = {
-    enable = true;
-    dockerSocket.enable = true;
-  };
-
   boot.kernelParams = lib.optional config.home-manager.users.dejanr.modules.home.cli.halogen.enable "zfs.zfs_arc_max=8589934592";
 
-  security.pki.certificateFiles = [
-    ../../certs/ctf-local-root.crt
-  ];
-
-  systemd.tmpfiles.rules = [
-    "d /tmp/localstack 0777 root root -"
-  ];
-
-  environment.systemPackages = [
-    podmanDockerCompat
-  ]
-  ++ (with pkgs; [
+  environment.systemPackages = with pkgs; [
     xwayland-satellite
     wl-clipboard
-  ]);
+  ];
 
   # sst.dev
   programs.nix-ld.enable = true;
@@ -167,8 +130,6 @@ in
     };
   };
 
-  systemd.services.caddy.wantedBy = lib.mkForce [ ];
-
   systemd.services.flatpak-repo = {
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
@@ -181,7 +142,6 @@ in
   };
 
   networking.firewall = {
-    trustedInterfaces = [ "podman0" ];
     allowedTCPPorts = [ 22000 ];
     allowedUDPPorts = [
       22000
@@ -239,7 +199,6 @@ in
 
   users.users.dejanr.extraGroups = lib.mkAfter (
     [
-      "podman"
       "ydotool"
     ]
     ++ lib.optional config.home-manager.users.dejanr.modules.home.cli.halogen.enable "render"
@@ -283,10 +242,7 @@ in
 
   modules.nixos = {
     roles = {
-      hosts = {
-        enable = true;
-        blocklist.enable = false;
-      };
+      ctf.enable = true;
       dev.enable = true;
       desktop.enable = true;
       games.enable = true;

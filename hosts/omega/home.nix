@@ -6,10 +6,6 @@
   config.home.packages = with pkgs; [
     slack
     qwen36-mtp-server
-    microsoft-rush
-    jira-cli-go
-    glab
-    mongosh
   ];
 
   config.xdg.desktopEntries.eve-online = {

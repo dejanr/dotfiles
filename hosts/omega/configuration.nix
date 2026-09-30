@@ -9,8 +9,6 @@
     ./hardware-configuration.nix
   ];
 
-  virtualisation.podman.enable = true;
-
   hardware.bluetooth.settings.General.FastConnectable = true;
 
   systemd.services."lg-tv-input@" = {
@@ -197,7 +195,7 @@
 
   modules.nixos = {
     roles = {
-      hosts.enable = true;
+      ctf.enable = true;
       dev.enable = true;
       i3.enable = true;
       desktop.enable = true;
