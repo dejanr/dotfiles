@@ -39,6 +39,14 @@ in
       dockerSocket.enable = true;
     };
 
+    home-manager.users.dejanr.home.sessionVariables = {
+      JIRA_SITE = "https://burdaforward.atlassian.net";
+      JIRA_EMAIL = "dejan.ranisavljevic@burda-forward.de";
+      JIRA_TOKEN_TYPE = "scoped";
+      JIRA_CLOUD_ID = "885940eb-9c52-48ae-bc77-21be8e48d472";
+      JIRA_PROJECT = "CTF";
+    };
+
     home-manager.users.dejanr.home.packages = with pkgs; [
       microsoft-rush
       jira-cli-go

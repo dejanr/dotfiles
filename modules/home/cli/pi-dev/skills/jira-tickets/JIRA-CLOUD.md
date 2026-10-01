@@ -1,6 +1,39 @@
 # Jira Cloud access and scoped tokens
 
-Use this reference for Cloud authentication and the REST fallback. Ticket writes still require the approval gate in [SKILL.md](SKILL.md).
+Use this reference for Cloud authentication, reads, searches, and writes. Ticket writes still require the approval gate in [SKILL.md](SKILL.md).
+
+## Connection and helper
+
+The CTF role (`modules/nixos/roles/ctf.nix`) exports `JIRA_SITE`, `JIRA_EMAIL`, `JIRA_TOKEN_TYPE`, `JIRA_CLOUD_ID`, and `JIRA_PROJECT` through Home Manager. `JIRA_API_TOKEN` comes from agenix through the shell. Apply the Home Manager configuration and start a fresh login session to load changed settings. Existing agent processes keep their original environment.
+
+Run the dependency-free Node.js helper relative to this skill directory:
+
+```bash
+node scripts/jira.mjs check
+node scripts/jira.mjs view CTF-7441 --fields summary,description,status,updated
+node scripts/jira.mjs search 'project = CTF ORDER BY updated DESC' --limit 20
+```
+
+`check` probes identity and project access separately and prints no account data. It does not test write access. `view` returns raw JSON, including ADF. `search` uses enhanced `/rest/api/3/search/jql`, follows `nextPageToken`, and defaults to 50 results. Increase `--limit` only when needed; the output says whether results were truncated.
+
+For an approved update, write a JSON file containing only changed fields:
+
+```json
+{"fields":{"summary":"The exact approved title"}}
+```
+
+A description value must be ADF (or `null` for an explicitly approved removal). Read the current ADF, preserve unrelated nodes and checklists, and replace only the approved content. The helper does not convert prose to ADF or merge descriptions automatically.
+
+After showing the exact payload and obtaining approval:
+
+```bash
+node scripts/jira.mjs update CTF-7441 /tmp/jira-approved-update.json \
+  --approved --expected-updated '<updated timestamp from the reviewed issue>'
+```
+
+The helper checks the current timestamp, sends one PUT, and reads the changed fields back for verification. Review the returned values; a successful PUT alone does not prove the saved content matches. The preflight cannot prevent an edit between GET and PUT. Workflow transitions and comments need their own endpoints and approval; this helper updates fields only.
+
+Only read operations retry transient errors, at most twice. Writes never retry. After an uncertain write or failed verification, read the issue before deciding whether to resubmit. The helper blocks redirects and redacts credentials from errors. Run its mocked tests with `node --test scripts/jira.test.mjs`.
 
 ## Select the endpoint before diagnosing the token
 
@@ -28,7 +61,7 @@ A failed CLI initialization does not necessarily mean the token is invalid. Prob
 
 `read:me` covers Atlassian account identity; it does not replace Jira's `read:jira-user` scope. An identity request returning `401` with `Unauthorized; scope does not match` while the project request returns `200` demonstrates an operation-specific scope mismatch, not rejected credentials.
 
-For classic Jira scopes, `read:jira-work` and `write:jira-work` can support reading creation metadata and creating an issue, subject to project permissions. Granular-scoped tokens have different requirements; consult the endpoint documentation rather than treating these classic scope names as universal.
+For classic Jira scopes, use `read:jira-work` for issue reads, searches, and creation metadata, and `write:jira-work` for creation and updates, subject to project permissions. Granular-scoped tokens have different requirements; consult the endpoint documentation rather than treating these classic scope names as universal.
 
 If the requested operation works, prefer the REST fallback over requesting broader token permissions just to complete CLI initialization. If the user wants the CLI configured, explain its additional scope requirements and use the scoped-token REST base where supported by the installed client.
 
@@ -56,5 +89,6 @@ Updates use `PUT /rest/api/3/issue/<KEY>` with only the approved fields. Fetch t
 
 - [Atlassian API tokens and scoped-token URL format](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/)
 - [Jira Cloud current-user endpoint](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/)
-- [Jira Cloud issue creation and metadata](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/)
+- [Jira Cloud issue reads, edits, and creation metadata](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/)
+- [Jira Cloud enhanced JQL search](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/)
 - [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/)

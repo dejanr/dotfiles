@@ -1,13 +1,25 @@
 ---
 name: jira-tickets
-description: Draft, format, and create or edit Jira tickets with explicit approval of the final content before publishing. Use when asked to turn a discussion into a ticket, post a Jira issue, revise a description, or troubleshoot Jira Cloud scoped-token authentication.
+description: Read and search Jira tickets, recover ticket context from a branch, and draft or update issues with approval before publishing. Use for Jira issue links or keys, missing ticket context on feature branches, ticket creation or edits, and Jira Cloud authentication.
 ---
 
 # Jira tickets
 
-## 1. Establish scope
+## Read, search, or recover context
 
-Confirm the project and issue type from the user's request. Ask if either is missing; repository context alone is not permission to choose them. For edits, confirm the existing issue key.
+Read [JIRA-CLOUD.md](JIRA-CLOUD.md) for connection settings and the bundled REST helper. Use an already-working CLI or the helper; avoid repeating CLI initialization for each request.
+
+Use the issue key or Jira link supplied by the user. When ticket context is missing, run `git branch --show-current` in the working repository. Branches use names such as `feature/CTF-7441` or `feature/CTF-7441-improved-bundling`. If the branch contains one issue key, read that original ticket and use it as the task context. If the branch contains no key or multiple keys, ask for the intended ticket. An explicit user-supplied key takes precedence over the branch.
+
+For reads, select only the required fields. Preserve the raw ADF description when preparing edits. For searches, establish the project and JQL scope, use a result limit, and follow pagination only as far as needed. A configured default project is not permission to search an unrelated project.
+
+Report the issue key, relevant facts, and human-facing issue link. Stop here for read-only requests. Branch lookup and successful authentication authorize no ticket writes.
+
+**Done when:** the requested ticket context or search results are available, or the exact access blocker is reported.
+
+## 1. Establish write scope
+
+For creation, confirm the project and issue type from the user's request. Ask if either is missing; repository context alone is not permission to choose them. For edits, establish the existing issue key from explicit context or branch lookup and read its current fields.
 
 Read relevant repository instructions and ticket-style skills. Inspect the implementation when the ticket depends on code behaviour. Distinguish agreed scope from suggestions that the user has not accepted.
 
@@ -56,7 +68,7 @@ For Jira REST v3, preserve formatting in Atlassian Document Format (ADF):
 
 Convert the approved draft without adding content. Validate the outgoing title, text order, paragraph/list structure, and explicitly set fields against that draft. Resolve issue-type IDs from project metadata rather than hardcoding them. Leave assignee, priority, sprint, labels, and other optional fields to Jira defaults unless explicitly approved.
 
-For edits, fetch the latest issue first, change only the approved fields, and preserve unrelated content. If the issue changed since the reviewed draft, reconcile and seek approval as needed.
+For edits, retain the issue's `updated` timestamp with the reviewed draft. Fetch the latest issue before writing, change only the approved fields, and preserve unrelated content. If the issue changed since review, reconcile and obtain approval again. The helper requires `--approved` and `--expected-updated` for updates; use them only after the approval gate. A timestamp preflight is not an atomic lock.
 
 Submit once and save the returned issue key immediately. After an ambiguous timeout, check whether creation succeeded before retrying; avoid duplicate tickets.
 
