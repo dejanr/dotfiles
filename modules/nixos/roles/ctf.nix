@@ -44,6 +44,7 @@ in
       jira-cli-go
       glab
       mongosh
+      pm2
     ];
 
     environment.systemPackages = [ podmanDockerCompat ];
