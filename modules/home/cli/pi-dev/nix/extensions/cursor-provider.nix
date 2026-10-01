@@ -8,6 +8,22 @@ let
     hash = "sha256-yewdodOFSeG6SHQ6Mpi10j57LYcLD6WzIAFro6p3xAc=";
   };
 
+  grok47Models =
+    map
+      (effort: {
+        id = "grok-4.7-${effort}";
+        name = "Grok 4.7";
+        reasoning = true;
+        contextWindow = 256000;
+        maxTokens = 64000;
+      })
+      [
+        "low"
+        "medium"
+        "high"
+        "xhigh"
+      ];
+
   packageJson = builtins.fromJSON (builtins.readFile (upstreamSrc + "/package.json"));
   buildPackageJson = packageJson // {
     dependencies = {
@@ -62,12 +78,32 @@ pkgs.buildNpmPackage {
   pname = "pi-cursor-provider";
   inherit (packageJson) version;
   inherit src;
+  patches = [ ./cursor-provider/mcp-state.patch ];
+  doCheck = true;
 
   npmDepsHash = "sha256-N2Uz6ZbWTvBOYdiYl6zJUoZfyIJRg3KsJj+xYp3Bg48=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24;
   nativeBuildInputs = [ pkgs.esbuild ];
+
+  postPatch = ''
+    cp ${./cursor-provider/mcp-state.ts} mcp-state.ts
+    cp ${./cursor-provider/mcp-state.test.ts} mcp-state.test.ts
+
+    substituteInPlace index.ts \
+      --replace-fail 'const processed = skipDedup' \
+        'rawModels = [
+          ...rawModels,
+          ...${builtins.toJSON grok47Models}.filter(
+            (model) => !rawModels.some(({ id }) => id === model.id),
+          ),
+        ];
+        const processed = skipDedup' \
+      --replace-fail '"cursor-grok-4.6":' \
+        '"grok-4.7": { input: 2, output: 6, cacheRead: 0.5, cacheWrite: 0 },
+        "cursor-grok-4.6":'
+  '';
 
   buildPhase = ''
     runHook preBuild
@@ -80,6 +116,20 @@ pkgs.buildNpmPackage {
       --outfile=dist/index.js
 
     runHook postBuild
+  '';
+
+  checkPhase = ''
+    runHook preCheck
+
+    esbuild mcp-state.test.ts \
+      --bundle \
+      --platform=node \
+      --format=esm \
+      --target=node22 \
+      --outfile=dist/mcp-state.test.mjs
+    node --test dist/mcp-state.test.mjs
+
+    runHook postCheck
   '';
 
   installPhase = ''

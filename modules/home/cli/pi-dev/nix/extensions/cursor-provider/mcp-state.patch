@@ -1,0 +1,22 @@
+--- a/proxy.ts
++++ b/proxy.ts
+@@ -13,6 +13,7 @@
+   toJson,
+ } from "@bufbuild/protobuf";
+ import { ValueSchema } from "@bufbuild/protobuf/wkt";
++import { encodeMcpStateResponse } from "./mcp-state.js";
+ import {
+   createServer,
+   type IncomingMessage,
+@@ -2061,6 +2062,11 @@
+   sendFrame: (data: Uint8Array) => void,
+   onMcpExec: (exec: PendingExec) => void,
+ ): void {
++  const stateResponse = encodeMcpStateResponse(execMsg, mcpTools);
++  if (stateResponse) {
++    sendFrame(frameConnectMessage(stateResponse));
++    return;
++  }
+   const execCase = (execMsg as any).message.case;
+   const REJECT_REASON =
+     "Tool not available in this environment. Use the MCP tools provided instead.";
