@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# == 1 && $1 == --help ]]; then
-  printf 'Usage: ps-kill [filter]\nPress Enter in fzf to send SIGTERM to a process and its descendants.\n'
+  printf 'Usage: ps-kill [filter]\nPress Enter in fzf to send SIGTERM to a process and its descendants.\nEsc: normal mode; j/k: navigate; i or /: search; q (normal mode) or Ctrl+C: cancel.\n'
   exit 0
 fi
 
@@ -39,14 +39,21 @@ if [[ -z $candidates ]]; then
   exit 0
 fi
 
+normal_keys='j,k,g,G,i,/,q'
+insert_header=$'    PID  USER          COMMAND\nEnter: kill tree | Esc: normal mode | Ctrl+C: cancel | Ctrl+P: details'
+normal_header=$'    PID  USER          COMMAND\nj/k: move | g/G: first/last | i or /: search | q: cancel | Enter: kill tree | Ctrl+P: details'
+insert_mode="show-input+change-border-label( ps-kill [INSERT] )+change-header($insert_header)+unbind($normal_keys)"
+normal_mode="hide-input+change-border-label( ps-kill [NORMAL] )+change-header($normal_header)+rebind($normal_keys)"
+
 if selected=$(FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE='' fzf \
   --exact +i --query="${1-}" --nth=3.. --no-multi --no-select-1 --no-exit-0 \
   --height=80% --layout=reverse --border --no-hscroll --highlight-line \
-  --prompt='ps-kill> ' \
-  --header=$'    PID  USER          COMMAND\nEnter: kill tree | Esc: cancel | Ctrl+P: toggle details' \
+  --prompt='ps-kill [INSERT]> ' --border-label=' ps-kill [INSERT] ' \
+  --header="$insert_header" \
   --preview="ps -p {1} -o pid,ppid,user,%cpu,%mem,etime; printf '\\nFULL COMMAND\\n'; ps -ww -p {1} -o args=" \
   --preview-window=down,45%,wrap --preview-label=' Process details ' \
-  --bind=ctrl-p:toggle-preview \
+  --bind="start:unbind($normal_keys),esc:$normal_mode,i:$insert_mode,/:$insert_mode" \
+  --bind='j:down,k:up,g:first,G:last,q:abort,ctrl-p:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
   <<< "$candidates"); then
   read -r selected_pid _ <<< "$selected"
 else

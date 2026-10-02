@@ -18,8 +18,17 @@ Run `ps-kill` or `ps-kill ""` to start with all selectable processes.
 The picker keeps PID and owner visible and shortens executable/Nix paths.
 The wrapped details pane shows CPU/memory usage, elapsed time, and the full
 unmodified command. Ctrl+P toggles the details pane.
+The picker starts in insert mode with a `ps-kill [INSERT]>` search prompt.
+Escape switches to normal mode, hides query input to prevent accidental edits,
+and changes the border label to `ps-kill [NORMAL]`. In normal mode:
+
+- `j`/`k` move down/up; `g`/`G` jump to the first/last match.
+- `i` or `/` returns to insert mode, preserving the query.
+- `q` cancels. Ctrl+C cancels from either mode without sudo.
+
+Ctrl+D/Ctrl+U move down/up half a page in either mode.
 Enter immediately sends SIGTERM to the selected process and its descendants,
-without confirmation. Escape or no matches cancels without sudo.
+without confirmation. Enter with no matches cancels without sudo.
 
 Ctrl+K opens the unfiltered picker at Bash and Zsh prompts, including shells
 inside tmux. It preserves your current command line and replaces the default
