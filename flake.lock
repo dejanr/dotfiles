@@ -1518,11 +1518,11 @@
     "pi-dev": {
       "flake": false,
       "locked": {
-        "lastModified": 1790813135,
-        "narHash": "sha256-b5MCr8kLKJ8uHWWU1UfPsa3CrISNnhepSFZYTadqNfc=",
+        "lastModified": 1790953129,
+        "narHash": "sha256-1pphKYfWV9eYPrzpPBYX/ACMoRkUQ90dLCaODd7CX0w=",
         "owner": "earendil-works",
         "repo": "pi",
-        "rev": "8ce69e9d2b171d173fe4b6b2b6256f1f4411e69d",
+        "rev": "221cbcb02e8d8ee0b11db8076d755b0dace03857",
         "type": "github"
       },
       "original": {
