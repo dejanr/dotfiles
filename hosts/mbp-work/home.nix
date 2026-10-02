@@ -69,6 +69,7 @@
     home.cli.pi-dev.enable = true;
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
+    home.cli.ps-kill.enable = true;
 
     # darwin
     darwin.gui.aerospace.enable = true;

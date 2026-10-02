@@ -125,6 +125,7 @@
     home.cli.nixvim.enable = true;
     home.cli.tmux.enable = true;
     home.cli.zsh.enable = true;
+    home.cli.ps-kill.enable = true;
     home.cli.yazi.enable = true;
     home.cli.opencode.enable = true;
     home.cli.pi-dev = {
