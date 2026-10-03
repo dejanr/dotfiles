@@ -61,7 +61,6 @@ in
 
     security.pki.certificateFiles = [ ../../../certs/ctf-local-root.crt ];
     systemd.tmpfiles.rules = [ "d /tmp/localstack 0777 root root -" ];
-    systemd.services.caddy.wantedBy = lib.mkIf config.services.caddy.enable (lib.mkForce [ ]);
 
     modules.nixos.roles.hosts = {
       enable = true;
