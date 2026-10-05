@@ -107,6 +107,10 @@
     send-keys -M
   }
 
+  bind -T root C-S-MouseUp1Pane if-shell -F '#{mouse_hyperlink}' {
+    run-shell -b '${tmuxOpenNvimLink}/bin/tmux-open-nvim-link #{q:mouse_pane} #{q:mouse_hyperlink}'
+  }
+
   # Copy mode (vi bindings)
   bind -T copy-mode-vi v send-keys -X begin-selection
   bind -T copy-mode-vi C-v send-keys -X rectangle-toggle

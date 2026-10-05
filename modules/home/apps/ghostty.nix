@@ -54,6 +54,7 @@ in
         window-decoration = false;
         macos-titlebar-style = "hidden";
 
+        mouse-shift-capture = "always";
         cursor-style-blink = false;
         theme = "stylix";
         confirm-close-surface = false;
