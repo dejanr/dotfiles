@@ -1,0 +1,97 @@
+--- a/src/Surface.zig
++++ b/src/Surface.zig
+@@ -1021,7 +1021,7 @@
+             _ = try self.rt_app.performAction(
+                 .{ .surface = self },
+                 .mouse_shape,
+-                shape,
++                if (self.mouse.over_link) .pointer else shape,
+             );
+         },
+ 
+@@ -2674,11 +2674,11 @@
+         // Update our modifiers, this will update mouse mods too
+         self.modsChanged(event.mods);
+ 
+-        // We only refresh links if
+-        // 1. mouse reporting is off
+-        // OR
+-        // 2. mouse reporting is on and we are not reporting shift to the terminal
+-        if (self.io.terminal.flags.mouse_event == .none or
++        // Captured Ctrl+Shift still checks web links locally. Also refresh
++        // existing links so releasing modifiers clears their hover state.
++        if (self.mouse.over_link or
++            self.io.terminal.flags.mouse_event == .none or
++            self.mouse.mods.equal(.{ .ctrl = true, .shift = true }) or
+             (self.mouse.mods.shift and !self.mouseShiftCapture(false)))
+         {
+             // Refresh our link state
+@@ -4407,19 +4407,47 @@
+     };
+ 
+     // Get our comparison mods
+-    const mouse_mods = self.mouseModsWithCapture(self.mouse.mods);
++    var mouse_mods = self.mouseModsWithCapture(self.mouse.mods);
++    const web_only = self.isMouseReporting() and
++        mouse_mods.equal(.{ .ctrl = true, .shift = true });
++    if (web_only) mouse_mods = input.ctrlOrSuper(.{});
+ 
+     // If we have the proper modifiers set then we can check for OSC8 links.
+     if (mouse_mods.equal(input.ctrlOrSuper(.{}))) hyperlink: {
+         const rac = mouse_pin.rowAndCell();
+         const cell = rac.cell;
+         if (!cell.hyperlink) break :hyperlink;
++        if (web_only and !isWebUrl(self.osc8URI(mouse_pin) orelse return null))
++            return null;
+         const sel = terminal.Selection.init(mouse_pin, mouse_pin, false);
+         return .{ .action = ._open_osc8, .selection = sel };
+     }
+ 
+     // Fall back to configured links
+-    return try self.linkAtPin(mouse_pin, mouse_mods);
++    const link = try self.linkAtPin(mouse_pin, mouse_mods) orelse return null;
++    if (web_only) {
++        const text = try screen.selectionString(self.alloc, .{
++            .sel = link.selection,
++            .trim = false,
++        });
++        defer self.alloc.free(text);
++        if (!isWebUrl(text)) return null;
++    }
++    return link;
++}
++
++fn isWebUrl(url: []const u8) bool {
++    return std.ascii.startsWithIgnoreCase(url, "https://") or
++        std.ascii.startsWithIgnoreCase(url, "http://");
++}
++
++test "Surface: captured web link schemes" {
++    try std.testing.expect(isWebUrl("https://google.com/"));
++    try std.testing.expect(isWebUrl("HTTP://example.com/path?q=1#fragment"));
++    try std.testing.expect(!isWebUrl("file:///tmp/example.txt"));
++    try std.testing.expect(!isWebUrl("https.txt"));
++    try std.testing.expect(!isWebUrl("javascript:alert(1)"));
++    try std.testing.expect(!isWebUrl("httpsx://example.com"));
+ }
+ 
+ /// Detects if a link is present at the given pin.
+@@ -4707,14 +4735,13 @@
+     // OR
+     // 2. the cursor position has changed (either we have no previous state, or the state has
+     //    changed)
+-    // AND
+-    // 1. mouse reporting is off
+-    // OR
+-    // 2. mouse reporting is on and we are not reporting shift to the terminal
++    // AND native link handling is active, needs clearing, or Ctrl+Shift is
++    // checking web links while file clicks remain captured by the application.
+     if ((over_link or
+         self.mouse.link_point == null or
+         (self.mouse.link_point != null and !self.mouse.link_point.?.eql(pos_vp))) and
+-        (self.io.terminal.flags.mouse_event == .none or
++        (over_link or self.io.terminal.flags.mouse_event == .none or
++            self.mouse.mods.equal(.{ .ctrl = true, .shift = true }) or
+             (self.mouse.mods.shift and !self.mouseShiftCapture(false))))
+     {
+         // If we were previously over a link, we always update. We do this so that if the text

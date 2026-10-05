@@ -3,8 +3,8 @@
 ''
   enable_audio_bell no
 
-  mouse_map ctrl+shift+left press grabbed no_op
-  mouse_map ctrl+shift+left release grabbed no_op
+  mouse_map ctrl+shift+left press grabbed mouse_handle_click web-link-press
+  mouse_map ctrl+shift+left release grabbed mouse_handle_click web-link
 
   font_family PragmataPro Mono
   font_size ${fontSize}

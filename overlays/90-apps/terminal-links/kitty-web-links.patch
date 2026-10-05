@@ -1,0 +1,47 @@
+--- a/kitty/window.py
++++ b/kitty/window.py
+@@ -1777,12 +1777,31 @@
+ 
+             selection - check for a selection and if one exists abort processing
+             link - if a link exists under the mouse, click it
++            web-link - open HTTP/HTTPS links, otherwise pass the event to the application
++            web-link-press - consume only HTTP/HTTPS link presses, without opening them
+             prompt - if the mouse click happens at a shell prompt move the cursor to the mouse location
+ 
+         For examples, see :ref:`conf-kitty-mouse.mousemap`
+         ''')
+-    def mouse_handle_click(self, *actions: str) -> None:
++    def mouse_handle_click(self, *actions: str) -> bool | None:
+         for a in actions:
++            if a in {'web-link', 'web-link-press'}:
++                matched = False
++                previous_handler = self.open_url_handler
++
++                def filter_web_url(boss: 'Boss', window: 'Window', url: str, hyperlink_id: int, cwd: str) -> bool:
++                    nonlocal matched
++                    matched = url.lower().startswith(('http://', 'https://'))
++                    if not matched or a == 'web-link-press':
++                        return True
++                    return previous_handler(boss, window, url, hyperlink_id, cwd) if previous_handler else False
++
++                self.open_url_handler = filter_web_url
++                try:
++                    click_mouse_url(self.os_window_id, self.tab_id, self.id)
++                finally:
++                    self.open_url_handler = previous_handler
++                return not matched
+             if a == 'selection':
+                 if self.screen.has_selection():
+                     break
+--- a/kitty/mouse.c
++++ b/kitty/mouse.c
+@@ -1056,7 +1056,8 @@
+             mouse_cursor_shape = scrollbar_drag_mouse_cursor;
+         } else if (r.window->render_data.screen) {
+             screen_mark_url(r.window->render_data.screen, 0, 0, 0, 0);
+-            set_mouse_cursor_for_screen(r.window->render_data.screen);
++            if (OPT(detect_urls)) detect_url(r.window->render_data.screen, r.window->mouse_pos.cell_x, r.window->mouse_pos.cell_y);
++            else set_mouse_cursor_for_screen(r.window->render_data.screen);
+         }
+     }
+     set_mouse_cursor(mouse_cursor_shape);

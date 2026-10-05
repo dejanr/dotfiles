@@ -51,6 +51,18 @@ in
     ];
   });
 
+  ghostty = super.ghostty.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./terminal-links/ghostty-web-links.patch ];
+  });
+
+  kitty = super.kitty.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./terminal-links/kitty-web-links.patch ];
+  });
+
+  tmux = super.tmux.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./tmux/mouse-hyperlink-hover.patch ];
+  });
+
   pragmatapro = super.callPackage ./pragmatapro/default.nix { };
 
   scream-receivers = super.callPackage ./scream-receivers {

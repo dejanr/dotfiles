@@ -100,6 +100,8 @@
   # New window
   bind c new-window
 
+  set -gq mouse-hyperlink-hover on
+
   bind -T root MouseDown1Pane if-shell -F '#{mouse_hyperlink}' {
     run-shell -b '${tmuxOpenNvimLink}/bin/tmux-open-nvim-link #{q:mouse_pane} #{q:mouse_hyperlink}'
   } {

@@ -9,7 +9,9 @@ tmux-open-nvim-link --local FILE_OR_URL
 
 The pane-aware mode is used by tmux's Ctrl+Shift-click and plain-click bindings. It resolves relative paths against the clicked pane and reuses a Neovim in the same session, or creates a Neovim window there. Non-file hyperlinks are ignored.
 
-The behavior is the same locally and over SSH: the terminal forwards the click to tmux, and the handler runs on the tmux host. Install and load this tmux configuration on each host; no SSH routing or different link scheme is needed. Ghostty uses `mouse-shift-capture = always`, while Kitty unmaps its grabbed Ctrl+Shift mouse press/release actions. These settings must be applied on the machine running the terminal, not just the remote host. Ghostty's setting also changes Shift-selection behavior in other mouse-reporting applications.
+The file-opening behavior is the same locally and over SSH: the terminal forwards file clicks to tmux, and the handler runs on the tmux host. HTTP/HTTPS clicks instead use the local terminal's normal browser opener, including links displayed by a remote session. The [terminal routing patches](../../../../../overlays/90-apps/terminal-links/README.md) provide this split for Ctrl+Shift-click without changing link schemes or adding an SSH routing service.
+
+Install the patched terminal and its settings on the machine running the terminal, and load this tmux configuration on each tmux host. Ghostty uses `mouse-shift-capture = always`; Kitty's grabbed Ctrl+Shift mappings handle web links locally and pass other clicks through. Ghostty's setting also changes Shift-selection behavior in other mouse-reporting applications. The externally installed macOS Ghostty is not patched by the Nix overlay.
 
 The local mode is used by the Linux desktop entry, with `Terminal=false` and `%u` to preserve file URLs and line fragments. It does not require inherited `TMUX` or `TMUX_PANE`. It discovers Neovim sockets and uses each editor's tmux socket explicitly, including non-default sockets. Relative paths resolve against the selected editor's working directory.
 
@@ -27,7 +29,9 @@ After applying the terminal settings locally and reloading tmux on the target ho
 printf '\e]8;;file:///etc/hosts#L1\e\\Open hosts on this tmux host\e]8;;\e\\\n'
 ```
 
-Tmux needs an actual OSC 8 hyperlink, not just a path recognized by the terminal. The binding applies in normal pane mode; tmux copy-mode and the terminal's own scrollback are not covered.
+For file opening, tmux needs an actual OSC 8 hyperlink, not just a path recognized by the terminal. The binding applies in normal pane mode; tmux copy-mode and the terminal's own scrollback are not covered.
+
+The [tmux hover patch](../../../../../overlays/90-apps/tmux/README.md) adds a hand pointer when Ctrl+Shift is held while moving across hyperlink cells. It requires a newly started patched tmux server on the tmux host, not just a config reload. Modifier-only changes and movement within one terminal cell are not reliably reported to tmux.
 
 Run checks:
 

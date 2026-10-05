@@ -1,0 +1,192 @@
+--- a/options-table.c
++++ b/options-table.c
+@@ -734,6 +734,13 @@
+ 		  "Applications inside panes can use the mouse even when 'off'."
+ 	},
+ 
++	{ .name = "mouse-hyperlink-hover",
++	  .type = OPTIONS_TABLE_FLAG,
++	  .scope = OPTIONS_TABLE_SESSION,
++	  .default_num = 0,
++	  .text = "Show an OSC 22 pointer over hyperlinks with Control and Shift."
++	},
++
+ 	{ .name = "prefix",
+ 	  .type = OPTIONS_TABLE_KEY,
+ 	  .scope = OPTIONS_TABLE_SESSION,
+--- a/server-client.c
++++ b/server-client.c
+@@ -662,6 +662,46 @@
+ 			return (BORDER);
+ 	}
+ 	return (NOWHERE);
++}
++
++static int
++server_client_mouse_hover_enabled(struct client *c)
++{
++	return (c->session != NULL &&
++	    (~c->flags & CLIENT_READONLY) &&
++	    c->overlay_draw == NULL && c->prompt_string == NULL &&
++	    c->message_string == NULL &&
++	    options_get_number(c->session->options, "mouse") &&
++	    options_get_number(c->session->options, "mouse-hyperlink-hover"));
++}
++
++static void
++server_client_update_mouse_hover(struct client *c, struct mouse_event *m,
++    key_code key)
++{
++	struct window_pane	*wp;
++	u_int			 x, y;
++	char			*link;
++	int			 pointer = 0;
++
++	if (server_client_mouse_hover_enabled(c) &&
++	    (key & KEYC_MASK_KEY) == KEYC_MOUSEMOVE_PANE &&
++	    (m->b & (MOUSE_MASK_CTRL|MOUSE_MASK_SHIFT|MOUSE_MASK_META)) ==
++	    (MOUSE_MASK_CTRL|MOUSE_MASK_SHIFT)) {
++		wp = cmd_mouse_pane(m, NULL, NULL);
++		if (wp != NULL && TAILQ_EMPTY(&wp->modes) &&
++		    cmd_mouse_at(wp, m, &x, &y, 0) == 0) {
++			link = format_grid_hyperlink(wp->base.grid, x,
++			    wp->base.grid->hsize + y, wp->screen);
++			pointer = (link != NULL && *link != '\0');
++			free(link);
++			if (pointer) {
++				c->tty.mouse_pointer_pane = wp->id;
++				c->tty.mouse_pointer_session = c->session->id;
++			}
++		}
++	}
++	tty_mouse_pointer(&c->tty, pointer);
+ }
+ 
+ /* Check for mouse keys. */
+@@ -2373,11 +2413,14 @@
+ 		if (c->flags & CLIENT_READONLY)
+ 			goto out;
+ 		key = server_client_check_mouse(c, event);
+-		if (key == KEYC_UNKNOWN)
++		if (key == KEYC_UNKNOWN) {
++			tty_mouse_pointer(&c->tty, 0);
+ 			goto out;
++		}
+ 
+ 		m->valid = 1;
+ 		m->key = key;
++		server_client_update_mouse_hover(c, m, key);
+ 
+ 		/*
+ 		 * Mouse drag is in progress, so fire the callback (now that
+@@ -2617,6 +2660,9 @@
+ 	/* Check the client is good to accept input. */
+ 	if (s == NULL || (c->flags & CLIENT_UNATTACHEDFLAGS))
+ 		return (0);
++
++	if (event->key != KEYC_MOUSE || !server_client_mouse_hover_enabled(c))
++		tty_mouse_pointer(&c->tty, 0);
+ 
+ 	/*
+ 	 * Key presses in overlay mode and the command prompt are a special
+@@ -2981,6 +3027,16 @@
+ 		}
+ 		if (~mode & MODE_MOUSE_ALL)
+ 			mode |= MODE_MOUSE_BUTTON;
++	}
++
++	if (server_client_mouse_hover_enabled(c))
++		mode |= MODE_MOUSE_ALL;
++	if (tty->mouse_pointer) {
++		loop = window_pane_find_by_id(tty->mouse_pointer_pane);
++		if (!server_client_mouse_hover_enabled(c) || loop == NULL ||
++		    c->session->id != tty->mouse_pointer_session ||
++		    loop->window != w || !TAILQ_EMPTY(&loop->modes))
++			tty_mouse_pointer(tty, 0);
+ 	}
+ 
+ 	/* Clear bracketed paste mode if at the prompt. */
+--- a/tmux.h
++++ b/tmux.h
+@@ -1610,6 +1610,10 @@
+ 	int		 mouse_drag_flag;
+ 	int		 mouse_scrolling_flag;
+ 	int		 mouse_slider_mpos;
++	int		 mouse_pointer;
++	int		 mouse_pointer_set;
++	u_int		 mouse_pointer_pane;
++	u_int		 mouse_pointer_session;
+ 
+ 	void		(*mouse_drag_update)(struct client *,
+ 			    struct mouse_event *);
+@@ -2534,6 +2538,7 @@
+ void	tty_set_title(struct tty *, const char *);
+ void	tty_set_path(struct tty *, const char *);
+ void	tty_update_mode(struct tty *, int, struct screen *);
++void	tty_mouse_pointer(struct tty *, int);
+ void	tty_draw_line(struct tty *, struct screen *, u_int, u_int, u_int,
+ 	    u_int, u_int, const struct grid_cell *, struct colour_palette *);
+ 
+--- a/tty.c
++++ b/tty.c
+@@ -481,6 +481,11 @@
+ 	if (tty->ccolour != -1)
+ 		tty_raw(tty, tty_term_string(tty->term, TTYC_CR));
+ 
++	if (tty->mouse_pointer_set) {
++		tty_raw(tty, "\033]22;text\033\\");
++		tty->mouse_pointer = 0;
++		tty->mouse_pointer_set = 0;
++	}
+ 	tty_raw(tty, tty_term_string(tty->term, TTYC_CNORM));
+ 	if (tty_term_has(tty->term, TTYC_KMOUS)) {
+ 		tty_raw(tty, "\033[?1000l\033[?1002l\033[?1003l");
+@@ -859,6 +864,26 @@
+  }
+ 
+ void
++tty_mouse_pointer(struct tty *tty, int pointer)
++{
++	if (~tty->flags & TTY_STARTED)
++		return;
++	if (!pointer && !tty->mouse_pointer)
++		return;
++
++	/*
++	 * Modifier-only events can reset the terminal cursor without reaching
++	 * tmux. Toggle the shape to bypass the terminal's OSC 22 cache.
++	 */
++	if (pointer)
++		tty_puts(tty, "\033]22;default\033\\\033]22;pointer\033\\");
++	else
++		tty_puts(tty, "\033]22;default\033\\");
++	tty->mouse_pointer = pointer;
++	tty->mouse_pointer_set = 1;
++}
++
++void
+ tty_update_mode(struct tty *tty, int mode, struct screen *s)
+ {
+ 	struct tty_term	*term = tty->term;
+--- a/tmux.1
++++ b/tmux.1
+@@ -4640,6 +4640,19 @@
+ See the
+ .Sx MOUSE SUPPORT
+ section for details.
++.It Xo Ic mouse-hyperlink-hover
++.Op Ic on | off
++.Xc
++If on together with
++.Ic mouse ,
++request mouse movement events and show a pointing hand over hyperlinks while
++Control and Shift (without Meta) are held.
++The terminal must support OSC 22 CSS pointer names.
++This is off by default and does not change mouse key bindings.
++Hover feedback updates on movement between terminal cells, not on
++modifier-only key events.
++It is disabled in copy mode, command prompts, and overlays.
++The pointer is restored to an arrow when leaving a link and to text on detach.
+ .It Ic prefix Ar key
+ Set the key accepted as a prefix key.
+ In addition to the standard keys described under
