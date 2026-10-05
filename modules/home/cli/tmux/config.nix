@@ -1,4 +1,8 @@
-{ colors, tmuxNewWorktree }:
+{
+  colors,
+  tmuxNewWorktree,
+  tmuxOpenNvimLink,
+}:
 ''
   # Timing
   set -sg repeat-time 600
@@ -18,8 +22,10 @@
   set -g extended-keys-format csi-u
 
   # Terminal features with synchronized rendering
-  set -as terminal-features ',xterm-ghostty:RGB:clipboard:strikethrough:usstyle:overline:sync'
-  set -as terminal-features ',tmux-256color:RGB:clipboard:strikethrough:usstyle:overline:sync'
+  set -as terminal-features ',xterm-ghostty:RGB:clipboard:strikethrough:usstyle:overline:sync:hyperlinks'
+  set -as terminal-features ',xterm-kitty:hyperlinks'
+  set -as terminal-features ',xterm-256color:hyperlinks'
+  set -as terminal-features ',tmux-256color:RGB:clipboard:strikethrough:usstyle:overline:sync:hyperlinks'
 
   # True color and undercurl support
   set -as terminal-overrides ',*:Tc'
@@ -93,6 +99,13 @@
 
   # New window
   bind c new-window
+
+  bind -T root MouseDown1Pane if-shell -F '#{mouse_hyperlink}' {
+    run-shell -b '${tmuxOpenNvimLink}/bin/tmux-open-nvim-link #{q:mouse_pane} #{q:mouse_hyperlink}'
+  } {
+    select-pane -t =
+    send-keys -M
+  }
 
   # Copy mode (vi bindings)
   bind -T copy-mode-vi v send-keys -X begin-selection
