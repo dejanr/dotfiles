@@ -147,7 +147,7 @@
   set -g status-right-length "100"
   set -g status-left-style NONE
   set -g status-right-style NONE
-  set -g status-left "#[fg=#${colors.base00},bg=#${colors.base0D},bold] #S "
+  set -g status-left "#[fg=#${colors.base00},bg=#${colors.base0D},bold] #h / #S "
   set -g status-right ""
   setw -g window-status-activity-style "underscore,fg=#${colors.base04},bg=#${colors.base00}"
   setw -g window-status-separator ""
