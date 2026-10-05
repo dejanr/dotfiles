@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# == 1 && $1 == --help ]]; then
-  printf 'Usage: ps-kill [filter]\nPress Enter in fzf to send SIGTERM to a process and its descendants.\nEsc: normal mode; j/k: navigate; i or /: search; q (normal mode) or Ctrl+C: cancel.\n'
+  printf 'Usage: ps-kill [filter]\nPress Enter in fzf to send SIGKILL (kill -9) to a process and its descendants.\nEsc: normal mode; j/k: navigate; i or /: search; q (normal mode) or Ctrl+C: cancel.\n'
   exit 0
 fi
 
@@ -93,7 +93,7 @@ targets=$(awk -v root="$selected_pid" -v start="$selected_start" -v self="$$" '
   exit 1
 }
 
-printf 'SIGTERM targets (descendants first):\n'
+printf 'SIGKILL targets (descendants first):\n'
 awk '
   {
     printf "\nPID %s | Parent %s | User %s\n", $1, $2, $3
@@ -118,7 +118,7 @@ while read -r pid _ _ weekday month day time year _; do
   elif [[ $current_start != "$expected_start" ]]; then
     printf 'PID %s changed since selection; skipped.\n' "$pid" >&2
     status=1
-  elif ! "${runner[@]}" "$kill_command" -TERM -- "$pid"; then
+  elif ! "${runner[@]}" "$kill_command" -KILL -- "$pid"; then
     printf 'Failed to terminate PID %s.\n' "$pid" >&2
     status=1
   fi

@@ -27,8 +27,9 @@ and changes the border label to `ps-kill [NORMAL]`. In normal mode:
 - `q` cancels. Ctrl+C cancels from either mode without sudo.
 
 Ctrl+D/Ctrl+U move down/up half a page in either mode.
-Enter immediately sends SIGTERM to the selected process and its descendants,
-without confirmation. Enter with no matches cancels without sudo.
+Enter immediately sends SIGKILL (`kill -9`) to the selected process and its
+descendants, without confirmation. This bypasses cleanup and may lose unsaved data.
+Enter with no matches cancels without sudo.
 
 Ctrl+K opens the unfiltered picker at Bash and Zsh prompts, including shells
 inside tmux. It preserves your current command line and replaces the default
@@ -36,8 +37,8 @@ kill-line shortcut. The binding is shell-local, so it does not intercept Ctrl+K
 in editors or other running applications.
 
 Non-root invocations authenticate with sudo after selection if needed.
-The command prints the targets and sends SIGTERM, children first; it does not
-force-kill, target parents, or kill other processes merely sharing the same name.
+The command prints the targets and sends SIGKILL, children first; it does not
+target parents or kill other processes merely sharing the same name.
 PID 1, the command itself, and its ancestors (including your shell) are protected.
 Processes that exited or whose start time changed are skipped. Descendants spawned
 after the target list was collected are not included. Services managed by a
