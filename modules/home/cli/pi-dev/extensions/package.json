@@ -10,10 +10,10 @@
     "check": "pnpm run lint && pnpm run typecheck"
   },
   "devDependencies": {
-    "@earendil-works/pi-agent-core": "1.0.2",
-    "@earendil-works/pi-ai": "1.0.2",
-    "@earendil-works/pi-coding-agent": "1.0.2",
-    "@earendil-works/pi-tui": "1.0.2",
+    "@earendil-works/pi-agent-core": "1.1.0",
+    "@earendil-works/pi-ai": "1.1.0",
+    "@earendil-works/pi-coding-agent": "1.1.0",
+    "@earendil-works/pi-tui": "1.1.0",
     "@types/node": "^22.10.5",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/parser": "^8.59.2",
@@ -25,10 +25,10 @@
   },
   "pnpm": {
     "overrides": {
-      "@earendil-works/pi-agent-core": "1.0.2",
-      "@earendil-works/pi-ai": "1.0.2",
-      "@earendil-works/pi-coding-agent": "1.0.2",
-      "@earendil-works/pi-tui": "1.0.2"
+      "@earendil-works/pi-agent-core": "1.1.0",
+      "@earendil-works/pi-ai": "1.1.0",
+      "@earendil-works/pi-coding-agent": "1.1.0",
+      "@earendil-works/pi-tui": "1.1.0"
     }
   }
 }
