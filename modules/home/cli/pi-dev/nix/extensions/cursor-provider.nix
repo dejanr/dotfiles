@@ -81,6 +81,7 @@ pkgs.buildNpmPackage {
   patches = [
     ./cursor-provider/mcp-state.patch
     ./cursor-provider/terminal-output.patch
+    ./cursor-provider/missing-blob.patch
   ];
   doCheck = true;
 
@@ -94,6 +95,7 @@ pkgs.buildNpmPackage {
     cp ${./cursor-provider/mcp-state.ts} mcp-state.ts
     cp ${./cursor-provider/mcp-state.test.ts} mcp-state.test.ts
     cp ${./cursor-provider/terminal-output.test.ts} terminal-output.test.ts
+    cp ${./cursor-provider/missing-blob.test.ts} missing-blob.test.ts
 
     substituteInPlace index.ts \
       --replace-fail 'const processed = skipDedup' \
@@ -125,7 +127,7 @@ pkgs.buildNpmPackage {
   checkPhase = ''
     runHook preCheck
 
-    for test in mcp-state terminal-output; do
+    for test in mcp-state terminal-output missing-blob; do
       esbuild "$test.test.ts" \
         --bundle \
         --platform=node \
@@ -133,7 +135,7 @@ pkgs.buildNpmPackage {
         --target=node22 \
         --outfile="dist/$test.test.mjs"
     done
-    node --test dist/mcp-state.test.mjs dist/terminal-output.test.mjs
+    node --test dist/mcp-state.test.mjs dist/terminal-output.test.mjs dist/missing-blob.test.mjs
 
     runHook postCheck
   '';

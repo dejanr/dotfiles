@@ -1,0 +1,10 @@
+--- a/proxy.ts
++++ b/proxy.ts
+@@ -3160,6 +3160,7 @@
+             currentTurn.images,
+           );
+           retryPayload.mcpTools = mcpTools;
++          for (const [id, data] of retryPayload.blobStore) blobStore.set(id, data);
+ 
+           const { bridge: newBridge, heartbeatTimer: newTimer } = startBridge(
+             accessToken,
