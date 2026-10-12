@@ -1,0 +1,180 @@
+--- a/proxy.ts
++++ b/proxy.ts
+@@ -366,10 +366,7 @@
+       ...(data ? sanitizeForDebug(data) : {}),
+     });
+     appendPrivateLog(getDebugLogFilePath(), `${line}\n`);
+-  } catch {
+-    // Debug output may include prompts and tool results. Never fall back to stderr.
+-    console.error("[pi-cursor-provider] Cannot safely write debug log");
+-  }
++  } catch {}
+ }
+ 
+ function nextDebugRequestId(): string {
+@@ -740,18 +737,16 @@
+         return models;
+       }
+     } catch (err) {
+-      console.error(
+-        "[cursor-provider] Model discovery failed:",
+-        err instanceof Error ? err.message : err,
+-      );
++      debugLog("models.discovery_error", {
++        attempt,
++        message: err instanceof Error ? err.message : String(err),
++      });
+     }
+     if (attempt < DISCOVERY_ATTEMPTS) {
+       await new Promise((r) => setTimeout(r, 500 * attempt));
+     }
+   }
+-  console.warn(
+-    "[cursor-provider] Model discovery returned no models; using cached/fallback list",
+-  );
++  debugLog("models.discovery_fallback");
+   // Never regress to an empty list: prefer a stale in-memory list, then the
+   // on-disk cache. Returning [] would make previously-visible models vanish.
+   return cachedModels ?? loadCachedModels() ?? [];
+@@ -2302,9 +2297,7 @@
+   }
+ 
+   // Catch-all: log and attempt a generic rejection so the bridge doesn't hang
+-  console.error(
+-    `[cursor-provider] UNHANDLED exec case: "${execCase}". Bridge may stall.`,
+-  );
++  debugLog("exec.unhandled", { execCase });
+   // Try to derive the result case name from the args case name
+   const guessedResult = (execCase as string)?.replace(/Args$/, "Result");
+   if (guessedResult && guessedResult !== execCase) {
+@@ -2649,9 +2642,7 @@
+   const existing = sessionBridges.get(bridgeKey);
+   if (existing) {
+     if (existing.alive) {
+-      console.error(
+-        `[cursor-provider] Stale bridge detected for session ${bridgeKey} — force-killing and replacing`,
+-      );
++      debugLog("bridge.stale", { bridgeKey });
+       staleBridgeKilled = true;
+       try { existing.proc.kill(); } catch {}
+     }
+@@ -2881,9 +2872,6 @@
+     stallTimer = setTimeout(() => {
+       if (cancelled || closed) return;
+       debugLog("stream.stall_timeout", { requestId, bridgeKey, convKey, modelId });
+-      console.error(
+-        `[cursor-provider] Bridge stalled for ${STALL_TIMEOUT_MS / 1000}s \u2014 killing (${modelId})`,
+-      );
+       cleanupBridge(activeBridge, activeHeartbeatTimer, bridgeKey);
+     }, STALL_TIMEOUT_MS);
+     stallTimer.unref?.();
+@@ -3021,10 +3009,10 @@
+             },
+           );
+         } catch (err) {
+-          console.error(
+-            "[cursor-provider] Stream message processing error:",
+-            err instanceof Error ? err.message : err,
+-          );
++          debugLog("stream.processing_error", {
++            requestId, bridgeKey, convKey, modelId,
++            message: err instanceof Error ? err.message : String(err),
++          });
+         }
+       },
+       (endStreamBytes) => {
+@@ -3039,17 +3027,14 @@
+               requestId, bridgeKey, convKey, modelId,
+               message: endError.message, attempt: retryCount + 1,
+             });
+-            console.error(
+-              `[cursor-provider] Retryable Cursor error (${modelId}): ${endError.message} — will retry (${retryCount + 1}/${MAX_BRIDGE_RETRIES})`,
+-            );
+             retryableConnectError = true;
+             try { activeBridge.proc.kill(); } catch {}
+             return;
+           }
+-          console.error(
+-            `[cursor-provider] Cursor stream error (${modelId}):`,
+-            endError.message,
+-          );
++          debugLog("stream.upstream_error", {
++            requestId, bridgeKey, convKey, modelId,
++            message: endError.message, code: endError.code,
++          });
+           activeBridge.end();
+           activeBridge.unref();
+           sendSSE(makeUsageChunk());
+@@ -3140,9 +3125,6 @@
+             maxRetries: MAX_BRIDGE_RETRIES,
+             connectError: wasConnectError,
+           });
+-          console.error(
+-            `[cursor-provider] ${wasConnectError ? "Retryable Cursor error" : `Bridge died (exit ${code})`}, retry ${retryCount}/${MAX_BRIDGE_RETRIES} (${modelId})`,
+-          );
+ 
+           // Reset per-attempt stream state; keep cumulative token counts.
+           state.pendingExecs = [];
+@@ -3181,9 +3163,6 @@
+ 
+       if (!mcpExecReceived) {
+         if (code !== 0) {
+-          console.error(
+-            `[cursor-provider] Bridge exited (code ${code}) before receiving response (${modelId})`,
+-          );
+           const failureMsg = classifyBridgeFailure(code, activeBridge.getStderr());
+           sendSSE(makeUsageChunk());
+           sendSSE({ error: { message: failureMsg, type: "upstream_error", code: "bridge_terminated" } });
+@@ -3501,10 +3480,10 @@
+               },
+             );
+           } catch (err) {
+-            console.error(
+-              "[cursor-provider] Non-stream message processing error:",
+-              err instanceof Error ? err.message : err,
+-            );
++            debugLog("nonstream.processing_error", {
++              requestId, bridgeKey, convKey, modelId,
++              message: err instanceof Error ? err.message : String(err),
++            });
+           }
+         },
+         (endStreamBytes) => {
+@@ -3515,10 +3494,10 @@
+           bridge.end();
+           bridge.unref();
+           if (endError) {
+-            console.error(
+-              `[cursor-provider] Cursor non-stream error (${modelId}):`,
+-              endError.message,
+-            );
++            debugLog("nonstream.upstream_error", {
++              requestId, bridgeKey, convKey, modelId,
++              message: endError.message, code: endError.code,
++            });
+             nonStreamError = endError;
+           }
+         },
+@@ -3600,9 +3579,6 @@
+       }
+ 
+       if (code !== 0) {
+-        console.error(
+-          `[cursor-provider] Bridge exited (code ${code}) before non-stream response (${modelId})`,
+-        );
+         const failureMsg = classifyBridgeFailure(code, bridge.getStderr());
+         res.writeHead(502, { "Content-Type": "application/json" });
+         res.end(
+--- a/index.ts
++++ b/index.ts
+@@ -200,9 +200,7 @@
+       ...data,
+     });
+     appendPrivateLog(getExtensionDebugLogFilePath(), `${payload}\n`);
+-  } catch {
+-    console.error("[pi-cursor-provider] Cannot safely write extension debug log");
+-  }
++  } catch {}
+ }
+ 
+ const MODEL_COST_TABLE: Record<string, ModelCost> = {

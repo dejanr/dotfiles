@@ -218,6 +218,10 @@
   for_window [class="^MO2 Radar$"] floating enable
   for_window [class="^MO2 Radar$"] resize set 576 616
   for_window [class="^MO2 Radar$"] move position 3244 1524
+  for_window [class="^Aion Radar$"] move container to workspace $workspace5
+  for_window [class="^Aion Radar$"] floating enable
+  for_window [class="^Aion Radar$"] resize set 576 616
+  for_window [class="^Aion Radar$"] move position 244 524
   for_window [title="^Mortal Online 2  $"] fullscreen disable
   for_window [title="^Mortal Online 2  $"] floating disable
   for_window [title="^Mortal Online 2  $"] border pixel 0

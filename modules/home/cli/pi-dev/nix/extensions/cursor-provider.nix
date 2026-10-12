@@ -78,7 +78,10 @@ pkgs.buildNpmPackage {
   pname = "pi-cursor-provider";
   inherit (packageJson) version;
   inherit src;
-  patches = [ ./cursor-provider/mcp-state.patch ];
+  patches = [
+    ./cursor-provider/mcp-state.patch
+    ./cursor-provider/terminal-output.patch
+  ];
   doCheck = true;
 
   npmDepsHash = "sha256-N2Uz6ZbWTvBOYdiYl6zJUoZfyIJRg3KsJj+xYp3Bg48=";
@@ -90,6 +93,7 @@ pkgs.buildNpmPackage {
   postPatch = ''
     cp ${./cursor-provider/mcp-state.ts} mcp-state.ts
     cp ${./cursor-provider/mcp-state.test.ts} mcp-state.test.ts
+    cp ${./cursor-provider/terminal-output.test.ts} terminal-output.test.ts
 
     substituteInPlace index.ts \
       --replace-fail 'const processed = skipDedup' \
@@ -121,13 +125,15 @@ pkgs.buildNpmPackage {
   checkPhase = ''
     runHook preCheck
 
-    esbuild mcp-state.test.ts \
-      --bundle \
-      --platform=node \
-      --format=esm \
-      --target=node22 \
-      --outfile=dist/mcp-state.test.mjs
-    node --test dist/mcp-state.test.mjs
+    for test in mcp-state terminal-output; do
+      esbuild "$test.test.ts" \
+        --bundle \
+        --platform=node \
+        --format=esm \
+        --target=node22 \
+        --outfile="dist/$test.test.mjs"
+    done
+    node --test dist/mcp-state.test.mjs dist/terminal-output.test.mjs
 
     runHook postCheck
   '';

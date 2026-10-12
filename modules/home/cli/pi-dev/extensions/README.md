@@ -57,7 +57,11 @@ Third-party extensions are packaged separately under `../nix/extensions/`, expos
 `flake.nix`, and linked into `~/.pi/agent/extensions/` by `../../pi-dev.nix`.
 Keep their upstream sources pinned rather than copying them into this workspace.
 
-- `cursor-provider.nix`: Cursor provider integration.
+- `cursor-provider.nix`: Cursor provider integration. Local patches keep diagnostics
+  off stdout/stderr so they do not overwrite Pi's TUI; final errors still reach Pi
+  through provider responses. Enable `PI_CURSOR_PROVIDER_DEBUG=1` for private debug
+  logs, optionally setting `PI_CURSOR_PROVIDER_DEBUG_FILE` to choose the proxy log path.
+  The package check runs MCP state and terminal-output regression tests.
 - `usage-bars.nix`: [pi-usage-bars](https://github.com/hknet/pi-usage-bars), providing
   quota/balance status and `/usage`. It uses Pi's existing provider credentials
   and status API, so it works with our custom footer without replacing it.
