@@ -24,6 +24,8 @@
     ];
   };
 
+  programs.dconf.enable = true;
+
   users.groups.transmission.members = [ "nginx" ];
 
   services = {
