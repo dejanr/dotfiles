@@ -72,6 +72,7 @@
         rpc-authentication-required = false;
         rpc-whitelist-enabled = true;
         rpc-whitelist = "127.0.0.1";
+        rpc-host-whitelist = "zima.cat-vimba.ts.net";
         rpc-bind-address = "127.0.0.1";
         rpc-enable = true;
       };
