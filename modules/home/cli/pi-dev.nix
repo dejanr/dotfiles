@@ -22,6 +22,7 @@ let
 
   piDevExtensionsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-dev-extensions;
   piDevDs4Pkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-dev-ds4;
+  ccccPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cccc;
   piCursorProviderPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-cursor-provider;
   piUsageBarsPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi-usage-bars;
   piExtensionsPkg = pkgs.runCommand "pi-extensions" { } ''
@@ -278,7 +279,9 @@ in
   config = mkIf cfg.enable {
     home.packages = [
       piDev
+      ccccPkg
       pkgs.beads
+      pkgs.jq
     ]
     ++ optionals pkgs.stdenv.isDarwin [
       piDevDs4Pkg

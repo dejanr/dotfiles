@@ -216,6 +216,9 @@
           pkgs = nixpkgs.legacyPackages.${system};
           pi-dev-src = inputs.pi-dev;
         };
+        cccc = import ./modules/home/cli/pi-dev/nix/cccc.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+        };
         pi-dev-ds4 = import ./modules/home/cli/pi-dev/nix/ds4.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };
