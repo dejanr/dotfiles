@@ -74,6 +74,10 @@
 
   config.modules = {
     home.common.packages.enable = true;
+    home.gui.music = {
+      enable = true;
+      sync.enable = true;
+    };
 
     # apps
     apps.kitty.enable = true;

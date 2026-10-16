@@ -25,6 +25,7 @@ in
   "tenstorrent_api_key.age".publicKeys = userKeys;
   "gh_token.age".publicKeys = userKeys;
   "jira_api_token.age".publicKeys = userKeys;
+  "navidrome_credentials.age".publicKeys = userKeys;
   "burda_sentry_cli_token.age".publicKeys = userKeys;
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;

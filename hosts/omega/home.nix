@@ -143,12 +143,17 @@
       };
     };
     home.gui.desktop.enable = true;
+    home.gui.music = {
+      enable = true;
+      sync.enable = true;
+    };
     home.gui.games.enable = true;
     home.gui.browser.qutebrowser.enable = true;
 
     # apps
     apps.kitty.enable = true;
     apps.ghostty.enable = true;
+    apps.obsidian.enable = true;
 
     # cli
     home.cli.direnv.enable = true;
