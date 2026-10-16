@@ -15,6 +15,7 @@
     home.cli.tmux.enable = true;
     home.cli.nixvim.enable = true;
     home.cli.direnv.enable = true;
+    home.cli.pi-mono.enable = true;
 
     # system
     home.common.packages.enable = true;
