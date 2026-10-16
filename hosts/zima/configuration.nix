@@ -113,23 +113,40 @@
   };
 
   systemd.services.nginx-copy-certs = {
-    description = "Copy Tailscale certificates for nginx";
+    description = "Renew Tailscale certificate for nginx";
+    wants = [
+      "network-online.target"
+      "tailscaled.service"
+    ];
+    after = [
+      "network-online.target"
+      "tailscaled.service"
+    ];
     before = [ "nginx.service" ];
     wantedBy = [ "multi-user.target" ];
+    startAt = "daily";
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
+      UMask = "0077";
+      TimeoutStartSec = "2min";
+      ExecStartPost = "${pkgs.systemd}/bin/systemctl --no-block try-reload-or-restart nginx.service";
     };
     script = ''
       mkdir -p /var/lib/nginx/certs
-      if [ -f /var/lib/tailscale/certs/zima.cat-vimba.ts.net.crt ]; then
-        cp /var/lib/tailscale/certs/zima.cat-vimba.ts.net.crt /var/lib/nginx/certs/
-        cp /var/lib/tailscale/certs/zima.cat-vimba.ts.net.key /var/lib/nginx/certs/
-        chown -R nginx:nginx /var/lib/nginx/certs
-        chmod 600 /var/lib/nginx/certs/*.key
-        chmod 644 /var/lib/nginx/certs/*.crt
-      fi
+      ${config.services.tailscale.package}/bin/tailscale cert \
+        --min-validity=720h \
+        --cert-file=/var/lib/nginx/certs/zima.cat-vimba.ts.net.crt \
+        --key-file=/var/lib/nginx/certs/zima.cat-vimba.ts.net.key \
+        zima.cat-vimba.ts.net
+      chown nginx:nginx /var/lib/nginx/certs/zima.cat-vimba.ts.net.{crt,key}
+      chmod 600 /var/lib/nginx/certs/zima.cat-vimba.ts.net.key
+      chmod 644 /var/lib/nginx/certs/zima.cat-vimba.ts.net.crt
     '';
+  };
+
+  systemd.timers.nginx-copy-certs.timerConfig = {
+    Persistent = true;
+    RandomizedDelaySec = "1h";
   };
 
   modules.nixos = {
