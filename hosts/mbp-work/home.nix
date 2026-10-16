@@ -46,7 +46,30 @@
     enable = true;
     overrideDevices = false;
     overrideFolders = false;
-    settings.options.urAccepted = -1;
+    settings = {
+      devices.synology = {
+        id = "HAVMQIE-3WREVQZ-QP7QXMO-OP353KV-275FFVH-2P3CX2D-SJZVMB2-3PL5EAP";
+      };
+
+      folders.obsidian = {
+        path = "~/documents/notes/main";
+        id = "data1";
+        label = "Obsidian Main";
+        devices = [ "synology" ];
+      };
+
+      options.urAccepted = -1;
+    };
+  };
+
+  config.home.file."obsidian-syncthing-ignore" = {
+    force = true;
+    target = "${config.programs.obsidian.vaults.main.target}/.stignore";
+    text = ''
+      /.obsidian
+      /reMarkable/.remarkable-sync-state.json
+      (?d).DS_Store
+    '';
   };
 
   config.modules = {
