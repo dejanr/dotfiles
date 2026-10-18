@@ -23,6 +23,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    modules.home.gui.blender.enable = true;
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications."application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
@@ -45,7 +47,6 @@ in
       acpi
       arandr
       axel
-      blender
       caffeine-ng
       imv
       evince

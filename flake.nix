@@ -216,6 +216,9 @@
           pkgs = nixpkgs.legacyPackages.${system};
           pi-dev-src = inputs.pi-dev;
         };
+        blender-mcp = import ./modules/home/cli/pi-dev/nix/blender-mcp.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+        };
         cccc = import ./modules/home/cli/pi-dev/nix/cccc.nix {
           pkgs = nixpkgs.legacyPackages.${system};
         };

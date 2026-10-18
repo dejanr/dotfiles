@@ -44,6 +44,7 @@ let
     defaultModel = "gpt-6.1-sol";
     defaultThinkingLevel = "high";
     defaultTools = [ "+codemode" ];
+    extensions = cfg.extraExtensions;
   };
 
   tenstorrentModels = {
@@ -241,6 +242,12 @@ in
 {
   options.modules.home.cli.pi-dev = {
     enable = mkEnableOption "pi-dev coding agent";
+
+    extraExtensions = mkOption {
+      type = types.listOf types.path;
+      default = [ ];
+      description = "Additional Pi extensions supplied by other modules.";
+    };
 
     providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-dev";
     providers.aiand.enable = mkEnableOption "ai& models for pi-dev";
