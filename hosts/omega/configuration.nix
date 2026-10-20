@@ -82,8 +82,11 @@
 
     caddy = {
       enable = true;
+      globalConfig = ''
+        http_port 43080
+      '';
       virtualHosts = {
-        "dej.li.dev" = {
+        "dej.li.dev:43443" = {
           extraConfig = ''
             tls internal
             handle /swagger {
@@ -109,7 +112,7 @@
             }
           '';
         };
-        "dejan.ranisavljevic.com.dev" = {
+        "dejan.ranisavljevic.com.dev:43443" = {
           extraConfig = ''
             tls internal
             reverse_proxy localhost:43103
