@@ -143,6 +143,7 @@
       };
     };
     home.gui.desktop.enable = true;
+    home.gui.audio-transcribe-subtitles.enable = true;
     home.gui.music = {
       enable = true;
       sync.enable = true;
@@ -166,6 +167,7 @@
     home.cli.zsh.enable = true;
     home.cli.ps-kill.enable = true;
     home.cli.yazi.enable = true;
+    home.cli.video-transcribe.enable = true;
     home.cli.opencode.enable = true;
     home.cli.pi-dev = {
       enable = true;

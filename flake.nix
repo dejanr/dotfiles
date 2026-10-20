@@ -84,6 +84,10 @@
       url = "github:dejanr/demo-it";
     };
 
+    video-transcribe = {
+      url = "github:dejanr/video-transcribe";
+    };
+
     hunk = {
       url = "github:modem-dev/hunk";
       inputs.nixpkgs.follows = "nixpkgs";
