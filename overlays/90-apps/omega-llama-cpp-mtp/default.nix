@@ -34,9 +34,14 @@ in
       '';
     };
 
+    patches = [ ];
+    npmRoot = "tools/server/webui";
     npmDepsHash = "sha256-k62LIbyY2DXvs7XXbX0lNPiYxuYzeJUyQtS4eA+68f8=";
 
     postPatch = ''
+      substituteInPlace ggml/src/ggml-cuda/argsort.cu \
+        --replace-fail '#    include <cub/cub.cuh>' \
+          $'#    include <cub/cub.cuh>\n#    include <cuda/iterator>'
       if [ -f tools/server/public/index.html.gz ]; then
         rm tools/server/public/index.html.gz
       fi
