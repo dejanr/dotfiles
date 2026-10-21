@@ -182,7 +182,7 @@ in
 
   # Wrap comfy-ui-cuda launcher to expose CUDA runtime libs for nodes that dlopen()
   comfy-ui-cuda-wrapped =
-    if super.stdenv.isLinux && super.stdenv.hostPlatform.isx86_64 then
+    if super.stdenv.hostPlatform.isLinux && super.stdenv.hostPlatform.isx86_64 then
       super.callPackage ./comfy-ui { }
     else
       super.comfy-ui;

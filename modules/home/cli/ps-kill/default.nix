@@ -9,6 +9,6 @@ pkgs.writeShellApplication {
       fzf
       gawk
     ]
-    ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ pkgs.procps ];
+    ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.procps ];
   text = builtins.readFile ./ps-kill.sh;
 }

@@ -55,6 +55,7 @@ in
   config = mkIf cfg.enable {
     xdg.userDirs = {
       enable = true;
+      setSessionVariables = true;
       desktop = "$HOME/desktop";
       documents = "$HOME/documents";
       download = "$HOME/downloads";

@@ -11,7 +11,10 @@ let
   cfg = config.modules.home.gui.blender;
   blenderMcp = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.blender-mcp;
   blenderConfigDir =
-    if pkgs.stdenv.isDarwin then "Library/Application Support/Blender" else ".config/blender";
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "Library/Application Support/Blender"
+    else
+      ".config/blender";
   addonPath = "${blenderConfigDir}/${versions.majorMinor pkgs.blender.version}/scripts/addons/blender_mcp.py";
 
   blenderWithMcp = pkgs.writeShellScriptBin "blender-mcp" ''

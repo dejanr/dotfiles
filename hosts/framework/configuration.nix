@@ -219,14 +219,15 @@ in
       DejliScreenshotAction.src = ./config/dms/plugins/DejliScreenshotAction;
       Tailscale.src = ./config/dms/plugins/Tailscale;
     };
-    greeter = {
-      enable = true;
-      compositor.name = "niri";
-      configFiles = [
-        "${greeterConfig}/settings.json"
-        "${greeterConfig}/session.json"
-      ];
-    };
+  };
+
+  programs.dms-greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configFiles = [
+      "${greeterConfig}/settings.json"
+      "${greeterConfig}/session.json"
+    ];
   };
 
   services.greetd = {

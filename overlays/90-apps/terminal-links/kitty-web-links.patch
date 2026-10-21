@@ -1,6 +1,6 @@
 --- a/kitty/window.py
 +++ b/kitty/window.py
-@@ -1777,12 +1777,31 @@
+@@ -2011,13 +2011,32 @@
  
              selection - check for a selection and if one exists abort processing
              link - if a link exists under the mouse, click it
@@ -9,7 +9,8 @@
              prompt - if the mouse click happens at a shell prompt move the cursor to the mouse location
  
          For examples, see :ref:`conf-kitty-mouse.mousemap`
-         ''')
+         """,
+     )
 -    def mouse_handle_click(self, *actions: str) -> None:
 +    def mouse_handle_click(self, *actions: str) -> bool | None:
          for a in actions:

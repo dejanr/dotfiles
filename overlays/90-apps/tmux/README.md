@@ -1,6 +1,6 @@
 # tmux hyperlink hover
 
-Local patch for tmux 3.6a, applied by `overlays/90-apps/default.nix`.
+Local patch for tmux 3.8, applied by `overlays/90-apps/default.nix`.
 
 ```tmux
 set -g mouse on

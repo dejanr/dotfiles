@@ -28,7 +28,8 @@ in
         text = ''
           minimum-release-age=10080
         '';
-        target = if pkgs.stdenv.isDarwin then "Library/Preferences/pnpm/rc" else ".config/pnpm/rc";
+        target =
+          if pkgs.stdenv.hostPlatform.isDarwin then "Library/Preferences/pnpm/rc" else ".config/pnpm/rc";
       };
 
       "yarnrc-security" = {
@@ -43,7 +44,7 @@ in
       # Text processing and search
       ack
       ripgrep
-      silver-searcher
+      silver-searcher-ng
       jq
 
       # Spell checking
@@ -67,7 +68,7 @@ in
 
       # AI and coding assistants
       claude-code
-      gemini-cli
+      antigravity-cli
       mermaid-cli
 
       # Network tools
@@ -104,7 +105,7 @@ in
 
       # Gleam ecosystem
       gleam
-      erlang
+      beamPackages.erlang
       rebar3
 
       # Python packages

@@ -94,7 +94,6 @@ in
       gnome-themes-extra
       gnome-settings-daemon # makes DPI scaling, fonts and GTK settings come active.
       dconf
-      gtk-engine-murrine
       lxappearance # configure theme
 
       libx11

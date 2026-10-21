@@ -98,6 +98,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dank-greeter = {
+      url = "github:duxlabs-dev/dux-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -158,9 +163,8 @@
             nix-gaming.nixosModules.pipewireLowLatency
             agenix.nixosModules.default
             disko.nixosModules.disko
-            inputs.comfyui-nix.nixosModules.default
             inputs.dms.nixosModules.dank-material-shell
-            inputs.dms.nixosModules.greeter
+            inputs.dank-greeter.nixosModules.default
             ./modules/nixos/default.nix
             (./. + "/hosts/${hostConfig}/configuration.nix")
             home-manager.nixosModules.home-manager

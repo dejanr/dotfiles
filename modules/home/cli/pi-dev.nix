@@ -32,7 +32,7 @@ let
     done
     ln -s ${piCursorProviderPkg} $out/cursor-provider
     ln -s ${piUsageBarsPkg} $out/usage-bars
-    ${optionalString pkgs.stdenv.isDarwin "ln -s ${piDevDs4Pkg} $out/ds4-runtime"}
+    ${optionalString pkgs.stdenv.hostPlatform.isDarwin "ln -s ${piDevDs4Pkg} $out/ds4-runtime"}
   '';
 
   promptFiles = builtins.readDir ./pi-dev/prompts;
@@ -290,7 +290,7 @@ in
       pkgs.beads
       pkgs.jq
     ]
-    ++ optionals pkgs.stdenv.isDarwin [
+    ++ optionals pkgs.stdenv.hostPlatform.isDarwin [
       piDevDs4Pkg
     ];
 

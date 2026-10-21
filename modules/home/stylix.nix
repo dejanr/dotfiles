@@ -8,7 +8,7 @@
 let
   cfg = config.home.stylix;
   theme = import (../themes + "/${cfg.theme}");
-  isLinux = pkgs.stdenv.isLinux;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
 in
 {
   options.home.stylix.theme = lib.mkOption {

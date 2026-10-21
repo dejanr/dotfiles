@@ -49,14 +49,14 @@ let
       pkgs.tmux
       pkgs.neovim
     ]
-    ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glib ];
-    preCheck = lib.optionalString pkgs.stdenv.isLinux ''
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.glib ];
+    preCheck = lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
       export XDG_DATA_DIRS=${pkgs.shared-mime-info}/share
     '';
     postInstall = ''
       wrapProgram "$out/bin/tmux-open-nvim-link" \
         --prefix PATH : ${
-          lib.makeBinPath ([ pkgs.tmux ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.libnotify ])
+          lib.makeBinPath ([ pkgs.tmux ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.libnotify ])
         } \
         --suffix PATH : ${lib.makeBinPath [ pkgs.neovim ]}
     '';
@@ -76,7 +76,7 @@ in
 
     assertions = [
       {
-        assertion = !cfg.fileOpener.enable || pkgs.stdenv.isLinux;
+        assertion = !cfg.fileOpener.enable || pkgs.stdenv.hostPlatform.isLinux;
         message = "The tmux file opener is only supported on Linux.";
       }
     ];

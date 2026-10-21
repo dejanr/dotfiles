@@ -23,7 +23,7 @@ stdenv.mkDerivation {
   installPhase = ''
     install -D -t $out/bin/ *
   ''
-  + lib.optionalString stdenv.isLinux ''
+  + lib.optionalString stdenv.hostPlatform.isLinux ''
     wrapProgram $out/bin/pulumi --set LD_LIBRARY_PATH "${stdenv.cc.cc.lib}/lib"
   ''
   + ''
@@ -36,7 +36,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     installShellFiles
   ]
-  ++ lib.optionals stdenv.isLinux [
+  ++ lib.optionals stdenv.hostPlatform.isLinux [
     autoPatchelfHook
     makeWrapper
   ];

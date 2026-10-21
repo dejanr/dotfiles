@@ -528,7 +528,7 @@ EOF
     home.file.".browser/Work/config/userscripts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qutebrowser/userscripts";
 
-    xdg.desktopEntries = mkIf pkgs.stdenv.isLinux {
+    xdg.desktopEntries = mkIf pkgs.stdenv.hostPlatform.isLinux {
       "org.qutebrowser.qutebrowser" = {
         name = "qutebrowser";
         genericName = "Web Browser";

@@ -29,7 +29,7 @@ in
       enable = true;
       enableZshIntegration = true;
 
-      package = if stdenv.isDarwin then null else pkgs.ghostty;
+      package = if stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
       installBatSyntax = lib.mkIf pkgs.stdenv.targetPlatform.isDarwin false; # Fix in master
 
       settings = {
@@ -62,7 +62,8 @@ in
         resize-overlay = "never";
         term = "xterm-ghostty";
         window-vsync = true;
-      } // lib.optionalAttrs stdenv.isLinux {
+      }
+      // lib.optionalAttrs stdenv.hostPlatform.isLinux {
         async-backend = "epoll";
       };
       themes = {

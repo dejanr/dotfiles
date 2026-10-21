@@ -10,7 +10,7 @@ This requires terminal-side routing. A remote tmux process cannot launch the loc
 
 ## Integration
 
-`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.46.2.
+`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.49.2.
 
 **Ghostty:** while mouse reporting is active, Ctrl+Shift can recognize HTTP/HTTPS links locally, both OSC 8 links and regex-detected URLs. Non-web OSC 8 destinations cannot fall back to a URL-looking label. Other modifier combinations retain their existing behavior. `mouse-shift-capture = always` remains necessary to forward file clicks. Native link hover takes precedence over application pointer-shape updates.
 

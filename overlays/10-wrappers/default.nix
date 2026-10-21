@@ -1,16 +1,6 @@
 self: super:
 
 {
-  termite = import ./termite {
-    inherit (self) colors fonts;
-    inherit (super)
-      stdenv
-      makeWrapper
-      writeTextFile
-      termite
-      ;
-  };
-
   dunst = import ./dunst {
     inherit (self) colors fonts;
     inherit (super)

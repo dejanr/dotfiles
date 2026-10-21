@@ -5,7 +5,8 @@ let
   sourceDir = ../extensions/ds4/vendor/ds4;
   source = lib.cleanSourceWith {
     src = sourceDir;
-    filter = path: type:
+    filter =
+      path: type:
       let
         name = baseNameOf path;
       in
@@ -46,10 +47,12 @@ let
   };
 
   envExports = lib.concatStringsSep "\n" (
-    lib.mapAttrsToList (name: relativePath: ''export ${name}="$out/share/ds4/${relativePath}"'') metalEnv
+    lib.mapAttrsToList (
+      name: relativePath: ''export ${name}="$out/share/ds4/${relativePath}"''
+    ) metalEnv
   );
 in
-if !pkgs.stdenv.isDarwin then
+if !pkgs.stdenv.hostPlatform.isDarwin then
   pkgs.runCommandNoCC "pi-dev-ds4-unsupported" { } ''
     mkdir -p "$out"
   ''

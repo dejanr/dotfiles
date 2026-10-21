@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  enableMan = false;
+
   imports = [
     ./globals.nix
     ./settings.nix

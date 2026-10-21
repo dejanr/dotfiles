@@ -75,8 +75,6 @@ in
       prusa-slicer
       st
       sxiv
-      termite
-      termite.terminfo
       tesseract
       telegram-desktop
       thunderbird
