@@ -37,7 +37,6 @@ in
 
       settings = {
         theme = "stylix";
-        model = "llama.cpp/gpt-oss-120b-mxfp4-00001-of-00003.gguf";
         autoshare = false;
         autoupdate = false;
 
@@ -45,7 +44,9 @@ in
           "GUIDELINES.md"
           "docs/guidelines.md"
         ];
-
+      }
+      // optionalAttrs config.modules.home.cli.llama-cpp.enable {
+        model = "llama.cpp/gpt-oss-120b-mxfp4-00001-of-00003.gguf";
         provider = {
           "llama.cpp" = {
             npm = "@ai-sdk/openai-compatible";

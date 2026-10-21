@@ -142,7 +142,7 @@ in
     };
 
     home.cli.llama-cpp = {
-      enable = true;
+      enable = false;
       package = pkgs.framework-llama-cpp;
       gpuLayers = 999;
       flashAttention = true;

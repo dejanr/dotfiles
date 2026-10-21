@@ -57,11 +57,6 @@
     home.cli.ps-kill.enable = true;
     home.cli.yazi.enable = true;
     home.cli.pi-dev.enable = true;
-
-    home.cli.llama-cpp = {
-      enable = true;
-      package = pkgs.ultra-llama-cpp;
-    };
   };
 
   config.home.stylix.theme = "catppuccin-mocha";

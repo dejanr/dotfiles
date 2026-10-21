@@ -9,7 +9,6 @@
 
   config.home.packages = with pkgs; [
     slack
-    qwen36-mtp-server
   ];
 
   config.services.syncthing = {
