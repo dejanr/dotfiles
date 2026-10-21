@@ -7,6 +7,8 @@ let
   username = "d509506";
 in
 {
+  imports = [ ../ca-trust.nix ];
+
   nix = {
     enable = false;
     settings = {

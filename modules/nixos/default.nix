@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   lib,
@@ -10,7 +11,15 @@ let
   username = "dejanr";
 in
 {
-  imports = importsFrom { path = ./.; };
+  imports = [ ../ca-trust.nix ] ++ importsFrom { path = ./.; };
+
+  systemd.globalEnvironment = lib.getAttrs [
+    "SSL_CERT_FILE"
+    "REQUESTS_CA_BUNDLE"
+    "PIP_CERT"
+    "NODE_OPTIONS"
+    "UV_NATIVE_TLS"
+  ] config.environment.variables;
 
   services = {
     xserver.desktopManager.xterm.enable = false;
