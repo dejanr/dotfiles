@@ -38,6 +38,13 @@ in
 {
   mkObsidianPlugin = super.callPackage ./mk-obsidian-plugin.nix { };
 
+  audacity = super.audacity.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      echo 'set_target_properties(muse_extensions_qml PROPERTIES UNITY_BUILD OFF)' \
+        >> muse/framework/extensions/qml/Muse/Extensions/CMakeLists.txt
+    '';
+  });
+
   arc-theme = super.arc-theme.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags or [ ] ++ [
       "--disable-light"
