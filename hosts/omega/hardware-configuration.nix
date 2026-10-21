@@ -44,7 +44,12 @@ in
 
     kernelPackages = kernelPackages;
 
-    extraModulePackages = [ kernelPackages.v4l2loopback ];
+    extraModulePackages = [
+      (kernelPackages.v4l2loopback.overrideAttrs (old: {
+        # NixOS regenerates depmod maps after merging the kernel and external modules.
+        makeFlags = old.makeFlags ++ [ "DEPMOD=true" ];
+      }))
+    ];
 
     kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
