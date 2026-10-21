@@ -129,7 +129,8 @@
         "aarch64-linux"
         "aarch64-darwin"
       ];
-      forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+      pkgsFor = system: nixpkgs.legacyPackages.${system}.extend (import ./overlays/05-nodejs.nix);
+      forEachPkgs = f: forEachSystem (system: f (pkgsFor system));
 
       utils = import ./utils/imports.nix { lib = nixpkgs.lib; };
       importsFrom = utils.importsFrom;
@@ -206,7 +207,7 @@
         let
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
-            pkgs = nixpkgs.legacyPackages.${system};
+            pkgs = pkgsFor system;
             module = import ./modules/home/cli/nixvim;
             extraSpecialArgs = { inherit inputs; };
           };
@@ -217,34 +218,40 @@
     {
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-tree);
       devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs agenix; });
-      packages = forEachSystem (system: {
-        nvim = nixvimConfig system;
-        default = nixvimConfig system;
-        pi-dev-coding-agent = import ./modules/home/cli/pi-dev/nix/package.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-          pi-dev-src = inputs.pi-dev;
-        };
-        blender-mcp = import ./modules/home/cli/pi-dev/nix/blender-mcp.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        cccc = import ./modules/home/cli/pi-dev/nix/cccc.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        pi-dev-ds4 = import ./modules/home/cli/pi-dev/nix/ds4.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        pi-cursor-provider = import ./modules/home/cli/pi-dev/nix/extensions/cursor-provider.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        pi-usage-bars = import ./modules/home/cli/pi-dev/nix/extensions/usage-bars.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-        };
-        pi-dev-extensions = import ./modules/home/cli/pi-dev/nix/extensions.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-          extensions-src = self + "/modules/home/cli/pi-dev";
-          pi-dev-src = inputs.pi-dev;
-        };
-      });
+      packages = forEachSystem (
+        system:
+        let
+          pkgs = pkgsFor system;
+        in
+        {
+          nvim = nixvimConfig system;
+          default = nixvimConfig system;
+          pi-dev-coding-agent = import ./modules/home/cli/pi-dev/nix/package.nix {
+            inherit pkgs;
+            pi-dev-src = inputs.pi-dev;
+          };
+          blender-mcp = import ./modules/home/cli/pi-dev/nix/blender-mcp.nix {
+            inherit pkgs;
+          };
+          cccc = import ./modules/home/cli/pi-dev/nix/cccc.nix {
+            inherit pkgs;
+          };
+          pi-dev-ds4 = import ./modules/home/cli/pi-dev/nix/ds4.nix {
+            inherit pkgs;
+          };
+          pi-cursor-provider = import ./modules/home/cli/pi-dev/nix/extensions/cursor-provider.nix {
+            inherit pkgs;
+          };
+          pi-usage-bars = import ./modules/home/cli/pi-dev/nix/extensions/usage-bars.nix {
+            inherit pkgs;
+          };
+          pi-dev-extensions = import ./modules/home/cli/pi-dev/nix/extensions.nix {
+            inherit pkgs;
+            extensions-src = self + "/modules/home/cli/pi-dev";
+            pi-dev-src = inputs.pi-dev;
+          };
+        }
+      );
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
