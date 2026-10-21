@@ -62,6 +62,10 @@ in
     patches = (old.patches or [ ]) ++ [ ./terminal-links/ghostty-web-links.patch ];
   });
 
+  khal = super.khal.overrideAttrs (old: {
+    sphinxBuilders = super.lib.concatStringsSep " " old.sphinxBuilders;
+  });
+
   kitty = super.kitty.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ./terminal-links/kitty-web-links.patch ];
   });
@@ -272,7 +276,7 @@ in
     ];
 
     buildInputs = [
-      super.libdisplay-info
+      super.libdisplay-info_0_3
       super.libglvnd
       super.libinput
       super.libxkbcommon
