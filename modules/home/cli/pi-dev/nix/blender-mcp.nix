@@ -28,7 +28,11 @@ pkgs.python3Packages.buildPythonApplication rec {
     cp src/blender_mcp/bundled/addon.py $out/share/blender-mcp/blender_mcp.py
   '';
 
-  makeWrapperArgs = [ "--set DISABLE_TELEMETRY true" ];
+  makeWrapperArgs = [
+    "--set"
+    "DISABLE_TELEMETRY"
+    "true"
+  ];
   DISABLE_TELEMETRY = "true";
   nativeCheckInputs = [ pkgs.python3Packages.pytestCheckHook ];
   pytestFlags = [
