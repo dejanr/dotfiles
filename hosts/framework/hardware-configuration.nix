@@ -14,7 +14,16 @@ in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  nixpkgs.overlays = [ inputs.nix-cachyos-kernel.overlays.pinned ];
+  nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.pinned
+    (final: _prev: {
+      # Match module aggregation to the pinned kernel's certificate format.
+      inherit
+        (inputs.nix-cachyos-kernel.inputs.nixpkgs.legacyPackages.${final.stdenv.hostPlatform.system})
+        aggregateModules
+        ;
+    })
+  ];
 
   boot = {
     zfs.package = config.boot.kernelPackages.zfs_cachyos;
