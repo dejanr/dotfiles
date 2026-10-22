@@ -11,3 +11,4 @@ modules/home/cli/pi-dev/extensions/*/node_modules/
 dist/
 node_modules
 __pycache__
+/hosts/framework/config/dms/session.json

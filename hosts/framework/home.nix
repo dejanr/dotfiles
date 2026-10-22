@@ -155,22 +155,16 @@ in
     systemdTargets = [ "niri.service" ];
   };
 
-  config.xdg.configFile = {
-    "DankMaterialShell/settings.json" = {
-      force = true;
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/settings.json";
-    };
-    "DankMaterialShell/plugin_settings.json" = {
-      force = true;
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/plugin_settings.json";
-    };
-  };
-
-  config.home.file."dms-session" = {
-    force = true;
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hosts/framework/config/dms/session.json";
-    target = ".local/state/DankMaterialShell/session.json";
-  };
+  config.home.activation.seedDmsSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    settings_dir="${config.xdg.configHome}/dms"
+    run mkdir -p -- "$settings_dir"
+    for name in settings.json plugin_settings.json; do
+      target="$settings_dir/$name"
+      if [[ ! -e "$target" && ! -L "$target" ]]; then
+        run cp --update=none --no-preserve=mode -- "${./config/dms}/$name" "$target"
+      fi
+    done
+  '';
 
   config.home.file."obsidian-syncthing-ignore" = {
     force = true;
