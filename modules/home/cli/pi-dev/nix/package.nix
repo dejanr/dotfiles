@@ -19,7 +19,7 @@ pkgs.buildNpmPackage {
   npmDepsHash = "sha256-o4l3zsbLIA/o5VVbZZJV4pZYIEICtp9iUmt69MMxA2o=";
   npmDepsFetcherVersion = 2;
 
-  nodejs = pkgs.nodejs_24;
+  nodejs = pkgs.nodejs_24-patched;
 
   nativeBuildInputs = with pkgs; [
     pkg-config

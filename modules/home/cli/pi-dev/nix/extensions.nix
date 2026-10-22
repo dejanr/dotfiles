@@ -5,8 +5,8 @@
 }:
 
 let
-  pnpm = pkgs.pnpm_10;
-  nodejs = pkgs.nodejs_24;
+  pnpm = pkgs.pnpm_10.override { nodejs-slim = pkgs.nodejs-slim_24-patched; };
+  nodejs = pkgs.nodejs_24-patched;
 
   piVersion =
     (builtins.fromJSON (builtins.readFile (pi-dev-src + "/packages/coding-agent/package.json")))

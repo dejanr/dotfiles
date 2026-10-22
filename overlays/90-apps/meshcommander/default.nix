@@ -8,6 +8,7 @@
 buildNpmPackage rec {
   pname = "mesh-mini";
   version = "2024-05-26";
+  inherit nodejs;
 
   src = fetchFromGitHub {
     owner = "brytonsalisbury";

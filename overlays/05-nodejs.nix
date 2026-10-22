@@ -1,5 +1,5 @@
 self: super: {
-  nodejs-slim_24 =
+  nodejs-slim_24-patched =
     if super.lib.versionAtLeast super.nodejs-slim_24.version "24.22.1" then
       super.nodejs-slim_24
     else
@@ -17,4 +17,8 @@ self: super: {
           buildInputs = super.lib.remove super.brotli oldAttrs.buildInputs;
         }
       );
+
+  nodejs_24-patched = super.nodejs_24.override {
+    nodejs-slim = self.nodejs-slim_24-patched;
+  };
 }

@@ -7,6 +7,7 @@
 buildNpmPackage rec {
   pname = "microsoft-rush";
   version = "5.178.0";
+  inherit nodejs;
 
   src = ./.;
 

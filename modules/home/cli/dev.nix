@@ -91,7 +91,7 @@ in
       go
       gofumpt
       gotools
-      nodejs_24
+      nodejs_24-patched
       python3
       pnpm
 

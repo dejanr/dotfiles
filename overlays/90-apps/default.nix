@@ -100,8 +100,8 @@ in
   pulumi = super.callPackage ./pulumi { };
   opencode = super.callPackage ./opencode { };
   rift = super.callPackage ./rift { };
-  meshcommander = super.callPackage ./meshcommander { };
-  microsoft-rush = super.callPackage ./microsoft-rush { };
+  meshcommander = super.callPackage ./meshcommander { nodejs = self.nodejs_24-patched; };
+  microsoft-rush = super.callPackage ./microsoft-rush { nodejs = self.nodejs_24-patched; };
 
   jeveassets = super.callPackage ./jeveassets/default.nix {
     inherit (super)
