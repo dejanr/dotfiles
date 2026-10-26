@@ -21,4 +21,10 @@ self: super: {
   nodejs_24-patched = super.nodejs_24.override {
     nodejs-slim = self.nodejs-slim_24-patched;
   };
+
+  pm2 = super.pm2.override {
+    buildNpmPackage = super.buildNpmPackage.override {
+      nodejs = self.nodejs_24-patched;
+    };
+  };
 }
