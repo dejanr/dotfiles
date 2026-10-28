@@ -2,9 +2,10 @@
   description = "CTF Playwright browsers and development shell";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/b6018f87da91d19d0ab4cf979885689b469cdd41";
+  inputs.nodepkgs.url = "github:NixOS/nixpkgs/36173dbc6ff2b383c4d03b002fd1ea58e2e4dbcd";
 
   outputs =
-    { nixpkgs, ... }:
+    { nixpkgs, nodepkgs, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
@@ -16,7 +17,25 @@
         system:
         let
           pkgs = import nixpkgs { inherit system; };
-          nodejs = pkgs.nodejs_24;
+          nodePackages = import nodepkgs {
+            inherit system;
+            config.allowDeprecatedx86_64Darwin = true;
+          };
+          nodejs = nodePackages.nodejs_24.override {
+            nodejs-slim = nodePackages.nodejs-slim_24.overrideAttrs (
+              finalAttrs: oldAttrs: {
+                version = "24.22.1";
+                src = nodePackages.fetchurl {
+                  url = "https://nodejs.org/dist/v${finalAttrs.version}/node-v${finalAttrs.version}.tar.xz";
+                  hash = "sha256-T1N5eWKAza6wwvNY/QS2oWzE+336g7WoyRqdljtDUjE=";
+                };
+                configureFlags = builtins.filter (
+                  flag: !(nodePackages.lib.hasPrefix "--shared-brotli" flag)
+                ) oldAttrs.configureFlags;
+                buildInputs = nodePackages.lib.remove nodePackages.brotli oldAttrs.buildInputs;
+              }
+            );
+          };
           driver = pkgs.playwright-driver;
           browserEnvironment = {
             PLAYWRIGHT_BROWSERS_PATH = "${driver.browsers}";
@@ -75,7 +94,7 @@
             '';
           };
         in
-        assert pkgs.lib.versionAtLeast nodejs.version "24.11.0";
+        assert pkgs.lib.versionAtLeast nodejs.version "24.22.1";
         {
           inherit launcher;
           shell = pkgs.mkShell (
