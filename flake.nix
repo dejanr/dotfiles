@@ -272,7 +272,7 @@
           system = "aarch64-darwin";
         in
         {
-          "BFG-043974" = nix-darwin.lib.darwinSystem {
+          "M-G1997RD02K" = nix-darwin.lib.darwinSystem {
             inherit system;
             specialArgs = {
               inherit inputs system importsFrom;
