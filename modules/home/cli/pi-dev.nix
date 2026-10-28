@@ -39,6 +39,7 @@ let
   prompts = filterAttrs (n: v: v == "regular" && hasSuffix ".md" n) promptFiles;
 
   settings = {
+    theme = "dark";
     lastChangelogVersion = packageJson.version;
     defaultProvider = "openai-codex";
     defaultModel = "gpt-6.1-sol";

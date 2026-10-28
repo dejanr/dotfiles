@@ -10,11 +10,13 @@ let
     hash = "sha256-1CKtkAEKJrPeHZ52nrDKyAhGV+iWitVO4fWjmG+skEk=";
   };
 in
-pkgs.buildNpmPackage {
+pkgs.buildNpmPackage (finalAttrs: {
   pname = "pi-dev-coding-agent";
   inherit version;
 
   src = releaseSource;
+
+  patches = [ ./primary-selection.patch ];
 
   npmDepsHash = "sha256-9VJZVr+agPjtjjpE7zybqDkVTYpVEyr64LiY2Hq5J7g=";
   npmDepsFetcherVersion = 2;
@@ -22,6 +24,7 @@ pkgs.buildNpmPackage {
   nodejs = pkgs.nodejs_24-patched;
 
   nativeBuildInputs = with pkgs; [
+    makeWrapper
     pkg-config
     python3
   ];
@@ -51,6 +54,31 @@ pkgs.buildNpmPackage {
 
   npmBuildScript = "build";
 
+  postFixup = pkgs.lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
+    wrapProgram $out/bin/pi --set-default PI_CLIPBOARD_OSC52 1 --prefix PATH : ${
+      pkgs.lib.makeBinPath [
+        pkgs.wl-clipboard
+        pkgs.xclip
+        pkgs.xsel
+      ]
+    }
+  '';
+
+  passthru.tests = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+    tmux-clipboard =
+      pkgs.runCommand "pi-dev-tmux-clipboard-test"
+        {
+          nativeBuildInputs = [
+            pkgs.python3
+            pkgs.tmux
+          ];
+        }
+        ''
+          python3 ${./clipboard-tmux.test.py} ${finalAttrs.finalPackage}
+          touch "$out"
+        '';
+  };
+
   installPhase = ''
     runHook preInstall
 
@@ -72,4 +100,4 @@ pkgs.buildNpmPackage {
 
     runHook postInstall
   '';
-}
+})

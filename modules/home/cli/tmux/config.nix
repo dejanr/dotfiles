@@ -152,8 +152,9 @@
   setw -g window-status-activity-style "underscore,fg=#${colors.base04},bg=#${colors.base00}"
   setw -g window-status-separator ""
   setw -g window-status-style "NONE,fg=#${colors.base04},bg=#${colors.base00}"
-  setw -g window-status-format "#[default] #{?#{==:#{@pi_running},1},#[fg=#${colors.base0A}]· #[default],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}]· #[default],}}#I | #W #F "
-  setw -g window-status-current-format "#[fg=#${colors.base00},bg=#${colors.base04},bold] #{?#{==:#{@pi_running},1},#[fg=#${colors.base0A}#,bg=#${colors.base04}#,nobold]· #[fg=#${colors.base00}#,bg=#${colors.base04}#,bold],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}#,bg=#${colors.base04}#,nobold]· #[fg=#${colors.base00}#,bg=#${colors.base04}#,bold],}}#I | #W #F "
+  setw -g window-status-current-style "none"
+  setw -g window-status-format "#[default] #{?#{==:#{@pi_running},1},#[fg=#${colors.base09}]● #[default],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}]● #[default],}}#I | #W #F "
+  setw -g window-status-current-format "#[fg=#${colors.base05},bg=#${colors.base04},bold] #{?#{==:#{@pi_running},1},#[fg=#${colors.base09}#,bg=#${colors.base04}#,nobold]● #[fg=#${colors.base05}#,bg=#${colors.base04}#,bold],#{?#{==:#{@pi_unread},1},#[fg=#${colors.base08}#,bg=#${colors.base04}#,nobold]● #[fg=#${colors.base05}#,bg=#${colors.base04}#,bold],}}#I | #W #F "
 
   set-hook -g client-focus-in 'set-window-option @pi_unread 0'
   set-hook -g after-select-window 'set-window-option @pi_unread 0'

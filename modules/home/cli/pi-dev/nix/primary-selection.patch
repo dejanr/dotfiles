@@ -1,0 +1,484 @@
+diff --git a/packages/coding-agent/src/modes/interactive/interactive-mode.ts b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
+--- a/packages/coding-agent/src/modes/interactive/interactive-mode.ts
++++ b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
+@@ -123,7 +123,12 @@
+ import { getUsageCostBreakdown } from "../../core/usage-totals.ts";
+ import { addMcpServerConfig, loadMcpConfig } from "../../extensions/mcp/config.ts";
+ import { getChangelogPath, getNewEntries, normalizeChangelogLinks, parseChangelog } from "../../utils/changelog.ts";
+-import { copyToClipboard, readClipboardFilePaths, readClipboardText } from "../../utils/clipboard.ts";
++import {
++	copyToClipboard,
++	readClipboardFilePaths,
++	readClipboardText,
++	readPrimarySelection,
++} from "../../utils/clipboard.ts";
+ import { extensionForImageMimeType, readClipboardImage } from "../../utils/clipboard-image.ts";
+ import { parseGitUrl } from "../../utils/git.ts";
+ import { ensurePngTranscoder } from "../../utils/image-convert.ts";
+@@ -586,7 +591,10 @@
+ 
+ 	private options: InteractiveModeOptions;
+ 	private readonly onRightClickPaste = (): void => {
+-		void this.handleRightClickPaste();
++		void this.handleMousePaste();
++	};
++	private readonly onMiddleClickPaste = (): void => {
++		void this.handleMousePaste(true);
+ 	};
+ 	private autoTrustOnReloadCwd: string | undefined;
+ 	private themeController: InteractiveThemeController;
+@@ -625,6 +633,7 @@
+ 			logDirectory: getAgentDir(),
+ 			terminal: options.terminal,
+ 			onRightClickPaste: this.onRightClickPaste,
++			onMiddleClickPaste: this.onMiddleClickPaste,
+ 			fullscreenCopyOnSelect: this.settingsManager.getFullscreenCopyOnSelect(),
+ 			fullscreenWheelScrollLines: this.settingsManager.getFullscreenWheelScrollLines(),
+ 		});
+@@ -913,6 +922,7 @@
+ 			logDirectory: getAgentDir(),
+ 			terminal,
+ 			onRightClickPaste: this.onRightClickPaste,
++			onMiddleClickPaste: this.onMiddleClickPaste,
+ 			fullscreenCopyOnSelect: this.settingsManager.getFullscreenCopyOnSelect(),
+ 			fullscreenWheelScrollLines: this.settingsManager.getFullscreenWheelScrollLines(),
+ 		});
+@@ -3137,12 +3147,12 @@
+ 		};
+ 	}
+ 
+-	private async handleRightClickPaste(): Promise<void> {
++	private async handleMousePaste(primary = false): Promise<void> {
+ 		const target = this.renderer.getFocusedComponent();
+ 		const handleInput = target?.handleInput;
+ 		if (!target || !handleInput) return;
+ 		try {
+-			const text = await readClipboardText();
++			const text = await (primary ? readPrimarySelection() : readClipboardText());
+ 			if (!text || this.renderer.getFocusedComponent() !== target) return;
+ 			handleInput.call(target, `\x1b[200~${text}\x1b[201~`);
+ 			this.ui.requestRender();
+diff --git a/packages/coding-agent/src/modes/interactive/tui-renderer.ts b/packages/coding-agent/src/modes/interactive/tui-renderer.ts
+--- a/packages/coding-agent/src/modes/interactive/tui-renderer.ts
++++ b/packages/coding-agent/src/modes/interactive/tui-renderer.ts
+@@ -1,6 +1,6 @@
+ import type { Terminal, WheelScrollLines } from "@earendil-works/pi-tui";
+ import { ProcessTerminal, type TUI, TuiAltScreen, TuiMainScreen } from "@earendil-works/pi-tui";
+-import { copyToClipboard } from "../../utils/clipboard.ts";
++import { copyToClipboard, copyToPrimarySelection } from "../../utils/clipboard.ts";
+ import { openBrowser } from "../../utils/open-browser.ts";
+ import { keyDisplayText } from "./components/keybinding-hints.ts";
+ import { theme } from "./theme/theme.ts";
+@@ -11,6 +11,7 @@
+ 	readonly logDirectory: string;
+ 	readonly terminal?: Terminal;
+ 	readonly onRightClickPaste?: () => void;
++	readonly onMiddleClickPaste?: () => void;
+ 	readonly fullscreenCopyOnSelect?: boolean;
+ 	readonly fullscreenWheelScrollLines?: WheelScrollLines;
+ }
+@@ -34,11 +35,13 @@
+ 			},
+ 			openUrl: openBrowser,
+ 			onRightClickPaste: options.onRightClickPaste,
++			onMiddleClickPaste: options.onMiddleClickPaste,
+ 			copyOnSelect: options.fullscreenCopyOnSelect,
+ 			wheelScrollLines: options.fullscreenWheelScrollLines ?? "auto",
+ 			copySelection: async (text) => {
+ 				try {
+ 					await copyToClipboard(text);
++					await copyToPrimarySelection(text);
+ 					return true;
+ 				} catch (error) {
+ 					return error instanceof Error ? error.message : String(error);
+diff --git a/packages/coding-agent/src/utils/clipboard.ts b/packages/coding-agent/src/utils/clipboard.ts
+--- a/packages/coding-agent/src/utils/clipboard.ts
++++ b/packages/coding-agent/src/utils/clipboard.ts
+@@ -77,6 +77,41 @@
+ 	}
+ }
+ 
++function primarySelectionCommands(operation: "read" | "write"): [string, string[]][] {
++	const commands: [string, string[]][] = [];
++	if (platform() !== "linux") return commands;
++	if (process.env.WAYLAND_DISPLAY) {
++		commands.push(
++			operation === "read"
++				? ["wl-paste", ["--primary", "--no-newline", "--type", "text"]]
++				: ["wl-copy", ["--primary"]],
++		);
++	}
++	if (process.env.DISPLAY) {
++		commands.push(
++			operation === "read" ? ["xclip", ["-selection", "primary", "-out"]] : ["xclip", ["-selection", "primary"]],
++			operation === "read" ? ["xsel", ["--primary", "--output"]] : ["xsel", ["--primary", "--input"]],
++		);
++	}
++	return commands;
++}
++
++export async function readPrimarySelection(): Promise<string | null> {
++	for (const [command, args] of primarySelectionCommands("read")) {
++		const bytes = await runClipboardCommand(command, args, { timeoutMs: 5000 });
++		if (bytes !== undefined) return bytes.toString("utf8") || null;
++	}
++	return null;
++}
++
++export async function copyToPrimarySelection(text: string): Promise<void> {
++	const commands = primarySelectionCommands("write");
++	for (const [command, args] of commands) {
++		if ((await runClipboardCommand(command, args, { input: text, timeoutMs: 5000 })) !== undefined) return;
++	}
++	if (commands.length > 0) throw new Error("Copied to clipboard, but PRIMARY selection is unavailable");
++}
++
+ /** Read file paths, such as Finder file copies, from the native clipboard. */
+ export async function readClipboardFilePaths(): Promise<string[] | null> {
+ 	const paths = await getNativeClipboard()?.getFilePaths?.();
+diff --git a/packages/coding-agent/test/clipboard.test.ts b/packages/coding-agent/test/clipboard.test.ts
+--- a/packages/coding-agent/test/clipboard.test.ts
++++ b/packages/coding-agent/test/clipboard.test.ts
+@@ -2,7 +2,12 @@
+ import type * as OsModule from "node:os";
+ import type { NativeClipboard } from "@earendil-works/pi-tui";
+ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+-import { copyToClipboard, readClipboardText } from "../src/utils/clipboard.ts";
++import {
++	copyToClipboard,
++	copyToPrimarySelection,
++	readClipboardText,
++	readPrimarySelection,
++} from "../src/utils/clipboard.ts";
+ 
+ const mocks = vi.hoisted(() => ({
+ 	clipboard: {
+@@ -119,6 +124,76 @@
+ 	});
+ });
+ 
++describe("PRIMARY selection", () => {
++	for (const [env, reader, readArgs, writer, writeArgs] of [
++		["WAYLAND_DISPLAY", "wl-paste", ["--primary", "--no-newline", "--type", "text"], "wl-copy", ["--primary"]],
++		["DISPLAY", "xclip", ["-selection", "primary", "-out"], "xclip", ["-selection", "primary"]],
++		["DISPLAY", "xsel", ["--primary", "--output"], "xsel", ["--primary", "--input"]],
++	] as const) {
++		test(`reads and writes PRIMARY using ${writer}`, async () => {
++			mocks.platform.mockReturnValue("linux");
++			vi.stubEnv(env, "1");
++			mocks.command.mockImplementation(async (name) =>
++				name === reader || name === writer ? Buffer.from("selected text") : undefined,
++			);
++			await expect(readPrimarySelection()).resolves.toBe("selected text");
++			expect(mocks.command).toHaveBeenLastCalledWith(reader, readArgs, { timeoutMs: 5000 });
++			await copyToPrimarySelection("selected text");
++			expect(mocks.command).toHaveBeenLastCalledWith(writer, writeArgs, { input: "selected text", timeoutMs: 5000 });
++			expect(mocks.getNativeClipboard).not.toHaveBeenCalled();
++			expect(osc52Writes).toHaveLength(0);
++		});
++	}
++	test.each(["selected text", ""])("prefers Wayland PRIMARY and stops fallback for %j", async (text) => {
++		mocks.platform.mockReturnValue("linux");
++		vi.stubEnv("WAYLAND_DISPLAY", "wayland-0");
++		vi.stubEnv("DISPLAY", ":0");
++		mocks.command.mockResolvedValue(Buffer.from(text));
++		await expect(readPrimarySelection()).resolves.toBe(text || null);
++		expect(mocks.command).toHaveBeenCalledExactlyOnceWith(
++			"wl-paste",
++			["--primary", "--no-newline", "--type", "text"],
++			{ timeoutMs: 5000 },
++		);
++		mocks.command.mockClear();
++		await copyToPrimarySelection("selected text");
++		expect(mocks.command).toHaveBeenCalledExactlyOnceWith("wl-copy", ["--primary"], {
++			input: "selected text",
++			timeoutMs: 5000,
++		});
++	});
++	test("falls back from Wayland through xclip to xsel", async () => {
++		mocks.platform.mockReturnValue("linux");
++		vi.stubEnv("WAYLAND_DISPLAY", "wayland-0");
++		vi.stubEnv("DISPLAY", ":0");
++		mocks.command.mockImplementation(async (name) => (name === "xsel" ? Buffer.from("selected text") : undefined));
++		await expect(readPrimarySelection()).resolves.toBe("selected text");
++		expect(mocks.command.mock.calls.map(([name]) => name)).toEqual(["wl-paste", "xclip", "xsel"]);
++		mocks.command.mockClear();
++		await copyToPrimarySelection("selected text");
++		expect(mocks.command.mock.calls.map(([name]) => name)).toEqual(["wl-copy", "xclip", "xsel"]);
++	});
++	test.each(["darwin", "win32", "linux"] as const)("does nothing without a Linux desktop on %s", async (platform) => {
++		mocks.platform.mockReturnValue(platform);
++		if (platform !== "linux") vi.stubEnv("DISPLAY", ":0");
++		await expect(readPrimarySelection()).resolves.toBeNull();
++		await copyToPrimarySelection("selected text");
++		expect(mocks.command).not.toHaveBeenCalled();
++		expect(mocks.getNativeClipboard).not.toHaveBeenCalled();
++	});
++	test("does not fall back to the regular clipboard when PRIMARY is unavailable", async () => {
++		mocks.platform.mockReturnValue("linux");
++		vi.stubEnv("DISPLAY", ":0");
++		mocks.command.mockResolvedValue(undefined);
++		await expect(readPrimarySelection()).resolves.toBeNull();
++		await expect(copyToPrimarySelection("selected text")).rejects.toThrow("PRIMARY selection is unavailable");
++		expect(mocks.getNativeClipboard).not.toHaveBeenCalled();
++		expect(mocks.command.mock.calls.every(([, args]) => args.includes("primary") || args.includes("--primary"))).toBe(
++			true,
++		);
++	});
++});
++
+ describe("copyToClipboard", () => {
+ 	test("local native success skips OSC 52 and commands", async () => {
+ 		await copyToClipboard("hello");
+diff --git a/packages/coding-agent/test/interactive-tui.test.ts b/packages/coding-agent/test/interactive-tui.test.ts
+--- a/packages/coding-agent/test/interactive-tui.test.ts
++++ b/packages/coding-agent/test/interactive-tui.test.ts
+@@ -21,6 +21,8 @@
+ 
+ const clipboardMocks = vi.hoisted(() => ({
+ 	copyToClipboard: vi.fn<(text: string) => Promise<void>>(),
++	copyToPrimarySelection: vi.fn<(text: string) => Promise<void>>(),
++	readPrimarySelection: vi.fn<() => Promise<string | null>>(),
+ 	readClipboardFilePaths: vi.fn<() => Promise<string[] | null>>(),
+ 	readClipboardText: vi.fn<() => Promise<string | null>>(),
+ }));
+@@ -181,25 +183,94 @@
+ 	});
+ });
+ 
+-describe("InteractiveMode right-click paste", () => {
+-	it("feeds clipboard text to the focused component as a bracketed paste", async () => {
+-		clipboardMocks.readClipboardText.mockResolvedValue("clipboard text");
++describe("InteractiveMode mouse paste", () => {
++	it("routes a middle click through the renderer to a PRIMARY bracketed paste", async () => {
++		const platformDescriptor = Object.getOwnPropertyDescriptor(process, "platform")!;
++		clipboardMocks.readPrimarySelection.mockReset().mockResolvedValue("primary text");
++		clipboardMocks.readClipboardText.mockReset();
++		const handleInput = vi.fn<(data: string) => void>();
++		const target = { render: () => ["editor"], invalidate: () => {}, handleInput } satisfies Component;
++		const terminal = new RecordingTerminal(40, 4);
++		const ui = createInteractiveTui({
++			tuiMode: "fullscreen",
++			showHardwareCursor: false,
++			logDirectory: "/tmp",
++			terminal,
++			onMiddleClickPaste: () => {
++				void prototype.handleMousePaste.call(context, true);
++			},
++		});
++		const context = { renderer: ui, ui };
++		const prototype = InteractiveMode.prototype as unknown as {
++			handleMousePaste(this: typeof context, primary?: boolean): Promise<void>;
++		};
++		ui.addChild(target);
++		ui.setFocus(target);
++		try {
++			Object.defineProperty(process, "platform", { configurable: true, value: "linux" });
++			ui.start();
++			await terminal.waitForRender();
++			terminal.sendInput("\x1b[<1;1;1M");
++			terminal.sendInput("\x1b[<1;1;1m");
++			await terminal.waitForRender();
++			expect(handleInput).toHaveBeenCalledExactlyOnceWith("\x1b[200~primary text\x1b[201~");
++			expect(clipboardMocks.readClipboardText).not.toHaveBeenCalled();
++		} finally {
++			ui.stop();
++			Object.defineProperty(process, "platform", platformDescriptor);
++		}
++	});
++
++	it("does not paste PRIMARY into a component that lost focus during the clipboard read", async () => {
++		let complete!: (text: string) => void;
++		clipboardMocks.readPrimarySelection.mockReturnValue(
++			new Promise<string>((resolve) => {
++				complete = resolve;
++			}),
++		);
+ 		const handleInput = vi.fn<(data: string) => void>();
+ 		const target = { render: () => [], invalidate: () => {}, handleInput } satisfies Component;
+-		const requestRender = vi.fn();
++		let focused: Component | null = target;
+ 		const context = {
+-			renderer: { getFocusedComponent: () => target },
+-			ui: { requestRender },
++			renderer: { getFocusedComponent: () => focused },
++			ui: { requestRender: vi.fn() },
+ 		};
+ 		const prototype = InteractiveMode.prototype as unknown as {
+-			handleRightClickPaste(this: typeof context): Promise<void>;
+-		};
+-
+-		await prototype.handleRightClickPaste.call(context);
+-
+-		expect(handleInput).toHaveBeenCalledWith("\x1b[200~clipboard text\x1b[201~");
+-		expect(requestRender).toHaveBeenCalledOnce();
+-	});
++			handleMousePaste(this: typeof context, primary?: boolean): Promise<void>;
++		};
++		const paste = prototype.handleMousePaste.call(context, true);
++		focused = null;
++		complete("primary text");
++		await paste;
++		expect(handleInput).not.toHaveBeenCalled();
++		expect(context.ui.requestRender).not.toHaveBeenCalled();
++	});
++
++	it.each([false, true])(
++		"feeds selection text to the focused component as a bracketed paste (PRIMARY: %s)",
++		async (primary) => {
++			clipboardMocks.readClipboardText.mockReset().mockResolvedValue("clipboard text");
++			clipboardMocks.readPrimarySelection.mockReset().mockResolvedValue("primary text");
++			const handleInput = vi.fn<(data: string) => void>();
++			const target = { render: () => [], invalidate: () => {}, handleInput } satisfies Component;
++			const requestRender = vi.fn();
++			const context = {
++				renderer: { getFocusedComponent: () => target },
++				ui: { requestRender },
++			};
++			const prototype = InteractiveMode.prototype as unknown as {
++				handleMousePaste(this: typeof context, primary?: boolean): Promise<void>;
++			};
++
++			await prototype.handleMousePaste.call(context, primary);
++
++			expect(handleInput).toHaveBeenCalledWith(`\x1b[200~${primary ? "primary text" : "clipboard text"}\x1b[201~`);
++			expect(
++				primary ? clipboardMocks.readClipboardText : clipboardMocks.readPrimarySelection,
++			).not.toHaveBeenCalled();
++			expect(requestRender).toHaveBeenCalledOnce();
++		},
++	);
+ });
+ 
+ type CopyCommandContext = {
+@@ -221,6 +292,31 @@
+ 	beforeEach(() => {
+ 		clipboardMocks.copyToClipboard.mockReset();
+ 		clipboardMocks.copyToClipboard.mockResolvedValue(undefined);
++		clipboardMocks.copyToPrimarySelection.mockReset();
++		clipboardMocks.copyToPrimarySelection.mockResolvedValue(undefined);
++	});
++
++	it("copies a fullscreen drag selection to both the clipboard and PRIMARY", async () => {
++		const terminal = new RecordingTerminal(40, 4);
++		const ui = createInteractiveTui({
++			tuiMode: "fullscreen",
++			showHardwareCursor: false,
++			logDirectory: "/tmp",
++			terminal,
++		});
++		ui.addChild(new Text("alpha\nbeta\ngamma\ndelta", 0, 0));
++		ui.start();
++		try {
++			await terminal.waitForRender();
++			terminal.sendInput("\x1b[<0;1;1M");
++			terminal.sendInput("\x1b[<32;4;2M");
++			terminal.sendInput("\x1b[<0;4;2m");
++			await terminal.waitForRender();
++			expect(clipboardMocks.copyToClipboard).toHaveBeenCalledWith("alpha\nbeta");
++			expect(clipboardMocks.copyToPrimarySelection).toHaveBeenCalledWith("alpha\nbeta");
++		} finally {
++			ui.stop();
++		}
+ 	});
+ 
+ 	it("copies an active fullscreen selection when copy-on-select is disabled", async () => {
+@@ -257,6 +353,7 @@
+ 
+ 			expect(clipboardMocks.copyToClipboard).toHaveBeenCalledOnce();
+ 			expect(clipboardMocks.copyToClipboard).toHaveBeenCalledWith("alpha\nbeta");
++			expect(clipboardMocks.copyToPrimarySelection).toHaveBeenCalledWith("alpha\nbeta");
+ 			expect(getLastAssistantText).not.toHaveBeenCalled();
+ 			expect(showStatus).not.toHaveBeenCalled();
+ 			expect(showError).not.toHaveBeenCalled();
+diff --git a/packages/tui/src/tui-alt-screen.ts b/packages/tui/src/tui-alt-screen.ts
+--- a/packages/tui/src/tui-alt-screen.ts
++++ b/packages/tui/src/tui-alt-screen.ts
+@@ -188,6 +188,7 @@
+ 	openUrl?: (url: string) => void;
+ 	/** Handle an unmodified secondary-button press for clipboard paste. Currently enabled on Windows only. */
+ 	onRightClickPaste?: () => void;
++	onMiddleClickPaste?: () => void;
+ 	/** Automatically copy selected text to the clipboard on mouse release (default: true). */
+ 	copyOnSelect?: boolean;
+ 	/**
+@@ -249,6 +250,7 @@
+ 	private readonly scrollToEndIndicator?: () => string;
+ 	private readonly openUrl?: (url: string) => void;
+ 	private readonly onRightClickPaste?: () => void;
++	private readonly onMiddleClickPaste?: () => void;
+ 	private copyOnSelect: boolean;
+ 	private readonly copySelection?: (text: string) => Promise<boolean | string>;
+ 
+@@ -276,6 +278,7 @@
+ 		this.scrollToEndIndicator = options.scrollToEndIndicator;
+ 		this.openUrl = options.openUrl;
+ 		this.onRightClickPaste = options.onRightClickPaste;
++		this.onMiddleClickPaste = options.onMiddleClickPaste;
+ 		this.copyOnSelect = options.copyOnSelect ?? true;
+ 		this.copySelection = options.copySelection;
+ 		this.addInputListener((data) => this.handleViewportInput(data));
+@@ -957,7 +960,7 @@
+ 			return;
+ 		}
+ 
+-		if (this.handleRightClickPaste(raw)) return;
++		if (this.handleMiddleClickPaste(raw) || this.handleRightClickPaste(raw)) return;
+ 		this.handleSelectionMouseEvent(raw);
+ 	}
+ 
+@@ -1013,6 +1016,14 @@
+ 			y: Number.parseInt(match[3], 10) - 1,
+ 			release: match[4] === "m",
+ 		};
++	}
++
++	private handleMiddleClickPaste(event: SgrMouseEvent): boolean {
++		if (!this.onMiddleClickPaste || process.platform !== "linux" || event.release || event.button !== 1) {
++			return false;
++		}
++		this.onMiddleClickPaste();
++		return true;
+ 	}
+ 
+ 	private handleRightClickPaste(event: SgrMouseEvent): boolean {
+diff --git a/packages/tui/test/tui-alt-screen.test.ts b/packages/tui/test/tui-alt-screen.test.ts
+--- a/packages/tui/test/tui-alt-screen.test.ts
++++ b/packages/tui/test/tui-alt-screen.test.ts
+@@ -418,6 +418,36 @@
+ 		}
+ 	});
+ 
++	it("pastes PRIMARY once for an unmodified middle-button press on Linux", () => {
++		const platformDescriptor = Object.getOwnPropertyDescriptor(process, "platform")!;
++		const terminal = new VirtualTerminal();
++		let pasteCount = 0;
++		const tui = new TuiAltScreen(terminal, undefined, undefined, {
++			onMiddleClickPaste: () => {
++				pasteCount += 1;
++			},
++		});
++		try {
++			Object.defineProperty(process, "platform", { configurable: true, value: "linux" });
++			tui.start();
++			terminal.sendInput("\x1b[<1;1;1M");
++			terminal.sendInput("\x1b[<1;1;1m");
++			assert.strictEqual(pasteCount, 1);
++			for (const button of [5, 9, 17, 33, 65]) {
++				terminal.sendInput(`\x1b[<${button};1;1M`);
++			}
++			assert.strictEqual(pasteCount, 1);
++			for (const platform of ["darwin", "win32"]) {
++				Object.defineProperty(process, "platform", { configurable: true, value: platform });
++				terminal.sendInput("\x1b[<1;1;1M");
++			}
++			assert.strictEqual(pasteCount, 1);
++		} finally {
++			tui.stop();
++			Object.defineProperty(process, "platform", platformDescriptor);
++		}
++	});
++
+ 	it("invokes the right-click paste handler only on Windows outside VS Code", () => {
+ 		const platformDescriptor = Object.getOwnPropertyDescriptor(process, "platform");
+ 		const termProgram = process.env.TERM_PROGRAM;
