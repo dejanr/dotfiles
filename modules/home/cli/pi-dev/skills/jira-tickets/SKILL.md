@@ -25,6 +25,13 @@ Read relevant repository instructions and ticket-style skills. Inspect the imple
 
 Read the destination project's creation metadata and any required template before finalizing the draft. Use read-only requests for this preparation. Read [JIRA-CLOUD.md](JIRA-CLOUD.md) when authentication, missing CLI configuration, or direct REST access is involved.
 
+For new CTF tickets, select the template by the confirmed issue type:
+
+- **Task:** [CTF-2109 — Task template](https://burdaforward.atlassian.net/browse/CTF-2109).
+- **Bug:** [CTF-2016 — Bug template](https://burdaforward.atlassian.net/browse/CTF-2016).
+
+Read the selected ticket's current `description` as raw ADF before drafting; it is the source of truth for section order, formatting, and checklist rows. If access fails, report the blocker rather than substituting the generic sections below. For edits, preserve the existing structure unless the user requests applying a template.
+
 **Done when:** destination, type, agreed scope, required fields, and applicable template are known. Surface unresolved requirements instead of inventing values.
 
 ## 2. Draft for people
