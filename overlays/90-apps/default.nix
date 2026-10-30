@@ -198,6 +198,25 @@ in
     else
       super.comfy-ui;
 
+  qt6 = super.lib.makeOverridable (
+    args:
+    (super.qt6.override args).overrideScope (
+      _qtSelf: qtSuper: {
+        qtwebengine = qtSuper.qtwebengine.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            (super.fetchpatch2 {
+              name = "qtwebengine-fix-icu-encoding-names.patch";
+              url = "https://code.qt.io/cgit/qt/qtwebengine-chromium.git/patch/?id=a1e09865cc2560378b7c89f42a2e74fd16ff5efa";
+              stripLen = 1;
+              extraPrefix = "src/3rdparty/";
+              hash = "sha256-CFnEDT3gnKZwhcDnjqDFJTy2W4sU0efcwYC9YOLyUIs=";
+            })
+          ];
+        });
+      }
+    )
+  ) { };
+
   qutebrowser-unstable =
     let
       mainSrc = super.fetchFromGitHub {
