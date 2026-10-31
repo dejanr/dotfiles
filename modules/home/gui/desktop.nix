@@ -25,6 +25,8 @@ in
   config = mkIf cfg.enable {
     modules.home.gui.blender.enable = true;
 
+    dconf.settings."org/gnome/desktop/interface".gtk-enable-primary-paste = true;
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications."application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
