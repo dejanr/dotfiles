@@ -6,26 +6,12 @@
 }:
 
 let
-  jsonFormat = pkgs.formats.json { };
-  greeterCustomTheme = jsonFormat.generate "custom-theme.json" { };
-  greeterSettings = jsonFormat.generate "settings.json" {
-    currentThemeName = "purple";
-    currentThemeCategory = "generic";
-    customThemeFile = greeterCustomTheme;
-    use24HourClock = true;
-    showSeconds = false;
+  home = config.home-manager.users.dejanr;
+  greeterConfig = import ./config/dms/greeter.nix {
+    inherit pkgs;
+    preferences = home.programs.dank-material-shell.settings;
+    wallpaper = home.modules.home.gui.dms.sessionPreferences.wallpaperPath;
   };
-  greeterSession = jsonFormat.generate "session.json" {
-    isLightMode = false;
-    doNotDisturb = false;
-    configVersion = 3;
-  };
-  greeterConfig = pkgs.runCommandLocal "dms-greeter-config" { } ''
-    mkdir -p "$out"
-    ln -s ${greeterCustomTheme} "$out/custom-theme.json"
-    ln -s ${greeterSettings} "$out/settings.json"
-    ln -s ${greeterSession} "$out/session.json"
-  '';
 in
 {
   imports = [
