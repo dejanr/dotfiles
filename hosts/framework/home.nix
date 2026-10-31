@@ -108,11 +108,21 @@ in
     };
     home.gui.geforce-now.enable = true;
     home.gui.browser.qutebrowser.enable = true;
+    home.gui.dms = {
+      enable = true;
+      sessionPreferences = {
+        isLightMode = false;
+        wallpaperPath = "${../../wallpapers/nightfox.jpg}";
+        perModeWallpaper = false;
+        perMonitorWallpaper = false;
+        wallpaperCyclingEnabled = false;
+      };
+    };
     home.gui.niri = {
       enable = true;
-      defaultsOutOfStore = false;
+      dejliDesktopExecutable = "${config.home.homeDirectory}/projects/dejli/frontend/desktop/src/target/release/dejli-desktop";
       bindsFile = pkgs.substitute {
-        src = ../../modules/home/gui/niri/dms/binds.kdl;
+        src = ../../modules/home/gui/niri/managed/binds.kdl;
         substitutions = [
           "--replace-fail"
           ''spawn-sh "ghostty +new-window || ghostty";''
@@ -164,16 +174,7 @@ in
     systemdTargets = [ "niri.service" ];
   };
 
-  config.home.activation.seedDmsSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    settings_dir="${config.xdg.configHome}/dms"
-    run mkdir -p -- "$settings_dir"
-    for name in settings.json plugin_settings.json; do
-      target="$settings_dir/$name"
-      if [[ ! -e "$target" && ! -L "$target" ]]; then
-        run cp --update=none --no-preserve=mode -- "${./config/dms}/$name" "$target"
-      fi
-    done
-  '';
+  config.programs.dank-material-shell = import ./config/dms/preferences.nix;
 
   config.home.file."obsidian-syncthing-ignore" = {
     force = true;

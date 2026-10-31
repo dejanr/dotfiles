@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Services
 import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Plugins
 import Quickshell.Io
 
@@ -99,7 +100,7 @@ PluginComponent {
         Row {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: root.isConnected ? "vpn_key" : "vpn_key_off"
                 size: Theme.iconSize - 6
                 color: root.isConnected ? Theme.primary : Theme.surfaceText
@@ -112,7 +113,7 @@ PluginComponent {
         Column {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: root.isConnected ? "vpn_key" : "vpn_key_off"
                 size: Theme.iconSize - 6
                 color: root.isConnected ? Theme.primary : Theme.surfaceText

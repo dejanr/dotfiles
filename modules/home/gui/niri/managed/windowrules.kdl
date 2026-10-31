@@ -3,7 +3,10 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^kitty$"#
+    match app-id=r#"^(dev\.duxlabs\.shell|com\.danklinux\.dms)$"#
+    open-floating true
+    open-maximized false
+    opacity 1.0
 }
 
 window-rule {

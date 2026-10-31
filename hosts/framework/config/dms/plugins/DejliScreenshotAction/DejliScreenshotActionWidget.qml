@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Plugins
 
 PluginComponent {
@@ -20,7 +21,7 @@ PluginComponent {
         triggerInProgress = true;
 
         activePulse = true;
-        Quickshell.execDetached(["/run/current-system/sw/bin/dejli-screenshot"]);
+        Quickshell.execDetached(["dejli-screenshot"]);
         pulseReset.restart();
     }
 
@@ -51,7 +52,7 @@ PluginComponent {
         Row {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: "photo_camera"
                 color: root.activePulse ? Theme.primary : Theme.surfaceVariantText
                 size: Theme.iconSize - 4
@@ -71,7 +72,7 @@ PluginComponent {
         Column {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: "photo_camera"
                 color: root.activePulse ? Theme.primary : Theme.surfaceVariantText
                 size: Theme.iconSize - 4

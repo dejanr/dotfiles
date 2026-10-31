@@ -213,12 +213,7 @@ in
       enable = true;
       target = "niri.service";
     };
-    plugins = {
-      DejliAudioStatus.src = ./config/dms/plugins/DejliAudioStatus;
-      DejliGifStatus.src = ./config/dms/plugins/DejliGifStatus;
-      DejliScreenshotAction.src = ./config/dms/plugins/DejliScreenshotAction;
-      Tailscale.src = ./config/dms/plugins/Tailscale;
-    };
+    enableDynamicTheming = false;
   };
 
   programs.dms-greeter = {
@@ -236,6 +231,11 @@ in
   };
 
   systemd.user.services = {
+    niri.serviceConfig.ExecStartPre = "${lib.getExe config.home-manager.users.dejanr.modules.home.gui.dms.package} prepare";
+    dms = {
+      environment.DMS_DISABLE_MATUGEN = "1";
+      serviceConfig.ExecStartPre = "${lib.getExe config.home-manager.users.dejanr.modules.home.gui.dms.package} prepare";
+    };
     pipewire.unitConfig.ConditionUser = lib.mkForce "!@system";
     pipewire-pulse.unitConfig.ConditionUser = lib.mkForce "!@system";
     wireplumber.unitConfig.ConditionUser = lib.mkForce "!@system";

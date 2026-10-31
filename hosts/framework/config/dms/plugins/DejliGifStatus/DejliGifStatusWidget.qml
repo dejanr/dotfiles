@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Plugins
 
 PluginComponent {
@@ -20,7 +21,7 @@ PluginComponent {
                 "if [ -f /tmp/dejli-gif.state ]; then . /tmp/dejli-gif.state; if [ -n \"${RECORDER_PID:-}\" ] && kill -0 \"$RECORDER_PID\" 2>/dev/null; then echo 1; else echo 0; fi; else echo 0; fi"
             ],
             (stdout, exitCode) => {
-                recording = exitCode === 0 && stdout.trim() === "1";
+                root.recording = exitCode === 0 && stdout.trim() === "1";
             },
             50
         );
@@ -34,8 +35,8 @@ PluginComponent {
         lastToggleAtMs = now;
         toggleInProgress = true;
 
-        recording = !recording;
-        Quickshell.execDetached(["/run/current-system/sw/bin/dejli-gif", "--toggle"]);
+        root.recording = !root.recording;
+        Quickshell.execDetached(["dejli-gif", "--toggle"]);
         statusRefresh.restart();
         confirmRefresh.restart();
         toggleRelease.restart();
@@ -98,7 +99,7 @@ PluginComponent {
         Row {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: root.recording ? "radio_button_checked" : "radio_button_unchecked"
                 color: root.recording ? Theme.primary : Theme.surfaceVariantText
                 size: Theme.iconSize - 4
@@ -118,7 +119,7 @@ PluginComponent {
         Column {
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: root.recording ? "radio_button_checked" : "radio_button_unchecked"
                 color: root.recording ? Theme.primary : Theme.surfaceVariantText
                 size: Theme.iconSize - 4

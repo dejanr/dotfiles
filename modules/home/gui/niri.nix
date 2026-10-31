@@ -2,20 +2,14 @@
   lib,
   config,
   pkgs,
+  osConfig ? { },
   ...
 }:
 
 with lib;
 let
   cfg = config.modules.home.gui.niri;
-
-  dejliNiriShortcutsStatePath = "${config.home.homeDirectory}/.local/state/dejli/niri-shortcuts.kdl";
-  dejliNiriShortcutsDefault = ''
-    binds {
-        Mod+O repeat=false hotkey-overlay-title="Toggle dejli" { spawn "dejli-desktop" "--toggle"; }
-        Mod+Shift+I repeat=false hotkey-overlay-title="dejli insert voice toggle" { spawn "dejli-desktop" "--voice-insert-toggle"; }
-    }
-  '';
+  dejliShortcuts = "${config.xdg.stateHome}/dejli/niri-shortcuts.kdl";
 
   portalNiriUnit = ''
     [Unit]
@@ -26,7 +20,7 @@ let
   toggleTwoPaneScript = pkgs.writeShellScriptBin "niri-toggle-two-pane" ''
     set -eu
 
-    NIRI="${pkgs.niri}/bin/niri"
+    NIRI="${cfg.package}/bin/niri"
     JQ="${pkgs.jq}/bin/jq"
 
     ws_id="$($NIRI msg -j windows | $JQ -r '.[] | select(.is_focused) | .workspace_id')"
@@ -55,7 +49,7 @@ let
   toggleFloatingCenteredScript = pkgs.writeShellScriptBin "niri-toggle-floating-centered" ''
     set -eu
 
-    NIRI="${pkgs.niri}/bin/niri"
+    NIRI="${cfg.package}/bin/niri"
     JQ="${pkgs.jq}/bin/jq"
 
     is_floating="$($NIRI msg -j windows | $JQ -r '.[] | select(.is_focused) | .is_floating')"
@@ -71,42 +65,40 @@ let
   '';
 
   dmsShellIpcScript = pkgs.writeShellScriptBin "dms-shell-ipc" ''
-    set -eu
-
-    runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-    qs_bin="${pkgs.quickshell}/bin/qs"
-
-    newest_pid_file="$(find "$runtime_dir" -maxdepth 1 -type f -name 'danklinux-*.pid' -printf '%T@ %p\n' 2>/dev/null | sort -nr | awk 'NR == 1 { print $2 }')"
-
-    if [ -z "$newest_pid_file" ]; then
-      echo "No DMS Quickshell pid file found in $runtime_dir" >&2
-      exit 1
-    fi
-
-    qs_pid="$(cat "$newest_pid_file")"
-
-    if ! kill -0 "$qs_pid" 2>/dev/null; then
-      echo "DMS Quickshell pid $qs_pid is not running" >&2
-      exit 1
-    fi
-
-    exec "$qs_bin" ipc --pid "$qs_pid" call "$@"
+    exec ${lib.getExe config.programs.dank-material-shell.package} ipc call "$@"
   '';
 
   dejliDesktopScript = pkgs.writeShellScriptBin "dejli-desktop" ''
-    exec /home/dejanr/projects/dejli/frontend/desktop/src/target/release/dejli-desktop "$@"
+    exec ${lib.escapeShellArg cfg.dejliDesktopExecutable} "$@"
   '';
 
-  defaultsSource =
-    file:
-    if cfg.defaultsOutOfStore then
-      config.lib.file.mkOutOfStoreSymlink "${cfg.defaultsDirectory}/${file}"
-    else
-      ./. + "/niri/dms/defaults/${file}";
+  managedFiles = {
+    "managed/binds.kdl" = cfg.bindsFile;
+    "managed/windowrules.kdl" = cfg.windowRulesFile;
+    "managed/appearance.kdl" = ./niri/managed/appearance.kdl;
+    "managed/dejli-shortcuts.kdl" = ./niri/dejli/shortcuts.kdl;
+  };
+
+  validatedConfig = pkgs.runCommand "niri-config" { } ''
+    mkdir -p "$out/managed"
+    cp ${cfg.configFile} "$out/config.kdl"
+    ${concatStringsSep "\n" (
+      mapAttrsToList (name: source: ''
+        ln -s ${source} "$out/${name}"
+      '') managedFiles
+    )}
+    ${lib.getExe cfg.package} validate --config "$out/config.kdl"
+  '';
 in
 {
   options.modules.home.gui.niri = {
     enable = mkEnableOption "niri";
+
+    package = mkOption {
+      type = types.package;
+      default = osConfig.programs.niri.package or pkgs.niri;
+      description = "Runtime Niri package, also used for config validation and IPC helpers.";
+    };
 
     configFile = mkOption {
       type = types.path;
@@ -115,22 +107,18 @@ in
 
     bindsFile = mkOption {
       type = types.path;
-      default = ./niri/dms/binds.kdl;
+      default = ./niri/managed/binds.kdl;
     };
 
     windowRulesFile = mkOption {
       type = types.path;
-      default = ./niri/dms/windowrules.kdl;
+      default = ./niri/managed/windowrules.kdl;
     };
 
-    defaultsOutOfStore = mkOption {
-      type = types.bool;
-      default = false;
-    };
-
-    defaultsDirectory = mkOption {
-      type = types.str;
-      default = "${config.home.homeDirectory}/.dotfiles/modules/home/gui/niri/dms/defaults";
+    dejliDesktopExecutable = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "Optional local development executable; leave unset for an installed dejli-desktop.";
     };
 
     setSessionVariables = mkOption {
@@ -144,8 +132,8 @@ in
       toggleTwoPaneScript
       toggleFloatingCenteredScript
       dmsShellIpcScript
-      dejliDesktopScript
-    ];
+    ]
+    ++ optional (cfg.dejliDesktopExecutable != null) dejliDesktopScript;
 
     home.sessionVariables = mkIf cfg.setSessionVariables {
       XDG_CURRENT_DESKTOP = "niri";
@@ -154,61 +142,18 @@ in
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
 
-    home.activation.ensureDejliNiriShortcuts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            state_file="${dejliNiriShortcutsStatePath}"
-            state_dir="$(dirname "$state_file")"
-            mkdir -p "$state_dir"
-            if [ ! -f "$state_file" ]; then
-              cat > "$state_file" <<'EOF'
-      ${dejliNiriShortcutsDefault}
-      EOF
-            fi
-    '';
-
-    xdg.configFile = {
-      "niri/config.kdl" = {
-        force = true;
-        source = cfg.configFile;
+    xdg.configFile =
+      (mapAttrs' (
+        name: source:
+        nameValuePair "niri/${name}" {
+          inherit source;
+        }
+      ) managedFiles)
+      // {
+        "niri/config.kdl".source = validatedConfig + "/config.kdl";
+        "niri/dejli/shortcuts.kdl".source = config.lib.file.mkOutOfStoreSymlink dejliShortcuts;
+        "systemd/user/xdg-desktop-portal.service.d/niri.conf".text = portalNiriUnit;
+        "systemd/user/xdg-desktop-portal-gnome.service.d/niri.conf".text = portalNiriUnit;
       };
-      "niri/dms/binds.kdl" = {
-        force = true;
-        source = cfg.bindsFile;
-      };
-      "niri/dms/windowrules.kdl" = {
-        force = true;
-        source = cfg.windowRulesFile;
-      };
-      "niri/dejli/shortcuts.kdl" = {
-        force = true;
-        source = config.lib.file.mkOutOfStoreSymlink dejliNiriShortcutsStatePath;
-      };
-      "systemd/user/xdg-desktop-portal.service.d/niri.conf".text = portalNiriUnit;
-      "systemd/user/xdg-desktop-portal-gnome.service.d/niri.conf".text = portalNiriUnit;
-
-      "niri/dms/defaults/layout.kdl" = {
-        force = true;
-        source = defaultsSource "layout.kdl";
-      };
-      "niri/dms/defaults/alttab.kdl" = {
-        force = true;
-        source = defaultsSource "alttab.kdl";
-      };
-      "niri/dms/defaults/colors.kdl" = {
-        force = true;
-        source = defaultsSource "colors.kdl";
-      };
-      "niri/dms/defaults/outputs.kdl" = {
-        force = true;
-        source = defaultsSource "outputs.kdl";
-      };
-      "niri/dms/defaults/wpblur.kdl" = {
-        force = true;
-        source = defaultsSource "wpblur.kdl";
-      };
-      "niri/dms/defaults/cursor.kdl" = {
-        force = true;
-        source = defaultsSource "cursor.kdl";
-      };
-    };
   };
 }

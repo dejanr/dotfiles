@@ -1,0 +1,53 @@
+layout {
+    gaps 4
+    background-color "transparent"
+
+    focus-ring {
+        width 2
+        active-color "#d0bcff"
+        inactive-color "#948f99"
+        urgent-color "#f2b8b5"
+    }
+    border {
+        width 2
+        active-color "#d0bcff"
+        inactive-color "#948f99"
+        urgent-color "#f2b8b5"
+    }
+    shadow {
+        color "#00000070"
+    }
+    tab-indicator {
+        active-color "#d0bcff"
+        inactive-color "#948f99"
+        urgent-color "#f2b8b5"
+    }
+    insert-hint {
+        color "#d0bcff80"
+    }
+}
+
+window-rule {
+    geometry-corner-radius 4
+    clip-to-geometry true
+    tiled-state true
+    draw-border-with-background false
+}
+
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 24
+}
+
+recent-windows {
+    highlight {
+        corner-radius 12
+        active-color "#4f378b"
+        urgent-color "#f2b8b5"
+    }
+}
+
+layer-rule {
+    match namespace="dms:blurwallpaper"
+    place-within-backdrop true
+}

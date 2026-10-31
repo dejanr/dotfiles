@@ -14,13 +14,10 @@ input {
 }
 
 environment {
-    XDG_CURRENT_DESKTOP "niri"
-    QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORM "wayland;xcb"
     ELECTRON_OZONE_PLATFORM_HINT "auto"
     NIXOS_OZONE_WL "1"
 }
-
-spawn-at-startup "xwayland-satellite"
 
 workspace "1"
 workspace "2"
@@ -68,13 +65,18 @@ layer-rule {
     place-within-backdrop true
 }
 
-include "dms/defaults/layout.kdl"
-include "dms/defaults/alttab.kdl"
-include "dms/defaults/colors.kdl"
-include "dms/defaults/outputs.kdl"
-include "dms/defaults/wpblur.kdl"
-include "dms/defaults/cursor.kdl"
+include "managed/appearance.kdl"
+include "managed/windowrules.kdl"
+include "managed/binds.kdl"
+include "managed/dejli-shortcuts.kdl"
+include optional=true "dejli/shortcuts.kdl"
 
-include "dms/windowrules.kdl"
-include "dms/binds.kdl"
-include "dejli/shortcuts.kdl"
+include optional=true "dms/layout.kdl"
+include optional=true "dms/alttab.kdl"
+include optional=true "dms/colors.kdl"
+include optional=true "dms/outputs.kdl"
+include optional=true "dms/wpblur.kdl"
+include optional=true "dms/cursor.kdl"
+include optional=true "dms/input.kdl"
+include optional=true "dms/windowrules.kdl"
+include optional=true "dms/binds.kdl"

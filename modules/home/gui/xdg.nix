@@ -66,9 +66,6 @@ in
       videos = "$HOME/documents/videos";
     };
 
-    xdg.portal.config.common = {
-      "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
-    };
     home.sessionVariables.TERMCMD = "kitty --class=file_chooser";
 
     xdg.configFile = {

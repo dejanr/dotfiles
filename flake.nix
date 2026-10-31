@@ -257,6 +257,65 @@
           };
         }
       );
+      checks.x86_64-linux.framework-desktop =
+        let
+          framework = self.nixosConfigurations.framework;
+          pkgs = framework.pkgs;
+          inherit (pkgs) lib;
+          cfg = framework.config;
+          home = cfg.home-manager.users.dejanr;
+          desktopConfig = home.modules.home.gui.dms.package;
+          niriConfig = builtins.dirOf home.xdg.configFile."niri/config.kdl".source;
+        in
+        assert lib.hasSuffix "/dms/managed/settings.json" home.xdg.configFile."dms/settings.json".target;
+        assert lib.hasSuffix "/dms/managed/plugin_settings.json"
+          home.xdg.configFile."dms/plugin_settings.json".target;
+        assert !home.programs.dank-material-shell.systemd.enable;
+        assert home.modules.home.gui.niri.package.outPath == cfg.programs.niri.package.outPath;
+        assert lib.all (name: !lib.hasPrefix "niri/dms/" name) (builtins.attrNames home.xdg.configFile);
+        assert !cfg.systemd.user.services.niri.restartIfChanged;
+        assert cfg.systemd.user.services.dms.environment.DMS_DISABLE_MATUGEN == "1";
+        pkgs.runCommand "framework-desktop-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
+          export HOME="$TMPDIR/home"
+          export XDG_CONFIG_HOME="$HOME/.config"
+          export XDG_STATE_HOME="$HOME/.local/state"
+          mkdir -p "$XDG_CONFIG_HOME/niri"
+          cp -R --no-preserve=mode ${niriConfig}/. "$XDG_CONFIG_HOME/niri/"
+          ${lib.getExe desktopConfig} prepare
+          ${lib.getExe desktopConfig} check
+          grep -F 'spawn "monstar"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          ${lib.getExe cfg.programs.niri.package} validate --config "$XDG_CONFIG_HOME/niri/config.kdl"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          settings = Path(os.environ["XDG_CONFIG_HOME"]) / "dms/settings.json"
+          preferences = json.loads(settings.read_text())
+          preferences["clockFormat"] = "12h"
+          settings.write_text(json.dumps(preferences))
+          session = Path(os.environ["XDG_STATE_HOME"]) / "dms/session.json"
+          state = json.loads(session.read_text())
+          state["launcherQueryHistory"] = ["preserve history"]
+          session.write_text(json.dumps(state))
+          PY
+          if ${lib.getExe desktopConfig} check; then
+            echo "Expected temporary preferences to differ from the profile" >&2
+            exit 1
+          fi
+          ${lib.getExe desktopConfig} prepare
+          ${lib.getExe desktopConfig} check
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          session = Path(os.environ["XDG_STATE_HOME"]) / "dms/session.json"
+          assert json.loads(session.read_text())["launcherQueryHistory"] == ["preserve history"]
+          PY
+          touch "$out"
+        '';
+
       nixosConfigurations = {
         alpha = mkSystem inputs.nixpkgs "x86_64-linux" "alpha" "alpha";
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
