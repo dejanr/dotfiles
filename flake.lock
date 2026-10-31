@@ -1000,6 +1000,26 @@
         "type": "github"
       }
     },
+    "monstar": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793448956,
+        "narHash": "sha256-l7ZNXf5+OdnrGC+pvQY96ju3+UMPXItWWmdlEFgYm9U=",
+        "owner": "rockorager",
+        "repo": "monstar",
+        "rev": "cbabc5de6d2cd35bf9dd1df551ccf1aa43cfdb4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rockorager",
+        "repo": "monstar",
+        "type": "github"
+      }
+    },
     "nightfox": {
       "flake": false,
       "locked": {
@@ -1588,6 +1608,7 @@
         "dms": "dms",
         "home-manager": "home-manager",
         "hunk": "hunk",
+        "monstar": "monstar",
         "nightfox": "nightfox",
         "nix": "nix_3",
         "nix-cachyos-kernel": "nix-cachyos-kernel",

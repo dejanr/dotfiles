@@ -111,10 +111,19 @@ in
     home.gui.niri = {
       enable = true;
       defaultsOutOfStore = false;
+      bindsFile = pkgs.substitute {
+        src = ../../modules/home/gui/niri/dms/binds.kdl;
+        substitutions = [
+          "--replace-fail"
+          ''spawn-sh "ghostty +new-window || ghostty";''
+          ''spawn "monstar";''
+        ];
+      };
     };
 
     apps.kitty.enable = true;
     apps.ghostty.enable = true;
+    apps.monstar.enable = true;
     apps.obsidian.enable = true;
 
     home.cli.direnv.enable = true;

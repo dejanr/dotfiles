@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import pwd
+import re
 import shlex
 import shutil
 import signal
@@ -58,14 +59,16 @@ def hyperlink(url, label):
     return f"\033]8;;{url}\033\\{label}\033]8;;\033\\"
 
 
-def click(env, window, x, y):
-    run("xdotool", "keydown", "ctrl", "shift", env=env)
+def click(env, window, x, y, modified=True):
+    if modified:
+        run("xdotool", "keydown", "ctrl", "shift", env=env)
     try:
         run("xdotool", "mousemove", "--window", window, str(x), str(y), env=env)
         time.sleep(0.15)
         run("xdotool", "click", "1", env=env)
     finally:
-        run("xdotool", "keyup", "shift", "ctrl", env=env)
+        if modified:
+            run("xdotool", "keyup", "shift", "ctrl", env=env)
 
 
 def check_case(args, root, terminal, transport, base_env, ssh):
@@ -78,6 +81,8 @@ def check_case(args, root, terminal, transport, base_env, ssh):
         "XDG_RUNTIME_DIR": str(root / "run"), "TMPDIR": str(root),
         "PATH": str(root / "bin") + ":" + base_env["PATH"], "BROWSER_SIDE": "local",
     }
+    if terminal == "monstar":
+        env["TERMINFO"] = str(Path(args.monstar).resolve().parents[1] / "share/terminfo")
     browser_log = root / "browser.log"
     stub = root / "bin" / "xdg-open"
     stub.write_text("#!/bin/sh\nprintf '%s\\t%s\\t%s\\n' \"$BROWSER_SIDE\" \"$#\" \"$1\" >> "
@@ -97,6 +102,7 @@ def check_case(args, root, terminal, transport, base_env, ssh):
         hyperlink("javascript:alert(1)", "UNSUPPORTED_SCHEME"),
         hyperlink(file_url, "https://not-the-destination.example/"),
         "PLAIN_TEXT",
+        hyperlink(WEB_URLS[0], "WRAPPED_" + "x" * 100),
     ]
     emitter = root / "emit.sh"
     emitter.write_text("#!/bin/sh\nprintf %s " + shlex.quote("\033[2J\033[H" + "\n".join(lines) + "\n")
@@ -104,7 +110,10 @@ def check_case(args, root, terminal, transport, base_env, ssh):
     config = root / "tmux.conf"
     handler = shlex.quote(args.opener) + " #{q:mouse_pane} #{q:mouse_hyperlink}"
     config.write_text("set -g mouse on\nset -g mouse-hyperlink-hover on\nset -g status off\n"
-                      "set -as terminal-features ',xterm*:hyperlinks'\n"
+                      "set -as terminal-features ',xterm*:hyperlinks,monstar:hyperlinks'\n"
+                      "bind -T root MouseDown1Pane if-shell -F '#{mouse_hyperlink}' {\n"
+                      "  run-shell -b " + json.dumps(handler) + "\n} {\n"
+                      "  select-pane -t =\n  send-keys -M\n}\n"
                       "bind -T root C-S-MouseUp1Pane if-shell -F '#{mouse_hyperlink}' {\n"
                       "  run-shell -b " + json.dumps(handler) + "\n}\n")
     command = [args.tmux, "-S", str(root / "tmux.sock")]
@@ -129,7 +138,8 @@ def check_case(args, root, terminal, transport, base_env, ssh):
         attach = command + ["attach", "-t", "probe"]
         if transport == "ssh":
             attach = ssh + [shlex.join(["env", "-u", "TMUX", "-u", "TMUX_PANE",
-                                      "TMPDIR=" + env["TMPDIR"], "XDG_RUNTIME_DIR=" + env["XDG_RUNTIME_DIR"]] + attach)]
+                                      "TMPDIR=" + env["TMPDIR"], "XDG_RUNTIME_DIR=" + env["XDG_RUNTIME_DIR"],
+                                      "TERMINFO=" + env.get("TERMINFO", "")] + attach)]
         title = f"routing-{terminal}-{transport}"
         if terminal == "kitty":
             kitty_config = root / "kitty.conf"
@@ -139,13 +149,29 @@ def check_case(args, root, terminal, transport, base_env, ssh):
             kitty_config.write_text("linux_display_server x11\nfont_size 14\nwindow_padding_width 0\n"
                                     "confirm_os_window_close 0\nshell_integration disabled\n" + mouse_maps + "\n")
             launch = ["dbus-run-session", "--", args.kitty, "--config", str(kitty_config), "--title", title] + attach
+        elif terminal == "monstar":
+            monstar_config = root / "monstar.conf"
+            monstar_config.write_text("font-family = monospace\nfont-size = 14\n"
+                                      "window-padding-x = 0\nwindow-padding-y = 0\n")
+            sway_config = root / "sway.conf"
+            terminal_command = ["env", "WAYLAND_DEBUG=client",
+                                "DBUS_SESSION_BUS_ADDRESS=unix:path=" + str(root / "no-bus"),
+                                args.monstar, "--config", str(monstar_config), "--title", title, "-e"] + attach
+            sway_config.write_text("xwayland disable\nseat seat0 fallback true\n"
+                                   "default_border none\nfocus_follows_mouse no\n"
+                                   "for_window [app_id=\"dev.rockorager.monstar\"] fullscreen enable\n"
+                                   "exec " + shlex.join(terminal_command) + "\n")
+            env.update(WLR_BACKENDS="x11", WLR_RENDERER="pixman", WLR_X11_OUTPUTS="1",
+                       XDG_CURRENT_DESKTOP="sway")
+            launch = ["dbus-run-session", "--", "sway", "--unsupported-gpu", "--config", str(sway_config)]
         else:
             launch = ["dbus-run-session", "--", args.ghostty, "--config-default-files=false",
                       "--gtk-single-instance=false", "--title=" + title, "--font-size=14",
                       "--window-padding-x=0", "--window-padding-y=0", "--window-decoration=false",
                       "--shell-integration=none", "--mouse-shift-capture=always", "-e"] + attach
         with (root / "terminal.log").open("w") as log, process(launch, env, log):
-            window = wait_for(lambda: run("xdotool", "search", "--onlyvisible", "--name", "^" + title + "$",
+            window_title = "" if terminal == "monstar" else "^" + title + "$"
+            window = wait_for(lambda: run("xdotool", "search", "--onlyvisible", "--name", window_title,
                                           env=env, check=False).splitlines(), "terminal window")[-1]
             wait_for(lambda: tmux("list-clients", "-F", "#{client_name}"), "attached client")
             run("xdotool", "windowsize", window, "800", "500", env=env)
@@ -154,6 +180,69 @@ def check_case(args, root, terminal, transport, base_env, ssh):
             height = int(tmux("list-clients", "-F", "#{client_cell_height}"))
             assert height > 0
             assert opened() == [], "Rendering a link launched an opener without a click"
+            if terminal == "monstar":
+                width = int(tmux("list-clients", "-F", "#{client_cell_width}"))
+
+                def link_pixels(row):
+                    return subprocess.run(
+                        ["magick", "import", "-window", window, "-crop",
+                         f"{10 * width}x{height}+0+{row * height}", "-depth", "8", "rgb:-"],
+                        env=env, check=True, capture_output=True, timeout=10).stdout
+
+                run("xdotool", "mousemove", "--window", window, "500", str(height // 2), env=env)
+                time.sleep(0.2)
+                unhovered = link_pixels(1)
+                file_unhovered = link_pixels(0)
+                repeated_file_unhovered = link_pixels(6)
+                wrapped_top = link_pixels(8)
+                wrapped_bottom = link_pixels(9)
+
+                def cursor_shape():
+                    shapes = re.findall(r"wp_cursor_shape_device_v1[#@]\d+\.set_shape\(\d+, (\d+)\)",
+                                        (root / "terminal.log").read_text())
+                    return int(shapes[-1]) if shapes else None
+
+                run("xdotool", "keydown", "ctrl", "shift", env=env)
+                try:
+                    time.sleep(0.2)
+                    assert link_pixels(1) == unhovered, "Ctrl+Shift underlined an unhovered hyperlink"
+                    run("xdotool", "mousemove", "--window", window, "45", str(height // 2), env=env)
+                    wait_for(lambda: cursor_shape() == 4, "tmux file hover pointer")
+                    wait_for(lambda: link_pixels(0) != file_unhovered, "hovered file underline")
+                    assert link_pixels(1) == unhovered, "Hover underlined a different hyperlink"
+                    assert link_pixels(6) == repeated_file_unhovered, "Hover underlined another occurrence of the same URI"
+                    tmux("set", "-g", "mouse-hyperlink-hover", "off")
+                    wait_for(lambda: cursor_shape() == 1, "file hover belongs to tmux, not the terminal")
+                    tmux("set", "-g", "mouse-hyperlink-hover", "on")
+                    run("xdotool", "mousemove", "--window", window, "500", str(height // 2), env=env)
+                    wait_for(lambda: cursor_shape() == 1, "pointer reset away from file")
+                    run("xdotool", "mousemove", "--window", window, "45", str(height // 2), env=env)
+                    wait_for(lambda: cursor_shape() == 4, "tmux file hover restored")
+                    run("xdotool", "mousemove", "--window", window, "500", str(height // 2), env=env)
+                    wait_for(lambda: cursor_shape() == 1, "pointer reset after file")
+                    wait_for(lambda: link_pixels(0) == file_unhovered, "file underline cleared")
+                    run("xdotool", "mousemove", "--window", window, "45", str(height + height // 2), env=env)
+                    wait_for(lambda: link_pixels(1) != unhovered, "hovered web underline")
+                    assert link_pixels(0) == file_unhovered, "Web hover underlined a file link"
+                    assert link_pixels(8) == wrapped_top, "Web hover underlined another occurrence of the same URI"
+                    run("xdotool", "mousemove", "--window", window, "45", str(8 * height + height // 2), env=env)
+                    wait_for(lambda: link_pixels(8) != wrapped_top and link_pixels(9) != wrapped_bottom,
+                             "both rows of the hovered wrapped hyperlink are underlined")
+                    wait_for(lambda: link_pixels(1) == unhovered, "previous web underline cleared")
+                    run("xdotool", "mousemove", "--window", window, "500", str(height // 2), env=env)
+                    wait_for(lambda: link_pixels(8) == wrapped_top and link_pixels(9) == wrapped_bottom,
+                             "wrapped underline cleared")
+                    tmux("set", "-g", "mouse", "off")
+                    run("xdotool", "mousemove", "--window", window, "45", str(height + height // 2), env=env)
+                    wait_for(lambda: link_pixels(1) != unhovered, "hover underline without mouse reporting")
+                    assert link_pixels(0) == file_unhovered, "Uncaptured hover underlined an unrelated file"
+                    assert link_pixels(8) == wrapped_top, "Uncaptured hover underlined a repeated URI"
+                    run("xdotool", "mousemove", "--window", window, "500", str(height // 2), env=env)
+                    wait_for(lambda: link_pixels(1) == unhovered, "uncaptured underline cleared")
+                    tmux("set", "-g", "mouse", "on")
+                finally:
+                    run("xdotool", "keyup", "shift", "ctrl", env=env)
+                assert opened() == [], "Hover launched an opener without a click"
             for row, url in enumerate(WEB_URLS, start=1):
                 click(env, window, 45, row * height + height // 2)
                 expected = ["local\t1\t" + item for item in WEB_URLS[:row]]
@@ -164,15 +253,17 @@ def check_case(args, root, terminal, transport, base_env, ssh):
                 time.sleep(0.3)
                 assert opened() == expected, "Non-web link/text reached the local opener"
                 assert editor_state(editor) == ["", 1, 1]
-            for row in (0, 6):
-                tmux("select-window", "-t", "probe:0")
-                time.sleep(0.2)
-                click(env, window, 45, row * height + height // 2)
-                wait_for(lambda: editor_state(editor) == [str(target), 49, 2], "correct file and location")
-                wait_for(lambda: tmux("display", "-p", "-t", "probe", "#{window_name}") == "editor", "existing editor selected")
-                assert len(tmux("list-windows", "-t", "probe", "-F", "#{window_id}").splitlines()) == 2
-                assert editor_state(decoy) == ["", 1, 1]
-                assert opened() == expected, "File link reached the local opener"
+            for modified in (True, False):
+                for row in (0, 6):
+                    run(args.nvim, "--server", editor, "--remote-expr", "execute('enew')", env=env)
+                    tmux("select-window", "-t", "probe:0")
+                    time.sleep(0.2)
+                    click(env, window, 45, row * height + height // 2, modified=modified)
+                    wait_for(lambda: editor_state(editor) == [str(target), 49, 2], "correct file and location")
+                    wait_for(lambda: tmux("display", "-p", "-t", "probe", "#{window_name}") == "editor", "existing editor selected")
+                    assert len(tmux("list-windows", "-t", "probe", "-F", "#{window_id}").splitlines()) == 2
+                    assert editor_state(decoy) == ["", 1, 1]
+                    assert opened() == expected, "File link reached the local opener"
         print(f"PASS {terminal}/{transport}: web local, files in correct Neovim, schemes filtered", flush=True)
     except Exception:
         print(tmux("capture-pane", "-p", "-t", "probe:0", check=False), flush=True)
@@ -225,12 +316,15 @@ LogLevel ERROR
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Linux GUI regression: HTTP local, files tmux-side, over direct SSH")
-    for tool in ("ghostty", "kitty", "tmux", "nvim", "opener"):
+    for tool in ("ghostty", "kitty", "monstar", "tmux", "nvim", "opener"):
         parser.add_argument("--" + tool, default=shutil.which("tmux-open-nvim-link" if tool == "opener" else tool))
-    parser.add_argument("--terminals", nargs="+", choices=("ghostty", "kitty"), default=["ghostty", "kitty"])
+    parser.add_argument("--terminals", nargs="+", choices=("ghostty", "kitty", "monstar"), default=["ghostty", "kitty"])
     parser.add_argument("--keep", action="store_true", help="Keep isolated logs and fixtures for debugging")
     arguments = parser.parse_args()
-    for tool in ("Xvfb", "xdotool", "dbus-run-session", "sshd", "ssh", "ssh-keygen"):
+    required_tools = ["Xvfb", "xdotool", "dbus-run-session", "sshd", "ssh", "ssh-keygen"]
+    if "monstar" in arguments.terminals:
+        required_tools.extend(["sway", "magick"])
+    for tool in required_tools:
         if not shutil.which(tool):
             parser.error(f"Missing executable: {tool}")
     for tool in [*arguments.terminals, "tmux", "nvim", "opener"]:

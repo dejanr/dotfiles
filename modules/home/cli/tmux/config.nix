@@ -23,6 +23,7 @@
 
   # Terminal features with synchronized rendering
   set -as terminal-features ',xterm-ghostty:RGB:clipboard:strikethrough:usstyle:overline:sync:hyperlinks'
+  set -as terminal-features ',monstar:RGB:clipboard:strikethrough:usstyle:overline:sync:hyperlinks'
   set -as terminal-features ',xterm-kitty:hyperlinks'
   set -as terminal-features ',xterm-256color:hyperlinks'
   set -as terminal-features ',tmux-256color:RGB:clipboard:strikethrough:usstyle:overline:sync:hyperlinks'

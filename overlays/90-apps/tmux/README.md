@@ -17,14 +17,14 @@ Pointer state resets on movement away, reported keyboard/focus events, disabling
 
 ## Boundaries
 
-- Requires an OSC 22-capable terminal. Verified with Ghostty 1.3.1 and Kitty 0.46.2 under X11, locally and through loopback SSH.
+- Requires an OSC 22-capable terminal. Verified with Ghostty 1.3.1 and Kitty 0.46.2 under X11, locally and through loopback SSH. Patched Monstar 1.1.0 also forwards Ctrl+Shift motion; its Wayland pointer-shape requests have been checked under nested Sway locally and over loopback SSH.
 - The terminal must forward Ctrl+Shift file clicks and mouse motion. Ghostty's `mouse-shift-capture = always` and Kitty's grabbed mappings provide this; the [terminal routing patches](../terminal-links/README.md) keep HTTP/HTTPS clicks local.
 - Feedback is **cell-motion driven**. Pressing/releasing modifiers without crossing a terminal-cell boundary cannot reliably update tmux. Ghostty may change the cursor itself in the meantime. No timer or modifier polling is added.
 - Hover recognizes OSC 8 hyperlinks, not terminal-detected paths or URL regexes. It does not validate file existence or schemes; the file opener still ignores non-file links.
 - Hover is disabled in tmux pane modes, prompts and overlays. Native terminal scrollback is outside tmux's control.
 - Enabling the option adds mouse-motion traffic over SSH even away from links.
 - This owns the client's pointer while hovering; it does not save/restore custom pointer shapes set by application passthrough. Screen content/layout changes without mouse movement may leave feedback stale until the next reported event.
-- Wayland, nested tmux, mosh and macOS have not been tested.
+- Native desktop Wayland sessions outside the nested Monstar/Sway checks, nested tmux, mosh and macOS have not been tested.
 
 ## Build and checks
 

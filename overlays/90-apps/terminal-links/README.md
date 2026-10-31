@@ -10,11 +10,13 @@ This requires terminal-side routing. A remote tmux process cannot launch the loc
 
 ## Integration
 
-`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.49.2.
+`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.49.2. `modules/home/apps/monstar.nix` applies `monstar-tmux-links.patch` to the pinned upstream Monstar 1.1.0 package.
 
 **Ghostty:** while mouse reporting is active, Ctrl+Shift can recognize HTTP/HTTPS links locally, both OSC 8 links and regex-detected URLs. Non-web OSC 8 destinations cannot fall back to a URL-looking label. Other modifier combinations retain their existing behavior. `mouse-shift-capture = always` remains necessary to forward file clicks. Native link hover takes precedence over application pointer-shape updates.
 
 **Kitty:** `mouse_handle_click web-link-press` consumes presses over HTTP/HTTPS links; `mouse_handle_click web-link` opens them on release. For other destinations these actions return Kitty's passthrough result so tmux receives the original mouse events. The normal URL opener, hyperlink confirmation policy, and existing URL callback are preserved. Pointer updates recheck native URL hover so tmux resetting its file pointer does not erase a web-link hand cursor.
+
+**Monstar:** while mouse reporting is active, Ctrl+Shift opens only HTTP/HTTPS links locally. File and other non-web OSC 8 links are not reinterpreted from their labels; their clicks and Ctrl+Shift motion reach tmux. Plain clicks also reach tmux, whose existing file binding opens Neovim on the tmux host. Shift alone retains terminal-side selection. Only the hovered OSC 8 hyperlink's contiguous visible span is underlined, including wrapped rows; unrelated links and separate occurrences of the same URI stay unchanged. This replaces upstream Monstar's modifier-wide underlining of every OSC 8 cell. Highlighting a file does not claim its click: tmux still owns file opening and pointer feedback. Native web hover already takes precedence over OSC 22 application pointer updates. No extra Monstar setting is required; the patch applies to mouse-reporting applications generally, not only tmux.
 
 The two Kitty mappings live in `modules/home/gui/kitty/config.nix`. Ungrabbed mappings are unchanged. The [tmux hover patch](../tmux/README.md) still supplies hover feedback for file hyperlinks; no URL-opening logic is added to tmux or its Go handler.
 
@@ -22,7 +24,15 @@ The two Kitty mappings live in `modules/home/gui/kitty/config.nix`. Ungrabbed ma
 
 Install the patched terminal package and settings on the **local terminal host**, then launch a new terminal process. Rebuilding only the remote host does not change the terminal running on your laptop. The remote host continues to need the tmux click bindings and file handler (and the patched tmux server for file hover).
 
-The Nix Ghostty package is used on Linux. The existing Darwin module uses an externally installed Ghostty (`package = null`), so this overlay does not patch that macOS application. These changes have been verified under Linux/X11, not Wayland or macOS.
+The Nix Ghostty package is used on Linux. The existing Darwin module uses an externally installed Ghostty (`package = null`), so this overlay does not patch that macOS application. Ghostty and Kitty have been verified under Linux/X11. Monstar has been verified as a Wayland client under isolated nested Sway, locally and over loopback SSH. macOS has not been tested.
+
+Monstar uses `TERM=monstar`. Each tmux host needs the updated `terminal-features` entry from `modules/home/cli/tmux/config.nix` and the Monstar terminfo definition. If the SSH host does not have it, copy it from the installed local package:
+
+```sh
+infocmp -x monstar | ssh YOUR-SERVER tic -x -
+```
+
+The existing tmux Neovim handler must also be installed on the tmux host. File clicks must carry OSC 8 hyperlinks; arbitrary plain-text paths are not made clickable by this patch.
 
 ## Regression checks
 
@@ -38,8 +48,17 @@ python3 overlays/90-apps/terminal-links/test_routing.py \
   --tmux /tmp/tmux-hover/bin/tmux
 ```
 
-Requires Linux, Xvfb, xdotool, dbus-run-session, OpenSSH client/server, Neovim, and `tmux-open-nvim-link` on PATH (or pass `--nvim` and `--opener`). The Python test creates private terminal environments, tmux sockets, SSH keys and a loopback-only SSH server. A recording `xdg-open` replaces the browser only inside those environments; local and server-side invocations carry different markers. No real browser is launched and no user MIME settings or SSH authorization files are changed.
+To exercise Monstar instead:
 
-The four terminal/transport cases check OSC 8 HTTP/HTTPS links, plain-text URLs, uppercase schemes, query/fragment preservation, unsupported schemes, and file hyperlinks with URL-looking labels. Files with spaces and apostrophes must reuse the right Neovim at line 49, column 2, without touching another session. Unpatched Ghostty fails on the first HTTPS click. `--keep` retains isolated fixtures/logs for debugging.
+```sh
+nix build --out-link /tmp/monstar-web .#nixosConfigurations.framework.config.home-manager.users.dejanr.modules.apps.monstar.package
+python3 overlays/90-apps/terminal-links/test_routing.py \
+  --terminals monstar --monstar /tmp/monstar-web/bin/monstar \
+  --tmux /tmp/tmux-hover/bin/tmux
+```
+
+Requires Linux, Xvfb, xdotool, dbus-run-session, OpenSSH client/server, Neovim, and `tmux-open-nvim-link` on PATH (or pass `--nvim` and `--opener`). Monstar additionally requires ImageMagick (`magick`) and Sway with the X11 backend; the runner starts it inside its private Xvfb, not the current desktop. It disables Monstar's session-bus connection to exercise the recording `xdg-open` fallback without activating desktop portals. The Python test creates private terminal environments, tmux sockets, SSH keys and a loopback-only SSH server. A recording `xdg-open` replaces the browser only inside those environments; local and server-side invocations carry different markers. No real browser is launched and no user MIME settings or SSH authorization files are changed.
+
+The selected terminal/transport cases check OSC 8 HTTP/HTTPS links, plain-text URLs, uppercase schemes, query/fragment preservation, unsupported schemes, and file hyperlinks with URL-looking labels. Plain-click and Ctrl+Shift-click on files with spaces and apostrophes must reuse the right Neovim at line 49, column 2, without touching another session's editor. Monstar cases also verify Wayland pointer-shape requests for tmux-owned file hover, disabling/re-enabling hover, and moving away from a file link. Pixel comparisons check that modifiers alone do not underline links, only the hovered link is underlined, separate occurrences of the same URI stay unchanged, wrapped links highlight both rows, and moving away clears the underline. Highlighting is checked with application mouse reporting both enabled and disabled. Unpatched Ghostty fails on the first HTTPS click. `--keep` retains isolated fixtures/logs for debugging.
 
 Additional XFixes image probes verified web/file hand cursors, transitions between file and plain-text web links, and pointer reset in both terminals locally and over SSH.

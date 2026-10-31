@@ -1,0 +1,150 @@
+diff --git a/src/App.zig b/src/App.zig
+index 6c2f17c..841e6dc 100644
+--- a/src/App.zig
++++ b/src/App.zig
+@@ -3512,10 +3512,7 @@ fn pointerEvent(ctx: *anyopaque, event: wl.Pointer.Event) void {
+                 if (button.state == .pressed and self.beginScrollbarDrag()) return;
+                 if (button.state == .released and self.finishScrollbarDrag()) return;
+             }
+-            // Mouse reporting wins when the application asked for it,
+-            // except that shift bypasses it for terminal-side selection.
+-            const reporting = self.term.flags.mouse_event != .none and
+-                !self.keyboard.currentMods().shift;
++            const reporting = self.reportingMouse();
+             const mouse_button = mouseButtonFromEvdev(button.button);
+
+             if (button.button == 272) { // BTN_LEFT
+@@ -3764,10 +3761,55 @@ fn oscHyperlinkAtPin(pin: vt.Pin) ?[]const u8 {
+     return entry.uri.slice(page.memory);
+ }
+
++fn sameOscHyperlink(a: vt.Pin, b: vt.Pin) bool {
++    const a_page = a.node.page();
++    const b_page = b.node.page();
++    const a_cell = a.rowAndCell().cell;
++    const b_cell = b.rowAndCell().cell;
++    if (!a_cell.hyperlink or !b_cell.hyperlink) return false;
++    const a_id = a_page.lookupHyperlink(a_cell) orelse return false;
++    const b_id = b_page.lookupHyperlink(b_cell) orelse return false;
++    const a_entry = a_page.hyperlink_set.get(a_page.memory, a_id);
++    const b_entry = b_page.hyperlink_set.get(b_page.memory, b_id);
++    return a_entry.eql(a_page.memory, b_entry, b_page.memory);
++}
++
++fn oscHyperlinkRange(self: *App, pin: vt.Pin) ?Renderer.LinkRange {
++    const pages = &self.term.screens.active.pages;
++    const top = pages.getTopLeft(.viewport);
++    const rows = self.term.rows +| @intFromBool(self.scroll_offset != 0);
++    const bottom = pages.pin(.{ .viewport = .{ .x = self.term.cols - 1, .y = rows - 1 } }) orelse
++        pages.getBottomRight(.viewport).?;
++    var start = pin;
++    var end = pin;
++    // Only visible cells can contribute to the hovered link's render range.
++    while (!start.eql(top)) {
++        const previous = start.leftWrap(1) orelse break;
++        if (!sameOscHyperlink(pin, previous)) break;
++        start = previous;
++    }
++    while (!end.eql(bottom)) {
++        const next = end.rightWrap(1) orelse break;
++        if (!sameOscHyperlink(pin, next)) break;
++        end = next;
++    }
++    return self.linkRange(.init(start, end, false));
++}
++
++fn linkHandledLocally(uri: []const u8, mouse_reporting: bool) bool {
++    return !mouse_reporting or
++        std.ascii.startsWithIgnoreCase(uri, "https://") or
++        std.ascii.startsWithIgnoreCase(uri, "http://");
++}
++
+ fn detectHoveredLink(self: *App) !?HoveredLink {
+     const pin = self.linkPinAtPointer() orelse return null;
++    const mouse_reporting = self.term.flags.mouse_event != .none;
+     if (oscHyperlinkAtPin(pin)) |uri| {
+-        return .{ .uri = try self.alloc.dupe(u8, uri), .range = null };
++        return .{
++            .uri = try self.alloc.dupe(u8, uri),
++            .range = self.oscHyperlinkRange(pin),
++        };
+     }
+
+     const screen = self.term.screens.active;
+@@ -3792,8 +3834,10 @@ fn detectHoveredLink(self: *App) !?HoveredLink {
+             false,
+         );
+         if (selection.contains(screen, pin)) {
++            const uri = text[match.start..match.end];
++            if (!linkHandledLocally(uri, mouse_reporting)) return null;
+             return .{
+-                .uri = try self.alloc.dupe(u8, text[match.start..match.end]),
++                .uri = try self.alloc.dupe(u8, uri),
+                 .range = self.linkRange(selection),
+             };
+         }
+@@ -3874,6 +3918,7 @@ fn syncHoveredLink(self: *App, force: bool) void {
+ fn hoveredLinkUri(self: *App) ?[]const u8 {
+     if (!self.linksActive()) return null;
+     const link = self.hovered_link orelse return null;
++    if (!linkHandledLocally(link.uri, self.term.flags.mouse_event != .none)) return null;
+     return link.uri;
+ }
+
+@@ -4019,7 +4064,10 @@ fn mouseButtonFromEvdev(button: u32) ?vt.input.MouseButton {
+ }
+
+ fn reportingMouse(self: *App) bool {
+-    return self.term.flags.mouse_event != .none and !self.keyboard.currentMods().shift;
++    const mods = self.keyboard.currentMods();
++    // Ctrl+Shift keeps web links local but forwards file clicks and hover to applications.
++    return self.term.flags.mouse_event != .none and
++        (!mods.shift or linkModifiersActive(mods, true));
+ }
+
+ fn forwardMouseButton(self: *App, button: anytype, mouse_button: vt.input.MouseButton) void {
+diff --git a/src/AsyncRaster.zig b/src/AsyncRaster.zig
+index c021a09..cb215ae 100644
+--- a/src/AsyncRaster.zig
++++ b/src/AsyncRaster.zig
+@@ -471,7 +471,6 @@ fn workerMain(self: *AsyncRaster) void {
+         self.mutex.unlock();
+
+         self.renderer.focused = job.focused;
+-        self.renderer.hyperlink_hints = job.hyperlink_hints;
+         self.renderer.link_range = job.link_range;
+         self.renderer.search_range = job.search_range;
+         self.renderer.search_matches = job.search_matches;
+diff --git a/src/Renderer.zig b/src/Renderer.zig
+index 223d093..7090905 100644
+--- a/src/Renderer.zig
++++ b/src/Renderer.zig
+@@ -66,8 +66,6 @@ background_alpha_cells: bool,
+ /// Keyboard focus: unfocused windows draw the cursor as a hollow
+ /// rectangle regardless of the requested style. Set by the caller.
+ focused: bool = true,
+-/// When true, OSC 8 hyperlink cells get an underline affordance.
+-hyperlink_hints: bool = false,
+ /// Hovered automatically detected link, in viewport cell coordinates.
+ link_range: ?LinkRange = null,
+ /// Selected scrollback-search match, in viewport cell coordinates.
+@@ -619,8 +617,7 @@ fn cellFingerprint(
+         if (viewport.y != y) break :cursor false;
+         break :cursor x == viewport.x -| @intFromBool(viewport.wide_tail);
+     };
+-    const hyperlink = (self.hyperlink_hints and raw.hyperlink) or
+-        if (self.link_range) |range| range.contains(x, y) else false;
++    const hyperlink = if (self.link_range) |range| range.contains(x, y) else false;
+     const search_selected = if (self.search_range) |range| range.contains(x, y) else false;
+     const search_index = @as(usize, y) * state.cols + x;
+     const search_match = search_index < self.search_matches.len and self.search_matches[search_index];
+@@ -1666,8 +1663,7 @@ fn renderRowForegroundCells(
+     // hints overlay the glyphs, in the style's underline color (or the
+     // resolved fg).
+     for (cell_range.start..cell_range.end) |dx| {
+-        const show_hyperlink = (self.hyperlink_hints and raws[dx].hyperlink) or
+-            if (self.link_range) |range| range.contains(dx, y) else false;
++        const show_hyperlink = if (self.link_range) |range| range.contains(dx, y) else false;
+         if (raws[dx].style_id == 0 and !show_hyperlink) continue;
+         const style: vt.Style = if (raws[dx].style_id == 0) .{} else styles[dx];
+         const underline: ?vt.sgr.Attribute.Underline = switch (style.flags.underline) {

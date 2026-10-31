@@ -88,6 +88,11 @@
       url = "github:dejanr/video-transcribe";
     };
 
+    monstar = {
+      url = "github:rockorager/monstar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hunk = {
       url = "github:modem-dev/hunk";
       inputs.nixpkgs.follows = "nixpkgs";
