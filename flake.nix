@@ -231,6 +231,7 @@
         {
           nvim = nixvimConfig system;
           default = nixvimConfig system;
+          buffr = pkgs.callPackage ./overlays/90-apps/buffr { };
           pi-dev-coding-agent = import ./modules/home/cli/pi-dev/nix/package.nix {
             inherit pkgs;
             pi-dev-src = inputs.pi-dev;
@@ -275,6 +276,12 @@
         assert lib.all (name: !lib.hasPrefix "niri/dms/" name) (builtins.attrNames home.xdg.configFile);
         assert !cfg.systemd.user.services.niri.restartIfChanged;
         assert cfg.systemd.user.services.dms.environment.DMS_DISABLE_MATUGEN == "1";
+        assert home.modules.home.gui.browser.buffr.enable;
+        assert !home.programs.qutebrowser.enable;
+        assert
+          home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
+            "sh.kryptic.buffr.desktop"
+          ];
         pkgs.runCommand "framework-desktop-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
           export HOME="$TMPDIR/home"
           export XDG_CONFIG_HOME="$HOME/.config"
@@ -284,6 +291,12 @@
           ${lib.getExe desktopConfig} prepare
           ${lib.getExe desktopConfig} check
           grep -F 'spawn "monstar"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'spawn "buffr"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'spawn "buffr-work"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          if grep -F 'qutebrowser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
+            echo "Framework browser shortcuts still reference Qutebrowser" >&2
+            exit 1
+          fi
           ${lib.getExe cfg.programs.niri.package} validate --config "$XDG_CONFIG_HOME/niri/config.kdl"
           python3 - <<'PY'
           import json

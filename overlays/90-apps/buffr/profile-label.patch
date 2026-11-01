@@ -1,0 +1,327 @@
+diff --git a/apps/buffr-app/src/main.rs b/apps/buffr-app/src/main.rs
+index 46092e9..827797f 100644
+--- a/apps/buffr-app/src/main.rs
++++ b/apps/buffr-app/src/main.rs
+@@ -2223,6 +2223,10 @@ impl AppState {
+         statusline.mode = PageMode::Normal;
+         let tab_strip = TabStrip {
+             palette,
++            profile_label: std::env::var("BUFFR_PROFILE_LABEL")
++                .unwrap_or_default()
++                .trim()
++                .to_string(),
+             ..TabStrip::default()
+         };
+         Self {
+@@ -2349,10 +2353,15 @@ impl AppState {
+     /// obvious: `buffr — PRIVATE — NORMAL — <url>`. The URL trailer is
+     /// omitted when no page is loaded yet.
+     fn title_for(&self, mode_label: &str, url: &str) -> String {
++        let profile = if self.tab_strip.profile_label.is_empty() {
++            String::new()
++        } else {
++            format!(" [{}]", self.tab_strip.profile_label)
++        };
+         let head = if self.private {
+-            format!("buffr — PRIVATE — {mode_label}")
++            format!("buffr{profile} — PRIVATE — {mode_label}")
+         } else {
+-            format!("buffr — {mode_label}")
++            format!("buffr{profile} — {mode_label}")
+         };
+         if url.is_empty() {
+             head
+@@ -4227,7 +4236,7 @@ impl AppState {
+         let total_count = self.tab_ids.len() as u32;
+
+         hit_test_tab_strip_pure(
+-            log_full_w,
++            self.tab_strip.tabs_width(log_full_w),
+             log_full_h,
+             log_wx,
+             log_wy,
+@@ -7029,6 +7038,53 @@ mod tests {
+         }
+     }
+
++    #[test]
++    fn profile_label_region_is_not_a_tab_hit_target() {
++        let strip = TabStrip {
++            profile_label: "Personal".into(),
++            ..Default::default()
++        };
++        let tabs_width = strip.tabs_width(TS_W);
++        for x in tabs_width..TS_W {
++            assert_eq!(
++                hit_test_tab_strip_pure(tabs_width, TS_H, x, tab_y_inside(), false, 0, 100),
++                None
++            );
++            assert_eq!(
++                hit_test_tab_strip_pure(tabs_width, TS_H, x, tab_y_inside(), false, 100, 100),
++                None
++            );
++        }
++    }
++
++    #[test]
++    fn profile_label_keeps_tab_paint_and_hit_test_geometry_aligned() {
++        let strip = TabStrip {
++            tabs: vec![TabView::default(); 7],
++            active: Some(2),
++            profile_label: "Work".into(),
++            ..Default::default()
++        };
++        let height = TAB_STRIP_HEIGHT as usize;
++        let mut pixels = vec![0; TS_W as usize * height];
++        strip.paint(&mut pixels, TS_W as usize, height, 0);
++        let stripe_y = height - 4;
++        for x in 0..TS_W {
++            let hit = hit_test_tab_strip_pure(
++                strip.tabs_width(TS_W),
++                TS_H,
++                x,
++                tab_y_inside(),
++                false,
++                0,
++                7,
++            );
++            let is_active_pixel =
++                pixels[stripe_y * TS_W as usize + x as usize] == strip.palette.accent;
++            assert_eq!(hit == Some(2), is_active_pixel, "paint/hit mismatch at {x}");
++        }
++    }
++
+     #[test]
+     fn tab_hit_hidpi_sanity() {
+         // The pure function works in logical space; physical scale must not
+diff --git a/apps/buffr-app/src/paint_policy.rs b/apps/buffr-app/src/paint_policy.rs
+index d47f042..f21c5f5 100644
+--- a/apps/buffr-app/src/paint_policy.rs
++++ b/apps/buffr-app/src/paint_policy.rs
+@@ -293,7 +293,8 @@ pub(crate) const GUTTER: u32 = 4;
+
+ /// Pure tab-strip hit-test.  All inputs are in **logical** (DIP) pixels.
+ ///
+-/// `log_full_w` / `log_full_h` — full window logical size.
++/// `log_full_w` — logical width available to tabs, excluding any profile label.
++/// `log_full_h` — full window logical height.
+ /// `log_cursor_x` / `log_cursor_y` — cursor position in window-logical coords
+ ///     (i.e. already converted from physical and offset by `cef_y`).
+ /// `has_notice` — whether the download-notice strip is visible.
+@@ -309,7 +310,7 @@ pub(crate) fn hit_test_tab_strip_pure(
+     pinned_count: u32,
+     total_count: u32,
+ ) -> Option<usize> {
+-    if total_count == 0 {
++    if total_count == 0 || log_cursor_x >= log_full_w.saturating_sub(1) {
+         return None;
+     }
+
+diff --git a/crates/buffr-ui/src/tab_strip.rs b/crates/buffr-ui/src/tab_strip.rs
+index 1672ec6..1aefd90 100644
+--- a/crates/buffr-ui/src/tab_strip.rs
++++ b/crates/buffr-ui/src/tab_strip.rs
+@@ -110,18 +110,29 @@ pub struct TabStrip {
+     pub tabs: Vec<TabView>,
+     pub active: Option<usize>,
+     pub palette: Palette,
++    pub profile_label: String,
+ }
+
+ impl TabStrip {
++    pub fn tabs_width(&self, width: u32) -> u32 {
++        if self.profile_label.is_empty() {
++            return width;
++        }
++        let label_width = font::text_width(&self.profile_label)
++            .saturating_add(2 * PROFILE_LABEL_PADDING + 2 * GUTTER as usize)
++            .min(width as usize / 3)
++            .min(MAX_TAB_WIDTH as usize);
++        width.saturating_sub(label_width as u32)
++    }
++
+     /// Paint the tab strip into rows `[start_y, start_y + TAB_STRIP_HEIGHT)`
+     /// of the window buffer. `width` and `height` are the full window's
+     /// pixel dimensions; the caller passes `start_y` so the tab strip
+     /// can sit anywhere vertically.
+     ///
+     /// The widget is a no-op when the strip would not fit (e.g. window
+-    /// shorter than `start_y + TAB_STRIP_HEIGHT`). When `tabs` is empty
+-    /// the strip is filled with `TAB_STRIP_BG` only — useful while a
+-    /// tab is being created on startup.
++    /// shorter than `start_y + TAB_STRIP_HEIGHT`). When `tabs` is empty,
++    /// only the background and optional profile label are painted.
+     pub fn paint(&self, buffer: &mut [u32], width: usize, height: usize, start_y: u32) {
+         let strip_h = TAB_STRIP_HEIGHT as usize;
+         let start_y = start_y as usize;
+@@ -146,6 +157,37 @@ impl TabStrip {
+             p.bg,
+         );
+
++        let tabs_width = self.tabs_width(width as u32) as usize;
++        let text_y = start_y as i32 + ((strip_h as i32 - font::glyph_h() as i32) / 2);
++        if tabs_width < width {
++            let badge_x = tabs_width + GUTTER as usize;
++            let badge_width = width.saturating_sub(badge_x + GUTTER as usize);
++            let label = truncate_to_width(
++                &self.profile_label,
++                badge_width.saturating_sub(2 * PROFILE_LABEL_PADDING),
++            );
++            fill_rect(
++                buffer,
++                width,
++                height,
++                badge_x as i32,
++                start_y as i32 + 4,
++                badge_width,
++                strip_h - 8,
++                p.bg_lifted,
++            );
++            let label_x = badge_x + badge_width.saturating_sub(font::text_width(&label)) / 2;
++            font::draw_text(
++                buffer,
++                width,
++                height,
++                label_x as i32,
++                text_y,
++                &label,
++                p.accent,
++            );
++        }
++
+         if self.tabs.is_empty() {
+             return;
+         }
+@@ -158,13 +200,12 @@ impl TabStrip {
+         let unpinned_count = self.tabs.len() as u32 - pinned_count;
+         let pinned_total_w = pinned_count * PINNED_TAB_WIDTH;
+         let gutter_total = ((self.tabs.len() as u32) + 1) * GUTTER;
+-        let avail_for_unpinned = (width as u32)
++        let avail_for_unpinned = (tabs_width as u32)
+             .saturating_sub(pinned_total_w)
+             .saturating_sub(gutter_total);
+         let raw_w = avail_for_unpinned.checked_div(unpinned_count).unwrap_or(0);
+         let tab_w = raw_w.clamp(MIN_TAB_WIDTH, MAX_TAB_WIDTH);
+
+-        let text_y = start_y as i32 + ((strip_h as i32 - font::glyph_h() as i32) / 2);
+         let progress_y = start_y as i32 + strip_h as i32 - 2;
+
+         let mut x = GUTTER as i32;
+@@ -174,7 +215,7 @@ impl TabStrip {
+         let badge_content_w = two_char_px + 2 * BADGE_SIDE_PAD;
+         for (i, tab) in self.tabs.iter().enumerate() {
+             // Cap so we don't draw past the right edge.
+-            let max_right = width as i32 - 1;
++            let max_right = tabs_width as i32 - 1;
+             if x >= max_right {
+                 break;
+             }
+@@ -413,6 +454,7 @@ fn pinned_glyph(title: &str) -> String {
+ }
+
+ const GUTTER: u32 = 4;
++const PROFILE_LABEL_PADDING: usize = 8;
+
+ /// Horizontal padding in pixels on each side of the 2-character engine-badge
+ /// glyph. The total badge column width is therefore:
+@@ -587,6 +629,100 @@ mod tests {
+         }
+     }
+
++    #[test]
++    fn profile_label_reserves_only_its_badge_width() {
++        let strip = TabStrip::default();
++        assert_eq!(strip.tabs_width(800), 800);
++        let strip = TabStrip {
++            profile_label: "Personal".into(),
++            ..Default::default()
++        };
++        let expected =
++            font::text_width("Personal") + 2 * PROFILE_LABEL_PADDING + 2 * GUTTER as usize;
++        assert_eq!(strip.tabs_width(800), 800 - expected as u32);
++    }
++
++    #[test]
++    fn profile_label_paints_without_tabs_and_differs_between_profiles() {
++        let width = 500;
++        let height = TAB_STRIP_HEIGHT as usize;
++        let mut personal = make_buf(width, height);
++        let mut work = make_buf(width, height);
++        let strip = TabStrip {
++            profile_label: "Personal".into(),
++            ..Default::default()
++        };
++        strip.paint(&mut personal, width, height, 0);
++        TabStrip {
++            profile_label: "Work".into(),
++            ..Default::default()
++        }
++        .paint(&mut work, width, height, 0);
++        assert_ne!(personal, work);
++        let tabs_width = strip.tabs_width(width as u32) as usize;
++        assert!(personal.chunks_exact(width).all(|row| {
++            row[..tabs_width]
++                .iter()
++                .all(|&pixel| pixel == strip.palette.bg)
++        }));
++        assert!(personal.chunks_exact(width).any(|row| {
++            row[tabs_width..]
++                .iter()
++                .any(|&pixel| pixel != strip.palette.bg)
++        }));
++    }
++
++    #[test]
++    fn overflowing_tabs_never_paint_over_profile_label() {
++        for pinned in [false, true] {
++            for width in [80, 200, 800] {
++                let height = TAB_STRIP_HEIGHT as usize;
++                let mut empty = make_buf(width, height);
++                let mut crowded = make_buf(width, height);
++                let mut strip = TabStrip {
++                    profile_label: "Personal".into(),
++                    ..Default::default()
++                };
++                strip.paint(&mut empty, width, height, 0);
++                strip.tabs = vec![
++                    TabView {
++                        title: "A long tab title".into(),
++                        pinned,
++                        progress: 0.5,
++                        ..Default::default()
++                    };
++                    100
++                ];
++                strip.active = Some(0);
++                strip.paint(&mut crowded, width, height, 0);
++                let tabs_width = strip.tabs_width(width as u32) as usize;
++                for (before, after) in empty.chunks_exact(width).zip(crowded.chunks_exact(width)) {
++                    assert_eq!(&before[tabs_width..], &after[tabs_width..]);
++                }
++            }
++        }
++    }
++
++    #[test]
++    fn long_unicode_profile_labels_fit_narrow_windows_and_respect_strip_offset() {
++        for width in 0..256 {
++            let height = TAB_STRIP_HEIGHT as usize + 10;
++            let mut buffer = make_buf(width, height);
++            let strip = TabStrip {
++                profile_label: "Personal 工作 🦀".repeat(20),
++                ..Default::default()
++            };
++            strip.paint(&mut buffer, width, height, 5);
++            assert!(buffer[..width * 5].iter().all(|&pixel| pixel == 0));
++            assert!(
++                buffer[width * (height - 5)..]
++                    .iter()
++                    .all(|&pixel| pixel == 0)
++            );
++            assert!(strip.tabs_width(width as u32) >= width as u32 * 2 / 3);
++        }
++    }
++
+     #[test]
+     fn paint_active_tab_has_accent_stripe_pixel() {
+         let w = 800;

@@ -1,0 +1,27 @@
+diff --git a/apps/buffr-app/src/windowing/other/event_loop.rs b/apps/buffr-app/src/windowing/other/event_loop.rs
+index 6a2472f..3929c49 100644
+--- a/apps/buffr-app/src/windowing/other/event_loop.rs
++++ b/apps/buffr-app/src/windowing/other/event_loop.rs
+@@ -227,7 +227,8 @@ impl<T: 'static> EventLoop<T> {
+         };
+         // SAFETY: as Self::exit above.
+         let active = unsafe { &*p };
+-        let mut attrs = winit::window::WindowAttributes::default();
++        let mut attrs = winit::window::WindowAttributes::default()
++            .with_decorations(!cfg!(target_os = "linux"));
+         if let Some(title) = builder.title {
+             attrs = attrs.with_title(title);
+         }
+@@ -240,7 +241,11 @@ impl<T: 'static> EventLoop<T> {
+         if let Some(s) = builder.max_size {
+             attrs = attrs.with_max_inner_size(winit::dpi::LogicalSize::new(s.width, s.height));
+         }
+-        // app_id intentionally dropped — winit has no portable equivalent.
++        #[cfg(target_os = "linux")]
++        if let Some(app_id) = builder.app_id {
++            use winit::platform::wayland::WindowAttributesExtWayland;
++            attrs = attrs.with_name(app_id, "buffr");
++        }
+         let win = active
+             .create_window(attrs)
+             .map_err(|e| BuildError(e.to_string()))?;

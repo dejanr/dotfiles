@@ -107,7 +107,17 @@ in
       sync.enable = true;
     };
     home.gui.geforce-now.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.buffr = {
+      enable = true;
+      settings = {
+        general.homepage = "about:blank";
+        startup.restore_session = false;
+        keymap.normal = {
+          "o" = "open_omnibar";
+          "O" = "tab_new_right";
+        };
+      };
+    };
     home.gui.dms = {
       enable = true;
       sessionPreferences = {
@@ -127,6 +137,12 @@ in
           "--replace-fail"
           ''spawn-sh "ghostty +new-window || ghostty";''
           ''spawn "monstar";''
+          "--replace-fail"
+          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Personal\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\"";''
+          ''spawn "buffr";''
+          "--replace-fail"
+          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Work\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\"";''
+          ''spawn "buffr-work";''
         ];
       };
     };
