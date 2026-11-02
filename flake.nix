@@ -80,6 +80,11 @@
       flake = false;
     };
 
+    dejli-browser = {
+      url = "git+ssh://git@github.com/dejli/browser?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     demo-it = {
       url = "github:dejanr/demo-it";
     };
@@ -143,7 +148,8 @@
         let
           paths = [ ./overlays ];
         in
-        builtins.concatMap (
+        [ inputs.dejli-browser.overlays.default ]
+        ++ builtins.concatMap (
           path:
           (map (n: import (path + ("/" + n))) (
             builtins.filter (
@@ -231,7 +237,6 @@
         {
           nvim = nixvimConfig system;
           default = nixvimConfig system;
-          buffr = pkgs.callPackage ./overlays/90-apps/buffr { };
           pi-dev-coding-agent = import ./modules/home/cli/pi-dev/nix/package.nix {
             inherit pkgs;
             pi-dev-src = inputs.pi-dev;
@@ -257,6 +262,9 @@
             pi-dev-src = inputs.pi-dev;
           };
         }
+        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
+          dejli-browser = inputs.dejli-browser.packages.${system}.dejli-browser;
+        }
       );
       checks.x86_64-linux.framework-desktop =
         let
@@ -276,11 +284,15 @@
         assert lib.all (name: !lib.hasPrefix "niri/dms/" name) (builtins.attrNames home.xdg.configFile);
         assert !cfg.systemd.user.services.niri.restartIfChanged;
         assert cfg.systemd.user.services.dms.environment.DMS_DISABLE_MATUGEN == "1";
-        assert home.modules.home.gui.browser.buffr.enable;
+        assert home.modules.home.gui.browser.dejli-browser.enable;
+        assert
+          home.modules.home.gui.browser.dejli-browser.package.src.outPath == inputs.dejli-browser.outPath;
+        assert (home.modules.home.gui.browser.dejli-browser.package.patches or [ ]) == [ ];
+        assert lib.hasSuffix "/bin/dejli-browser" home.home.sessionVariables.BROWSER;
         assert !home.programs.qutebrowser.enable;
         assert
           home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
-            "sh.kryptic.buffr.desktop"
+            "li.dej.browser.desktop"
           ];
         pkgs.runCommand "framework-desktop-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
           export HOME="$TMPDIR/home"
@@ -291,8 +303,8 @@
           ${lib.getExe desktopConfig} prepare
           ${lib.getExe desktopConfig} check
           grep -F 'spawn "monstar"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'spawn "buffr"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'spawn "buffr-work"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'spawn "dejli-browser" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'spawn "dejli-browser-work" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
           if grep -F 'qutebrowser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
             echo "Framework browser shortcuts still reference Qutebrowser" >&2
             exit 1

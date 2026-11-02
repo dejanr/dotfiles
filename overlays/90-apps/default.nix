@@ -96,7 +96,6 @@ in
       ;
   };
 
-  buffr = super.callPackage ./buffr { };
   beads = super.callPackage ./beads { };
   pulumi = super.callPackage ./pulumi { };
   opencode = super.callPackage ./opencode { };

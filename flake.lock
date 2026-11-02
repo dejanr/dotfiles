@@ -242,6 +242,27 @@
         "type": "github"
       }
     },
+    "dejli-browser": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793618952,
+        "narHash": "sha256-EFVedBnjJ22QM5p/hYnX9yMD9utMr3a3e6mxLLUhwXA=",
+        "ref": "main",
+        "rev": "75721aa90696e3f0bac0e6a772239a7f7d62ec60",
+        "revCount": 1787,
+        "type": "git",
+        "url": "ssh://git@github.com/dejli/browser"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@github.com/dejli/browser"
+      }
+    },
     "demo-it": {
       "inputs": {
         "devenv": "devenv",
@@ -1602,6 +1623,7 @@
         "agenix": "agenix",
         "comfyui-nix": "comfyui-nix",
         "dank-greeter": "dank-greeter",
+        "dejli-browser": "dejli-browser",
         "demo-it": "demo-it",
         "devenv": "devenv_2",
         "disko": "disko",

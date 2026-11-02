@@ -107,7 +107,7 @@ in
       sync.enable = true;
     };
     home.gui.geforce-now.enable = true;
-    home.gui.browser.buffr = {
+    home.gui.browser.dejli-browser = {
       enable = true;
       settings = {
         general.homepage = "about:blank";
@@ -139,10 +139,10 @@ in
           ''spawn "monstar";''
           "--replace-fail"
           ''spawn-sh "qutebrowser -B \"$HOME/.browser/Personal\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\"";''
-          ''spawn "buffr";''
+          ''spawn "dejli-browser" "--new-window";''
           "--replace-fail"
           ''spawn-sh "qutebrowser -B \"$HOME/.browser/Work\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\"";''
-          ''spawn "buffr-work";''
+          ''spawn "dejli-browser-work" "--new-window";''
         ];
       };
     };
