@@ -7,7 +7,7 @@ let
   version = packageJson.version;
   releaseSource = pkgs.fetchzip {
     url = "https://github.com/earendil-works/pi/releases/download/v${version}/pi-${version}-source.tar.gz";
-    hash = "sha256-1CKtkAEKJrPeHZ52nrDKyAhGV+iWitVO4fWjmG+skEk=";
+    hash = "sha256-gMvwOeia4gCp+jfS54As/pVImACmgJDLF5VWNSn0cjM=";
   };
 in
 pkgs.buildNpmPackage (finalAttrs: {
@@ -18,7 +18,7 @@ pkgs.buildNpmPackage (finalAttrs: {
 
   patches = [ ./primary-selection.patch ];
 
-  npmDepsHash = "sha256-9VJZVr+agPjtjjpE7zybqDkVTYpVEyr64LiY2Hq5J7g=";
+  npmDepsHash = "sha256-dz6Ma0ZPETALxfb62I0s+JjiOT+0WdDSFjUdOd1JV80=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24-patched;
