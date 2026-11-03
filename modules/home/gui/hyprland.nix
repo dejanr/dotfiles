@@ -60,12 +60,11 @@ in
         exec-once = [
           "blueman-applet"
           "nm-applet"
-          "telegram-desktop -startintray"
           "hyprpaper"
         ];
 
         env = [
-          "QT_QPA_PLATFORMTHEME, gtk3" # for telegram file manager
+          "QT_QPA_PLATFORMTHEME, gtk3"
 
           "XDG_CURRENT_DESKTOP, Hyprland" # for display manager and other
           "XDG_SESSION_TYPE, wayland"

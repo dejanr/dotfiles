@@ -78,7 +78,6 @@ in
       st
       sxiv
       tesseract
-      telegram-desktop
       thunderbird
       transmission_4-gtk
       usbutils
