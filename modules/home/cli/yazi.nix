@@ -33,10 +33,7 @@ in
       };
       shellWrapperName = "y";
       settings = {
-        log = {
-          enabled = false;
-        };
-        manager = {
+        mgr = {
           show_hidden = false;
           sort_by = "mtime";
           sort_dir_first = true;
@@ -46,10 +43,9 @@ in
           max_width = 1000;
           max_height = 1000;
         };
-        show_hidden = false;
       };
       keymap = {
-        manager.prepend_keymap = [
+        mgr.prepend_keymap = [
           {
             run = "leave";
             on = [ "-" ];
