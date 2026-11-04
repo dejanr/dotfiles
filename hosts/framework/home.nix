@@ -161,6 +161,7 @@ in
     home.cli.tmux.fileOpener.enable = true;
     home.cli.zsh.enable = true;
     home.cli.ps-kill.enable = true;
+    home.cli.ssh.enable = true;
     home.cli.yazi.enable = true;
     home.cli.video-transcribe.enable = true;
     home.cli.pi-dev = {
