@@ -210,7 +210,7 @@
   for_window [window_role="Preferences"] floating enable
   for_window [class="Albion-Online"] border normal 0
   for_window [class="Albion-Online"] border pixel 0
-  for_window [class="^steam_app_3125386889$" title="^Battle[.]net$"] border none
+  for_window [class="^steam_app_3125386889$" title="^Battle[.]net$"] fullscreen disable, floating enable, sticky disable, border none, resize set 100 ppt 99 ppt, move position center
 
   for_window [class="Dejli-desktop"] floating enable
   for_window [class="Dejli-desktop"] resize set 1024 768
