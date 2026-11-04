@@ -53,7 +53,6 @@ in
       imv
       evince
       gimp
-      krita
       grobi
       google-drive-ocamlfuse
       gtypist
