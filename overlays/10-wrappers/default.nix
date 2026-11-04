@@ -12,14 +12,7 @@ self: super:
     browser = "google-chrome-stable";
   };
 
-  i3-config = import ./i3-config {
-    inherit (super)
-      stdenv
-      makeWrapper
-      writeTextFile
-      kitty
-      ;
-  };
+  i3-config = self.callPackage ./i3-config { };
 
   i3blocks = import ./i3blocks {
     inherit (self) colors;

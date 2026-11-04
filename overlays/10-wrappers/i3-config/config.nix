@@ -1,4 +1,7 @@
-{ kitty }:
+{
+  kitty,
+  useDejliBrowser ? false,
+}:
 ''
   set $term ghostty +new-window
 
@@ -393,8 +396,18 @@
   bindsym $mod+s split toggle
 
   # applications
-  bindsym $mod+w exec --no-startup-id qutebrowser -B "$HOME/.browser/Personal" -s window.title_format " {perc}[Personal]{title_sep}{current_title}"
-  bindsym $mod+e exec --no-startup-id qutebrowser -B "$HOME/.browser/Work" -s window.title_format " {perc}[Work]{title_sep}{current_title}"
+  bindsym $mod+w exec --no-startup-id ${
+    if useDejliBrowser then
+      "dejli-browser --new-window"
+    else
+      ''qutebrowser -B "$HOME/.browser/Personal" -s window.title_format " {perc}[Personal]{title_sep}{current_title}"''
+  }
+  bindsym $mod+e exec --no-startup-id ${
+    if useDejliBrowser then
+      "dejli-browser-work --new-window"
+    else
+      ''qutebrowser -B "$HOME/.browser/Work" -s window.title_format " {perc}[Work]{title_sep}{current_title}"''
+  }
   bindsym $mod+r exec ${kitty}/bin/kitty -e zsh -ic yazi
   bindsym $mod+m exec $term -e btop
 

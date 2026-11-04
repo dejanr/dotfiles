@@ -249,11 +249,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793628693,
-        "narHash": "sha256-GZgsgVoKlcw6Kds+zcvPXDrWFUMW9+ojNNRT89j4xVs=",
+        "lastModified": 1793831053,
+        "narHash": "sha256-iRLbcw62h2naqXLUV7mGkSm9YFmxJoKAa15YQr0p/A8=",
         "ref": "main",
-        "rev": "e5be5bc750ff3ad45381d3bfb4b5daa14323897d",
-        "revCount": 1788,
+        "rev": "12ccfe216c9bd52c9c55946286c2a65b7b2161d1",
+        "revCount": 1790,
         "type": "git",
         "url": "ssh://git@github.com/dejli/browser"
       },

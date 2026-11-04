@@ -148,7 +148,20 @@
       sync.enable = true;
     };
     home.gui.games.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.dejli-browser = {
+      enable = true;
+      settings = {
+        general.homepage = "buffr://blank";
+        startup = {
+          restore_session = false;
+          new_tab_url = "buffr://blank";
+        };
+        keymap.normal = {
+          "o" = "open_omnibar";
+          "O" = "tab_new_right";
+        };
+      };
+    };
 
     # apps
     apps.kitty.enable = true;

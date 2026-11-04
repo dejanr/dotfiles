@@ -8,6 +8,9 @@
 with lib;
 let
   cfg = config.modules.nixos.roles.i3;
+  i3Config = pkgs.i3-config.override {
+    useDejliBrowser = config.home-manager.users.dejanr.modules.home.gui.browser.dejli-browser.enable;
+  };
   gtk2-theme = import ../../../utils/gtk2Theme.nix {
     theme = {
       package = pkgs.arc-theme;
@@ -78,7 +81,7 @@ in
       sound-theme-freedesktop
       dunst # notifications
       i3minator # i3 project manager
-      i3-config # custom i3 config from overlay
+      i3Config
       i3blocks
       i3lock-fancy
       xscreensaver # screensaver
@@ -145,7 +148,7 @@ in
         i3 = {
           enable = true;
           package = pkgs.i3;
-          configFile = "${pkgs.i3-config}/config";
+          configFile = "${i3Config}/config";
 
           extraSessionCommands = ''
             export XDG_CURRENT_DESKTOP=i3

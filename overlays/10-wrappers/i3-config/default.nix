@@ -3,9 +3,10 @@
   makeWrapper,
   writeTextFile,
   kitty,
+  useDejliBrowser ? false,
 }:
 let
-  config = import ./config.nix { inherit kitty; };
+  config = import ./config.nix { inherit kitty useDejliBrowser; };
   configFile = writeTextFile {
     name = "i3-config";
     text = config;
