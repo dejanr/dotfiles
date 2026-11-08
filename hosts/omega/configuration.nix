@@ -21,8 +21,8 @@
     };
     serviceConfig = {
       Type = "oneshot";
-      Restart = "on-failure";
-      RestartSec = "2s";
+      Restart = "no";
+      TimeoutStartSec = "150s";
       StateDirectory = "lg-tv-input";
       StateDirectoryMode = "0700";
       Environment = "LG_TV_INPUT_KEY_FILE=/var/lib/lg-tv-input/client-key.json";
