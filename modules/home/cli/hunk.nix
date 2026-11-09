@@ -40,6 +40,8 @@ in
       enable = true;
       settings = {
         theme = lib.mkDefault "stylix";
+        mode = lib.mkDefault "unified";
+        sidebar = lib.mkDefault false;
         menu_bar = lib.mkDefault false;
         hunk_headers = lib.mkDefault false;
         prompt_save_view_preferences = lib.mkDefault false;
