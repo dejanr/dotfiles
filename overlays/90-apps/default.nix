@@ -70,6 +70,10 @@ in
     patches = (old.patches or [ ]) ++ [ ./terminal-links/kitty-web-links.patch ];
   });
 
+  mplayer = super.mplayer.override {
+    libdvdnav_4_2_1 = super.libdvdnav;
+  };
+
   tmux = super.tmux.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ./tmux/mouse-hyperlink-hover.patch ];
   });

@@ -156,6 +156,23 @@ test('rejects inherited remote browser connections before inspecting a checkout'
   assert.match(result.stderr, /Unset PW_TEST_CONNECT_WS_ENDPOINT/);
 });
 
+test('accepts an explicit rush e2e prefix without forwarding it twice', (t) => {
+  const root = project(t);
+  installFixture(root);
+  write(join(root, 'runtime.json'), expected);
+  write(
+    join(root, 'common/scripts/install-run-rush.js'),
+    'console.log(JSON.stringify(process.argv.slice(2)));',
+  );
+  const result = spawnSync(
+    process.execPath,
+    [fileURLToPath(new URL('./launcher.mjs', import.meta.url)), join(root, 'runtime.json'), 'rush', 'e2e', '--dry-run'],
+    { cwd: root, encoding: 'utf8' },
+  );
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(JSON.parse(result.stdout.trim().split('\n').at(-1)), ['e2e', '--dry-run']);
+});
+
 test('forwards arguments, checkout root and exit status to the CTF bootstrap', (t) => {
   const root = project(t);
   installFixture(root);

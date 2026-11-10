@@ -2,9 +2,10 @@
   description = "CTF Playwright browsers and development shell";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.playwright-nixpkgs.url = "github:NixOS/nixpkgs/b6018f87da91d19d0ab4cf979885689b469cdd41";
 
   outputs =
-    { nixpkgs, ... }:
+    { nixpkgs, playwright-nixpkgs, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
@@ -15,13 +16,14 @@
         system:
         let
           pkgs = import nixpkgs { inherit system; };
+          playwrightPkgs = import playwright-nixpkgs { inherit system; };
           nodejs = pkgs.nodejs_24;
-          driver = pkgs.playwright-driver;
+          driver = playwrightPkgs.playwright-driver;
           browserEnvironment = {
             PLAYWRIGHT_BROWSERS_PATH = "${driver.browsers}";
             PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
           }
-          // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+          // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
             PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "1";
             PLAYWRIGHT_HOST_PLATFORM_OVERRIDE =
               if system == "x86_64-linux" then "ubuntu24.04-x64" else "ubuntu24.04-arm64";
@@ -106,6 +108,6 @@
       checks = forEachSystem (system: {
         launcher = environments.${system}.tests;
       });
-      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt);
     };
 }

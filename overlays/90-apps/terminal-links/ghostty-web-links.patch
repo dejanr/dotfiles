@@ -26,7 +26,7 @@
              (self.mouse.mods.shift and !self.mouseShiftCapture(false)))
          {
              // Refresh our link state
-@@ -4407,19 +4407,47 @@
+@@ -4407,21 +4407,49 @@
      };
  
      // Get our comparison mods
@@ -37,7 +37,9 @@
 +    if (web_only) mouse_mods = input.ctrlOrSuper(.{});
  
      // If we have the proper modifiers set then we can check for OSC8 links.
-     if (mouse_mods.equal(input.ctrlOrSuper(.{}))) hyperlink: {
+     if (self.config.link_osc8 and
+         mouse_mods.equal(input.ctrlOrSuper(.{})))
+     hyperlink: {
          const rac = mouse_pin.rowAndCell();
          const cell = rac.cell;
          if (!cell.hyperlink) break :hyperlink;

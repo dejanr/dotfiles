@@ -117,6 +117,7 @@ async function smokeTest(playwright, options) {
 async function main([configPath, ...args]) {
   if (args[0] === '--help' || args[0] === '-h') {
     console.log(`Usage: ctf-playwright [rush e2e options]
+       ctf-playwright rush e2e [options]
        ctf-playwright --check
        ctf-playwright --smoke [chromium|firefox|webkit] [--headed]
 
@@ -154,7 +155,8 @@ All other arguments are forwarded to rush e2e. Use rush e2e -h for its options.`
     return;
   }
 
-  const child = spawn(process.execPath, [join(root, 'common/scripts/install-run-rush.js'), 'e2e', ...args], {
+  const rushArgs = args[0] === 'rush' && args[1] === 'e2e' ? args.slice(2) : args;
+  const child = spawn(process.execPath, [join(root, 'common/scripts/install-run-rush.js'), 'e2e', ...rushArgs], {
     cwd: root,
     stdio: 'inherit',
   });
