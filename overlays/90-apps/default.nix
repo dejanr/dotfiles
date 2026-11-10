@@ -58,6 +58,10 @@ in
     ];
   });
 
+  dejli-browser = super.dejli-browser.overrideAttrs (old: {
+    buildInputs = (old.buildInputs or [ ]) ++ [ super.sqlite ];
+  });
+
   ghostty = super.ghostty.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ./terminal-links/ghostty-web-links.patch ];
   });

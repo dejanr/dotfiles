@@ -57,7 +57,10 @@ in
 
     environment.systemPackages = [ podmanDockerCompat ];
     users.users.dejanr.extraGroups = [ "podman" ];
-    networking.firewall.trustedInterfaces = [ "podman0" ];
+    networking.firewall.trustedInterfaces = [
+      "podman0"
+      "podman1"
+    ];
 
     security.pki.certificateFiles = [ ../../../certs/ctf-local-root.crt ];
     systemd.tmpfiles.rules = [ "d /tmp/localstack 0777 root root -" ];
