@@ -55,7 +55,6 @@ in
     pkgs.cht-sh
     pkgs.fzf
 
-    pkgs.awscli
     pkgs.gettext
     pkgs.gnupg
     pkgs.mosh

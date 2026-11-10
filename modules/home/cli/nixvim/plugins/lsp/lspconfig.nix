@@ -231,8 +231,9 @@
         enable = true;
       };
 
-      ltex = {
+      ltex_plus = {
         enable = true;
+        package = pkgs.ltex-ls-plus;
         filetypes = [
           "latex"
           "tex"

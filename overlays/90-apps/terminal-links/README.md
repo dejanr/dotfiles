@@ -10,11 +10,11 @@ This requires terminal-side routing. A remote tmux process cannot launch the loc
 
 ## Integration
 
-`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.49.2. `modules/home/apps/monstar.nix` applies `monstar-tmux-links.patch` to the pinned upstream Monstar 1.1.0 package.
+`overlays/90-apps/default.nix` patches Ghostty 1.3.1 and Kitty 0.50.0. `modules/home/apps/monstar.nix` applies `monstar-tmux-links.patch` to the pinned upstream Monstar 1.1.0 package.
 
 **Ghostty:** while mouse reporting is active, Ctrl+Shift can recognize HTTP/HTTPS links locally, both OSC 8 links and regex-detected URLs. Non-web OSC 8 destinations cannot fall back to a URL-looking label. Other modifier combinations retain their existing behavior. `mouse-shift-capture = always` remains necessary to forward file clicks. Native link hover takes precedence over application pointer-shape updates.
 
-**Kitty:** `mouse_handle_click web-link-press` consumes presses over HTTP/HTTPS links; `mouse_handle_click web-link` opens them on release. For other destinations these actions return Kitty's passthrough result so tmux receives the original mouse events. The normal URL opener, hyperlink confirmation policy, and existing URL callback are preserved. Pointer updates recheck native URL hover so tmux resetting its file pointer does not erase a web-link hand cursor.
+**Kitty:** `mouse_handle_click web-link-press` consumes presses over HTTP/HTTPS links; `mouse_handle_click web-link` opens them on release. For other destinations these actions return Kitty's passthrough result so tmux receives the original mouse events. The normal URL opener, hyperlink confirmation policy, and existing URL callback are preserved. The web-link actions participate in Kitty's native URL-hover mappings, which preserve the hand cursor when tmux resets its file pointer.
 
 **Monstar:** while mouse reporting is active, Ctrl+Shift opens only HTTP/HTTPS links locally. File and other non-web OSC 8 links are not reinterpreted from their labels; their clicks and Ctrl+Shift motion reach tmux. Plain clicks also reach tmux, whose existing file binding opens Neovim on the tmux host. Shift alone retains terminal-side selection. Only the hovered OSC 8 hyperlink's contiguous visible span is underlined, including wrapped rows; unrelated links and separate occurrences of the same URI stay unchanged. This replaces upstream Monstar's modifier-wide underlining of every OSC 8 cell. Highlighting a file does not claim its click: tmux still owns file opening and pointer feedback. Native web hover already takes precedence over OSC 22 application pointer updates. No extra Monstar setting is required; the patch applies to mouse-reporting applications generally, not only tmux.
 

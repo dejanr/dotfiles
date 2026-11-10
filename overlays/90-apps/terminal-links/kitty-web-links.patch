@@ -1,6 +1,6 @@
 --- a/kitty/window.py
 +++ b/kitty/window.py
-@@ -2011,13 +2011,32 @@
+@@ -2125,13 +2125,32 @@
  
              selection - check for a selection and if one exists abort processing
              link - if a link exists under the mouse, click it
@@ -34,15 +34,23 @@
              if a == 'selection':
                  if self.screen.has_selection():
                      break
---- a/kitty/mouse.c
-+++ b/kitty/mouse.c
-@@ -1056,7 +1056,8 @@
-             mouse_cursor_shape = scrollbar_drag_mouse_cursor;
-         } else if (r.window->render_data.screen) {
-             screen_mark_url(r.window->render_data.screen, 0, 0, 0, 0);
--            set_mouse_cursor_for_screen(r.window->render_data.screen);
-+            if (OPT(detect_urls)) detect_url(r.window->render_data.screen, r.window->mouse_pos.cell_x, r.window->mouse_pos.cell_y);
-+            else set_mouse_cursor_for_screen(r.window->render_data.screen);
-         }
-     }
-     set_mouse_cursor(mouse_cursor_shape);
+--- a/kitty/config.py
++++ b/kitty/config.py
+@@ -153,5 +153,5 @@
+         except Exception as err:
+             log_error(f'Ignoring mouse_map with invalid action: {definition}. Error: {err}')
+             continue
+-        if any(a.func in ('mouse_click_url', 'mouse_click_url_or_select') or (a.func == 'mouse_handle_click' and 'link' in a.args) for a in actions):
++        if any(a.func in ('mouse_click_url', 'mouse_click_url_or_select') or (a.func == 'mouse_handle_click' and any(arg in ('link', 'web-link', 'web-link-press') for arg in a.args)) for a in actions):
+             opts.url_mappings[event.grabbed] |= 1 << event.mods
+--- a/kitty_tests/mouse.py
++++ b/kitty_tests/mouse.py
+@@ -102,3 +102,8 @@
++        for action in ('web-link', 'web-link-press'):
++            configure(f'mouse_map ctrl+shift+left release grabbed,ungrabbed mouse_handle_click {action}')
++            check(mods, True)
++            check(0, False)
++
+         for event in ('press', 'release', 'click'):
+             configure(f'mouse_map cmd+left {event} ungrabbed mouse_handle_click link')
+             check(GLFW_MOD_SUPER, True)

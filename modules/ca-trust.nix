@@ -1,9 +1,6 @@
 { lib, ... }:
 let
-  blacklist = [
-    "Comodo AAA Services root"
-    "emSign ECC Root CA - G3"
-  ];
+  blacklist = [ "Comodo AAA Services root" ];
   caBundle = "/etc/ssl/certs/ca-certificates.crt";
 in
 {

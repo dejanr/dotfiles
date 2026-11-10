@@ -21,7 +21,7 @@ pkgs.buildNpmPackage (finalAttrs: {
   npmDepsHash = "sha256-dz6Ma0ZPETALxfb62I0s+JjiOT+0WdDSFjUdOd1JV80=";
   npmDepsFetcherVersion = 2;
 
-  nodejs = pkgs.nodejs_24-patched;
+  nodejs = pkgs.nodejs_24;
 
   nativeBuildInputs = with pkgs; [
     makeWrapper

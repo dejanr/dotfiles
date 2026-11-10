@@ -10,7 +10,7 @@
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-mesa.url = "github:nixos/nixpkgs/c5ae371f1a6a7fd27823";
 
     nix.url = "github:nixos/nix/2.32.0";
@@ -139,8 +139,7 @@
         "aarch64-linux"
         "aarch64-darwin"
       ];
-      pkgsFor = system: nixpkgs.legacyPackages.${system}.extend (import ./overlays/05-nodejs.nix);
-      forEachPkgs = f: forEachSystem (system: f (pkgsFor system));
+      forEachPkgs = f: forEachSystem (system: f nixpkgs.legacyPackages.${system});
 
       utils = import ./utils/imports.nix { lib = nixpkgs.lib; };
       importsFrom = utils.importsFrom;
@@ -218,7 +217,7 @@
         let
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
-            pkgs = pkgsFor system;
+            pkgs = nixpkgs.legacyPackages.${system};
             module = import ./modules/home/cli/nixvim;
             extraSpecialArgs = { inherit inputs; };
           };
@@ -232,7 +231,7 @@
       packages = forEachSystem (
         system:
         let
-          pkgs = pkgsFor system;
+          pkgs = nixpkgs.legacyPackages.${system};
         in
         {
           nvim = nixvimConfig system;

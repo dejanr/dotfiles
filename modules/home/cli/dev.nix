@@ -64,7 +64,6 @@ in
       awscli2
       pulumi
       s3cmd
-      s3fs
 
       # AI and coding assistants
       claude-code
@@ -91,7 +90,7 @@ in
       go
       gofumpt
       gotools
-      nodejs_24-patched
+      nodejs_24
       python3
       pnpm
 
