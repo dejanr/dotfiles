@@ -46,6 +46,7 @@ in
         strawberry
       ]
       ++ optionals (!isAsahi) [
+        config.services.pipewire.package.jack
         # gpu-screen-recorder needs NVENC/VAAPI - not available on Asahi
         gpu-screen-recorder
         gpu-screen-recorder-gtk
@@ -73,7 +74,6 @@ in
 
       alsa.enable = false;
       pulse.enable = true;
-      jack.enable = true;
 
       lowLatency = {
         enable = true;
