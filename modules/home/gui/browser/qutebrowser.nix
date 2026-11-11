@@ -329,7 +329,7 @@ EOF
 
       c.tabs.favicons.scale = 1.0
       c.tabs.last_close = 'close'
-      c.tabs.position = 'left'
+      c.tabs.position = 'top'
       c.tabs.width = '3%'
 
       c.url.default_page = str(config.configdir)+'/qute-home.html'
@@ -473,14 +473,14 @@ EOF
       c.colors.tabs.pinned.even.fg = base07
       c.colors.tabs.pinned.odd.bg = base0B
       c.colors.tabs.pinned.odd.fg = base07
-      c.colors.tabs.pinned.selected.even.bg = base02
-      c.colors.tabs.pinned.selected.even.fg = base05
-      c.colors.tabs.pinned.selected.odd.bg = base02
-      c.colors.tabs.pinned.selected.odd.fg = base05
-      c.colors.tabs.selected.odd.fg = base05
-      c.colors.tabs.selected.odd.bg = base02
-      c.colors.tabs.selected.even.fg = base05
-      c.colors.tabs.selected.even.bg = base02
+      c.colors.tabs.pinned.selected.even.bg = base0D
+      c.colors.tabs.pinned.selected.even.fg = base00
+      c.colors.tabs.pinned.selected.odd.bg = base0D
+      c.colors.tabs.pinned.selected.odd.fg = base00
+      c.colors.tabs.selected.odd.fg = base00
+      c.colors.tabs.selected.odd.bg = base0D
+      c.colors.tabs.selected.even.fg = base00
+      c.colors.tabs.selected.even.bg = base0D
 
       font = "''
     + config.stylix.fonts.monospace.name
