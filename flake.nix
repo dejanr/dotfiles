@@ -265,6 +265,70 @@
           dejli-browser = inputs.dejli-browser.packages.${system}.dejli-browser;
         }
       );
+      checks.x86_64-linux.chrome-profiles =
+        let
+          pkgs = self.nixosConfigurations.omega.pkgs;
+          inherit (pkgs) lib;
+          browser = pkgs.writeShellScriptBin "google-chrome-stable" ''
+            printf '%s\0' "$@"
+          '';
+          home =
+            (inputs.home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [
+                ./modules/home/gui/browser/chrome.nix
+                {
+                  home.username = "test";
+                  home.homeDirectory = "/home/test";
+                  home.stateVersion = "23.11";
+                  modules.home.gui.browser.chrome = {
+                    enable = true;
+                    package = browser;
+                  };
+                }
+              ];
+            }).config;
+          personal = home.home.sessionVariables.BROWSER;
+          work = lib.getExe (
+            lib.findFirst (
+              package: package.name == "chrome-work"
+            ) (throw "Missing Work launcher") home.home.packages
+          );
+        in
+        assert
+          home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
+            "chrome-personal.desktop"
+          ];
+        assert home.xdg.desktopEntries.chrome-personal.exec == "${personal} %U";
+        assert home.xdg.desktopEntries.chrome-work.exec == "${work} %U";
+        pkgs.runCommand "chrome-profiles-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          root = Path(os.environ["TMPDIR"])
+          for data_home in (None, "", str(root / "data with spaces")):
+              env = dict(os.environ, HOME=str(root / "home with spaces"))
+              env.pop("XDG_DATA_HOME", None)
+              if data_home is not None:
+                  env["XDG_DATA_HOME"] = data_home
+              base = data_home or str(Path(env["HOME"]) / ".local/share")
+              for profile, launcher in (("Personal", "${personal}"), ("Work", "${work}")):
+                  for extra in ([], ["--new-window"], ["https://example.com/?a=1&b=two words", "file:///tmp/it's%20here.html"]):
+                      output = subprocess.check_output([launcher, *extra], env=env)
+                      actual = [arg.decode() for arg in output.split(b"\0")[:-1]]
+                      assert actual == [
+                          f"--user-data-dir={base}/chrome-profiles/{profile}",
+                          f"--class=chrome-{profile.lower()}",
+                          "--no-first-run",
+                          "--no-default-browser-check",
+                          *extra,
+                      ], actual
+          PY
+          touch "$out"
+        '';
+
       checks.x86_64-linux.framework-desktop =
         let
           framework = self.nixosConfigurations.framework;
@@ -284,14 +348,14 @@
         assert !cfg.systemd.user.services.niri.restartIfChanged;
         assert cfg.systemd.user.services.dms.environment.DMS_DISABLE_MATUGEN == "1";
         assert !home.modules.home.gui.browser.dejli-browser.enable;
-        assert home.modules.home.gui.browser.qutebrowser.enable;
-        assert lib.hasSuffix "/bin/qutebrowser" home.home.sessionVariables.BROWSER;
+        assert home.modules.home.gui.browser.chrome.enable;
+        assert lib.hasSuffix "/bin/chrome-personal" home.home.sessionVariables.BROWSER;
         assert home.modules.apps.ghostty.enable;
         assert !home.modules.apps.monstar.enable;
-        assert home.programs.qutebrowser.enable;
+        assert !home.programs.qutebrowser.enable;
         assert
           home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
-            "org.qutebrowser.qutebrowser.desktop"
+            "chrome-personal.desktop"
           ];
         pkgs.runCommand "framework-desktop-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
           export HOME="$TMPDIR/home"
@@ -302,10 +366,10 @@
           ${lib.getExe desktopConfig} prepare
           ${lib.getExe desktopConfig} check
           grep -F 'spawn-sh "ghostty +new-window || ghostty"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'qutebrowser -B \"$HOME/.browser/Personal\"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'qutebrowser -B \"$HOME/.browser/Work\"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          if grep -F 'dejli-browser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
-            echo "Framework browser shortcuts still reference Dejli Browser" >&2
+          grep -F 'spawn "chrome-personal" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'spawn "chrome-work" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          if grep -E 'qutebrowser|dejli-browser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
+            echo "Framework browser shortcuts still reference an old browser" >&2
             exit 1
           fi
           ${lib.getExe cfg.programs.niri.package} validate --config "$XDG_CONFIG_HOME/niri/config.kdl"

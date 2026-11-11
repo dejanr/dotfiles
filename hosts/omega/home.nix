@@ -148,7 +148,7 @@
       sync.enable = true;
     };
     home.gui.games.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.chrome.enable = true;
 
     # apps
     apps.kitty.enable = true;

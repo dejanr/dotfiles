@@ -107,7 +107,7 @@ in
       sync.enable = true;
     };
     home.gui.geforce-now.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.chrome.enable = true;
     home.gui.dms = {
       enable = true;
       sessionPreferences = {
@@ -121,6 +121,17 @@ in
     home.gui.niri = {
       enable = true;
       dejliDesktopExecutable = "${config.home.homeDirectory}/projects/dejli/frontend/desktop/src/target/release/dejli-desktop";
+      bindsFile = pkgs.substitute {
+        src = ../../modules/home/gui/niri/managed/binds.kdl;
+        substitutions = [
+          "--replace-fail"
+          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Personal\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\"";''
+          ''spawn "chrome-personal" "--new-window";''
+          "--replace-fail"
+          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Work\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\"";''
+          ''spawn "chrome-work" "--new-window";''
+        ];
+      };
     };
 
     apps.kitty.enable = true;

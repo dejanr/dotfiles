@@ -1,6 +1,7 @@
 {
   kitty,
   useDejliBrowser ? false,
+  useChrome ? false,
 }:
 ''
   set $term ghostty +new-window
@@ -397,13 +398,17 @@
 
   # applications
   bindsym $mod+w exec --no-startup-id ${
-    if useDejliBrowser then
+    if useChrome then
+      "chrome-personal --new-window"
+    else if useDejliBrowser then
       "dejli-browser --new-window"
     else
       ''qutebrowser -B "$HOME/.browser/Personal" -s window.title_format " {perc}[Personal]{title_sep}{current_title}"''
   }
   bindsym $mod+e exec --no-startup-id ${
-    if useDejliBrowser then
+    if useChrome then
+      "chrome-work --new-window"
+    else if useDejliBrowser then
       "dejli-browser-work --new-window"
     else
       ''qutebrowser -B "$HOME/.browser/Work" -s window.title_format " {perc}[Work]{title_sep}{current_title}"''

@@ -4,7 +4,7 @@
 
 `modules/home/gui/browser/dejli-browser.nix` defines
 `modules.home.gui.browser.dejli-browser`. It is currently disabled on all
-hosts; Framework and Omega use Qutebrowser with their existing Personal/Work profiles.
+hosts; Framework and Omega use [Chrome with separate Personal/Work profiles](chrome.md).
 
 | Entry                                 | Purpose                                                    |
 | ------------------------------------- | ---------------------------------------------------------- |
@@ -39,7 +39,7 @@ sudo nixos-rebuild switch --flake .#framework
 ```
 
 The browser build runs its Cargo workspace tests. The Framework check validates
-the Qutebrowser default and Niri shortcuts. The fork also contains Niri regressions under `tests/dejli/` for
+the Chrome Personal default and Niri shortcuts. The fork also contains Niri regressions under `tests/dejli/` for
 shared-profile windows/current-workspace placement, clipboard shortcuts, and
 new-tab behavior; see its fork guide for interactive-check requirements.
 
