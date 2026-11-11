@@ -110,7 +110,9 @@ EOF
     in
     {
 
-    home.sessionVariables = optionalAttrs (effectiveGpu == "nvidia") {
+    home.sessionVariables = {
+      BROWSER = "${wrappedQutebrowser}/bin/qutebrowser";
+    } // optionalAttrs (effectiveGpu == "nvidia") {
       LIBVA_DRIVER_NAME = "nvidia";
       NVD_BACKEND = "direct";
       MOZ_DISABLE_RDD_SANDBOX = "1";

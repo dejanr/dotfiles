@@ -107,17 +107,7 @@ in
       sync.enable = true;
     };
     home.gui.geforce-now.enable = true;
-    home.gui.browser.dejli-browser = {
-      enable = true;
-      settings = {
-        general.homepage = "about:blank";
-        startup.restore_session = false;
-        keymap.normal = {
-          "o" = "open_omnibar";
-          "O" = "tab_new_right";
-        };
-      };
-    };
+    home.gui.browser.qutebrowser.enable = true;
     home.gui.dms = {
       enable = true;
       sessionPreferences = {
@@ -131,25 +121,10 @@ in
     home.gui.niri = {
       enable = true;
       dejliDesktopExecutable = "${config.home.homeDirectory}/projects/dejli/frontend/desktop/src/target/release/dejli-desktop";
-      bindsFile = pkgs.substitute {
-        src = ../../modules/home/gui/niri/managed/binds.kdl;
-        substitutions = [
-          "--replace-fail"
-          ''spawn-sh "ghostty +new-window || ghostty";''
-          ''spawn "monstar";''
-          "--replace-fail"
-          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Personal\" -s window.title_format \" {perc}[Personal]{title_sep}{current_title}\"";''
-          ''spawn "dejli-browser" "--new-window";''
-          "--replace-fail"
-          ''spawn-sh "qutebrowser -B \"$HOME/.browser/Work\" -s window.title_format \" {perc}[Work]{title_sep}{current_title}\"";''
-          ''spawn "dejli-browser-work" "--new-window";''
-        ];
-      };
     };
 
     apps.kitty.enable = true;
     apps.ghostty.enable = true;
-    apps.monstar.enable = true;
     apps.obsidian.enable = true;
 
     home.cli.direnv.enable = true;

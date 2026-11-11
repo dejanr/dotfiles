@@ -283,15 +283,15 @@
         assert lib.all (name: !lib.hasPrefix "niri/dms/" name) (builtins.attrNames home.xdg.configFile);
         assert !cfg.systemd.user.services.niri.restartIfChanged;
         assert cfg.systemd.user.services.dms.environment.DMS_DISABLE_MATUGEN == "1";
-        assert home.modules.home.gui.browser.dejli-browser.enable;
-        assert
-          home.modules.home.gui.browser.dejli-browser.package.src.outPath == inputs.dejli-browser.outPath;
-        assert (home.modules.home.gui.browser.dejli-browser.package.patches or [ ]) == [ ];
-        assert lib.hasSuffix "/bin/dejli-browser" home.home.sessionVariables.BROWSER;
-        assert !home.programs.qutebrowser.enable;
+        assert !home.modules.home.gui.browser.dejli-browser.enable;
+        assert home.modules.home.gui.browser.qutebrowser.enable;
+        assert lib.hasSuffix "/bin/qutebrowser" home.home.sessionVariables.BROWSER;
+        assert home.modules.apps.ghostty.enable;
+        assert !home.modules.apps.monstar.enable;
+        assert home.programs.qutebrowser.enable;
         assert
           home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
-            "li.dej.browser.desktop"
+            "org.qutebrowser.qutebrowser.desktop"
           ];
         pkgs.runCommand "framework-desktop-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
           export HOME="$TMPDIR/home"
@@ -301,11 +301,11 @@
           cp -R --no-preserve=mode ${niriConfig}/. "$XDG_CONFIG_HOME/niri/"
           ${lib.getExe desktopConfig} prepare
           ${lib.getExe desktopConfig} check
-          grep -F 'spawn "monstar"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'spawn "dejli-browser" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          grep -F 'spawn "dejli-browser-work" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          if grep -F 'qutebrowser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
-            echo "Framework browser shortcuts still reference Qutebrowser" >&2
+          grep -F 'spawn-sh "ghostty +new-window || ghostty"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'qutebrowser -B \"$HOME/.browser/Personal\"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          grep -F 'qutebrowser -B \"$HOME/.browser/Work\"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
+          if grep -F 'dejli-browser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
+            echo "Framework browser shortcuts still reference Dejli Browser" >&2
             exit 1
           fi
           ${lib.getExe cfg.programs.niri.package} validate --config "$XDG_CONFIG_HOME/niri/config.kdl"
