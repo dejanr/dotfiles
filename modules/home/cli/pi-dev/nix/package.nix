@@ -16,7 +16,10 @@ pkgs.buildNpmPackage (finalAttrs: {
 
   src = releaseSource;
 
-  patches = [ ./primary-selection.patch ];
+  patches = [
+    ./primary-selection.patch
+    ./selection-padding.patch
+  ];
 
   npmDepsHash = "sha256-Ij/DUly00btuSZqWGyrlpVjqTNjAlJDFvLJpY6LVfDg=";
   npmDepsFetcherVersion = 2;
@@ -65,6 +68,13 @@ pkgs.buildNpmPackage (finalAttrs: {
   '';
 
   passthru.tests = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+    selection-copy =
+      pkgs.runCommand "pi-dev-selection-copy-test" { nativeBuildInputs = [ pkgs.nodejs_24 ]; }
+        ''
+          node --test --test-name-pattern='display padding|selected indentation|unpadded content' \
+            ${finalAttrs.finalPackage}/lib/pi-dev/packages/tui/test/tui-alt-screen.test.ts
+          touch "$out"
+        '';
     tmux-clipboard =
       pkgs.runCommand "pi-dev-tmux-clipboard-test"
         {

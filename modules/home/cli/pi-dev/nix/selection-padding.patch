@@ -1,0 +1,230 @@
+diff --git a/packages/coding-agent/src/modes/interactive/interactive-mode.ts b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
+index 81a9bab..bad09c6 100644
+--- a/packages/coding-agent/src/modes/interactive/interactive-mode.ts
++++ b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
+@@ -660,6 +660,7 @@ export class InteractiveMode {
+ 			showHardwareCursor: this.settingsManager.getShowHardwareCursor(),
+ 			logDirectory: getAgentDir(),
+ 			terminal: options.terminal,
++			getOutputPad: () => this.outputPad,
+ 			onRightClickPaste: this.onRightClickPaste,
+ 			onMiddleClickPaste: this.onMiddleClickPaste,
+ 			fullscreenCopyOnSelect: this.settingsManager.getFullscreenCopyOnSelect(),
+@@ -968,6 +969,7 @@ export class InteractiveMode {
+ 			showHardwareCursor,
+ 			logDirectory: getAgentDir(),
+ 			terminal,
++			getOutputPad: () => this.outputPad,
+ 			onRightClickPaste: this.onRightClickPaste,
+ 			onMiddleClickPaste: this.onMiddleClickPaste,
+ 			fullscreenCopyOnSelect: this.settingsManager.getFullscreenCopyOnSelect(),
+diff --git a/packages/coding-agent/src/modes/interactive/tui-renderer.ts b/packages/coding-agent/src/modes/interactive/tui-renderer.ts
+index 8064775..e7a065c 100644
+--- a/packages/coding-agent/src/modes/interactive/tui-renderer.ts
++++ b/packages/coding-agent/src/modes/interactive/tui-renderer.ts
+@@ -13,6 +13,7 @@ export interface InteractiveTuiOptions {
+ 	readonly onRightClickPaste?: () => void;
+ 	readonly onMiddleClickPaste?: () => void;
+ 	readonly fullscreenCopyOnSelect?: boolean;
++	readonly getOutputPad?: () => number;
+ 	readonly fullscreenWheelScrollLines?: WheelScrollLines;
+ }
+ 
+@@ -37,6 +38,7 @@ export function createInteractiveTui(options: InteractiveTuiOptions): TuiMainScr
+ 			onRightClickPaste: options.onRightClickPaste,
+ 			onMiddleClickPaste: options.onMiddleClickPaste,
+ 			copyOnSelect: options.fullscreenCopyOnSelect,
++			getSelectionPadding: options.getOutputPad,
+ 			wheelScrollLines: options.fullscreenWheelScrollLines ?? "auto",
+ 			copySelection: async (text) => {
+ 				try {
+diff --git a/packages/coding-agent/test/interactive-tui.test.ts b/packages/coding-agent/test/interactive-tui.test.ts
+index 0834c95..0531d76 100644
+--- a/packages/coding-agent/test/interactive-tui.test.ts
++++ b/packages/coding-agent/test/interactive-tui.test.ts
+@@ -296,21 +296,22 @@ describe("InteractiveMode copy confirmation", () => {
+ 		clipboardMocks.copyToPrimarySelection.mockResolvedValue(undefined);
+ 	});
+ 
+-	it("copies a fullscreen drag selection to both the clipboard and PRIMARY", async () => {
++	it("copies a fullscreen drag selection without display padding to both the clipboard and PRIMARY", async () => {
+ 		const terminal = new RecordingTerminal(40, 4);
+ 		const ui = createInteractiveTui({
+ 			tuiMode: "fullscreen",
+ 			showHardwareCursor: false,
+ 			logDirectory: "/tmp",
+ 			terminal,
++			getOutputPad: () => 1,
+ 		});
+-		ui.addChild(new Text("alpha\nbeta\ngamma\ndelta", 0, 0));
++		ui.addChild(new Text("alpha\nbeta\ngamma\ndelta", 1, 0));
+ 		ui.start();
+ 		try {
+ 			await terminal.waitForRender();
+-			terminal.sendInput("\x1b[<0;1;1M");
+-			terminal.sendInput("\x1b[<32;4;2M");
+-			terminal.sendInput("\x1b[<0;4;2m");
++			terminal.sendInput("\x1b[<0;2;1M");
++			terminal.sendInput("\x1b[<32;5;2M");
++			terminal.sendInput("\x1b[<0;5;2m");
+ 			await terminal.waitForRender();
+ 			expect(clipboardMocks.copyToClipboard).toHaveBeenCalledWith("alpha\nbeta");
+ 			expect(clipboardMocks.copyToPrimarySelection).toHaveBeenCalledWith("alpha\nbeta");
+diff --git a/packages/tui/src/tui-alt-screen.ts b/packages/tui/src/tui-alt-screen.ts
+index fb20d0c..d49a26f 100644
+--- a/packages/tui/src/tui-alt-screen.ts
++++ b/packages/tui/src/tui-alt-screen.ts
+@@ -192,6 +192,7 @@ export interface TuiAltScreenOptions {
+ 	onMiddleClickPaste?: () => void;
+ 	/** Automatically copy selected text to the clipboard on mouse release (default: true). */
+ 	copyOnSelect?: boolean;
++	getSelectionPadding?: () => number;
+ 	/**
+ 	 * Copy selected text to the system clipboard. Return `true` on success, an error message to
+ 	 * display on failure, or `false` for a generic error. When omitted, the selection is copied
+@@ -253,6 +254,7 @@ export class TuiAltScreen extends TuiBase implements ViewportTUI {
+ 	private readonly onRightClickPaste?: () => void;
+ 	private readonly onMiddleClickPaste?: () => void;
+ 	private copyOnSelect: boolean;
++	private readonly getSelectionPadding?: () => number;
+ 	private readonly copySelection?: (text: string) => Promise<boolean | string>;
+ 
+ 	constructor(
+@@ -281,6 +283,7 @@ export class TuiAltScreen extends TuiBase implements ViewportTUI {
+ 		this.onRightClickPaste = options.onRightClickPaste;
+ 		this.onMiddleClickPaste = options.onMiddleClickPaste;
+ 		this.copyOnSelect = options.copyOnSelect ?? true;
++		this.getSelectionPadding = options.getSelectionPadding;
+ 		this.copySelection = options.copySelection;
+ 		this.addInputListener((data) => this.handleViewportInput(data));
+ 	}
+@@ -1471,10 +1474,14 @@ export class TuiAltScreen extends TuiBase implements ViewportTUI {
+ 			if (!box?.scrollContentLines) return undefined;
+ 			sourceLines = box.scrollContentLines;
+ 		}
++		const padding =
++			selection.start.scrollView === this.getPrimaryScrollView() ? (this.getSelectionPadding?.() ?? 0) : 0;
++		const margin = " ".repeat(padding);
+ 		const lines: string[] = [];
+ 		for (let row = selection.start.row; row <= selection.end.row; row++) {
+ 			const line = sourceLines[row] ?? "";
+-			const columns = this.getSelectionColumns(line, row, selection);
++			const minColumn = stripTerminalSequences(line).startsWith(margin) ? padding : 0;
++			const columns = this.getSelectionColumns(line, row, selection, minColumn);
+ 			lines.push(
+ 				stripTerminalSequences(
+ 					sliceByColumn(line, columns.start, Math.max(0, columns.end - columns.start), true),
+diff --git a/packages/tui/test/tui-alt-screen.test.ts b/packages/tui/test/tui-alt-screen.test.ts
+index 1b8357d..1dd9c7c 100644
+--- a/packages/tui/test/tui-alt-screen.test.ts
++++ b/packages/tui/test/tui-alt-screen.test.ts
+@@ -1513,6 +1513,109 @@ describe("TuiAltScreen", () => {
+ 		tui.stop();
+ 	});
+ 
++	for (const padding of [0, 1]) {
++		for (const copyOnSelect of [false, true]) {
++			it(`excludes display padding ${padding} when copying a selection (automatic: ${copyOnSelect})`, async () => {
++				const terminal = new RecordingTerminal(40, 6);
++				const copied: string[] = [];
++				const tui = new TuiAltScreen(terminal, undefined, undefined, {
++					getSelectionPadding: () => padding,
++					copyOnSelect,
++					copySelection: async (text) => {
++						copied.push(text);
++						return true;
++					},
++				});
++				tui.addChild(new Text("\x1b[1malpha\x1b[0m\n\n  beta\n    gamma", padding, 0));
++				tui.start();
++				try {
++					await terminal.waitForRender();
++					terminal.sendInput("\x1b[<0;1;1M");
++					terminal.sendInput("\x1b[<32;20;4M");
++					terminal.sendInput("\x1b[<0;20;4m");
++					await terminal.waitForRender();
++					if (!copyOnSelect) assert.strictEqual(await tui.copyActiveSelectionToClipboard(), true);
++					assert.deepStrictEqual(copied, ["alpha\n\n  beta\n    gamma"]);
++				} finally {
++					tui.stop();
++				}
++			});
++		}
++	}
++
++	for (const primary of [false, true]) {
++		it(`preserves unpadded content in a scroll view (primary: ${primary})`, async () => {
++			const terminal = new RecordingTerminal(40, 4);
++			const copied: string[] = [];
++			const tui = new TuiAltScreen(terminal, undefined, undefined, {
++				getSelectionPadding: () => 1,
++				copySelection: async (text) => {
++					copied.push(text);
++					return true;
++				},
++			});
++			const content = primary ? "界alpha\nbeta" : "  alpha\n    beta";
++			const selectedView = new ScrollView(new Text(content, 0, 0), { primary });
++			tui.setLayoutRoot(
++				primary
++					? selectedView
++					: new VStack([
++							{ component: new ScrollView(new Text("transcript", 0, 0), { primary: true }), basis: 1 },
++							{ component: selectedView, basis: 3 },
++						]),
++			);
++			const startRow = primary ? 1 : 2;
++			tui.start();
++			try {
++				await terminal.waitForRender();
++				terminal.sendInput(`\x1b[<0;1;${startRow}M`);
++				terminal.sendInput(`\x1b[<32;20;${startRow + 1}M`);
++				terminal.sendInput(`\x1b[<0;20;${startRow + 1}m`);
++				await terminal.waitForRender();
++				assert.deepStrictEqual(copied, [content]);
++			} finally {
++				tui.stop();
++			}
++		});
++	}
++
++	it("preserves selected indentation when a drag starts inside the content", async () => {
++		const terminal = new RecordingTerminal(40, 4);
++		const copied: string[] = [];
++		let padding = 1;
++		const tui = new TuiAltScreen(terminal, undefined, undefined, {
++			getSelectionPadding: () => padding,
++			copySelection: async (text) => {
++				copied.push(text);
++				return true;
++			},
++		});
++		tui.addChild(new Text("  alpha\n    beta", padding, 0));
++		tui.start();
++		try {
++			await terminal.waitForRender();
++			terminal.sendInput("\x1b[<0;3;1M");
++			terminal.sendInput("\x1b[<32;20;2M");
++			terminal.sendInput("\x1b[<0;20;2m");
++			await terminal.waitForRender();
++			assert.deepStrictEqual(copied, [" alpha\n    beta"]);
++
++			padding = 0;
++			tui.clearTextSelection();
++			tui.clear();
++			tui.addChild(new Text("alpha\nbeta", 0, 0));
++			tui.requestRender();
++			await terminal.waitForRender();
++			terminal.sendInput("\x1b[<0;1;1M");
++			terminal.sendInput("\x1b[<32;20;2M");
++			terminal.sendInput("\x1b[<0;20;2m");
++			await terminal.waitForRender();
++			assert.deepStrictEqual(copied, [" alpha\n    beta", "alpha\nbeta"]);
++		} finally {
++			tui.stop();
++		}
++	});
++
+ 	it("uses an injected copySelection handler instead of OSC 52 and reports success", async () => {
+ 		const terminal = new RecordingTerminal(20, 4);
+ 		const copied: string[] = [];
