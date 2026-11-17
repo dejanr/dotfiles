@@ -250,6 +250,15 @@ in
       description = "Additional Pi extensions supplied by other modules.";
     };
 
+    mcp.excalidrawz = {
+      enable = mkEnableOption "ExcalidrawZ MCP server for the local app";
+      url = mkOption {
+        type = types.str;
+        default = "http://127.0.0.1:8490/mcp";
+        description = "Streamable HTTP endpoint of the running ExcalidrawZ app.";
+      };
+    };
+
     providers.tenstorrent.enable = mkEnableOption "Tenstorrent models for pi-dev";
     providers.aiand.enable = mkEnableOption "ai& models for pi-dev";
     providers.vllm.enable = mkEnableOption "local vLLM models for pi-dev";
@@ -302,6 +311,17 @@ in
       ".pi/agent/extensions".source = piExtensionsPkg;
       ".pi/agent/skills".source = ./pi-dev/skills;
       ".pi/agent/themes/dejanr.json".source = ./pi-dev/themes/dejanr.json;
+    }
+    // optionalAttrs cfg.mcp.excalidrawz.enable {
+      ".pi/agent/mcp.json" = {
+        force = true;
+        source = jsonFormat.generate "mcp.json" {
+          mcpServers.excalidrawz = {
+            url = cfg.mcp.excalidrawz.url;
+            description = "Draw and edit diagrams in the running ExcalidrawZ app.";
+          };
+        };
+      };
     }
     // optionalAttrs (customProviders != { }) {
       ".pi/agent/models.json".source = jsonFormat.generate "models.json" {
