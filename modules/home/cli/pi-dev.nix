@@ -42,7 +42,7 @@ let
     theme = "dark";
     lastChangelogVersion = packageJson.version;
     defaultProvider = "openai-codex";
-    defaultModel = "gpt-6.1-sol";
+    defaultModel = "gpt-6.2-sol";
     defaultThinkingLevel = "high";
     defaultTools = [ "+codemode" ];
     extensions = cfg.extraExtensions;
