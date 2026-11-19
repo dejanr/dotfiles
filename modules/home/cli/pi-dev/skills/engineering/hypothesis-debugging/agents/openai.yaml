@@ -1,0 +1,3 @@
+interface:
+  display_name: "Hypothesis Debugging"
+  short_description: "Systematic hypothesis-driven debugging — form, test, record, and iterate until root cause is found"
