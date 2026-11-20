@@ -44,6 +44,21 @@ let
   activeGuest = enableGuest omegaGuest;
   activeFrameworkGuest = enableGuest frameworkGuest;
   runner = activeGuest.services.github-runners.nix-ci;
+  dualGuest =
+    (omegaGuest.extendModules {
+      modules = [
+        {
+          modules.ci.secondaryRunnerRepository = "example/second-ci";
+          services.github-runners.nix-ci = {
+            enable = true;
+            url = runner.url;
+          };
+          users.users.root.openssh.authorizedKeys.keys =
+            activeGuest.users.users.root.openssh.authorizedKeys.keys;
+        }
+      ];
+    }).config;
+  secondary = dualGuest.services.github-runners.nix-ci-secondary;
   attic = cacheHost.services.atticd;
   proxy = cacheHost.services.caddy.virtualHosts."https://omega.cat-vimba.ts.net:8443".extraConfig;
   checkResources =
@@ -127,6 +142,22 @@ assert builtins.hasAttr "omega-ci-guard" cacheHost.virtualisation.libvirtd.hooks
 assert builtins.hasAttr "omega-ci-guard" cacheHost.virtualisation.libvirtd.hooks.qemu;
 assert !omegaGuest.config.services.github-runners.nix-ci.enable;
 assert !frameworkGuest.config.services.github-runners.nix-ci.enable;
+assert !(omegaGuest.config.systemd.services ? github-runner-nix-ci);
+assert !(frameworkGuest.config.systemd.services ? github-runner-nix-ci);
+assert !(activeGuest.systemd.services ? github-runner-nix-ci-secondary);
+assert secondary.enable && secondary.noDefaultLabels;
+assert secondary.url == "https://github.com/example/second-ci";
+assert secondary.user != runner.user && secondary.tokenFile != runner.tokenFile;
+assert
+  dualGuest.systemd.services.github-runner-nix-ci-secondary.unitConfig.ConditionPathExists
+  == secondary.tokenFile;
+assert dualGuest.users.users.${secondary.user}.isSystemUser;
+assert builtins.elem secondary.user dualGuest.nix.settings.allowed-users;
+assert !builtins.elem secondary.user dualGuest.nix.settings.trusted-users;
+assert builtins.stringLength dualGuest.system.build.toplevel.drvPath > 0;
+assert
+  activeGuest.systemd.services.github-runner-nix-ci.unitConfig.ConditionPathExists
+  == runner.tokenFile;
 assert activeFrameworkGuest.services.github-runners.nix-ci.name == "framework-ci";
 assert builtins.elem "isolated-ci" activeFrameworkGuest.services.github-runners.nix-ci.extraLabels;
 assert activeFrameworkGuest.fileSystems."/".device == "/dev/disk/by-label/framework-ci";
