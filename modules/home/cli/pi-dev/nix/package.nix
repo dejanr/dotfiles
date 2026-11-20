@@ -7,7 +7,7 @@ let
   version = packageJson.version;
   releaseSource = pkgs.fetchzip {
     url = "https://github.com/earendil-works/pi/releases/download/v${version}/pi-${version}-source.tar.gz";
-    hash = "sha256-A+knFLL4GyfWEMdOYbSeRhOOfM9W7BqKOwxSzYONG0g=";
+    hash = "sha256-WF+osaM1XnOnlkoqHDtR1O5Oyom7wqpSos3c5izy5bY=";
   };
 in
 pkgs.buildNpmPackage (finalAttrs: {
@@ -21,7 +21,7 @@ pkgs.buildNpmPackage (finalAttrs: {
     ./selection-padding.patch
   ];
 
-  npmDepsHash = "sha256-Ij/DUly00btuSZqWGyrlpVjqTNjAlJDFvLJpY6LVfDg=";
+  npmDepsHash = "sha256-366orHeC9acQa1rbLVl45XVZA+2mD3kM/F3i08a4rCY=";
   npmDepsFetcherVersion = 2;
 
   nodejs = pkgs.nodejs_24;
@@ -96,7 +96,7 @@ pkgs.buildNpmPackage (finalAttrs: {
 
     cp -r packages $out/lib/pi-dev/
     cp -r node_modules $out/lib/pi-dev/
-    rm $out/lib/pi-dev/node_modules/p2
+    rm "$out/lib/pi-dev/node_modules/p2" "$out/lib/pi-dev/node_modules/@earendil-works/p3"
     cp package.json $out/lib/pi-dev/
 
     mkdir -p $out/bin

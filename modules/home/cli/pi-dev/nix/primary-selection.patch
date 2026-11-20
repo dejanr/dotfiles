@@ -1,9 +1,9 @@
 diff --git a/packages/coding-agent/src/modes/interactive/interactive-mode.ts b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
 --- a/packages/coding-agent/src/modes/interactive/interactive-mode.ts
 +++ b/packages/coding-agent/src/modes/interactive/interactive-mode.ts
-@@ -123,7 +123,12 @@
+@@ -131,7 +131,12 @@
  import { getUsageCostBreakdown } from "../../core/usage-totals.ts";
- import { addMcpServerConfig, loadMcpConfig } from "../../extensions/mcp/config.ts";
+ import { addMcpServerConfig } from "../../extensions/mcp/config.ts";
  import { getChangelogPath, getNewEntries, normalizeChangelogLinks, parseChangelog } from "../../utils/changelog.ts";
 -import { copyToClipboard, readClipboardFilePaths, readClipboardText } from "../../utils/clipboard.ts";
 +import {
@@ -13,8 +13,8 @@ diff --git a/packages/coding-agent/src/modes/interactive/interactive-mode.ts b/p
 +	readPrimarySelection,
 +} from "../../utils/clipboard.ts";
  import { extensionForImageMimeType, readClipboardImage } from "../../utils/clipboard-image.ts";
+ import { flushStdout } from "../../utils/flush-stdout.ts";
  import { parseGitUrl } from "../../utils/git.ts";
- import { ensurePngTranscoder } from "../../utils/image-convert.ts";
 @@ -586,7 +591,10 @@
  
  	private options: InteractiveModeOptions;
