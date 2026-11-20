@@ -24,6 +24,7 @@ in
 
   config = mkIf cfg.enable {
     modules.home.gui.blender.enable = true;
+    modules.apps.draw.enable = lib.mkDefault true;
 
     dconf.settings."org/gnome/desktop/interface".gtk-enable-primary-paste = true;
 

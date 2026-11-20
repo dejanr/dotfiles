@@ -80,6 +80,7 @@
     };
 
     # apps
+    apps.draw.enable = true;
     apps.kitty.enable = true;
     apps.obsidian.enable = true;
 

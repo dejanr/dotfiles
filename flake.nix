@@ -85,6 +85,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    draw.url = "git+ssh://git@github.com/dejli/draw?ref=main";
+
     demo-it = {
       url = "github:dejanr/demo-it";
     };
