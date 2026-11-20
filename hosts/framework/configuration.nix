@@ -16,6 +16,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/ci/tailnet-caches.nix
   ];
 
   boot.kernelParams = lib.optional config.home-manager.users.dejanr.modules.home.cli.halogen.enable "zfs.zfs_arc_max=8589934592";
@@ -230,6 +231,12 @@ in
   services.power-profiles-daemon.enable = lib.mkForce false;
   services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
 
+  modules.ci.attic = {
+    enable = true;
+    hostname = "framework.cat-vimba.ts.net";
+    httpsPort = 8444;
+  };
+
   modules.nixos = {
     roles = {
       ctf.enable = true;
@@ -238,6 +245,12 @@ in
       games.enable = true;
       multimedia.enable = true;
       services.enable = true;
+
+      ci-vm = {
+        enable = true;
+        cacheRelayAddress = "100.76.1.33";
+        cacheRelayPort = 8444;
+      };
     };
   };
 }

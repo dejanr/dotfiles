@@ -1,5 +1,7 @@
 # Dotfiles
 
+- [CI bootstrap: Attic and GitHub runners](docs/nix-ci.md)
+
 ## Secrets
 
 Create new ssh key:

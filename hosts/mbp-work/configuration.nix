@@ -12,6 +12,7 @@ in
 {
   imports = [
     ./system.nix
+    ../../modules/ci/tailnet-caches.nix
   ];
 
   #fonts.fontDir.enable = true;

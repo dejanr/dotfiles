@@ -214,6 +214,15 @@
           };
         };
 
+      mkCiGuest =
+        hostName:
+        nixpkgs.lib.nixosSystem {
+          modules = [
+            ./modules/ci/runner-guest.nix
+            { networking.hostName = hostName; }
+          ];
+        };
+
       nixvimConfig =
         system:
         let
@@ -267,6 +276,10 @@
           dejli-browser = inputs.dejli-browser.packages.${system}.dejli-browser;
         }
       );
+      checks.x86_64-linux.nix-ci =
+        assert import ./scripts/check-nix-ci.nix self;
+        nixpkgs.legacyPackages.x86_64-linux.runCommand "nix-ci-check" { } "touch $out";
+
       checks.x86_64-linux.chrome-profiles =
         let
           pkgs = self.nixosConfigurations.omega.pkgs;
@@ -406,6 +419,8 @@
         atlas = mkSystem inputs.nixpkgs "x86_64-linux" "atlas" "atlas";
         framework = mkSystem inputs.nixpkgs "x86_64-linux" "framework" "framework";
         omega = mkSystem inputs.nixpkgs "x86_64-linux" "omega" "omega";
+        omega-ci = mkCiGuest "omega-ci";
+        framework-ci = mkCiGuest "framework-ci";
         dejli = mkSystem inputs.nixpkgs "aarch64-linux" "dejli" "dejli";
         m910q1 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q1";
         m910q2 = mkSystem inputs.nixpkgs "x86_64-linux" "m910q" "m910q2";

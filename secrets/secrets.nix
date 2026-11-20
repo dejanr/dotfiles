@@ -35,10 +35,6 @@ in
     agenixKey
     frameworkHostKey
   ];
-  "attic_framework_netrc.age".publicKeys = [
-    agenixKey
-    frameworkHostKey
-  ];
   "attic_omega_server.age".publicKeys = [
     agenixKey
     omegaHostKey

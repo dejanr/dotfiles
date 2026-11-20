@@ -7,7 +7,10 @@ let
   username = "d509506";
 in
 {
-  imports = [ ../ca-trust.nix ];
+  imports = [
+    ../ca-trust.nix
+    ./ci.nix
+  ];
 
   nix = {
     enable = false;

@@ -7,6 +7,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/ci/tailnet-caches.nix
   ];
 
   hardware.bluetooth.settings.General.FastConnectable = true;
@@ -202,6 +203,12 @@
     ];
   };
 
+  modules.ci.attic = {
+    enable = true;
+    hostname = "omega.cat-vimba.ts.net";
+    httpsPort = 8444;
+  };
+
   modules.nixos = {
     roles = {
       ctf.enable = true;
@@ -212,6 +219,12 @@
       multimedia.enable = true;
       services.enable = true;
       virtualisation.enable = true;
+
+      ci-vm = {
+        enable = true;
+        cacheRelayAddress = "100.77.205.71";
+        cacheRelayPort = 8444;
+      };
     };
   };
 
