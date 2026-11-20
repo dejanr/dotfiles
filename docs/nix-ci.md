@@ -50,7 +50,9 @@ From an approved client, verify `curl -qfsS https://framework.cat-vimba.ts.net:8
 
 Each guest can use all 32 logical CPUs without reserving or pinning any. Nix runs one local build at a time and tells the builder it can use all guest CPUs. Guest RAM is capped at 64 GiB on Framework and 32 GiB on Omega. Virtio free-page reporting returns unused guest pages to the host without lowering that cap. Heavy builds can still compete with desktop workloads for CPU and disk I/O.
 
-If a VM is already defined, shut it down and re-run `virsh define` with the updated domain XML to apply resource changes. Keep the existing disk.
+New guests get a sparse 128 GiB disk. To grow an existing disk without replacing it, use `virsh blockresize` on the host, then grow partition 1 and its ext4 filesystem inside the guest. Changing the image size in Nix does not resize an existing disk.
+
+If a VM is already defined, shut it down and re-run `virsh define` with the updated domain XML to apply CPU or RAM changes. Keep the existing disk.
 
 Before enrolling, restrict runner access to the selected trusted workflow on a protected ref using a GitHub runner group where supported. Labels only select runners, and a protected Environment only gates publishing secrets; neither prevents another workflow from claiming a runner. If workflow restrictions aren’t available, enroll only in a private repo where everyone who can introduce or trigger runner jobs is trusted. Do not route untrusted pull-request code to these runners.
 
@@ -96,7 +98,7 @@ Copy **only** the host's public bridge CA from `/var/lib/caddy/.local/share/cadd
 
 SSH into the guest as `root@192.168.186.2` with the admin key. From GitHub **Settings → Actions → Runners → New self-hosted runner**, copy the short-lived registration token. Store it with mode `0600` at `/var/lib/dotfiles-ci-registration/token` in the guest and restart `github-runner-nix-ci.service`. Leave the token file in place for subsequent restarts. Enable libvirt autostart for both the domain and its network if desired.
 
-For two private repositories on GitHub Free, set `modules.ci.secondaryRunnerRepository = "OWNER/OTHER-REPO";` in each guest profile. Use a second repository registration token at `/var/lib/dotfiles-ci-registration/secondary-token` and start `github-runner-nix-ci-secondary.service`. Use separate tokens and keep both repos limited to trusted users. The second registration has its own service account and no default labels; set `services.github-runners.nix-ci.noDefaultLabels = true;` for the first as well to keep generic `self-hosted` jobs off these VMs. Use `runs-on: isolated-ci` to let either VM pick up a job. Both registrations on a VM share its Nix store, CPU, RAM, and disk.
+For two private repositories on GitHub Free, set `modules.ci.secondaryRunnerRepository = "OWNER/OTHER-REPO";` in each guest profile. Use a second repository registration token at `/var/lib/dotfiles-ci-registration/secondary-token` and start `github-runner-nix-ci-secondary.service`. Use separate tokens and keep both repos limited to trusted users. The second registration has its own service account and no default labels; set `services.github-runners.nix-ci.noDefaultLabels = true;` for the first as well to keep generic `self-hosted` jobs off these VMs. Use `runs-on: isolated-ci` to let either VM pick up a job. Both registrations on a VM share its Nix store, CPU, RAM, and disk. Keep `-modcacherw` in `GOFLAGS` if a runner overrides it, so GitHub checkout can remove Go module directories left by previous jobs.
 
 For publishing, mint separate `--pull CACHE --push CACHE` tokens and store them in a protected GitHub Environment. Run `attic push framework:framework ./result` and `attic push omega:omega ./result` for the same build output, with both servers configured in the Attic client. Try both even if one is unavailable; missed uploads are not replicated automatically.
 

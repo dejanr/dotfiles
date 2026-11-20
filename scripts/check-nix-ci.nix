@@ -146,6 +146,8 @@ assert !(omegaGuest.config.systemd.services ? github-runner-nix-ci);
 assert !(frameworkGuest.config.systemd.services ? github-runner-nix-ci);
 assert !(activeGuest.systemd.services ? github-runner-nix-ci-secondary);
 assert secondary.enable && secondary.noDefaultLabels;
+assert
+  dualGuest.systemd.services.github-runner-nix-ci-secondary.environment.GOFLAGS == "-modcacherw";
 assert secondary.url == "https://github.com/example/second-ci";
 assert secondary.user != runner.user && secondary.tokenFile != runner.tokenFile;
 assert
@@ -165,6 +167,7 @@ assert lib.isDerivation activeFrameworkGuest.system.build.ciImage;
 assert builtins.stringLength activeFrameworkGuest.system.build.toplevel.drvPath > 0;
 assert runner.enable && runner.name == "omega-ci" && builtins.elem "omega-ci" runner.extraLabels;
 assert builtins.elem omegaGuest.pkgs.attic-client runner.extraPackages;
+assert activeGuest.systemd.services.github-runner-nix-ci.environment.GOFLAGS == "-modcacherw";
 assert builtins.elem "isolated-ci" runner.extraLabels;
 assert builtins.elem runner.user activeGuest.nix.settings.allowed-users;
 assert !builtins.elem runner.user activeGuest.nix.settings.trusted-users;

@@ -107,10 +107,16 @@ in
 
     systemd.services = lib.mkMerge [
       (lib.mkIf runner.enable {
-        github-runner-nix-ci.unitConfig.ConditionPathExists = runner.tokenFile;
+        github-runner-nix-ci = {
+          unitConfig.ConditionPathExists = runner.tokenFile;
+          environment.GOFLAGS = lib.mkDefault "-modcacherw";
+        };
       })
       (lib.mkIf secondary.enable {
-        github-runner-nix-ci-secondary.unitConfig.ConditionPathExists = secondary.tokenFile;
+        github-runner-nix-ci-secondary = {
+          unitConfig.ConditionPathExists = secondary.tokenFile;
+          environment.GOFLAGS = lib.mkDefault "-modcacherw";
+        };
       })
     ];
     users.groups.dotfiles-ci = { };
@@ -169,7 +175,7 @@ in
       baseName = guestName;
       partitionTableType = "legacy";
       label = guestName;
-      diskSize = 32768;
+      diskSize = 128 * 1024;
       format = "qcow2";
     };
   };
