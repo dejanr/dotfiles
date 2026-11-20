@@ -2019,11 +2019,11 @@
     "pi-dev": {
       "flake": false,
       "locked": {
-        "lastModified": 1794400998,
-        "narHash": "sha256-WyWqFXV9JSmzIGLaoLR7k2RTE5wyBGgsD2mQ5lUvYO4=",
+        "lastModified": 1795183623,
+        "narHash": "sha256-pvo/6gg7zjCwY4GFJvE4SpfJPtkUkHlfdqcocmKIuvg=",
         "owner": "earendil-works",
         "repo": "pi",
-        "rev": "b033ade0006e4538d963dc95d419c5ae9eb54b78",
+        "rev": "e5d93ea0ab3747293dca5d12280361d04142eeb2",
         "type": "github"
       },
       "original": {
