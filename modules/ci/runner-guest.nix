@@ -100,8 +100,8 @@ in
         "dotfiles-ci"
       ];
       sandbox = true;
-      max-jobs = 2;
-      cores = 2;
+      max-jobs = 1;
+      cores = 0;
       min-free = 2 * 1024 * 1024 * 1024;
       max-free = 6 * 1024 * 1024 * 1024;
     };

@@ -248,6 +248,8 @@ in
 
       ci-vm = {
         enable = true;
+        vcpus = 32;
+        memoryMiB = 64 * 1024;
         cacheRelayAddress = "100.76.1.33";
         cacheRelayPort = 8444;
       };

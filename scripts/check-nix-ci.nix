@@ -46,6 +46,15 @@ let
   runner = activeGuest.services.github-runners.nix-ci;
   attic = cacheHost.services.atticd;
   proxy = cacheHost.services.caddy.virtualHosts."https://omega.cat-vimba.ts.net:8443".extraConfig;
+  checkResources =
+    host: memoryMiB:
+    let
+      domain = host.environment.etc."libvirt/${host.networking.hostName}-ci-domain.xml".text;
+    in
+    lib.hasInfix "<memory unit='MiB'>${toString memoryMiB}</memory>" domain
+    && lib.hasInfix "<vcpu>32</vcpu>" domain
+    && lib.hasInfix "<memballoon model='virtio' freePageReporting='on'/>" domain
+    && !(lib.hasInfix "<vcpupin" domain);
 in
 assert cacheHost.services.github-runners == { } && frameworkWithVM.services.github-runners == { };
 assert
@@ -61,6 +70,8 @@ assert lib.all checkClient [
 ];
 assert !frameworkClient.services.atticd.enable;
 assert !(builtins.hasAttr "framework-ci-attic" frameworkClient.systemd.sockets);
+assert checkResources frameworkWithVM 65536;
+assert checkResources cacheHost 32768;
 assert frameworkWithVM.virtualisation.libvirtd.enable;
 assert !frameworkWithVM.virtualisation.libvirtd.qemu.runAsRoot;
 assert frameworkWithVM.services.atticd.enable;
@@ -127,6 +138,9 @@ assert builtins.elem "isolated-ci" runner.extraLabels;
 assert builtins.elem runner.user activeGuest.nix.settings.allowed-users;
 assert !builtins.elem runner.user activeGuest.nix.settings.trusted-users;
 assert activeGuest.nix.settings.sandbox;
+assert activeGuest.nix.settings.max-jobs == 1 && activeGuest.nix.settings.cores == 0;
+assert
+  activeFrameworkGuest.nix.settings.max-jobs == 1 && activeFrameworkGuest.nix.settings.cores == 0;
 assert !activeGuest.services.openssh.settings.PasswordAuthentication;
 assert !activeGuest.virtualisation.docker.enable;
 assert lib.isDerivation activeGuest.system.build.ciImage;

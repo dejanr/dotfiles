@@ -48,6 +48,10 @@ From an approved client, verify `curl -qfsS https://framework.cat-vimba.ts.net:8
 
 ## Runner
 
+Each guest can use all 32 logical CPUs without reserving or pinning any. Nix runs one local build at a time and tells the builder it can use all guest CPUs. Guest RAM is capped at 64 GiB on Framework and 32 GiB on Omega. Virtio free-page reporting returns unused guest pages to the host without lowering that cap. Heavy builds can still compete with desktop workloads for CPU and disk I/O.
+
+If a VM is already defined, shut it down and re-run `virsh define` with the updated domain XML to apply resource changes. Keep the existing disk.
+
 Before enrolling, restrict runner access to the selected trusted workflow on a protected ref using a GitHub runner group where supported. Labels only select runners, and a protected Environment only gates publishing secrets; neither prevents another workflow from claiming a runner. If workflow restrictions aren’t available, enroll only in a private repo where everyone who can introduce or trigger runner jobs is trusted. Do not route untrusted pull-request code to these runners.
 
 On the host, choose `framework-ci` or `omega-ci` as `guest`. Save a module at `~/.config/dotfiles-ci/<guest>.nix` with the admin SSH public key, private repo URL, and cache routes. Framework example (swap the two hostnames and CA filename for Omega):

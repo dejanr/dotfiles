@@ -51,6 +51,16 @@ in
 {
   options.modules.nixos.roles.ci-vm = {
     enable = lib.mkEnableOption "a dedicated libvirt VM for CI";
+    vcpus = lib.mkOption {
+      type = lib.types.ints.positive;
+      default = 4;
+      description = "Number of virtual CPUs scheduled on the host without pinning.";
+    };
+    memoryMiB = lib.mkOption {
+      type = lib.types.ints.positive;
+      default = 8192;
+      description = "Guest RAM in MiB; unused pages can be returned to the host.";
+    };
     cacheRelayAddress = lib.mkOption {
       type = lib.types.nullOr (
         lib.types.strMatching "100[.](6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])[.]([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])[.]([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
@@ -135,8 +145,8 @@ in
     environment.etc."libvirt/${name}-domain.xml".text = ''
       <domain type='kvm'>
         <name>${name}</name>
-        <memory unit='MiB'>8192</memory>
-        <vcpu>4</vcpu>
+        <memory unit='MiB'>${toString cfg.memoryMiB}</memory>
+        <vcpu>${toString cfg.vcpus}</vcpu>
         <os>
           <type arch='x86_64' machine='q35'>hvm</type>
           <boot dev='hd'/>
@@ -155,7 +165,7 @@ in
             <model type='virtio'/>
           </interface>
           <console type='pty'/>
-          <memballoon model='none'/>
+          <memballoon model='virtio' freePageReporting='on'/>
         </devices>
         <seclabel type='static' model='dac' relabel='yes'>
           <label>+${uid}:+${gid}</label>
