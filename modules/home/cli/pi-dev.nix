@@ -11,6 +11,21 @@ let
   cfg = config.modules.home.cli.pi-dev;
   jsonFormat = pkgs.formats.json { };
 
+  drawMcp = inputs.draw.packages.${pkgs.stdenv.hostPlatform.system}.draw-mcp;
+  mcpServers =
+    optionalAttrs config.modules.apps.draw.enable {
+      draw = {
+        command = getExe' drawMcp "draw-mcp";
+        description = "Create and edit Draw diagrams in the current workspace.";
+      };
+    }
+    // optionalAttrs cfg.mcp.excalidrawz.enable {
+      excalidrawz = {
+        url = cfg.mcp.excalidrawz.url;
+        description = "Draw and edit diagrams in the running ExcalidrawZ app.";
+      };
+    };
+
   pi-dev-src = inputs.pi-dev;
 
   packageJson = builtins.fromJSON (
@@ -312,16 +327,8 @@ in
       ".pi/agent/skills".source = ./pi-dev/skills;
       ".pi/agent/themes/dejanr.json".source = ./pi-dev/themes/dejanr.json;
     }
-    // optionalAttrs cfg.mcp.excalidrawz.enable {
-      ".pi/agent/mcp.json" = {
-        force = true;
-        source = jsonFormat.generate "mcp.json" {
-          mcpServers.excalidrawz = {
-            url = cfg.mcp.excalidrawz.url;
-            description = "Draw and edit diagrams in the running ExcalidrawZ app.";
-          };
-        };
-      };
+    // optionalAttrs (mcpServers != { }) {
+      ".pi/agent/mcp.json".source = jsonFormat.generate "mcp.json" { inherit mcpServers; };
     }
     // optionalAttrs (customProviders != { }) {
       ".pi/agent/models.json".source = jsonFormat.generate "models.json" {
