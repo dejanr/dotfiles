@@ -3,6 +3,8 @@ let
   burdaKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpUACVodxHSbI3hAFm8t4YypQPoAuEyPzQA6JUIFZEr dejan.ranisavljevic@burda-forward.de";
   frameworkHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1kEkLAbGZb9u9IiXpV/q92dRnmW3xm8Ysn0QdHp++D root@framework";
 
+  omegaHostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF6ET1MKGrF6AQIJbwWui9N7jbUAuBkfCvqyiiCrBN88";
+
   userKeys = [
     agenixKey
     burdaKey
@@ -28,6 +30,19 @@ in
   "jira_env.age".publicKeys = userKeys;
   "navidrome_credentials.age".publicKeys = userKeys;
   "burda_sentry_cli_token.age".publicKeys = userKeys;
+
+  "attic_framework_server.age".publicKeys = [
+    agenixKey
+    frameworkHostKey
+  ];
+  "attic_framework_netrc.age".publicKeys = [
+    agenixKey
+    frameworkHostKey
+  ];
+  "attic_omega_server.age".publicKeys = [
+    agenixKey
+    omegaHostKey
+  ];
 
   "caddy_local_root_key.age".publicKeys = caddyKeys;
   "work_hosts.age".publicKeys = caddyKeys;
