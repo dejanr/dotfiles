@@ -8,9 +8,9 @@
 with lib;
 let
   cfg = config.modules.nixos.roles.i3;
+  browser = config.home-manager.users.dejanr.modules.home.gui.browser;
   i3Config = pkgs.i3-config.override {
-    useDejliBrowser = config.home-manager.users.dejanr.modules.home.gui.browser.dejli-browser.enable;
-    useChrome = config.home-manager.users.dejanr.modules.home.gui.browser.chrome.enable;
+    useDejliBrowser = browser.dejli-browser.enable && !browser.chrome.enable;
   };
   gtk2-theme = import ../../../utils/gtk2Theme.nix {
     theme = {

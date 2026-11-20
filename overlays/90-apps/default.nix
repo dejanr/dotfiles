@@ -206,26 +206,6 @@ in
     else
       super.comfy-ui;
 
-  qutebrowser-unstable =
-    let
-      mainSrc = super.fetchFromGitHub {
-        owner = "qutebrowser";
-        repo = "qutebrowser";
-        rev = "v3.7.0";
-        hash = "sha256-ydyfC7mNKA503VroQlXJWP/G1v2GHZ5x+Ib/5OCz5NU=";
-      };
-    in
-    super.qutebrowser.overrideAttrs (_old: {
-      version = "3.7.0";
-      src = mainSrc;
-    });
-
-  qutebrowser-nvidia = (
-    self.qutebrowser-unstable.override {
-      enableVulkan = true;
-    }
-  );
-
   xwayland-satellite = super.xwayland-satellite.overrideAttrs (
     final: _old: {
       version = "0.8.1-unstable-2026-05-23";

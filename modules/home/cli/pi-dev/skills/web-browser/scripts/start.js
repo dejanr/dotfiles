@@ -1,140 +1,139 @@
 #!/usr/bin/env node
 
-import { execSync, spawn } from "node:child_process";
-import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { execFileSync, spawn } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
+import { CDP_VERSION_URL } from "./cdp.js";
 
-const useProfile = process.argv[2] === "--profile";
-
-if (process.argv[2] && process.argv[2] !== "--profile") {
-  console.log("Usage: start.ts [--profile]");
-  console.log("\nOptions:");
-  console.log(
-    "  --profile  Copy your default Chrome profile (cookies, logins)",
-  );
-  console.log("\nExamples:");
-  console.log("  start.ts            # Start with fresh profile");
-  console.log("  start.ts --profile  # Start with your Chrome profile");
+const [option, ...extra] = process.argv.slice(2);
+if (extra.length || (option !== undefined && option !== "--profile")) {
+  console.error("Usage: start.js [--profile]");
   process.exit(1);
 }
 
-const homeDir = process.env["HOME"] ?? "";
-const platform = process.platform;
+const useProfile = option === "--profile";
+const home = homedir();
+const cacheHome = process.env.XDG_CACHE_HOME || join(home, ".cache");
+const profileDir = join(cacheHome, "agent-web", useProfile ? "chrome-copy" : "chrome");
+const endpointFile = join(profileDir, "cdp-url");
 
-const commandExists = (command) => {
-  try {
-    execSync(`command -v ${command}`, { stdio: "ignore" });
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const resolveChromeBinary = () => {
-  if (platform === "darwin") {
+function resolveChromeBinary() {
+  if (process.platform === "darwin") {
     const macPath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
     return existsSync(macPath) ? macPath : null;
   }
 
-  const candidates = [
-    "google-chrome-stable",
-    "google-chrome",
-    "chromium",
-    "chromium-browser",
-  ];
-
-  for (const candidate of candidates) {
-    if (commandExists(candidate)) {
-      return candidate;
+  const binaries = ["google-chrome-stable", "google-chrome", "chromium", "chromium-browser"];
+  return binaries.find((binary) => {
+    try {
+      execFileSync("sh", ["-c", 'command -v "$1"', "sh", binary], { stdio: "ignore" });
+      return true;
+    } catch {
+      return false;
     }
-  }
+  });
+}
 
-  return null;
-};
-
-const resolveProfileSource = () => {
-  if (platform === "darwin") {
-    const macProfile = `${homeDir}/Library/Application Support/Google/Chrome`;
+function resolveProfileSource() {
+  if (process.platform === "darwin") {
+    const macProfile = join(home, "Library", "Application Support", "Google", "Chrome");
     return existsSync(macProfile) ? macProfile : null;
   }
 
+  const dataHome = process.env.XDG_DATA_HOME || join(home, ".local", "share");
+  const configHome = process.env.XDG_CONFIG_HOME || join(home, ".config");
   const candidates = [
-    `${homeDir}/.config/google-chrome`,
-    `${homeDir}/.config/google-chrome-stable`,
-    `${homeDir}/.config/chromium`,
+    join(dataHome, "chrome-profiles", "Personal"),
+    join(configHome, "google-chrome"),
+    join(configHome, "google-chrome-stable"),
+    join(configHome, "chromium"),
   ];
-
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
-};
-
-const chromePath = resolveChromeBinary();
-if (!chromePath) {
-  console.error("✗ Chrome binary not found. Expected google-chrome-stable on NixOS.");
-  process.exit(1);
+  return candidates.find((candidate) => existsSync(join(candidate, "Default")));
 }
 
-const killCandidates = platform === "darwin"
-  ? ["Google Chrome"]
-  : ["google-chrome-stable", "google-chrome", "chromium", "chromium-browser"];
-
-for (const name of killCandidates) {
-  try {
-    execSync(`killall '${name}'`, { stdio: "ignore" });
-  } catch {}
+async function fetchVersion() {
+  const response = await fetch(CDP_VERSION_URL, {
+    signal: AbortSignal.timeout(1000),
+  }).catch(() => null);
+  if (!response) return null;
+  return (await response.json().catch(() => null)) ?? {};
 }
 
-await new Promise((r) => setTimeout(r, 1000));
-
-execSync("mkdir -p ~/.cache/scraping", { stdio: "ignore" });
-
-if (useProfile) {
-  const profileSource = resolveProfileSource();
-  if (profileSource) {
-    execSync(
-      `rsync -a --delete "${profileSource}/" ~/.cache/scraping/`,
-      { stdio: "pipe" },
-    );
-  } else {
-    console.warn("⚠ No Chrome profile found; starting with a fresh profile.");
-  }
-}
-
-spawn(
-  chromePath,
-  [
-    "--remote-debugging-port=9222",
-    `--user-data-dir=${homeDir}/.cache/scraping`,
-    "--profile-directory=Default",
-    "--disable-search-engine-choice-screen",
-    "--no-first-run",
-    "--disable-features=ProfilePicker",
-  ],
-  { detached: true, stdio: "ignore" },
-).unref();
-
-let connected = false;
-for (let i = 0; i < 30; i++) {
-  try {
-    const response = await fetch("http://localhost:9222/json/version");
-    if (response.ok) {
-      connected = true;
-      break;
+async function startChrome() {
+  const existing = await fetchVersion();
+  if (existing) {
+    if (
+      existing.webSocketDebuggerUrl &&
+      existsSync(endpointFile) &&
+      readFileSync(endpointFile, "utf8") === existing.webSocketDebuggerUrl
+    ) {
+      console.log("✓ Chrome already running on :9222");
+      return;
     }
-  } catch {
-    await new Promise((r) => setTimeout(r, 500));
+    throw new Error("Port 9222 is already in use by another session. Close it before starting Chrome.");
   }
+
+  const chromePath = resolveChromeBinary();
+  if (!chromePath) throw new Error("Google Chrome not found.");
+
+  mkdirSync(profileDir, { recursive: true, mode: 0o700 });
+  if (useProfile) {
+    const source = resolveProfileSource();
+    if (!source) throw new Error("No Chrome profile found to copy.");
+    execFileSync("rsync", [
+      "-a",
+      "--delete",
+      "--chmod=go-rwx",
+      "--exclude=/Singleton*",
+      "--exclude=/DevToolsActivePort",
+      source + "/",
+      profileDir + "/",
+    ]);
+  }
+
+  const browser = spawn(
+    chromePath,
+    [
+      "--remote-debugging-address=127.0.0.1",
+      "--remote-debugging-port=9222",
+      "--user-data-dir=" + profileDir,
+      "--profile-directory=Default",
+      "--disable-search-engine-choice-screen",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--disable-features=ProfilePicker",
+    ],
+    { detached: true, stdio: "ignore" },
+  );
+  await new Promise((resolve, reject) => {
+    browser.once("spawn", resolve);
+    browser.once("error", reject);
+  });
+  browser.unref();
+
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const version = await fetchVersion();
+    if (
+      /^(?:Chrome|Chromium|HeadlessChrome)\//.test(version?.Browser) &&
+      version.webSocketDebuggerUrl
+    ) {
+      writeFileSync(endpointFile, version.webSocketDebuggerUrl, { mode: 0o600 });
+      console.log("✓ Chrome started on :9222");
+      return;
+    }
+    await delay(500);
+  }
+  throw new Error("Failed to connect to Chrome on port 9222.");
 }
 
-if (!connected) {
-  console.error("✗ Failed to connect to Chrome");
-  process.exit(1);
+try {
+  await startChrome();
+  const watcherPath = fileURLToPath(new URL("./watch.js", import.meta.url));
+  spawn(process.execPath, [watcherPath], { detached: true, stdio: "ignore" }).unref();
+} catch (error) {
+  console.error("✗", error.message);
+  process.exitCode = 1;
 }
-
-const scriptDir = dirname(fileURLToPath(import.meta.url));
-const watcherPath = join(scriptDir, "watch.js");
-spawn(process.execPath, [watcherPath], { detached: true, stdio: "ignore" }).unref();
-
-console.log(
-  `✓ Chrome started on :9222${useProfile ? " with your profile" : ""}`,
-);

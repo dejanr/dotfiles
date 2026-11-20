@@ -4,10 +4,9 @@
   writeTextFile,
   kitty,
   useDejliBrowser ? false,
-  useChrome ? false,
 }:
 let
-  config = import ./config.nix { inherit kitty useDejliBrowser useChrome; };
+  config = import ./config.nix { inherit kitty useDejliBrowser; };
   configFile = writeTextFile {
     name = "i3-config";
     text = config;

@@ -1,6 +1,6 @@
 # Chrome profiles
 
-Framework and Omega enable `modules.home.gui.browser.chrome`.
+Framework, Omega, Dejli, and Ultra enable `modules.home.gui.browser.chrome`.
 
 | Entry | Purpose |
 | --- | --- |
@@ -17,11 +17,15 @@ External links always use Personal, even when Work was used last.
 These are fresh Chrome profiles. Qutebrowser data under `~/.browser/` and existing
 Chrome data under `~/.config/google-chrome/` are not moved, overwritten, or imported.
 Sign in separately in each profile; use Chrome's bookmark import if needed.
-Profile state stays writable and is not managed by Home Manager.
+The old encrypted bookmarks and quickmarks remain in `secrets/` as archives.
+Profile state stays writable and is not managed by Home Manager. On Ultra, set
+**Settings → Appearance → Page zoom** to 150% in each profile for the 4K display.
 
 Chrome's [user-data directory documentation](https://chromium.googlesource.com/chromium/src/+/main/docs/user_data_dir.md)
 describes the `--user-data-dir` isolation used here. The launchers leave the browser
-sandbox enabled and do not expose remote debugging.
+sandbox enabled and do not expose remote debugging. For browser automation and
+debugging, use the [Pi web-browser skill](../modules/home/cli/pi-dev/skills/web-browser/SKILL.md),
+which runs a separate Chrome profile.
 
 `checks.x86_64-linux.chrome-profiles` verifies launcher routing, URL argument
 preservation, XDG/default directory handling, and default desktop entries.

@@ -15,7 +15,7 @@
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
     home.gui.music.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.chrome.enable = true;
 
     # apps
     apps.kitty.enable = true;

@@ -123,20 +123,6 @@ in
     ];
   };
 
-  fileSystems."/home/dejanr/.cache/qutebrowser" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-    options = [
-      "rw"
-      "nosuid"
-      "nodev"
-      "size=512M"
-      "mode=0700"
-      "uid=1000"
-      "gid=100"
-    ];
-  };
-
   hardware = {
     graphics = {
       enable = true;

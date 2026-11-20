@@ -2,6 +2,8 @@
  * Minimal CDP client - no puppeteer, no hangs
  */
 
+export const CDP_VERSION_URL = "http://127.0.0.1:9222/json/version";
+
 const getWebSocketImpl = async () => {
   if (globalThis.WebSocket) {
     return globalThis.WebSocket;
@@ -60,7 +62,7 @@ export async function connect(timeout = 5000) {
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const resp = await fetch("http://localhost:9222/json/version", {
+    const resp = await fetch(CDP_VERSION_URL, {
       signal: controller.signal,
     });
     const { webSocketDebuggerUrl } = await resp.json();

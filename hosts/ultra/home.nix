@@ -13,11 +13,6 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
   };
 
-  # Qutebrowser zoom for 4K
-  config.programs.qutebrowser.settings = {
-    zoom.default = "150%";
-  };
-
   config.modules = {
     home.common.packages.enable = true;
 
@@ -28,7 +23,7 @@
     home.gui.xdg.enable = true;
     home.gui.desktop.enable = true;
     home.gui.games.enable = true;
-    home.gui.browser.qutebrowser.enable = true;
+    home.gui.browser.chrome.enable = true;
     home.gui.slack-web.enable = true;
     home.gui.grobi = {
       enable = true;

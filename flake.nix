@@ -354,7 +354,6 @@
         assert lib.hasSuffix "/bin/chrome-personal" home.home.sessionVariables.BROWSER;
         assert home.modules.apps.ghostty.enable;
         assert !home.modules.apps.monstar.enable;
-        assert !home.programs.qutebrowser.enable;
         assert
           home.xdg.mimeApps.defaultApplications."x-scheme-handler/https" == [
             "chrome-personal.desktop"
@@ -370,10 +369,6 @@
           grep -F 'spawn-sh "ghostty +new-window || ghostty"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
           grep -F 'spawn "chrome-personal" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
           grep -F 'spawn "chrome-work" "--new-window"' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"
-          if grep -E 'qutebrowser|dejli-browser' "$XDG_CONFIG_HOME/niri/managed/binds.kdl"; then
-            echo "Framework browser shortcuts still reference an old browser" >&2
-            exit 1
-          fi
           ${lib.getExe cfg.programs.niri.package} validate --config "$XDG_CONFIG_HOME/niri/config.kdl"
           python3 - <<'PY'
           import json

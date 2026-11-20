@@ -4,7 +4,7 @@
 
 `modules/home/gui/browser/dejli-browser.nix` defines
 `modules.home.gui.browser.dejli-browser`. It is currently disabled on all
-hosts; Framework and Omega use [Chrome with separate Personal/Work profiles](chrome.md).
+hosts. See [Chrome profiles](chrome.md) for the active desktop setup.
 
 | Entry                                 | Purpose                                                    |
 | ------------------------------------- | ---------------------------------------------------------- |

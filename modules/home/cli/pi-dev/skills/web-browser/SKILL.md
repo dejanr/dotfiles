@@ -1,6 +1,6 @@
 ---
 name: web-browser
-description: "Allows to interact with web pages by performing actions such as clicking buttons, filling out forms, and navigating links. Use qutebrowser unless told to use chrome. It works by remote controlling Google Chrome or Chromium browsers using the Chrome DevTools Protocol (CDP). When Claude needs to browse the web, it can use this skill to do so."
+description: Browse and debug web pages in Google Chrome via CDP. Use for navigation, form interaction, screenshots, and console or network inspection.
 license: Stolen from Armin who stoled it from Mario
 ---
 
@@ -11,19 +11,12 @@ Minimal CDP tools for collaborative site exploration.
 ## Start Chrome
 
 ```bash
-/home/dejanr/.dotfiles/modules/home/cli/pi-dev/skills/web-browser/scripts/start.js              # Fresh profile
-/home/dejanr/.dotfiles/modules/home/cli/pi-dev/skills/web-browser/scripts/start.js --profile    # Copy your profile (cookies, logins)
+/home/dejanr/.dotfiles/modules/home/cli/pi-dev/skills/web-browser/scripts/start.js
 ```
 
-Start Chrome on `:9222` with remote debugging. On NixOS this resolves `google-chrome-stable` (with fallbacks).
+Starts or reuses an isolated Chrome session with remote debugging on `127.0.0.1:9222`. It leaves regular Chrome windows open. If another browser owns the port, close that debug session before starting.
 
-## Start Qutebrowser (NixOS)
-
-```bash
-/home/dejanr/.dotfiles/modules/home/cli/pi-dev/skills/web-browser/scripts/start-qute.js
-```
-
-Starts qutebrowser with the `AGENTS` profile and enables CDP on `:9222` via `QTWEBENGINE_REMOTE_DEBUGGING`.
+Use `--profile` only when the user asks to copy their Chrome data. It copies the Personal profile (or the default Chrome profile) into a separate debug profile and needs `rsync`. Saved logins may not carry over. Close the current debug session before switching between modes.
 
 ## Navigate
 
@@ -33,12 +26,6 @@ Starts qutebrowser with the `AGENTS` profile and enables CDP on `:9222` via `QTW
 ```
 
 Navigate current tab or open new tab.
-
-**Qutebrowser note:** `--new` (Target.createTarget) is not supported. Use qutebrowser CLI for background tabs:
-
-```bash
-qutebrowser -B "$HOME/.browser/AGENTS" -C "$HOME/.config/qutebrowser/config.py" --target tab-bg-silent "https://example.com"
-```
 
 ## Evaluate JavaScript
 
