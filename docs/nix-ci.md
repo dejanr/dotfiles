@@ -96,7 +96,9 @@ Copy **only** the host's public bridge CA from `/var/lib/caddy/.local/share/cadd
 )
 ```
 
-SSH into the guest as `root@192.168.186.2` with the admin key. From GitHub **Settings → Actions → Runners → New self-hosted runner**, copy the short-lived registration token. Store it with mode `0600` at `/var/lib/dotfiles-ci-registration/token` in the guest and restart `github-runner-nix-ci.service`. Leave the token file in place for subsequent restarts. Enable libvirt autostart for both the domain and its network if desired.
+SSH into the guest as `root@192.168.186.2` with the admin key. From GitHub **Settings → Actions → Runners → New self-hosted runner**, copy the short-lived registration token. Store it with mode `0600` at `/var/lib/dotfiles-ci-registration/token` in the guest and restart `github-runner-nix-ci.service`. Leave the token file in place for subsequent restarts.
+
+After provisioning, the host's `<guest>-start.service` starts the isolated network before starting its VM at boot. The hosts shut guests down cleanly instead of saving their memory state, so the runner boots with a fresh clock. No libvirt autostart flags are required. To check after a host reboot, run `journalctl -b -u <guest>-start.service` on that host and confirm the runner is **Online** in GitHub.
 
 For two private repositories on GitHub Free, set `modules.ci.secondaryRunnerRepository = "OWNER/OTHER-REPO";` in each guest profile. Use a second repository registration token at `/var/lib/dotfiles-ci-registration/secondary-token` and start `github-runner-nix-ci-secondary.service`. Use separate tokens and keep both repos limited to trusted users. The second registration has its own service account and no default labels; set `services.github-runners.nix-ci.noDefaultLabels = true;` for the first as well to keep generic `self-hosted` jobs off these VMs. Use `runs-on: isolated-ci` to let either VM pick up a job. Both registrations on a VM share its Nix store, CPU, RAM, and disk. Keep `-modcacherw` in `GOFLAGS` if a runner overrides it, so GitHub checkout can remove Go module directories left by previous jobs.
 

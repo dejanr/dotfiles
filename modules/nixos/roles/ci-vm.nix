@@ -8,6 +8,7 @@
 let
   cfg = config.modules.nixos.roles.ci-vm;
   name = "${config.networking.hostName}-ci";
+  disk = "/var/lib/libvirt/images/${name}.qcow2";
   inherit (config.modules.ci) attic;
   proxyPort = 8443;
   localAddress = "192.168.186.1";
@@ -47,6 +48,28 @@ let
         exec ${pkgs.nftables}/bin/nft -f ${guardRules}
       fi
     '';
+  startGuest = {
+    description = "Start the ${name} network and VM";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "libvirtd.service" ];
+    after = [ "libvirtd.service" ];
+    unitConfig.ConditionPathExists = disk;
+    serviceConfig.Type = "oneshot";
+    path = [ pkgs.libvirt ];
+    script = ''
+      virsh() { command virsh -c qemu:///system "$@"; }
+
+      networks=$(virsh net-list --name)
+      if ! grep -Fxq ${lib.escapeShellArg name} <<< "$networks"; then
+        virsh net-start ${lib.escapeShellArg name}
+      fi
+
+      guests=$(virsh list --name)
+      if ! grep -Fxq ${lib.escapeShellArg name} <<< "$guests"; then
+        virsh start ${lib.escapeShellArg name}
+      fi
+    '';
+  };
 in
 {
   options.modules.nixos.roles.ci-vm = {
@@ -77,11 +100,15 @@ in
 
   config = lib.mkIf cfg.enable {
     security.polkit.enable = true;
-    virtualisation.libvirtd.enable = true;
-    virtualisation.libvirtd.qemu.runAsRoot = lib.mkDefault false;
-    virtualisation.libvirtd.hooks = {
-      network."${name}-guard" = guard "start";
-      qemu."${name}-guard" = guard "prepare";
+    virtualisation.libvirtd = {
+      enable = true;
+      onBoot = lib.mkDefault "ignore";
+      onShutdown = lib.mkDefault "shutdown";
+      qemu.runAsRoot = lib.mkDefault false;
+      hooks = {
+        network."${name}-guard" = guard "start";
+        qemu."${name}-guard" = guard "prepare";
+      };
     };
 
     services.caddy = lib.mkIf attic.enable {
@@ -112,17 +139,21 @@ in
       };
     }) relays;
 
-    systemd.services = lib.mapAttrs (_: relay: {
-      wants = relay.services;
-      after = relay.services;
-      serviceConfig = {
-        ExecStart = "${config.systemd.package}/lib/systemd/systemd-socket-proxyd ${relay.target}";
-        DynamicUser = true;
-        NoNewPrivileges = true;
-        ProtectSystem = "strict";
-        ProtectHome = true;
+    systemd.services =
+      lib.mapAttrs (_: relay: {
+        wants = relay.services;
+        after = relay.services;
+        serviceConfig = {
+          ExecStart = "${config.systemd.package}/lib/systemd/systemd-socket-proxyd ${relay.target}";
+          DynamicUser = true;
+          NoNewPrivileges = true;
+          ProtectSystem = "strict";
+          ProtectHome = true;
+        };
+      }) relays
+      // {
+        "${name}-start" = startGuest;
       };
-    }) relays;
 
     networking.firewall.interfaces.virbr-ci.allowedTCPPorts = lib.unique (
       map (relay: relay.port) (builtins.attrValues relays)
@@ -157,7 +188,7 @@ in
           <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
           <disk type='file' device='disk'>
             <driver name='qemu' type='qcow2' discard='unmap'/>
-            <source file='/var/lib/libvirt/images/${name}.qcow2'/>
+            <source file='${disk}'/>
             <target dev='vda' bus='virtio'/>
           </disk>
           <interface type='network'>

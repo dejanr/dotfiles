@@ -70,6 +70,18 @@ let
     && lib.hasInfix "<vcpu>32</vcpu>" domain
     && lib.hasInfix "<memballoon model='virtio' freePageReporting='on'/>" domain
     && !(lib.hasInfix "<vcpupin" domain);
+  checkBoot =
+    host:
+    let
+      name = "${host.networking.hostName}-ci";
+      unit = host.systemd.services."${name}-start";
+    in
+    host.virtualisation.libvirtd.onBoot == "ignore"
+    && host.virtualisation.libvirtd.onShutdown == "shutdown"
+    && builtins.elem "multi-user.target" unit.wantedBy
+    && builtins.elem "libvirtd.service" unit.requires
+    && builtins.elem "libvirtd.service" unit.after
+    && unit.unitConfig.ConditionPathExists == "/var/lib/libvirt/images/${name}.qcow2";
 in
 assert cacheHost.services.github-runners == { } && frameworkWithVM.services.github-runners == { };
 assert
@@ -87,6 +99,8 @@ assert !frameworkClient.services.atticd.enable;
 assert !(builtins.hasAttr "framework-ci-attic" frameworkClient.systemd.sockets);
 assert checkResources frameworkWithVM 65536;
 assert checkResources cacheHost 32768;
+assert checkBoot frameworkWithVM && checkBoot cacheHost;
+assert !(frameworkClient.systemd.services ? framework-ci-start);
 assert frameworkWithVM.virtualisation.libvirtd.enable;
 assert !frameworkWithVM.virtualisation.libvirtd.qemu.runAsRoot;
 assert frameworkWithVM.services.atticd.enable;
