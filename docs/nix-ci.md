@@ -1,6 +1,6 @@
 # CI bootstrap
 
-The [Framework](../hosts/framework/configuration.nix) and [Omega](../hosts/omega/configuration.nix) configs define Attic and the isolated runner VMs. These are the one-time steps outside Nix. Use self-hosted runners only for trusted workflows on protected refs.
+The [Framework](../hosts/framework/configuration.nix) and [Omega](../hosts/omega/configuration.nix) configs define Attic and the isolated runner VMs. These are the one-time steps outside Nix. For native Apple Silicon app builds, see [the macOS runner](macos-ci.md). Use self-hosted runners only for trusted workflows on protected refs.
 
 ## Cache
 

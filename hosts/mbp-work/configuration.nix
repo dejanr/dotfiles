@@ -13,6 +13,7 @@ in
   imports = [
     ./system.nix
     ../../modules/ci/tailnet-caches.nix
+    ../../modules/darwin/ci-vm.nix
   ];
 
   #fonts.fontDir.enable = true;
@@ -20,6 +21,11 @@ in
 
   nix.nrBuildUsers = 32;
   nix.enable = false;
+  modules.darwin.ci-vm = {
+    enable = true;
+    autoStart = true;
+    diskGiB = 256;
+  };
 
   time.timeZone = "Europe/Berlin";
 

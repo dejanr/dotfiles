@@ -436,6 +436,10 @@
           system = "aarch64-darwin";
         in
         {
+          mbp-work-ci = nix-darwin.lib.darwinSystem {
+            specialArgs = { inherit inputs; };
+            modules = [ ./hosts/mbp-work-ci/configuration.nix ];
+          };
           "M-G1997RD02K" = nix-darwin.lib.darwinSystem {
             inherit system;
             specialArgs = {
