@@ -162,6 +162,12 @@ in
     };
   };
 
+  config.xdg.configFile."systemd/user/app-1password@autostart.service.d/graceful-shutdown.conf".text =
+    ''
+      [Service]
+      KillMode=mixed
+    '';
+
   config.services.cliphist = {
     enable = true;
     systemdTargets = [ "niri.service" ];
