@@ -105,6 +105,7 @@ in
   };
 
   beads = super.callPackage ./beads { };
+  figma-bridge = super.callPackage ./figma-bridge { };
   pulumi = super.callPackage ./pulumi { };
   opencode = super.callPackage ./opencode { };
   rift = super.callPackage ./rift { };

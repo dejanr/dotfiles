@@ -61,6 +61,9 @@ let
     defaultThinkingLevel = "high";
     defaultTools = [ "+codemode" ];
     extensions = cfg.extraExtensions;
+  }
+  // optionalAttrs cfg.figma-bridge.enable {
+    packages = [ "${pkgs.figma-bridge}/lib/node_modules/figma-bridge-cli" ];
   };
 
   tenstorrentModels = {
@@ -258,6 +261,7 @@ in
 {
   options.modules.home.cli.pi-dev = {
     enable = mkEnableOption "pi-dev coding agent";
+    figma-bridge.enable = mkEnableOption "the pinned Figma Bridge CLI and Pi package";
 
     extraExtensions = mkOption {
       type = types.listOf types.path;
@@ -317,7 +321,8 @@ in
     ]
     ++ optionals pkgs.stdenv.hostPlatform.isDarwin [
       piDevDs4Pkg
-    ];
+    ]
+    ++ optional cfg.figma-bridge.enable pkgs.figma-bridge;
 
     home.file = {
       ".pi/agent/settings.json".source = jsonFormat.generate "settings.json" settings;

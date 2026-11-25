@@ -1,0 +1,14 @@
+diff --git a/skills/figma-bridge/SKILL.md b/skills/figma-bridge/SKILL.md
+--- a/skills/figma-bridge/SKILL.md
++++ b/skills/figma-bridge/SKILL.md
+@@ -8,9 +8,7 @@
+ Two entry points, one code path:
+ 
+ - **Inside pi:** the `figma` tool registered by this package's extension — no shell needed. Prefer it.
+-- **Any shell-only agent:** the `figma-bridge` CLI. pi does **not** put package binaries on PATH, so if
+-  `figma-bridge` is not found use `npx figma-bridge-cli …`, or point at the installed copy, e.g.
+-  `node ~/.pi/agent/npm/node_modules/figma-bridge-cli/bin/figma-bridge.js …`.
++- **Any shell-only agent:** use the Nix-provided `figma-bridge` on PATH. If unavailable, report it instead of downloading another copy.
+ 
+ Auth: `$FIGMA_API_KEY` or `~/.config/figma/api-key`.
+ 

@@ -97,6 +97,7 @@
     home.cli.opencode.enable = true;
     home.cli.pi-dev = {
       enable = true;
+      figma-bridge.enable = true;
       mcp.excalidrawz.enable = true;
     };
     home.cli.tmux.enable = true;
