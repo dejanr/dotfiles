@@ -179,6 +179,7 @@ in
   programs.ydotool.enable = true;
 
   users.users.dejanr.uid = 1000;
+  users.users.dejanr.linger = true;
 
   systemd.services."user@${toString config.users.users.dejanr.uid}" =
     lib.mkIf config.home-manager.users.dejanr.modules.home.cli.halogen.enable

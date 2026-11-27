@@ -230,6 +230,7 @@
     };
   };
 
+  users.users.dejanr.linger = true;
   users.users.dejanr.extraGroups = [
     "gamemode"
     "render"

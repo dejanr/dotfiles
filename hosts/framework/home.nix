@@ -133,6 +133,7 @@ in
     home.cli.jira.enable = true;
     home.cli.dev.enable = true;
     home.cli.nixvim.enable = true;
+    home.cli.rex.enable = true;
     home.cli.tmux.enable = true;
     home.cli.tmux.fileOpener.enable = true;
     home.cli.zsh.enable = true;
